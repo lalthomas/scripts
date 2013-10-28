@@ -1,63 +1,63 @@
 @echo OFF
 REM starting of Program
 setlocal
-cls
-@echo ON
-type E:\Devel\Mis\Blogit\BlogHead1.txt >Blog.html 
+::cls
+::@echo ON
+::type E:\Devel\Mis\Blogit\BlogHead1.txt >Blog.html 
 
-@echo OFF
-REM Creating Meta Data with Bog Info File
-copy BlogInfo.txt BgInf.txt
-if not exist BlogInfo.txt (copy E:\Devel\Mis\Blogit\BlogInfo.txt BlogInfo.txt)
-::*********************************************************
-cls
-@echo ON
-set s=1
-set /a flag=0
-REM Parse the BlogInfo.txt file to retrieve each section
-echo Parsing BgInf.txt file...
-:start1
-    set path=%path%;E:\Devel\Mis\Blogit\Tools
-    if exist BgInf.txt (csplit -s -z BgInf.txt /[@@]/1) 
-    del BgInf.txt
-    if EXIST xx01 (ren xx01 BgInf.txt) else (goto EndOfSec1)
-    set /a flag=1
-    @echo ON
-    ::xx00 contain first extracted section
-    ::xx01 contain remaining sections
-    if EXIST xx00 (type E:\Devel\Mis\Blogit\BlogMetaTem_%s%.txt xx00 >>Blog.html)
-    set /a s=s+1
-    @echo OFF
-if exist BgInf.txt (goto start1) 
-:EndOfSec1
-@echo ON
-::This is of special case of having only one section in Remarks file
-::if %flag% EQU 0
-type E:\Devel\Mis\Blogit\BlogMetaTem_%s%.txt xx00 >>Blog.html
-del xx00
-::pause
-::*********************************************************
-@echo ON
-echo ^"^> >>Blog.html
-@echo OFF
-REM Removing @ that are joined to output file
-set path=%path%;"E:\Devel\Mis\Find"
-rxfind Blog.html /B:2 /P:[@@] /R:
-::pause
-::********************************************************
+REM @echo OFF
+REM REM Creating Meta Data with Bog Info File
+REM copy BlogInfo.txt BgInf.txt
+REM if not exist BlogInfo.txt (copy E:\Devel\Mis\Blogit\BlogInfo.txt BlogInfo.txt)
+REM ::*********************************************************
+REM cls
+REM @echo ON
+REM set s=1
+REM set /a flag=0
+REM REM Parse the BlogInfo.txt file to retrieve each section
+REM echo Parsing BgInf.txt file...
+REM :start1
+    REM set path=%path%;E:\Devel\Mis\Blogit\Tools
+    REM if exist BgInf.txt (csplit -s -z BgInf.txt /[@@]/1) 
+    REM del BgInf.txt
+    REM if EXIST xx01 (ren xx01 BgInf.txt) else (goto EndOfSec1)
+    REM set /a flag=1
+    REM @echo ON
+    REM ::xx00 contain first extracted section
+    REM ::xx01 contain remaining sections
+    REM if EXIST xx00 (type E:\Devel\Mis\Blogit\BlogMetaTem_%s%.txt xx00 >>Blog.html)
+    REM set /a s=s+1
+    REM @echo OFF
+REM if exist BgInf.txt (goto start1) 
+REM :EndOfSec1
+REM @echo ON
+REM ::This is of special case of having only one section in Remarks file
+REM ::if %flag% EQU 0
+REM type E:\Devel\Mis\Blogit\BlogMetaTem_%s%.txt xx00 >>Blog.html
+REM del xx00
+REM ::pause
+REM ::*********************************************************
+REM @echo ON
+REM echo ^"^> >>Blog.html
+REM @echo OFF
+REM REM Removing @ that are joined to output file
+REM set path=%path%;"E:\Devel\Mis\Find"
+REM rxfind Blog.html /B:2 /P:[@@] /R:
+REM ::pause
+REM ::********************************************************
 
-::pause
-::*********************************************************
-cls
-@echo ON
-type E:\Devel\Mis\Blogit\BlogHead2.txt >>Blog.html 
+REM ::pause
+REM ::*********************************************************
+REM cls
+REM @echo ON
+REM type E:\Devel\Mis\Blogit\BlogHead2.txt >>Blog.html 
 
-type E:\Devel\Mis\Blogit\Blog%~x1% >>Blog.html
-::pause
-type E:\Devel\Mis\Blogit\BlogStyle.txt >>Blog.html
-type E:\Devel\Mis\Blogit\BlogBodyStart.txt >>Blog.html
-
-@echo OFF
+REM type E:\Devel\Mis\Blogit\Blog%~x1% >>Blog.html
+REM ::pause
+REM type E:\Devel\Mis\Blogit\BlogStyle.txt >>Blog.html
+REM Destructive be careful
+type E:\Devel\Mis\Blogit\BlogBodyStart.txt >Blog.html
+REM @echo OFF
 ::*********************************************************
 
 
@@ -92,6 +92,7 @@ type E:\Devel\Mis\Blogit\BlogPgmStart.txt >>Blog.html
 
 @echo ON
 if /i "%~x1" == ".c" (echo ^<PRE class="brush:c;"^>  >>Blog.html)
+if /i "%~x1" == ".php" (echo ^<PRE class="brush:php;"^>  >>Blog.html)
 if /i "%~x1" == ".cpp" (echo ^<PRE class="brush:cpp;"^>  >>Blog.html)
 if /i "%~x1" == ".cs" (echo ^<PRE class="brush:csharp;"^>  >>Blog.html)
 if /i "%~x1" == ".vb" (echo ^<PRE class="brush:vb;"^>  >>Blog.html)
@@ -216,6 +217,6 @@ cls
 @echo OFF
 set OldPath=%CD%;
 ::set path=%path%;E:\Devel\Mis
-IF NOT EXIST BlogInfo.txt (copy "E:\Devel\Mis\BlogInfo.txt" "%CD%\BlogInfo.txt" ) 
+::IF NOT EXIST BlogInfo.txt (copy "E:\Devel\Mis\BlogInfo.txt" "%CD%\BlogInfo.txt" ) 
 IF NOT EXIST Remarks.txt (copy "E:\Devel\Mis\Remarks.txt" "%CD%\Remarks.txt" ) 
 endlocal
