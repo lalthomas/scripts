@@ -1,0 +1,1 @@
+--brackets=break --indent-brackets --indent-labels --indent-namespaces --indent-cases --indent-switches --indent-classes --max-instatement-indent=# --one-line=keep-statements
