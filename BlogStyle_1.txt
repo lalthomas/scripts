@@ -1,0 +1,63 @@
+<style type="text/css">
+<!--
+body{
+    background-color: #000000;
+}
+.CodeHeader {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    font-style: normal;
+    font-weight: bold;
+    font-variant: small-caps;
+    color: #FFFFFF;
+    background-color: #000099;
+    margin: 0px;
+    padding: 4px;
+    border-top-color: #FFFFFF;
+    border-right-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+    border-left-color: #FFFFFF;
+    text-align: left;
+    letter-spacing: 0.125em;
+    text-transform: capitalize;
+    cursor: text;
+}
+.CodeExplanation {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    color: #FFFF00;
+    letter-spacing: normal;
+    text-align: left;
+    vertical-align: middle;
+    word-spacing: normal;
+    white-space: normal;
+    padding: 20px;
+    height: auto;
+    border: thin solid #333333;
+    list-style-type: square;
+    text-transform: none;
+    font-variant: normal;
+    line-height: 25px;
+}
+.CodeFor {
+    font-family: "Courier New", Courier, monospace;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    text-align: left;
+    vertical-align: middle;
+    word-spacing: normal;
+    white-space: normal;
+    padding: 20px;
+    height: auto;
+    border: thin solid #999999;
+    list-style-type: square;
+    text-indent: 0px;
+    color: #FFFFFF;
+    line-height: 18px;
+    font-size: small;
+    cursor: text;
+}
+-->
+</style>
