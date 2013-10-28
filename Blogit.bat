@@ -1,80 +1,43 @@
-@echo ON
+@echo OFF
 REM starting of Program
 setlocal
-::*********************************************************
-REM  This makes a copy of original and makes suitable for unsupported formats
-set OrgExt=%~x1
-set /a FLAG = 0
-if %~x1 == .cs (goto csharp)
-goto Proceed
-:csharp
-copy %1 "%~n1.cpp"
-set OrgExt=".cpp"
-set /a FLAG = 1
-::pause
-:Proceed
-::*********************************************************
-REM This produces a formatted Html page of source code
-echo Making html file...
-set path=%PATH%;"E:\Devel\Mis\SrcHighlite\bin"
-::--line-number-ref="L#"
-source-highlight -t=4 -f html -i "%~n1%OrgExt%" -o Blog.temp --data-dir "E:\Devel\Mis\SrcHighlite\share\source-highlight" --style-file=Sexy.style
-::pause
-cls
-::*********************************************************
-REM This deletes the temporary files
-if %FLAG% == 1 (del "%~n1.cpp")
-::pause
-::*********************************************************
-@echo OFF
-REM This is to remove the credits of SrcHighlite program (Otherwise 4 <BR> will be added to o/p
-set path=%path%;"E:\Devel\Mis\Find"
-fart -qC Blog.temp "<!-- Generator: GNU source-highlight 2.1.2" "$"
-fart -qC Blog.temp "by Lorenzo Bettini" "$"
-fart -qC Blog.temp "http://www.lorenzobettini.it" "$"
-fart -qC Blog.temp "http://www.gnu.org/software/src-highlite -->" "$"
-::pause
-::*********************************************************
-cls
-@echo OFF
-REM This is remove Preformatted tag of formatted page ,
-REM since such a code can only be wraped inside the table
-REM This will remove all spaces and tabs wise formatting
-set path=%path%;"E:\Devel\Mis\Find"
-fart -qC Blog.temp "<pre><tt>" "<P>"
-fart -qC Blog.temp "</tt></pre>" "</P>"
-::*********************************************************
-cls
-@echo OFF
-REM This adds a <BR> to every line of formatted output
-fart -qC Blog.temp \r "<BR>"\r
-REM This removes $ added previously
-fart -qC Blog.temp "$<BR>"\r " "
-::pause
-::*********************************************************
-cls
-@echo OFF
-REM This is to blockify the content of formatted output
-::fart -qC Blog.temp "     " " "
-::fart -qC Blog.temp "<b><font color="#F0F653">{" "<blockquote><b><font color="#F0F653">{"
-fart -qC Blog.temp "{</font></b><BR>" "<blockquote>{</FONT></B><BR>"
-fart -qC Blog.temp "}</font></b><BR>" "}</FONT></B></blockquote>"
-::pause
-::*********************************************************
-echo Formatting html file..
-REM Here starts the acutal Blog page creation
-REM Blog template along with formatted output is concatenated here
 cls
 @echo ON
-type E:\Devel\Mis\BlogStyle.txt >Blog.html
-type E:\Devel\Mis\BlogTableStart.txt >>Blog.html
-type Blog.temp >>Blog.html
+type E:\Devel\Mis\BlogHead1.txt >Blog.html 
+echo %~n1 >>Blog.html
 @echo OFF
-::*********************************************************
-cls
+type E:\Devel\Mis\BlogHead2.txt >>Blog.html 
+type E:\Devel\Mis\BlogStyle.txt >>Blog.html
+type E:\Devel\Mis\BlogBodyStart.txt >>Blog.html
+@echo ON
+if /i "%~x1" == ".c" (echo ^<PRE class="brush:c;"^>  >>Blog.html)
+if /i "%~x1" == ".cpp" (echo ^<PRE class="brush:cpp;"^>  >>Blog.html)
+if /i "%~x1" == ".cs" (echo ^<PRE class="brush:csharp;"^>  >>Blog.html)
+if /i "%~x1" == ".vb" (echo ^<PRE class="brush:vb;"^>  >>Blog.html)
+if /i "%~x1" == ".java" (echo ^<PRE class="brush:java;"^>  >>Blog.html)
+if /i "%~x1" == ".html" (echo ^<PRE class="brush:html;"^>  >>Blog.html)
+if /i "%~x1" == ".xml" (echo ^<PRE class="brush:xml;"^>  >>Blog.html)
+if /i "%~x1" == ".css" (echo ^<PRE class="brush:css;"^>  >>Blog.html)
+if /i "%~x1" == ".js" (echo ^<PRE class="brush:js;"^>  >>Blog.html)
+if /i "%~x1" == ".sql" (echo ^<PRE class="brush:sql;"^>  >>Blog.html)
 @echo OFF
-REM Delete temporary file
-del Blog.temp
+
+copy %1 temp12.html
+set path=%PATH%;E:\Devel\Mis\HTB
+call htb /ke4 "%CD%\temp12.html" "%CD%\temp13.html"
+
+set path=%path%;"E:\Devel\Mis\Find"
+fart -qC temp13.html "<HTML><BODY><PRE>\r"  " "
+fart -qC temp13.html "</PRE></BODY></HTML>\r" " "
+
+type temp13.html >>Blog.html
+del temp12.html temp13.html 
+
+@echo ON
+echo ^</PRE^>  >>Blog.html
+@echo OFF
+
+@echo OFF
 ::*********************************************************
 cls
 @echo OFF
@@ -137,7 +100,7 @@ cls
 @echo OFF
 REM Properly indent the output file
 set path=%path%;"E:\Devel\Mis"
-call BeautifyHTML.bat "%CD%\Blog.html"
+call E:\Devel\Mis\Beautify.bat "%CD%\Blog.html"
 ::pause
 ::*********************************************************
 cls

@@ -1,61 +1,107 @@
 <style type="text/css">
 <!--
-.CodeHeader {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: large;
-	font-style: normal;
-	font-weight: bold;
-	font-variant: small-caps;
-	color: #FFFFFF;
-	background-color: #000099;
-	margin: 0px;
-	padding: 4px;
-	border-top-color: #FFFFFF;
-	border-right-color: #FFFFFF;
-	border-bottom-color: #FFFFFF;
-	border-left-color: #FFFFFF;
-	text-align: left;
-	letter-spacing: 0.125em;
-	text-transform: capitalize;
-	cursor: text;
-}
-.CodeExplanation {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    color: #FFFF00;
-    background-color: #000000;
-	letter-spacing: normal;
-	text-align: left;
-	vertical-align: middle;
-	word-spacing: normal;
-	white-space: normal;
-	padding: 20px;
-	height: auto;
-	border: medium solid #333333;
-	list-style-type: square;
-	text-transform: none;
-	font-variant: normal;
-	line-height: 25px;
-}
-.CodeFor {
-    font-family: "Courier New", Courier, monospace;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: normal;
-    text-align: left;
-    vertical-align: middle;
-    word-spacing: normal;
-    white-space: normal;
-    padding: 20px;
-    height: auto;
-    border: thick dotted #999999;
-    list-style-type: square;
-    text-indent: 0px;
-    color: #FFFFFF;
-    line-height: 18px;
-    font-size: small;
-    cursor: text;
-}
+.FullContent
+	{
+	position: inherit;
+	float: none;
+	}
+.PgmContent
+	{
+   position: static;
+	float: left;
+	margin-right:2px;
+	width:49%;
+	BORDER-TOP-WIDTH:1px;
+	BORDER-LEFT-WIDTH:1px;
+	BORDER-LEFT-COLOR:transparent;
+	BORDER-BOTTOM-WIDTH:1px;
+	BORDER-BOTTOM-COLOR:transparent;
+	BACKGROUND:url(TransBg.png);
+	BORDER-TOP-COLOR:transparent;
+	BORDER-RIGHT-WIDTH:1px;
+	BORDER-RIGHT-COLOR:transparent;
+	-moz-border-radius:15px;
+	-khtml-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
+	}
+.ExpContent
+	{
+   position: static;
+	float: right;
+	margin-left:2px;
+	width:49%;
+	BORDER-TOP-WIDTH:1px;
+	BORDER-LEFT-WIDTH:1px;
+	BORDER-LEFT-COLOR:transparent;
+	BORDER-BOTTOM-WIDTH:1px;
+	BORDER-BOTTOM-COLOR:transparent;
+	BACKGROUND:url(TransBg.png);
+	BORDER-TOP-COLOR:transparent;
+	BORDER-RIGHT-WIDTH:1px;
+	BORDER-RIGHT-COLOR:transparent;
+	-moz-border-radius:15px;
+	-khtml-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
+	}
+
+.CodeHeader 
+	{
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: large;
+		font-style: normal;
+		font-weight: bold;
+		font-variant: small-caps;
+		color: BLUE;
+		padding: 10px;
+		text-align: left;
+		letter-spacing: 0.125em;
+		text-transform: capitalize;
+		cursor: text;	
+	}
+.CodeExplanation 
+	{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		text-align: left;
+		vertical-align: top;
+		word-spacing: normal;
+		white-space: normal;
+		padding:20px;
+		height: auto;
+		text-transform: none;
+		font-variant: normal;
+		line-height: 25px;
+		background-color:white;
+		}
+.CodeExplanation img
+	{
+		height:250px;
+		width:425px;
+	}
+.CodeExplanation a
+	{
+		color:#0000FF !important;
+		height:250px;
+		width:425px;
+	}
+.CodeFor 
+	{
+		font-family: "Courier New", Courier, monospace;
+		font-style: normal;
+		font-weight: normal;
+		font-size: medium;
+		letter-spacing: normal;
+		text-align: left;
+		vertical-align: top;
+		word-spacing: normal;
+		white-space: normal;
+		height: auto;
+		list-style-type: square;
+		line-height: 15px;
+		cursor: text;		
+	}
 -->
 </style>
+</head>  
+<body>
