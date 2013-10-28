@@ -71,54 +71,22 @@ if NOT EXIST Remarks.txt (copy E:\Devel\Mis\Blogit\Remarks.txt Remarks.txt)
 cls
 @echo OFF
 REM This adds a <BR> to every line of Comment file
-set path=%path%;"E:\Devel\Mis\Find"
+::set path=%path%;"E:\Devel\Mis\Find"
 ::fart -qC Comment.txt \r "<BR>"\r
 ::fart -qC Comment.txt "@<BR>" "@"
-fart -qC Comment.txt \n \n"<p>"
-fart -qC Comment.txt \r "</p>"\r
+::fart -qC Comment.txt \n \n"<p>"
+::fart -qC Comment.txt \r "</p>"\r
 ::*********************************************************
-cls
+REM Parse the Comment file to retrieve the first section
+set path=%path%;E:\Devel\Mis\Blogit\Tools
+if exist Comment.txt (csplit -s -z Comment.txt /[@@]/1) 
+del Comment.txt
 @echo ON
-set s=1
-set /a flag=0
-REM Parse the Comment file to retrieve each section
-echo Parsing Comment file...
-:start
-    set path=%path%;E:\Devel\Mis\Blogit\Tools
-    if exist Comment.txt (csplit -s -z Comment.txt /[@@]/1) 
-    del Comment.txt
-    if EXIST xx01 (ren xx01 Comment.txt) else (goto EndOfSec)
-    set /a flag=1
-    @echo ON
-    ::xx00 contain first extracted section
-    ::xx01 contain remaining sections
-    if EXIST xx00 (type E:\Devel\Mis\Blogit\BlogTem_%s%.txt xx00 >>Blog.html)
-    set /a s=s+1
-    @echo OFF
-if exist Comment.txt (goto start) 
-:EndOfSec
-@echo ON
-::This is of special case of having only one section in Remarks file
-::if %flag% EQU 0
-type E:\Devel\Mis\Blogit\BlogTem_%s%.txt xx00 >>Blog.html
-del xx00
-::pause
+if EXIST xx01 (ren xx01 Comment.txt) else (goto EndOfSec)
+if EXIST xx00 (type E:\Devel\Mis\Blogit\BlogTem_1.txt xx00 >>Blog.html)
+@echo OFF
 ::*********************************************************
-type E:\Devel\Mis\Blogit\BlogExpStop.txt >>Blog.html
 
-cls
-@echo OFF
-REM Removing @ that are joined to output file
-set path=%path%;"E:\Devel\Mis\Find"
-rxfind Blog.html /B:2 /P:[@@] /R:
-::pause
-::*********************************************************
-::cls
-@echo OFF
-REM This is to avoid the illeffect of removing @ from Blog
-set path=%path%;"E:\Devel\Mis\Find"
-fart -qC Blog.html "lal.thomas.mailgmail.com" "lal.thomas.mail@gmail.com"
-::*********************************************************
 cls
 type E:\Devel\Mis\Blogit\BlogPgmStart.txt >>Blog.html
 
@@ -174,7 +142,7 @@ set /a sect=7
 	echo ^<img alt=^" >>Blog.html
 	REM Add the output of program as ALT text
 	call "%~n1.exe" >>Blog.html
-	echo ^" title=^"OUTPUT^" border=^"0^" hspace=^"0^" src=^"Capture-%s%.jpg^" vspace=^"0^"^> >>Blog.html
+	echo ^" title=^"OUTPUT^" border=^"0^" hspace=^"0^" src=^"file:///%CD%\Capture-%s%.jpg^" vspace=^"0^"^> >>Blog.html
 	echo ^</DIV^>^</DIV^> >>Blog.html
 	set /a s=s+1
 	set /a sect=sect+1
@@ -182,6 +150,49 @@ goto CHECKPOINT
 :CONT
 @echo OFF
 ::pause
+::*********************************************************
+REM Parse the Comment file to retrieve the remaining sections
+cls
+@echo ON
+set s=2
+set /a flag=0
+echo Parsing Comment file...
+:start
+    set path=%path%;E:\Devel\Mis\Blogit\Tools
+    if exist Comment.txt (csplit -s -z Comment.txt /[@@]/1) 
+    del Comment.txt
+    if EXIST xx01 (ren xx01 Comment.txt) else (goto EndOfSec)
+    set /a flag=1
+    @echo ON
+    ::xx00 contain first extracted section
+    ::xx01 contain remaining sections
+    if EXIST xx00 (type E:\Devel\Mis\Blogit\BlogTem_%s%.txt xx00 >>Blog.html)
+    set /a s=s+1
+    @echo OFF
+if exist Comment.txt (goto start) 
+:EndOfSec
+
+@echo ON
+::This is of special case of having only one section in Remarks file
+::if %flag% EQU 0
+::type E:\Devel\Mis\Blogit\BlogTem_1.txt xx00 >>Blog.html
+::del xx00
+::pause
+::*********************************************************
+type E:\Devel\Mis\Blogit\BlogExpStop.txt >>Blog.html
+
+cls
+@echo OFF
+REM Removing @ that are joined to output file
+set path=%path%;"E:\Devel\Mis\Find"
+rxfind Blog.html /B:2 /P:[@@] /R:
+::pause
+::*********************************************************
+::cls
+@echo OFF
+REM This is to avoid the illeffect of removing @ from Blog
+set path=%path%;"E:\Devel\Mis\Find"
+fart -qC Blog.html "lal.thomas.mailgmail.com" "lal.thomas.mail@gmail.com"
 ::*********************************************************
 
 ::*********************************************************

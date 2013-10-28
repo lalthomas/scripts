@@ -1,8 +1,1 @@
-<DIV id="pgmcode"style="float:right;width:50%;"> 
-    <DIV id="sect6"> 
-    
-        <DIV class="secthead"> 
-        <H4>PROGRAM : </H4> 
-        </DIV>
-    
-        <DIV class="sectbody"> 
+<DIV id="sect6"> <DIV class="secthead"><H4>PROGRAM : </H4> </DIV><DIV class="sectbody"> 

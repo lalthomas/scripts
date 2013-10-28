@@ -1,4 +1,3 @@
-<DIV id="framing" style="float:left;width:48%;"> 
 <DIV id="sect1"> 
 <DIV class="secthead"> 
 <H4>OBJECTIVE :</H4> 
