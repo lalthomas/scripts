@@ -4,6 +4,7 @@ setlocal
 cls
 @echo ON
 type E:\Devel\Mis\BlogHead1.txt >Blog.html 
+REM Add title to blog post
 echo %~n1 >>Blog.html
 @echo OFF
 type E:\Devel\Mis\BlogHead2.txt >>Blog.html 
@@ -100,7 +101,9 @@ cls
 @echo OFF
 REM Properly indent the output file
 set path=%path%;"E:\Devel\Mis"
+call E:\Devel\Mis\CorrectHTML.bat "%CD%\Blog.html"
 call E:\Devel\Mis\Beautify.bat "%CD%\Blog.html"
+
 ::pause
 ::*********************************************************
 cls
