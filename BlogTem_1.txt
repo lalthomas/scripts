@@ -1,8 +1,6 @@
-</DIV>
-</DIV>
+<DIV id="framing" style="float:left;width:48%;"> 
 <DIV id="sect1"> 
 <DIV class="secthead"> 
-<H4>Upshot</H4> 
+<H4>OBJECTIVE :</H4> 
 </DIV>
-<DIV class="sectbody">
- 
+<DIV class="sectbody"> 

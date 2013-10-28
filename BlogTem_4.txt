@@ -2,6 +2,6 @@
 </DIV>
 <DIV id="sect4"> 
 <DIV class="secthead"> 
-<H4>Foot Notes</H4> 
+<H4>RELATED POSTS : </H4> 
 </DIV>
-<DIV class="sectbody"> 
+<DIV class="sectbody"><OL>

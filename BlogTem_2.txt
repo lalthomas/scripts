@@ -1,9 +1,7 @@
 </DIV>
 </DIV>
-</DIV>
-<DIV id="framing" style="float:left;width:48%;"> 
 <DIV id="sect2"> 
 <DIV class="secthead"> 
-<H4>The Problem</H4> 
+<H4>OBSERVATIONS : </H4> 
 </DIV>
 <DIV class="sectbody"> 

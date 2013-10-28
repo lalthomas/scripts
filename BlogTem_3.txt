@@ -2,6 +2,6 @@
 </DIV>
 <DIV id="sect3"> 
 <DIV class="secthead"> 
-<H4>The Quest</H4> 
+<H4>FOOT NOTES : </H4> 
 </DIV>
 <DIV class="sectbody"> 
