@@ -1,14 +1,31 @@
-@echo OFF
+@echo ON
 REM starting of Program
 setlocal
+::*********************************************************
+REM  This makes a copy of original and makes suitable for unsupported formats
+set OrgExt=%~x1
+set /a FLAG = 0
+if %~x1 == .cs (goto csharp)
+goto Proceed
+:csharp
+copy %1 "%~n1.cpp"
+set OrgExt=".cpp"
+set /a FLAG = 1
+::pause
+:Proceed
 ::*********************************************************
 REM This produces a formatted Html page of source code
 echo Making html file...
 set path=%PATH%;"E:\Devel\Mis\SrcHighlite\bin"
 ::--line-number-ref="L#"
-source-highlight -t=4 -f html -i %1 -o Blog.temp --data-dir "E:\Devel\Mis\SrcHighlite\share\source-highlight" --style-file=Sexy.style
-::*********************************************************
+source-highlight -t=4 -f html -i "%~n1%OrgExt%" -o Blog.temp --data-dir "E:\Devel\Mis\SrcHighlite\share\source-highlight" --style-file=Sexy.style
+::pause
 cls
+::*********************************************************
+REM This deletes the temporary files
+if %FLAG% == 1 (del "%~n1.cpp")
+::pause
+::*********************************************************
 @echo OFF
 REM This is to remove the credits of SrcHighlite program (Otherwise 4 <BR> will be added to o/p
 set path=%path%;"E:\Devel\Mis\Find"
@@ -69,7 +86,7 @@ cls
 REM This adds a <BR> to every line of Comment file
 set path=%path%;"E:\Devel\Mis\Find"
 fart -qC Comment.txt \r "<BR>"\r
-fart -qC Comment.txt "*<BR>" "*"
+fart -qC Comment.txt "@<BR>" "@"
 ::*********************************************************
 cls
 @echo ON
@@ -78,8 +95,8 @@ set /a flag=0
 REM Parse the Comment file to retrieve each section
 echo Parsing Comment file...
 :start
-    set path=%path%;C:\Program Files\GnuWin32\CoreUltil\bin
-    if exist Comment.txt (csplit -s -z Comment.txt /[*****]/1) 
+    set path=%path%;C:\Program Files\GnuWin32\CoreUtils\bin
+    if exist Comment.txt (csplit -s -z Comment.txt /[@@@@@]/1) 
     del Comment.txt
     if EXIST xx01 (ren xx01 Comment.txt) else (goto EndOfSec)
     set /a flag=1
@@ -105,10 +122,16 @@ type E:\Devel\Mis\BlogEnd.txt >>Blog.html
 ::*********************************************************
 cls
 @echo OFF
-REM Removing * that are joined to output file
+REM Removing @ that are joined to output file
 set path=%path%;"E:\Devel\Mis\Find"
-rxfind Blog.html /B:2 /P:[*] /R:
+rxfind Blog.html /B:2 /P:[@] /R:
 ::pause
+::*********************************************************
+cls
+@echo OFF
+REM This adds a <BR> to every line of Comment file
+set path=%path%;"E:\Devel\Mis\Find"
+fart -qC Blog.html "lal.thomas.mailgmail.com" "lal.thomas.mail@gmail.com"
 ::*********************************************************
 cls
 @echo OFF
