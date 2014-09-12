@@ -94,6 +94,10 @@ echo. >>%filename%
 REM Dump the today's scheduled task to todo.txt
 findstr /B /C:%longdatestamp% calendar.txt >> %filename%
 
+
+REM copy the planner section template file
+type planner-section.md >> %filename%
+
 REM copy the planner template file
 type %copyfilename% >> %filename%
 
