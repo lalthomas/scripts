@@ -1,2 +1,2 @@
-git add --all
-git commit -m "do folder changes"
+git add -A  && \
+git commit -m "$desc"
