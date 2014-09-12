@@ -74,18 +74,26 @@ if [ ! -f "$COPYDIR"/"$filename" ];then
   
   # Dump the today's scheduled task to todo.txt and extra line breaks
   grep $longdate "$calendarfilepath"  | tr -d "\n" >> "$journalfilepath"
+
+
+  # Read input file into a string variable. 
+  # Thanks : http://stackoverflow.com/a/2789399/2182047
+  copyfilecontent=$(cat $BASEDIR"/planner-section.md")
+  #copy contents to journal file
+  echo "$copyfilecontent" >>"$journalfilepath"  
+
   
   # Read input file into a string variable. 
   # Thanks : http://stackoverflow.com/a/2789399/2182047
-  copyfilecontent=$(cat $BASEDIR$filetocopy)
-  
+  copyfilecontent=$(cat $BASEDIR$filetocopy)  
   #copy contents to journal file
   echo "$copyfilecontent" | tr -d "\n" >>"$journalfilepath"
-
+    
+  
   mv "$journalfilepath" "$COPYDIR"/"$filename"
 
 fi
 
-# open the file in textedit
+# open the file
 
 open "$COPYDIR"/"$filename"
