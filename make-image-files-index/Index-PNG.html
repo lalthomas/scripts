@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=us-ascii" http-equiv="Content-Type" />
+
+    <title>Patterns</title>
+    <style media="screen" type="text/css">
+    /*<![CDATA[*/
+                *{margin:0;padding:0;}
+                body{background-color:#000;color:#ccc;font-family:verdana, sans-serif;font-size:11px;}
+                a,a:visited,a:active{outline:none;text-decoration:none;}
+                a,a:visited,a:active{color:#666;}
+                a:hover{color:#fff;}
+                img{vertical-align:bottom;border:none;}
+                /* Layout */#page{padding-top:100px;}
+                #content{width:90%;margin:0 auto;}
+                /* Pager Class */.pager a,.pager a:visited,.pager a:active{color:#ccc;padding:2px 6px;border:solid 1px #333;background-color:#333;}
+                .pager a:hover{color:#fff;border:solid 1px #666;background-color:#666;background-image:none;}
+                .pager span{padding:2px 6px;color:#999;}
+                .pager span.active{border:solid 1px #ccc;background-color:#000;background-image:none;color:#fff;}
+                .pager span.count{color:#666;}
+                /* Utility Classes */span.clear{display:block;clear:both;height:0;overflow:hidden;}
+                /* Patterns */#patterns p{display:inline;float:left;margin:0 10px 20px;width:140px;}
+                #patterns p span{display:block;width:138px;height:138px;border:solid 1px #fff;}
+                #patterns p span img{display:none;}
+                #patterns p a{display:block;text-align:center;color:#999;padding-top:1px;background-color:#333;border:solid 1px #333;border-top:none;}
+                #patterns p a:hover{color:#fff;}
+                #navigation{margin:10px 0 30px 10px;}
+                #usage{margin-left:10px;margin-right:10px;padding:10px;background-color:#1e1e1e;color:#666;}
+    /*]]>*/
+    </style>
+</head>
+
+<body>
+    <div id="body">
+        <div id="page">
+            <div id="content">
+                <div id="patterns">
+                    <script type="text/javascript">
+                    //<![CDATA[
+                                        var PatternName;
+                                        var Extension=".png";
+                                        var NoFiles=8;
+                                        for(var i=1;i<NoFiles;i++)
+                                                {
+												PatternName="pattern_"+i+Extension;
+                                                document.writeln('<p><span style=background-image:url("'+PatternName+'");><\/span><a href="'+PatternName+'">View<\/a><\/p>');
+                                                }
+                                        //]]>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
