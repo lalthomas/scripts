@@ -1,0 +1,11 @@
+<meta name="author" content="Lal Thomas">
+<meta name="copyright" content="2010 by Lal Thomas">
+<meta name="revisit-after" content="2 Weeks">
+<meta http-equiv="expires" content="Never">
+<meta name="distribution" content="global">
+<meta name="robots" content="all">
+<meta name="rating" content="general">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />      
+<meta http-equiv="content-language" content="en">
+<meta name="abstract" content="Programming Help">
+<link rev="made" href="lal.thomas.mail@gmail.com">
