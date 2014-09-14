@@ -1,0 +1,212 @@
+## my brewfile
+
+# run this file brew bundle ~/Dropbox/dotFiles/Brewfile
+
+# Make sure we’re using the latest Homebrew
+update
+
+# Upgrade any already-installed formulae
+upgrade
+
+
+#brew-cask
+tap phinze/homebrew-cask || true
+install brew-cask
+
+# applications
+
+# adobe® reader® software is the free global standard for reliably viewing, printing, and commenting on pdf documents
+cask install adobe-reader
+
+# airserver is an airplay receiver for mac/pc. it allows you to receive airplay feeds, similar to an apple tv, so you can stream content or mirror your display from your ios devices, mountain lion or mavericks.
+cask install airserver
+
+# appcleaner is a small application which allows you to thoroughly uninstall unwanted apps
+cask install appcleaner
+
+# atom is a desktop application based on web technologies. like other desktop apps, it has its own icon in the dock, native menus and dialogs, and full access to the file system
+cask install atom
+
+# balsamiq mockups is a rapid wireframing tool that helps you work faster & smarter
+cask install balsamiq-mockups
+
+# ccleaner (also known as crap cleaner), developed by piriform, is a utility program used to clean potentially unwanted files 
+cask install ccleaner
+
+# clipmenu can manage clipboard history. you can record 8 clipboard types, from plain text to image
+cask install clipmenu
+
+# cocoa packet analyzer is a native mac os x implementation of a network protocol analyzer and packet sniffer.
+cask install cocoapacketanalyzer
+
+# cocoarestclient is a free open source, native apple os x app for testing http/rest endpoints
+cask install cocoarestclient
+
+# live-patches the Finder on SnowLeopard (64-bit), Lion, Mountain Lion and Mavericks to no longer produce .DS\_Store files
+cask install deathtodsstore
+
+# doxygen is the de facto standard tool for generating documentation from annotated c++ sources, but it also supports other popular programming languages such as c, objective-c, c#, php, java, python, idl (corba, microsoft, and uno/openoffice flavors), fortran, vhdl, tcl, and to some extent d.
+cask install doxygen
+
+# dropbox is a free service that lets you bring your photos, docs, and videos anywhere and share them easily
+cask install dropbox
+
+# firefox, a free web browser. firefox is created by a global non-profit dedicated to putting individuals in control online
+cask install firefox
+
+# f.lux is free software that warms up your computer display at night, to match your indoor lighting.
+cask install flux
+
+# gimp is the gnu image manipulation program. it is a freely distributed piece of software for such tasks as photo retouching, image composition and image authoring
+cask install gimp
+
+# github the easiest way to use github on mac.
+cask install github
+
+# gitx is a git gui made for mac os x. it currently features a history viewer much like gitk and a commit gui like git gui.
+cask install gitx
+
+# google chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier.
+cask install google-chrome
+
+# google drive you can store and access your files anywhere with google drive -- on the web, on your hard drive, or on the go.
+cask install google-drive
+
+# handbrake is a tool for converting video from nearly any format to a selection of modern, widely supported codecs
+cask install handbrake
+
+# imageoptim optimizes images — so they take up less disk space and load faster — by finding best compression parameters and by removing unnecessary comments and color profiles. it handles png, jpeg and gif animations.
+cask install imageoptim
+
+# lightpaper is a simple, beautiful, powerful yet free text editor for passionate writers
+cask install lightpaper
+
+# lyx is a document processor that encourages an approach to writing based on the structure of your documents (wysiwym) and not simply their appearance (wysiwyg). 
+cask install lyx
+
+# mou : When current available Markdown editors are almost all for general writers, Mou is different: It's for web developers. Syntax highlighting, live preview, sync scroll, fullscreen mode, auto save, powerful actions, auto pair, custom themes and CSS, HTML and PDF export, enhanced CJK support. I know, it's exactly the app you want.
+cask install mou
+
+#rename a list of files quickly and easily. see how the names will change as you type. 
+cask install namechanger
+
+# notational velocity is an application that stores and retrieves notes. 
+cask install notational-velocity
+
+# openoffice.org (ooo), commonly known as openoffice, was an open-source office suite
+cask install openoffice
+
+# paintbrush is a simple paint program for Mac OS X, reminiscent of Microsoft Paint and Apple’s own now-defunct MacPaint. It provides users with a means to make simple images quickly, something that has been noticeably absent from the Mac for years.
+cask install paintbrush
+
+# quicksilver is a fast and free mac os x productivity application that gives you the power to control your mac quickly and elegantly. 
+cask install quicksilver
+
+# rcdefaultapp is a mac os x 10.2 or higher preference pane that allows a user to set the default application used for various url schemes, file extensions, file types, mime types, and uniform type identifiers (or utis; macos 10.4 only).
+cask install rcdefaultapp
+
+# with the microsoft remote desktop app, you can connect to a remote pc and your work resources from almost anywhere. experience the power of windows with remotefx in a remote desktop client designed to help you get your work done wherever you are.
+cask install remote-desktop-connection
+
+
+# sqlitemanager is a powerful database management system for sqlite databases, it combines an easy to use interface with blazing speed and advanced features.
+cask install sqlite-database-browser
+
+# mesasqlite makes creating, designing, and altering an sqlite3 database easy. 
+cask install mesasqlite
+
+# skitch is a screenshot editing and sharing utility for mac os x which was originally developed by plasq, but is currently run by the company skitch, inc
+cask install skitch
+
+# make internet calls for free and cheap online calls to phones and mobiles with skype
+brew cask install skype
+
+# slowy is an osx app which simulates custom connection's conditions and limits the network traffic. 
+cask install slowy
+
+# a free git & mercurial client for windows or mac.
+cask install sourcetree
+
+# mactex-2014 is an install package which installs everything needed to run tex on mac os x
+cask install mactex
+
+# textwrangler is a very capable text editor. what sets bbedit apart is its extensive professional feature set including web authoring capabilities and software development tools.
+cask install textwrangler
+
+# markdown editor for mac and windows. tables, images, footnotes, math and more.
+cask install texts
+
+# thunderbird is a free email application that's easy to set up and customize - and it's loaded with great features!
+cask install thunderbird
+
+# tinkertool is an application that gives you access to additional preference settings apple has built into os x. this allows to activate hidden features in the operating system and in some of the applications delivered with the system.
+cask install tinkertool
+
+# tomighty is a convenient, easy to use, eye candy desktop application that helps you organize and execute your tasks in the pomodoro™ way
+cask install tomighty
+
+# truecrypt is a discontinued source-available freeware utility used for on-the-fly encryption (otfe)
+cask install truecrypt
+
+# vlc is a free and open source cross-platform multimedia player and framework that plays most multimedia files as well as dvds, audio cds, vcds,
+cask install vlc
+
+# wasted analyzes the images in ios app packages, smart convert or re-compresses them and can generate a protocol about the compressions results alongside the exported, optimized images. the result contains standard jpg or png files only.
+cask install wasted
+
+# xmind is the most professional and popular mind mapping tool.
+cask install xmind
+
+# xtrafinder add tabs and features to mac finder.
+cask install xtrafinder
+
+# a mac os x graphical front end for the utility rsync
+cask install arrsync
+
+# calibre is the one stop solution to all your e-book needs
+cask install calibre
+
+# nvalt 2 is a fork of the original notational velocity with some additional features and interface modifications, including multimarkdown functionality.
+cask install nvalt
+
+# svnx is an os x open source gui for most features of the svn client binary. 
+cask install svnx 
+
+# µtorrent is a lightweight and efficient bittorrent client for windows or mac with many features.
+cask install utorrent
+
+
+install git
+install android-sdk
+install rbenv ruby-build
+install plenv perl-build
+
+
+# plus
+
+#cask install eclipse-ide
+#cask install evernote
+#cask install firefox
+#cask install flash
+#cask install google-chrome
+#cask install kobito
+#cask install skype
+#cask install totalterminal
+#cask install virtualbox
+#cask install yorufukurou
+
+#install emacs
+#install byobu
+
+tap homebrew/versions
+
+# Remove outdated versions from the cellar
+cleanup
+
+
+
+#install zsh
+
+
+
+ 
