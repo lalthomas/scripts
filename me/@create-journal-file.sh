@@ -12,37 +12,41 @@ PATH=$PATH:$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 longdate=$(date "+%Y-%m-%d")
 today=$(date "+%Y%m%d")
 dayOfWeeK=$(date +%A)
+dayOfWeekNum =$(date +%U)
 extension=".md"
 calendarfilepath="$BASEDIR/calendar.txt"
+dayplannerfilepath="$BASEDIR/planner-day.txt"
+weekplannerfilepath="$BASEDIR/planner-week.txt"
+sectionplannerfilepath="$BASEDIR/planner-section.md"
 
 case  $dayOfWeeK  in
       "Monday") 	
-      	filetocopy="/planner-01-monday.md" 
+      	dayOfWeekNum="1" 
       	filename=$today-"monday personal journal"$extension
       	;;
       "Tuesday")	
-      	filetocopy="/planner-02-tuesday.md"
+      	dayOfWeekNum="2"
       	filename=$today-"tuesday personal journal"$extension
       	;;            
       	 
       "Wednesday")	
-      	filetocopy="/planner-03-wednesday.md"
+      	dayOfWeekNum="3"
       	filename=$today-"wednesday personal journal"$extension
       	;;
       "Thursday") 	
-      	filetocopy="/planner-04-thursday.md"
+      	dayOfWeekNum="4"
       	filename=$today-"thursday personal journal"$extension
       	;;
       "Friday") 	
-      	filetocopy="/planner-05-friday.md"
+      	dayOfWeekNum="5"
       	filename=$today-"friday personal journal"$extension
       	;;
       "Saturday")	
-      	filetocopy="/planner-06-saturday.md"
+      	dayOfWeekNum="6"
       	filename=$today-"saturday personal journal"$extension
       	;;
       "Sunday") 	
-      	filetocopy="/planner-07-sunday.md"
+      	dayOfWeekNum="7"
       	filename=$today-"sunday personal journal"$extension
       	;;
       *)              
@@ -63,33 +67,41 @@ if [ ! -f "$COPYDIR"/"$filename" ];then
   
   # add a blank line
   echo >>"$journalfilepath"  
-
   
   echo Scheduled Tasks >>"$journalfilepath"  
   # add markdown heading 2 label
   echo --------------- >>"$journalfilepath"  
-  
   # add a blank line
   echo >>"$journalfilepath"  
   
   # Dump the today's scheduled task to todo.txt and extra line breaks
   grep $longdate "$calendarfilepath"  | tr -d "\n" >> "$journalfilepath"
 
-
   # Read input file into a string variable. 
-  # Thanks : http://stackoverflow.com/a/2789399/2182047
-  copyfilecontent=$(cat $BASEDIR"/planner-section.md")
+  # Thanks : http://stackoverflow.com/a/2789399/2182047  
+  copyfilecontent=$(cat $sectionplannerfilepath)
   #copy contents to journal file
   echo "$copyfilecontent" >>"$journalfilepath"  
+  # add a blank line
+  echo >>"$journalfilepath"  
 
-  
+  echo Routines >>"$journalfilepath"  
+  # add markdown heading 2 label
+  echo -------- >>"$journalfilepath" 
+  # add a blank line
+  echo >>"$journalfilepath"  
+
+  #copy daily tasks to journal file  
   # Read input file into a string variable. 
-  # Thanks : http://stackoverflow.com/a/2789399/2182047
-  copyfilecontent=$(cat $BASEDIR$filetocopy)  
-  #copy contents to journal file
-  echo "$copyfilecontent" | tr -d "\n" >>"$journalfilepath"
-    
-  
+  # Thanks : http://stackoverflow.com/a/2789399/2182047  
+  copyfilecontent=$(cat $dayplannerfilepath)
+  echo "$copyfilecontent"  | sed 's/^/* \[\] /' >>"$journalfilepath"  
+  # add a blank line
+  echo >>"$journalfilepath"  
+  # add weekly tasks 
+  # | tr -d "\n"
+  grep $dayOfWeekNum "$weekplannerfilepath" | sed 's/^'$dayOfWeekNum'/* \[\]/' >> "$journalfilepath"
+   
   mv "$journalfilepath" "$COPYDIR"/"$filename"
 
 fi
