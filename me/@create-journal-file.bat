@@ -34,43 +34,43 @@ if %DAY%==Sun goto :sun
 :mon
 :: put your processing here
 set filename="%datestamp%-monday personal journal.md"
-set copyfilename=planner-01-monday.md
+set dayOfWeekNum="01"
 GOTO CONTINUE
 
 :tue
 :: put your processing here
 set filename="%datestamp%-tuesday personal journal.md"
-set copyfilename=planner-02-tuesday.md
+set dayOfWeekNum="02"
 GOTO CONTINUE
 
 :wed
 :: put your processing here
 set filename="%datestamp%-wednesday personal journal.md"
-set copyfilename=planner-03-wednesday.md
+set dayOfWeekNum="03"
 GOTO CONTINUE
 
 :thu
 :: put your processing here
 set filename="%datestamp%-thursday personal journal.md"
-set copyfilename=planner-04-thursday.md
+set dayOfWeekNum="04"
 GOTO CONTINUE
 
 :fri
 :: put your processing here
 set filename="%datestamp%-friday personal journal.md"
-set copyfilename=planner-05-friday.md
+set dayOfWeekNum="05"
 GOTO CONTINUE
 
 :sat
 :: put your processing here
 set filename="%datestamp%-saturday personal journal.md"
-set copyfilename=planner-06-saturday.md
+set dayOfWeekNum="06"
 GOTO CONTINUE
 
 :sun
 :: put your processing here
 set filename="%datestamp%-sunday personal journal.md"
-set copyfilename=planner-07-sunday.md
+set dayOfWeekNum="07"
 GOTO CONTINUE
 
 :CONTINUE
@@ -99,7 +99,9 @@ REM copy the planner section template file
 type planner-section.md >> %filename%
 
 REM copy the planner template file
-type %copyfilename% >> %filename%
+
+
+type %dayOfWeekNum% >> %filename%
 
 move %filename% %COPYDIR%
 
