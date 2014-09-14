@@ -1,0 +1,44 @@
+	================================================================
+	FR is a Windows Console Program designed to simplify
+	'Find and Replace' operations in projects and file sets.
+
+	Syntax: "FR FileSpec(s) FindText [ReplText] [Switches]"
+	  FileSpec = the target File(s) (or @LIST of FileSpecs)
+	  FindText = the text to find (or @LIST of Find/Replace pairs)
+	  ReplText = the replacement text (optional)
+
+	Default: Case SENSITIVE, WHOLE WORD match, NO Subdirectories.
+
+	Optional Switches:
+	  /I = Ignore case (case Insensitive)
+	  /C = Case sensitive (default)
+	  /W = Whole word match (default)
+	  /P = Part word match
+	  /D = filespec Directory only (default)
+	  /S = include Subdirectories
+	  /Q = Quiet output by minimising progress messages
+	  /L = show changed Line numbers and text
+	  /M = show lines in MS Editor clickable format - FileName(nnn)
+
+	  /O = Overwrite existing backup files
+	  /N = No backup files
+	  /E = using character Escape sequences
+	  /B = process Binary files without warning
+	  /V = 'source' file list from Visual Studio Project File
+	  /G = iGnore text within quoted strings
+	  /X = eXclude text within C/C++ comments
+	  /T = Test (list matches without replacing)
+	  /A = Append to existing log file rather than overwriting
+	  /K = no log file
+	  /F = Find only (do not provide repltext)
+
+	Examples:
+	  FR  *.cpp  XYZ_ID  ABC_ID
+	  FR  *.cpp  XYZ_ID  /F /S
+	  FR  *.txt  "quick fox"  "lazy dog"  /i
+	  FR  \SRC\*.cpp  "CString str" "CXString str" /s /w
+	  FR  *.dsp;*.vcproj  "unsigned int" "UINT" /I /Sub /VS
+	  FR  @Files.LST www.old.com www.newurl.com /I /P /S
+	  FR  @C:\VS\Files.LST "//TODO:" "" /case /part /Sweep
+	================================================================
+
