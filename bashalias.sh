@@ -12,6 +12,64 @@ msys*) export rootpath="/d/Dropbox"  ;; # Windows
 esac
 
 
+mailtopocket() {
+	echo "$1" | mail -s "$1" "add@getpocket.com"
+}
+
+
+scheduleToDoWeeklyTasks() {
+
+	if [ $# -eq 2 ]; 
+	then
+		export referencedate=$(date "+%Y-%m-%d")	
+	    #exit 1
+	else
+		export referencedate="$3"	    
+	fi
+	
+	sed -n -e "s/\+week-NN/\+week-$(date +'%W')/p" <"$1" | \
+	sed -n -e "s/\*[[:blank:]]//p" | \
+	sed -e "s/^01/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^02/$(date -j -v +1d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^03/$(date -j -v +2d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^04/$(date -j -v +3d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^05/$(date -j -v +4d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^06/$(date -j -v +5d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^07/$(date -j -v +6d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sort -n | \
+	uniq | \
+	tr '\r' ' '>>$2
+	
+}
+
+scheduleToDoMonthlyTasks() {
+
+	if [ $# -eq 2 ]; 
+	then
+		export referencedate=$(date -v -Mon "+%Y-%m-%d")
+	else
+		export referencedate=$(date -j -v "mon" -f '%Y-%m-%d' "$3" +%Y-%m-%d)	    
+	fi
+	
+	sed -n -e "s/\+month-NN/\+month-$(date +'%m')/p" <"$1" | \
+	sed -n -e "s/\*[[:blank:]]//p" | \
+	sed -e "s/^001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^002/$(date -j -v +7d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^003/$(date -j -v +14d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^004/$(date -j -v +21d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sort -n | \
+	uniq | \
+	tr '\r' ' '>>$2
+	
+}
+
+
+
+alias mailtopocket=mailtopocket
+alias schedulemetodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/me/predefined-works.md' '$rootpath/Do/me/todo.txt'"
+alias schedulemetodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/me/predefined-works.md' '$rootpath/Do/me/todo.txt'"
+
+
 # alias
 alias clearhistory="history -c"
 alias commitdo='sh "$rootpath/Do/commit-do-changes.sh"'
