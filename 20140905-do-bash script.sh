@@ -12,6 +12,7 @@ longdate=$(date "+%Y-%m-%d")
 today=$(date "+%Y%m%d")
 dayOfWeeK=$(date +%A)
 dayOfWeekLowerCase=$(date +%A | sed -e 's/\(.*\)/\L\1/')
+currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 case "$OSTYPE" in
 	darwin*) export rootpath="/Users/rapid/Dropbox" ;; # OSX
@@ -268,11 +269,49 @@ alias addmedoneitemstojournal="addMeDoneItemsToJournal"
 
 
 ### git 
-alias commitdo='sh "$rootpath/Do/commit-do-changes.sh"'
-alias commitreference='sh $rootpath/Reference/@commit-changes.sh"'
-alias commitsupport='sh "$rootpath/Support/@commit-changes.sh"'
-alias createblog='sh "$rootpath/Blog/create-blog-post-repo.sh"'
-alias createwiki='sh "$rootpath/Office Wiki/create-wiki-post-repo.sh"'
+
+createGitRepo(){ 
+
+ git init "$1"
+ commitGitRepoChanges "$1" 'init repo' 
+ 
+}
+
+commitGitRepoChanges(){
+	
+	if [ $# -eq 2 ]; 
+	then	
+		commitMessage=$2		
+	else		
+		commitMessage="commit changes"
+	fi
+	
+	cd "$1"	
+	git add * -A 
+	git commit -m "$commitMessage"
+	echo $1 "folder changes committed" 
+	
+}
+
+alias commitdo="commitGitRepoChanges '$rootpath/Do/'"
+alias commitreference="commitGitRepoChanges '$rootpath/Reference/'"
+alias commitsupport="commitGitRepoChanges '$rootpath/Support/'"
+alias commitscript="commitGitRepoChanges '$rootpath/scripts/source'"
+
+createBlogPostRepository(){
+
+	read -p "enter article name and press [enter]: " articlename		
+	mkdir -p "$1/$today-$articlename"	
+	echo "$articlename" > "$1/$today-$articlename/$articlename".md			
+	createGitRepo "$1/$today-$articlename" >/dev/null
+	echo "article repo created successfully"	
+	open "$DIR/$articlename/$articlename".md
+	
+}
+
+alias createblogpost="createBlogPostRepository '$rootpath/Blog'"
+alias createwiki="createBlogPostRepository '$rootpath/Office Wiki'"
+
 # remember the milk me update
 
 # mt listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "me todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
