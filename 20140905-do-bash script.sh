@@ -1,9 +1,17 @@
-# Hidden Applications
+#!/bin/bash -x
 
+# Hidden Applications
 # open -a 'FileMerge'"
 
 # remove console colors using sed
 # sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g"
+
+# initialize global variables 
+
+longdate=$(date "+%Y-%m-%d")
+today=$(date "+%Y%m%d")
+dayOfWeeK=$(date +%A)
+dayOfWeekLowerCase=$(date +%A | sed -e 's/\(.*\)/\L\1/')
 
 case "$OSTYPE" in
 	darwin*) export rootpath="/Users/rapid/Dropbox" ;; # OSX
@@ -11,92 +19,90 @@ case "$OSTYPE" in
 	*) echo "unknown: $OSTYPE" ;;
 esac
 
+journalfilename=$today-$dayOfWeekLowerCase" personal journal"$extension
+journalfilepath="$rootpath/$journalfilename"
+
 
 mailtopocket() {
-
 	echo "$1" | mail -s "$1" "add@getpocket.com"
 }
-
 alias mailtopocket=mailtopocket
 
 
+printTrailingCharacter(){
+
+ character=$1
+ # markdown heading label
+  COUNTER=0
+  while [  $COUNTER -lt $length ]; do
+	printf '%s' $character >>"$2"
+    let COUNTER=COUNTER+1 
+  done
+}
+
+createMarkdownHeading(){
+
+  local headingType=$1
+  local headingTitle=$2
+  local filePath=$3
+  local length=${#headingTitle} 
+  
+  case $headingType in
+	1) 
+		# Heading I		
+		printf "$headingTitle" >>"$filePath"
+		printf "\n" >>"$filePath" 
+		printTrailingCharacter '=' "$filePath"
+		# add two blank line
+		printf "\n\n" >>"$filePath"     		
+		;;
+	2) 
+		# Heading II		
+		printf "$headingTitle" >>"$filePath"
+		printf "\n" >>"$filePath" 
+		printTrailingCharacter '-' "$filePath"
+		# add two blank line
+		printf "\n\n" >>"$filePath"		
+		;; 
+	3) 
+		# Heading III		
+		printf "###" >>"$filePath"
+		printf "$headingTitle" >>"$filePath"
+		printf "\n\n" >>"$filePath"
+		;;		
+	4) 
+		# Heading IV		
+		printf "####" >>"$filePath"
+		printf "$headingTitle" >>"$filePath"
+		printf "\n\n" >>"$filePath"
+		;; 
+	*) 
+		# Heading Unknown		
+		echo "unknown heading type" 
+		;; 
+  esac  
+  
+}
+
 createjournalfile(){
 
-	COPYDIR="$rootpath/Docs"
-	longdate=$(date "+%Y-%m-%d")
-	today=$(date "+%Y%m%d")
-	dayOfWeeK=$(date +%A)
-	extension=".md"
-	todofilepath="$rootpath/do/me/todo.txt"
-	dayplannerfilepath="$rootpath/do/me/planner-day.txt"
-	weekplannerfilepath="$rootpath/do/me/planner-week.txt"
-	sectionplannerfilepath="$rootpath/do/me/planner-section.md"
-
-	case  $dayOfWeeK  in
-		  "Monday") 	
-			dayOfWeekNum="1" 
-			filename=$today-"monday personal journal"$extension
-			;;
-		  "Tuesday")	
-			dayOfWeekNum="2"
-			filename=$today-"tuesday personal journal"$extension
-			;;            
-		 
-		  "Wednesday")	
-			dayOfWeekNum="3"
-			filename=$today-"wednesday personal journal"$extension
-			;;
-		  "Thursday") 	
-			dayOfWeekNum="4"
-			filename=$today-"thursday personal journal"$extension
-			;;
-		  "Friday") 	
-			dayOfWeekNum="5"
-			filename=$today-"friday personal journal"$extension
-			;;
-		  "Saturday")	
-			dayOfWeekNum="6"
-			filename=$today-"saturday personal journal"$extension
-			;;
-		  "Sunday") 	
-			dayOfWeekNum="7"
-			filename=$today-"sunday personal journal"$extension
-			;;
-		  *)              
-	esac 
-
-	journalfilepath="$rootpath/$filename"
+	local COPYDIR="$rootpath/Docs"
+	local extension=".md"
+	local todofilepath="$rootpath/do/me/todo.txt"
+	local plannerfilepath="$rootpath/do/me/planner.md"
+	local sectionplannerfilepath="$rootpath/do/me/planner-section.md"	
 
 	#printf $rootpath
 
 
 	# check if file exists or not
-	if [ ! -f "$COPYDIR"/"$filename" ];then
+	if [ ! -f "$COPYDIR"/"$journalfilename" ];then
 
-	  # put the date for heading	
-	  printf $today >"$journalfilepath"
-	  printf "\n" >>"$journalfilepath"
-  
-	  # markdown heading 1 label
-	  printf "========" >>"$journalfilepath"  
-	  printf "\n" >>"$journalfilepath"  
-  
-	  # add a blank line  
-	  printf "\n">>"$journalfilepath"
-  
-	  printf Scheduled Tasks >>"$journalfilepath"  
-	  # add markdown heading 2 label    
-	  printf '\n%s' '---------' >>"$journalfilepath"    
-  
-	  # add a blank line  
-	  printf "\n">>"$journalfilepath"   
-	  # add a blank line  
-	  printf "\n">>"$journalfilepath"
-   
-   
+	  createMarkdownHeading "1" "$today" "$journalfilepath"
+	  
+	  createMarkdownHeading "2" "Scheduled Tasks" "$journalfilepath"   
 	  # Dump the today's scheduled task to todo.txt and extra line breaks
 	  grep $longdate "$todofilepath" >>"$journalfilepath"
-  
 	  printf "\n">>"$journalfilepath"
 
 	  # Read input file into a string variable. 
@@ -104,43 +110,53 @@ createjournalfile(){
 	  copyfilecontent=$(cat $sectionplannerfilepath)
 	  #copy contents to journal file
 	  printf "$copyfilecontent" >>"$journalfilepath"  
-	  # add a blank line
-	  printf "\n" >>"$journalfilepath"
-
-	  # add a blank line  
-	  printf "\n">>"$journalfilepath"
-  
-	  printf Routines >>"$journalfilepath"  
-	  # add markdown heading 2 label
-	  printf '\n%s' '---------' >>"$journalfilepath"    
-	  # add a blank line  
-	  printf "\n">>"$journalfilepath"
-	  # add a blank line  
-	  printf "\n">>"$journalfilepath"
-   
-
-	  #copy daily tasks to journal file  
-	  # Read input file into a string variable. 
-	  # Thanks : http://stackoverflow.com/a/2789399/2182047  
-	  copyfilecontent=$(cat $dayplannerfilepath)
-	  printf "$copyfilecontent" | sed 's/^/* \[\] /' >>"$journalfilepath"  
-	  # add a blank line
-	  printf "\n" >>"$journalfilepath"
-	  # add weekly tasks 
-	  grep $dayOfWeekNum "$weekplannerfilepath" | sed 's/^'$dayOfWeekNum'/* \[\]/' >> "$journalfilepath"
-   
-	  mv "$journalfilepath" "$COPYDIR"/"$filename"
+	  # add two blank line
+	  printf "\n\n" >>"$journalfilepath"	  	  
+ 	  
+	  mv "$journalfilepath" "$COPYDIR"/"$journalfilename"
 
 	fi
 
 	# open the file
-
-	open "$COPYDIR"/"$filename"
-
+	# open command don't work on windows	
+	case "$OSTYPE" in
+	darwin*) 
+		# OSX		
+		open "$COPYDIR"/"$journalfilename"		
+		;; 
+	msys*)
+		# Windows
+		start "" "$COPYDIR"/"$journalfilename"
+		;; 		
+	*) 
+		echo "unknown: $OSTYPE" 
+		;;
+	esac
 }
-
 alias createjournal=createjournalfile
 
+scheduleToDoDailyTasks() {
+
+	if [ $# -eq 2 ]; 
+	then
+		export referencedate=$(date "+%Y-%m-%d")	
+	    #exit 1
+	else
+		export referencedate="$3"	    
+	fi
+	
+	sed -n -e "s/\+day-NN/\+day-$(date +'%d')/p" <"$1" | \
+	sed -n -e "s/\*[[:blank:]]//p" | \
+	sed -n -e "s/^/$referencedate /p" | \
+	sort -n | \
+	uniq | \
+	tr '\r' ' '>>$2
+	
+}
+
+alias schedulemetododailytasks="scheduleToDoDailyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
+alias scheduledevtododailytasks="scheduleToDoDailyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
+alias scheduleworktododailyytasks="scheduleToDoDailyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
 
 scheduleToDoWeeklyTasks() {
 
@@ -166,11 +182,9 @@ scheduleToDoWeeklyTasks() {
 	tr '\r' ' '>>$2
 	
 }
-
-alias schedulemetodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/me/predefined-works.md' '$rootpath/Do/me/todo.txt'"
-alias scheduledevtodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/dev/predefined-works.md' '$rootpath/Do/dev/todo.txt'"
-alias scheduleworktodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/work/predefined-works.md' '$rootpath/Do/work/todo.txt'"
-
+alias schedulemetodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
+alias scheduledevtodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
+alias scheduleworktodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
 scheduleToDoMonthlyTasks() {
 
 	if [ $# -eq 2 ]; 
@@ -191,27 +205,19 @@ scheduleToDoMonthlyTasks() {
 	tr '\r' ' '>>$2
 	
 }
-
-alias schedulemetodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/me/predefined-works.md' '$rootpath/Do/me/todo.txt'"
-alias scheduledevtodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/dev/predefined-works.md' '$rootpath/Do/dev/todo.txt'"
-alias scheduleworktodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/work/predefined-works.md' '$rootpath/Do/work/todo.txt'"
-
-
+alias schedulemetodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
+alias scheduledevtodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
+alias scheduleworktodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
 ## bookmarks
-
 OrganizeBookmarks() {
 
 sed -E "s/\<li\>(.*)\<\/li\>/\1/g" <$rootpath/inbox/ril_export.html | \
 sed -E "s/(.*)time_added\=\"(.*)\" tags=\"(.*)\"/\2-\1\3/g" | \ 
 sed -E "s/^(.*)$/\<li\>\1<\/li\>/g" >$rootpath/inbox/bookmarks.html \
 && pandoc --no-wrap -o $rootpath/inbox/bookmarks.md $rootpath/inbox/bookmarks.html \
-&& open "$rootpath/inbox/bookmarks.md"'
-
+&& open "$rootpath/inbox/bookmarks.md"
 }
-
 alias organizebookmarks=OrganizeBookmarks
-
-
 StartDay(){
 
 	#!/bin/bash
@@ -239,18 +245,11 @@ StartDay(){
 	python "/Users/rapid/Dropbox/scripts/python-simplehttpserver-with-markdown.py"
 
 }
-
-
 alias startday=StartDay
-
-
 ### bash
-
 alias clearhistory="history -c"
 alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/Office Docs/work bash history.txt'"
-
 ### todo.txt
-
 alias doarchive="mt archive && wt archive && dt archive"
 alias devtodo='sh $rootpath/Do/dev/todo.sh list'
 alias devtodobirdseyereport="dt birdseye > '$rootpath/Office Docs/dev todo birdseye report for week-.md'"
@@ -262,17 +261,18 @@ alias worktodo='sh $rootpath/Do/work/todo.sh list'
 alias worktodobirdseyereport="wt birdseye > '$rootpath/Docs/work todo birdseye report for week-.md'"
 alias wt='sh "$rootpath/Do/work/todo.sh"'
 
+addMeDoneItemsToJournal(){
+	mt listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p' >> "$journalfilepath"
+}
+alias addmedoneitemstojournal="addMeDoneItemsToJournal"
+
 
 ### git 
-
 alias commitdo='sh "$rootpath/Do/commit-do-changes.sh"'
 alias commitreference='sh $rootpath/Reference/@commit-changes.sh"'
 alias commitsupport='sh "$rootpath/Support/@commit-changes.sh"'
 alias createblog='sh "$rootpath/Blog/create-blog-post-repo.sh"'
 alias createwiki='sh "$rootpath/Office Wiki/create-wiki-post-repo.sh"'
-
-
-
 # remember the milk me update
 
 # mt listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "me todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
