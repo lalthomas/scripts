@@ -511,8 +511,14 @@ StartServer(){
 
 }
 
+StartMarkdownServer(){
+
+	python "$rootpath/scripts/project/20150106-brainerd markdown server/brainerd.py"
+
+}
+
 alias startserverat="StartServer"
-alias startbirthdayserver="StartServer '$rootpath/do/'"
+alias startbirthdayserver="StartMarkdownServer"
 
 StartDay(){
 	
