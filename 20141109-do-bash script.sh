@@ -12,8 +12,8 @@ longdate=$(date "+%Y-%m-%d")
 weekCount=$(date +'%V')
 dayOfWeeK=$(date +%A)
 
-
 monthCount=$(date +'%m')
+yearCount=$(date +'%Y')
 
 dayOfWeekLowerCase=$(date +%A | sed -e 's/\(.*\)/\L\1/')
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -293,6 +293,40 @@ alias scheduledevtodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/dev/pl
 alias scheduleworktodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
 alias scheduletodomonthlytasks="schedulemetodomonthlytasks && scheduledevtodomonthlytasks && scheduleworktodomonthlytasks"
 
+
+scheduleToDoYearlyTasks() {
+
+	if [ $# -eq 2 ]; 
+	then
+		export referencedate=$(date -v -Mon "+%Y-%m-%d")
+	else
+		export referencedate=$(date -j -v "mon" -f '%Y-%m-%d' "$3" +%Y-%m-%d)	    
+	fi
+	
+	sed -n -e "s/\+year-NNNN/\+year-$yearCount/p" <"$1" | \
+	sed -n -e "s/\*[[:blank:]]//p" | \
+	sed -e "s/^00001/$yearCount-01-01 &/p" | \
+	sed -e "s/^00002/$yearCount-02-01 &/p" | \
+	sed -e "s/^00003/$yearCount-03-01 &/p" | \
+	sed -e "s/^00004/$yearCount-04-01 &/p" | \
+	sed -e "s/^00005/$yearCount-05-01 &/p" | \
+	sed -e "s/^00006/$yearCount-06-01 &/p" | \
+	sed -e "s/^00007/$yearCount-07-01 &/p" | \
+	sed -e "s/^00008/$yearCount-08-01 &/p" | \
+	sed -e "s/^00009/$yearCount-09-01 &/p" | \
+	sed -e "s/^00010/$yearCount-10-01 &/p" | \
+	sed -e "s/^00011/$yearCount-11-01 &/p" | \
+	sed -e "s/^00012/$yearCount-12-01 &/p" | \
+	sort -n | \
+	uniq | \
+	tr '\r' ' '>>$2
+	
+}
+alias schedulemetodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
+alias scheduledevtodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
+alias scheduleworktodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
+alias scheduletodoyearlytasks="schedulemetodoyearlytasks && scheduledevtodoyearlytasks && scheduleworktodoyearlytasks"
+
 bumpDailyTodoItems(){
 
 	local todofilepath=$1
@@ -343,6 +377,22 @@ alias bumpmetodomonthlyitems="bumpMonthlyTodoItems '$rootpath/Do/me/todo.txt' '$
 alias bumpdevtodomonthlyitems="bumpMonthlyTodoItems '$rootpath/Do/dev/todo.txt' '$rootpath/Do/dev/undone.txt' "
 alias bumpworktodomonthlyitems="bumpMonthlyTodoItems '$rootpath/Do/work/todo.txt' '$rootpath/Do/work/undone.txt' "
 alias bumptodomonthlyitems="bumpmetodomonthlyitems && bumpdevtodomonthlyitems && bumpworktodomonthlyitems"
+
+bumpYearlyTodoItems(){
+
+	local todofilepath=$1
+	local todoundonefilepath=$2
+	
+	grep -e "\+year\-[0-9][0-9][0-9][0-9]" $todofilepath >> $todoundonefilepath
+	sed -i '' -e "/+year\-[0-9][0-9][0-9][0-9]/d" $todofilepath
+
+}
+
+alias bumpmetodoyearlyitems="bumpYearlyTodoItems '$rootpath/Do/me/todo.txt' '$rootpath/Do/me/undone.txt' "
+alias bumpdevtodoyearlyitems="bumpYearlyTodoItems '$rootpath/Do/dev/todo.txt' '$rootpath/Do/dev/undone.txt' "
+alias bumpworktodoyearlyitems="bumpYearlyTodoItems '$rootpath/Do/work/todo.txt' '$rootpath/Do/work/undone.txt' "
+alias bumptodoyearlyitems="bumpmetodoyearlyitems && bumpdevtodoyearlyitems && bumpworktodoyearlyitems"
+
 
 ## bookmarks
 OrganizeBookmarks() {
@@ -625,6 +675,18 @@ StartMonth(){
 }
 
 alias startmonth=StartMonth
+
+
+StartYear(){
+
+	doarchive && \ 
+	bumptodoyearlyitems && \
+	scheduletodoyearlytasks && \
+	commitdo
+}
+
+alias startyear=StartYear
+
 
 ConvertAllFilenamesToLower(){
 
