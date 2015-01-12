@@ -33,6 +33,15 @@ case "$OSTYPE" in
 	longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
 	dayofWeekYesterday=$(date --date='yesterday' +%A)
 	;;	
+	
+	cygwin*) 
+	# Windows
+	export rootpath="d:/Dropbox"  
+	yesterday=$(date --date='yesterday' +'%Y%m%d')
+	longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
+	dayofWeekYesterday=$(date --date='yesterday' +%A)
+	;;	
+	
 	*) echo "unknown: $OSTYPE" ;;
 esac
 
@@ -473,7 +482,7 @@ commitGitRepoChanges(){
 	fi
 	
 	cd "$1"	
-	git add * -A 
+	git add -A 
 	git commit -m "$commitMessage"
 	echo $1 "folder changes committed" 
 	
