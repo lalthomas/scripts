@@ -268,6 +268,7 @@ scheduleToDoWeeklyTasks() {
 		uniq | \
 		tr '\r' ' '>>$2
 		;; 		
+					
 	*) 
 		echo "unknown: $OSTYPE" 
 		;;
@@ -597,7 +598,7 @@ StartMyDay(){
 	createmejournal	
 	
 	# GTD
-	open "$rootpath/do/me/next.md"
+	open "$rootpath/do/me/next.txt"
 	open "$rootpath/do/me/contexts.md"
 	open "$rootpath/do/me/projects.md"
 	
