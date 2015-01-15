@@ -622,7 +622,7 @@ StartWorkDay(){
 	#open -a "Momentics"
 
 	# GTD
-	open "$rootpath/do/work/next.md"
+	open "$rootpath/do/work/next.txt"
 	open "$rootpath/do/work/contexts.md"
 	open "$rootpath/do/work/projects.md"
 
