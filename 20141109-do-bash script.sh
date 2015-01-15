@@ -207,7 +207,9 @@ scheduleToDoDailyTasks() {
 		export referencedate="$3"	    
 	fi
 	
-	sed -n -e "s/\+day-NN/\+day-$(date +'%d')/p" <"$1" | \
+	local dateNum=$(date +'%d' --date=$referencedate) 
+	
+	sed -n -e "s/\+day-NN/\+day-$dateNum/p" <"$1" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -n -e "s/^/$referencedate /p" | \
 	sort -n | \
