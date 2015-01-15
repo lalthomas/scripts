@@ -638,7 +638,7 @@ StartDevDay(){
 	createdevjournal
 	
 	# GTD
-	open "$rootpath/do/dev/next.md"
+	open "$rootpath/do/dev/next.txt"
 	open "$rootpath/do/dev/contexts.md"
 	open "$rootpath/do/dev/projects.md"
 
