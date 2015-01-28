@@ -249,7 +249,6 @@ scheduleToDoWeeklyTasks() {
 		export referencedate="$3"	    
 	fi
 	
-	
 	case "$OSTYPE" in
 	darwin*) 
 		# OSX		
@@ -290,10 +289,27 @@ scheduleToDoWeeklyTasks() {
 	esac	
 	
 }
+
+scheduleBatchTodoWeeklyTasks() {
+
+if [ $# -eq 1 ]; 
+	then
+		schedulemetodoweeklytasks "$1"
+		scheduledevtodoweeklytasks "$1"
+		scheduleworktodoweeklytasks "$1" 
+		
+	else						
+		schedulemetodoweeklytasks
+		scheduledevtodoweeklytasks
+		scheduleworktodoweeklytasks								
+	fi
+
+}
+
 alias schedulemetodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
 alias scheduledevtodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
 alias scheduleworktodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
-alias scheduletodoweeklytasks="schedulemetodoweeklytasks && scheduledevtodoweeklytasks && scheduleworktodoweeklytasks"
+alias scheduletodoweeklytasks="scheduleBatchTodoWeeklyTasks"
 
 scheduleToDoMonthlyTasks() {
 
@@ -349,6 +365,7 @@ scheduleToDoYearlyTasks() {
 	tr '\r' ' '>>$2
 	
 }
+
 alias schedulemetodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
 alias scheduledevtodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
 alias scheduleworktodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
@@ -543,7 +560,15 @@ alias creategitignore=creategitignore
 createProjectRepository(){
 
 	local projectType=$2	
-	read -p "enter project name and press [enter]: " projectname
+	
+	if [ $# -eq 2 ]; 
+	then
+		read -p "enter project name and press [enter]: " projectname
+	    #exit 1
+	else
+		export projectname="$3"	    
+	fi		
+	
 	mkdir -p "$1/$today-$projectname"		
 	local projectPath="$1/$today-$projectname"
 	
@@ -686,8 +711,15 @@ alias endworkingday="endday && endworkday"
 StartWeek(){
 
 	doarchive && \ 
-	bumptodoweeklyitems && \
-	scheduletodoweeklytasks && \	
+	bumptodoweeklyitems
+		
+	if [ $# -eq 0 ]; 
+	then
+		scheduletodoweeklytasks	    		
+	else
+		scheduletodoweeklytasks "$1"		
+	fi
+	
 	commitdo
 }
 
