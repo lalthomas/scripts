@@ -224,7 +224,7 @@ scheduleToDoDailyTasks() {
 	*) echo "unknown: $OSTYPE" ;;
 	esac	
 	
-	sed -n -e "s/\+day-NN/\+day-$dateNum/p" <"$1" | \
+	sed -n -e "s/day:NN/day:$dateNum/p" <"$1" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -n -e "s/^/$referencedate /p" | \
 	sort -n | \
@@ -253,7 +253,7 @@ scheduleToDoWeeklyTasks() {
 	darwin*) 
 		# OSX		
 		
-		sed -n -e "s/\+week-NN/\+week-$weekCount/p" <"$1" | \
+		sed -n -e "s/week:NN/week:$weekCount/p" <"$1" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
 		sed -e "s/^001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
 		sed -e "s/^002/$(date -j -v +1d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
@@ -269,7 +269,7 @@ scheduleToDoWeeklyTasks() {
 		;; 
 	msys*)
 		# Windows
-		sed -n -e "s/\+week-NN/\+week-$weekCount/p" <"$1" | \
+		sed -n -e "s/week:NN/week:$weekCount/p" <"$1" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
 		sed -e "s/^001/$(date +%Y-%m-%d -d "$referencedate + 0 day") &/p" | \
 		sed -e "s/^002/$(date +%Y-%m-%d -d "$referencedate + 1 day") &/p" | \
@@ -320,7 +320,7 @@ scheduleToDoMonthlyTasks() {
 		export referencedate=$(date -j -v "mon" -f '%Y-%m-%d' "$3" +%Y-%m-%d)	    
 	fi
 	
-	sed -n -e "s/\+month-NN/\+month-$monthCount/p" <"$1" | \
+	sed -n -e "s/month:NN/month:$monthCount/p" <"$1" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -e "s/^0001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
 	sed -e "s/^0002/$(date -j -v +7d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
@@ -346,7 +346,7 @@ scheduleToDoYearlyTasks() {
 		export referencedate=$(date -j -v "mon" -f '%Y-%m-%d' "$3" +%Y-%m-%d)	    
 	fi
 	
-	sed -n -e "s/\+year-NNNN/\+year-$yearCount/p" <"$1" | \
+	sed -n -e "s/year:NNNN/year:$yearCount/p" <"$1" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -e "s/^00001/$yearCount-01-01 &/p" | \
 	sed -e "s/^00002/$yearCount-02-01 &/p" | \
@@ -377,10 +377,10 @@ bumpDailyTodoItems(){
 	local todoundonefilepath=$2	
 	local temptodopath=$todofilepath-".temp"
 	
-	grep -e "\+day\-[0-9][0-9]" $todofilepath >> $todoundonefilepath
+	grep -e "\day:[0-9][0-9]" $todofilepath >> $todoundonefilepath
 	
 	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
-	sed -i '' -e "/+day\-[0-9][0-9]/d" $todofilepath
+	sed -i '' -e "/day:[0-9][0-9]/d" $todofilepath
 	
 	# cp $todofilepath $temptodopath && sed -i -e "/+day\-[0-9][0-9]/d" $temptodopath && cat  $todofilepath && rm $temptodopath
 	
@@ -397,8 +397,8 @@ bumpWeeklyTodoItems(){
 	local todofilepath=$1
 	local todoundonefilepath=$2
 	
-	grep -e "\+week\-[0-9][0-9]" $todofilepath >> $todoundonefilepath
-	sed -i '' -e "/+week\-[0-9][0-9]/d" $todofilepath
+	grep -e "\week:[0-9][0-9]" $todofilepath >> $todoundonefilepath
+	sed -i '' -e "/week:[0-9][0-9]/d" $todofilepath
 
 }
 
@@ -412,8 +412,8 @@ bumpMonthlyTodoItems(){
 	local todofilepath=$1
 	local todoundonefilepath=$2
 	
-	grep -e "\+month\-[0-9][0-9]" $todofilepath >> $todoundonefilepath
-	sed -i '' -e "/+month\-[0-9][0-9]/d" $todofilepath
+	grep -e "\month:[0-9][0-9]" $todofilepath >> $todoundonefilepath
+	sed -i '' -e "/month:[0-9][0-9]/d" $todofilepath
 
 }
 
@@ -427,8 +427,8 @@ bumpYearlyTodoItems(){
 	local todofilepath=$1
 	local todoundonefilepath=$2
 	
-	grep -e "\+year\-[0-9][0-9][0-9][0-9]" $todofilepath >> $todoundonefilepath
-	sed -i '' -e "/+year\-[0-9][0-9][0-9][0-9]/d" $todofilepath
+	grep -e "\year:[0-9][0-9][0-9][0-9]" $todofilepath >> $todoundonefilepath
+	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" $todofilepath
 
 }
 
