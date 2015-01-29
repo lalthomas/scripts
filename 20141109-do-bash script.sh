@@ -654,7 +654,7 @@ StartWorkDay(){
 	addcheckintimetoworkjournal
 
 	# Apps
-	open -a "Xcode 6.1"
+	open -a "Xcode"
 	open -a "firefox"
 	open -a "thunderbird"
 	open -a "skype"
