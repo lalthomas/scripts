@@ -288,17 +288,19 @@ scheduleToDoWeeklyTasks() {
 
 	if [ $# -eq 2 ]; 
 	then
-		export referencedate=$(date "+%Y-%m-%d")	
+		local referencedate=$(date "+%Y-%m-%d")
 	    #exit 1
 	else
-		export referencedate="$3"	    
+		local referencedate="$3"
 	fi
-	
+
+       local currentWeekCount=$(date -j -f '%Y-%m-%d' $referencedate +%V)
+
 	case "$OSTYPE" in
 	darwin*) 
 		# OSX		
 		
-		sed -n -e "s/week:NN/week:$weekCount/p" <"$1" | \
+		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$1" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
 		sed -e "s/^001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
 		sed -e "s/^002/$(date -j -v +1d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
@@ -314,7 +316,7 @@ scheduleToDoWeeklyTasks() {
 		;; 
 	msys*)
 		# Windows
-		sed -n -e "s/week:NN/week:$weekCount/p" <"$1" | \
+		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$1" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
 		sed -e "s/^001/$(date +%Y-%m-%d -d "$referencedate + 0 day") &/p" | \
 		sed -e "s/^002/$(date +%Y-%m-%d -d "$referencedate + 1 day") &/p" | \
