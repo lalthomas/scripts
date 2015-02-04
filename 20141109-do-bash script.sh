@@ -682,8 +682,7 @@ StartDay(){
 
 StartMyDay(){		
 		
-	bumpmetododailyitems && \
-	schedulemetododailytasks && \
+    # bumpmetododailyitems && \ schedulemetododailytasks
 	createmejournal	
 	
 	# GTD
@@ -697,9 +696,8 @@ alias startmeday=StartMyDay
 
 StartWorkDay(){
 
-	bumpworktododailyitems && \
-	scheduleworktododailytasks && \
-	createworkjournal  && \	
+    # bumpworktododailyitems && \	scheduleworktododailytasks
+	createworkjournal
 	addcheckintimetoworkjournal
 
 	# Apps
@@ -722,8 +720,7 @@ alias startworkday=StartWorkDay
 
 StartDevDay(){
 
-	bumpdevtododailyitems && \
-	scheduledevtododailytasks && \	
+    # bumpdevtododailyitems && \ scheduledevtododailytasks
 	createdevjournal
 	
 	# GTD
