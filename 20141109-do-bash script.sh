@@ -238,54 +238,45 @@ scheduleToDoDailyTasks() {
 	
 }
 
-scheduleBatchTodoDailyTasks() {
-
-if [ $# -eq 1 ]; 
-	then
-		schedulemetododailytasks "$1"
-		scheduledevtododailytasks "$1"
-		scheduleworktododailytasks "$1" 
-		
-	else						
-		schedulemetododailytasks
-		scheduledevtododailytasks
-		scheduleworktododailytasks								
-	fi
-
-}
-
 
 alias schedulemetododailytasks="scheduleToDoDailyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
 alias scheduledevtododailytasks="scheduleToDoDailyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
 alias scheduleworktododailytasks="scheduleToDoDailyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
+
+scheduleBatchTodoDailyTasks() {
+
+    if [ $# -eq 1 ];
+    then
+        schedulemetododailytasks "$1"
+        scheduledevtododailytasks "$1"
+        scheduleworktododailytasks "$1"
+
+    else
+        schedulemetododailytasks
+        scheduledevtododailytasks
+        scheduleworktododailytasks
+    fi
+
+}
+
 alias scheduletododailytasks="scheduleBatchTodoDailyTasks"
+
 
 addDailyTasksForTheMonth(){
 
 	local numberOfDays=$1
+    local referencedate="$yearCount-$monthCount-01"
 
-	if [ $# -eq 0 ]; 
-	then
-		export numberOfDays=30
-		export referencedate=$(date "+%Y-%m-%d")	
-	    #exit 1
-	else
-		export numberOfDays="$1"			
-		if [ $# -eq 1 ]; 
-			then
-			export referencedate=$(date "+%Y-%m-%d")	
-		    #exit 1
-		else
-			export referencedate="$2"	    
-		fi		    
-	fi
-		
 	# START=`echo $startDate | tr -d -`;	
 	for (( c=0; c<$numberOfDays; c++ ))
 	do
 		# echo -n "`date --date="$START +$c day" +%Y-%m-%d` ";
 		local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
-		#scheduletododailytasks $doDate		 	
+        schedulemetododailytasks $doDate
+        scheduledevtododailytasks $doDate
+        scheduleworktododailytasks $doDate
+        #echo $doDate
+
 	done
 	
 }
