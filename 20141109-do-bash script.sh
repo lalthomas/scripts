@@ -358,6 +358,8 @@ alias scheduletodoweeklytasks="scheduleBatchTodoWeeklyTasks"
 
 scheduleToDoMonthlyTasks() {
 
+   # TODO : add cygwin support
+
 	if [ $# -eq 2 ]; 
 	then
 		export referencedate=$(date -v -Mon "+%Y-%m-%d")
@@ -383,6 +385,8 @@ alias scheduletodomonthlytasks="schedulemetodomonthlytasks && scheduledevtodomon
 
 
 scheduleToDoYearlyTasks() {
+
+	# TODO : add cygwin support
 
 	if [ $# -eq 2 ]; 
 	then
