@@ -201,26 +201,32 @@ scheduleToDoDailyTasks() {
 
 	if [ $# -eq 2 ]; 
 	then
-		export referencedate=$(date "+%Y-%m-%d")	
+		local referencedate=$(date "+%Y-%m-%d")
 	    #exit 1
 	else
-		export referencedate="$3"	    
+		local referencedate="$3"
 	fi
 	
 	case "$OSTYPE" in
-	darwin*) 
-	# OSX
-	local dateNum=$(date -jf "%Y-%m-%d" $referencedate +"%d")
-	;; 
-	msys*) 
-	# Windows	
-	local dateNum=$(date +'%d' --date=$referencedate) 
-	;;		
-	cygwin*) 
-	# Windows	
-	local dateNum=$(date +'%d' --date=$referencedate) 	
-	;;		
-	*) echo "unknown: $OSTYPE" ;;
+
+        darwin*)
+        # OSX
+            local dateNum=$(date -jf "%Y-%m-%d" $referencedate +"%d")
+        ;;
+
+        msys*)
+        # Windows
+            local dateNum=$(date +'%d' --date=$referencedate)
+        ;;
+
+        cygwin*)
+        # Windows
+            local dateNum=$(date +'%d' --date=$referencedate)
+        ;;
+
+        *)
+            echo "unknown: $OSTYPE"
+        ;;
 	esac	
 	
 	sed -n -e "s/day:NN/day:$dateNum/p" <"$1" | \
