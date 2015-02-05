@@ -835,7 +835,6 @@ createDailyTodoPrintFile(){
 
     local dailyTasks=($( mt list "day:" | grep -oh "day:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
 
-
     for i in "${!dailyTasks[@]}"
     do
 
@@ -869,7 +868,6 @@ createDailyTodoPrintFile(){
 
 
 createWeeklyTodoPrintFile(){
-
 
     local COPYDIR="$rootpath/Docs"
     local printFile="$COPYDIR/$today-me weekly todo print list for the month.md"
@@ -913,7 +911,6 @@ createWeeklyTodoPrintFile(){
 
 
 createMonthlylyTodoPrintFile(){
-
 
     local COPYDIR="$rootpath/Docs"
     local printFile="$COPYDIR/$today-me monthly todo print list for the month.md"
