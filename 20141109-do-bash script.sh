@@ -824,6 +824,18 @@ ConvertAllFilenamesToLower(){
 alias renamedocfilenamestolowercase="ConvertAllFilenamesToLower $rootpath/docs"
 
 
+
+CreateMonthlyDailyToDoPrintFile(){
+
+    local COPYDIR="$rootpath/Docs"
+
+    for (( c=0; c<30; c++ ))
+    do
+        mt -@ -+ view context "day:$c" | sed "s/day:.*//" >>"$COPYDIR/$today-daily todo print list.md"
+    done
+
+}
+
 # remember the milk me update
 
 # mt listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "me todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
