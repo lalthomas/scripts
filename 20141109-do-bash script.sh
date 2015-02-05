@@ -833,13 +833,15 @@ createDailyTodoPrintFile(){
     echo >"$printFile"
     echo >"$printFile.html"
 
-    for (( c=1; c<=31; c++ ))
+    local dailyTasks=($( mt list "day:" | grep -oh "day:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
+
+
+    for i in "${!dailyTasks[@]}"
     do
 
-        local dayNum=$(printf "%02d" $c)
-        createMarkdownHeading "2" "Day $dayNum" "$printFile"
+        createMarkdownHeading "2" "Day ${dailyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt view context "day:$dayNum" | sed "s/day:.*//" >>"$printFile"
+        mt view context "day:${dailyTasks[i]}" | sed "s/day:.*//" >>"$printFile"
 
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
@@ -949,6 +951,44 @@ createMonthlylyTodoPrintFile(){
 
 }
 
+
+createYearlyTodoPrintFile(){
+
+    local COPYDIR="$rootpath/Docs"
+    local printFile="$COPYDIR/$today-me yearly todo print list for the month.md"
+
+    echo >"$printFile"
+    echo >"$printFile.html"
+
+    local yearlyTasks=($( mt list "year:" | grep -oh "year:[0-9][0-9][0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9][0-9][0-9]" ))
+
+    for i in "${!yearlyTasks[@]}"
+    do
+        #echo "$i=>${weeklyTasks[i]}"
+        createMarkdownHeading "2" "Year ${yearlyTasks[i]}" "$printFile"
+        # truncate characters from interating marker day which includes interating symbol (here day) context and projects
+        mt view context "year:${yearlyTasks[i]}" | sed "s/year:.*//" >>"$printFile"
+        # add page break after each day todos
+        echo "<p style='page-break-after:always;'></p>">>"$printFile"
+        printf "\n\n" >>"$printFile"
+    done
+
+    # Formatting the file
+    sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
+
+    # thanks http://stackoverflow.com/a/7567839/2182047
+    sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
+
+    # remove double space with one space
+    sed -i '' -e 's/  */ /g' "$printFile"
+
+    # add li listing
+    sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
+
+    # convert to markdown
+    pandoc -o "$printFile.html" "$printFile"
+
+}
 
 
 # remember the milk me update
