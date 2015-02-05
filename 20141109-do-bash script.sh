@@ -875,7 +875,7 @@ createWeeklyTodoPrintFile(){
     echo >"$printFile"
     echo >"$printFile.html"
 
-    weeklyTasks=($( mt list "week:" | grep -oh "week:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
+    local weeklyTasks=($( mt list "week:" | grep -oh "week:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
 
     for i in "${!weeklyTasks[@]}"
     do
@@ -919,7 +919,7 @@ createMonthlylyTodoPrintFile(){
     echo >"$printFile"
     echo >"$printFile.html"
 
-    monthlyTasks=($( mt list "month:" | grep -oh "month:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
+    local monthlyTasks=($( mt list "month:" | grep -oh "month:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
 
     for i in "${!monthlyTasks[@]}"
     do
