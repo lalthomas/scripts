@@ -825,7 +825,7 @@ alias renamedocfilenamestolowercase="ConvertAllFilenamesToLower $rootpath/docs"
 
 
 
-CreateMonthlyDailyToDoPrintFile(){
+createDailyTodoPrintFile(){
 
     local COPYDIR="$rootpath/Docs"
     local printFile="$COPYDIR/$today-me daily todo print list for the month.md"
