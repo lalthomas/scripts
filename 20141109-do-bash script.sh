@@ -417,10 +417,29 @@ scheduleToDoYearlyTasks() {
 	
 }
 
+
 alias schedulemetodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
 alias scheduledevtodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
 alias scheduleworktodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
-alias scheduletodoyearlytasks="schedulemetodoyearlytasks && scheduledevtodoyearlytasks && scheduleworktodoyearlytasks"
+
+
+scheduleBatchTodoYearlyTasks() {
+
+    if [ $# -eq 1 ];
+    then
+        schedulemetodoyearlytasks "$1"
+        scheduledevtodoyearlytasks "$1"
+        scheduleworktodoyearlytasks "$1"
+    else
+        schedulemetodoyearlytasks
+        scheduledevtodoyearlytasks
+        scheduleworktodoyearlytasks
+    fi
+
+}
+
+
+alias scheduletodoyearlytasks="scheduleBatchTodoYearlyTasks"
 
 bumpDailyTodoItems(){
 
