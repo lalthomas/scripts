@@ -865,6 +865,51 @@ createDailyTodoPrintFile(){
 
 }
 
+
+createWeeklyTodoPrintFile(){
+
+
+    local COPYDIR="$rootpath/Docs"
+    local printFile="$COPYDIR/$today-me weekly todo print list for the month.md"
+
+    echo >"$printFile"
+    echo >"$printFile.html"
+
+    weeklyTasks=($( mt list "week:" | grep -oh "week:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
+
+    for i in "${!weeklyTasks[@]}"
+    do
+        #echo "$i=>${weeklyTasks[i]}"
+
+        createMarkdownHeading "2" "Week ${weeklyTasks[i]}" "$printFile"
+        # truncate characters from interating marker day which includes interating symbol (here day) context and projects
+        mt view context "week:${weeklyTasks[i]}" | sed "s/week:.*//" >>"$printFile"
+
+        # add page break after each day todos
+        echo "<p style='page-break-after:always;'></p>">>"$printFile"
+        printf "\n\n" >>"$printFile"
+
+    done
+
+    # Formatting the file
+    sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
+
+    # thanks http://stackoverflow.com/a/7567839/2182047
+    sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
+
+    # remove double space with one space
+    sed -i '' -e 's/  */ /g' "$printFile"
+
+    # add li listing
+    sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
+
+    # convert to markdown
+    pandoc -o "$printFile.html" "$printFile"
+
+
+}
+
+
 # remember the milk me update
 
 # mt listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "me todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
