@@ -988,6 +988,34 @@ createYearlyTodoPrintFile(){
 
 }
 
+
+createNonRecuringTodoPrintFile(){
+
+    local COPYDIR="$rootpath/Docs"
+    local printFile="$COPYDIR/$today-me yearly todo print list for projects.md"
+
+    # \:\|month\:\|week\:\|day\:
+    mt -+ -p view project | sed -e '/year:/d' | sed -e '/month:/d' | sed -e '/week:/d' | sed -e '/day:/d'  >>"$printFile"
+
+    # Formatting the file
+    sed -i '' -e "s/=====  Projects  =====//" "$printFile"
+
+    # thanks http://stackoverflow.com/a/7567839/2182047
+    sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
+
+    # remove double space with one space
+    sed -i '' -e 's/  */ /g' "$printFile"
+
+    # add li listing
+    sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
+
+    # convert to markdown
+    pandoc -o "$printFile.html" "$printFile"
+
+
+}
+
+
 createContextList(){
 
     local context=$1
