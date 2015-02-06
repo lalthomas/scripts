@@ -777,8 +777,8 @@ alias endworkingday="endday && endworkday"
 
 StartWeek(){
 
-	doarchive && \ 
-	bumptodoweeklyitems
+	doarchive
+    #bumptodoweeklyitems
 		
 	if [ $# -eq 0 ]; 
 	then
