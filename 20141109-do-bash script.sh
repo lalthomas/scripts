@@ -845,7 +845,7 @@ createDailyTodoPrintFile(){
 
         createMarkdownHeading "2" "Day ${dailyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt view context "day:${dailyTasks[i]}" | sed "s/day:.*//" >>"$printFile"
+        mt -p view context "day:${dailyTasks[i]}" | sed "s/day:.*//" >>"$printFile"
 
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
@@ -888,7 +888,7 @@ createWeeklyTodoPrintFile(){
 
         createMarkdownHeading "2" "Week ${weeklyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt view context "week:${weeklyTasks[i]}" | sed "s/week:.*//" >>"$printFile"
+        mt -p view context "week:${weeklyTasks[i]}" | sed "s/week:.*//" >>"$printFile"
 
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
@@ -930,7 +930,7 @@ createMonthlylyTodoPrintFile(){
         #echo "$i=>${weeklyTasks[i]}"
         createMarkdownHeading "2" "Month ${monthlyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt view context "month:${monthlyTasks[i]}" | sed "s/month:.*//" >>"$printFile"
+        mt -p view context "month:${monthlyTasks[i]}" | sed "s/month:.*//" >>"$printFile"
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
         printf "\n\n" >>"$printFile"
@@ -969,7 +969,7 @@ createYearlyTodoPrintFile(){
         #echo "$i=>${weeklyTasks[i]}"
         createMarkdownHeading "2" "Year ${yearlyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt view context "year:${yearlyTasks[i]}" | sed "s/year:.*//" >>"$printFile"
+        mt -p view context "year:${yearlyTasks[i]}" | sed "s/year:.*//" >>"$printFile"
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
         printf "\n\n" >>"$printFile"
