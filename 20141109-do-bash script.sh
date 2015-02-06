@@ -6,6 +6,9 @@
 
 # initialize global variables 
 
+
+# do scripts varaibles
+
 today=$(date "+%Y%m%d")
 longdate=$(date "+%Y-%m-%d")
 
@@ -17,6 +20,9 @@ yearCount=$(date +'%Y')
 
 dayOfWeekLowerCase=$(date +%A | sed -e 's/\(.*\)/\L\1/')
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
+# find the OS type for rootpath
 
 case "$OSTYPE" in
 	darwin*) 
@@ -56,11 +62,37 @@ workjournalfilepath="$rootpath/docs/$workjournalfilename"
 yesterdayPersonalJournalFilename=$yesterday-$dayofWeekYesterday" personal journal"$extension
 yesterdayPersonalJournalFilepath="$rootpath/docs/$yesterdayPersonalJournalFilename"
 
+### bash
+
+alias clearhistory="history -c"
+alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash history.txt'"
+
+### todo.txt
+
+alias dt='sh "$rootpath/Do/dev/todo.sh"'
+alias mt='sh "$rootpath/Do/me/todo.sh"'
+alias wt='sh "$rootpath/Do/work/todo.sh"'
+alias doarchive="mt archive && wt archive && dt archive"
+alias addddoreport="mt report && wt report && dt report"
+alias devtodo='sh $rootpath/Do/dev/todo.sh list'
+alias metodo='sh $rootpath/Do/me/todo.sh list'
+alias worktodo='sh $rootpath/Do/work/todo.sh list'
+
+alias devtodobirdseyereport="dt birdseye > '$rootpath/docs/$today-dev todo birdseye report for week-$weekCount.md'"
+alias metodobirdseyereport="mt birdseye > '$rootpath/docs/$today-me todo birdseye report for week-$weekCount.md'"
+alias worktodobirdseyereport="wt birdseye > '$rootpath/docs/$today-work todo birdseye report for week-$weekCount.md'"
+alias addtodobirdseyereport="devtodobirdseyereport && metodobirdseyereport && worktodobirdseyereport"
+
+
+# Start utility functions
+
 mailtopocket() {
 	echo "$1" | mail -s "$1" "add@getpocket.com"
 }
 alias mailtopocket=mailtopocket
 
+
+# markdown utility functions
 
 printTrailingCharacter(){
 
@@ -117,6 +149,8 @@ createMarkdownHeading(){
   
 }
 
+# journal utlity functions
+
 createjournalfile(){
 
 	local COPYDIR="$rootpath/Docs"
@@ -169,33 +203,33 @@ createjournalfile(){
 		;;
 	esac
 }
+
+# //TODO : improve
+
+addMeDoneItemsToJournal(){
+
+createMarkdownHeading "2" "Done Tasks" "$personaljournalfilepath"
+mt listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$personaljournalfilepath"
+}
+
+addMeDoneItemsToYesterdayJournal(){
+
+createMarkdownHeading "2" "Done Tasks" "$yesterdayPersonalJournalFilename"
+$1 listall "x $longyesterday" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$yesterdayPersonalJournalFilename"
+}
+
+
+alias addmedoneitemstojournal="addMeDoneItemsToJournal"
+alias addmedoneitemstoyesterdayjournal="addMeDoneItemsToYesterdayJournal"
+
 alias createmejournal="createjournalfile '$rootpath/do/me' '$personaljournalfilename'"
 alias createworkjournal="createjournalfile '$rootpath/do/work' '$workjournalfilename' "
 alias createdevjournal="createjournalfile '$rootpath/do/dev' '$devjournalfilename' "
 alias createjournal="createmejournal && createworkjournal && createdevjournal"
 
-createContextList(){
 
-	local context=$1
-	local filename=$2
-	local printfile=$3
+# todo routine todo scheduling functions
 
-	echo>"$printfile"
-	createMarkdownHeading "1" "$context todo list" "$printfile" 
-	echo "*Date of Creation* : $longdate" >>"$printfile"
-	echo >>"$printfile"
-
-	grep -i "\@$context" <"$2/todo.txt" | \
-	sed -n -e "s/^\(.*\)/* &/p" >>"$printfile"
-
-	echo >>"$printfile"
-
-	grep -i "\@$context" <"$2/next.md" >>"$printfile"
-
-}
-
-alias createshoptodoprintfile="createContextList 'shop' '$rootpath/do/me' '$rootpath/docs/$today-shop list for month-$monthCount.md'"
-alias createhometodoprintfile="createContextList 'home' '$rootpath/do/me' '$rootpath/docs/$today-home list for month-$monthCount.md'"
 
 scheduleToDoDailyTasks() {
 
@@ -519,26 +553,6 @@ OrganizeBookmarks() {
 }
 alias organizebookmarks=OrganizeBookmarks
 
-### bash
-alias clearhistory="history -c"
-alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash history.txt'"
-### todo.txt
-
-
-alias dt='sh "$rootpath/Do/dev/todo.sh"'
-alias mt='sh "$rootpath/Do/me/todo.sh"'
-alias wt='sh "$rootpath/Do/work/todo.sh"'
-alias doarchive="mt archive && wt archive && dt archive"
-alias addddoreport="mt report && wt report && dt report"
-alias devtodo='sh $rootpath/Do/dev/todo.sh list'
-alias metodo='sh $rootpath/Do/me/todo.sh list'
-alias worktodo='sh $rootpath/Do/work/todo.sh list'
-
-alias devtodobirdseyereport="dt birdseye > '$rootpath/docs/$today-dev todo birdseye report for week-$weekCount.md'"
-alias metodobirdseyereport="mt birdseye > '$rootpath/docs/$today-me todo birdseye report for week-$weekCount.md'"
-alias worktodobirdseyereport="wt birdseye > '$rootpath/docs/$today-work todo birdseye report for week-$weekCount.md'"
-
-alias addtodobirdseyereport="devtodobirdseyereport && metodobirdseyereport && worktodobirdseyereport"
 
 mailPriorityToDo() {
 	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "lal.thomas.mail+todo@gmail.com"
@@ -550,23 +564,6 @@ alias maildevtodopriority="mailPriorityToDo 'dev todo' '$rootpath/Do/dev/todo.tx
 alias mailtodopriority="mailmetodopriority && mailworktodopriority && maildevtodopriority"
 
 
-# //TODO : improve
-
-addMeDoneItemsToJournal(){
-	
-	createMarkdownHeading "2" "Done Tasks" "$personaljournalfilepath"   
-	mt listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$personaljournalfilepath"
-}
-
-addMeDoneItemsToYesterdayJournal(){
-
-	createMarkdownHeading "2" "Done Tasks" "$yesterdayPersonalJournalFilename"   
-	$1 listall "x $longyesterday" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$yesterdayPersonalJournalFilename"
-}
-
-
-alias addmedoneitemstojournal="addMeDoneItemsToJournal"
-alias addmedoneitemstoyesterdayjournal="addMeDoneItemsToYesterdayJournal"
 
 ### git 
 
@@ -692,6 +689,9 @@ StartMarkdownServer(){
 alias startserverat="StartServer"
 alias startbirthdayserver="StartMarkdownServer"
 
+
+# starty of day functions
+
 StartDay(){
 	
 	commitdo
@@ -814,6 +814,9 @@ StartYear(){
 alias startyear=StartYear
 
 
+# file maniapulation functions
+
+
 ConvertAllFilenamesToLower(){
 
 	cd "$1"
@@ -823,7 +826,7 @@ ConvertAllFilenamesToLower(){
 
 alias renamedocfilenamestolowercase="ConvertAllFilenamesToLower $rootpath/docs"
 
-
+# print todo functions
 
 createDailyTodoPrintFile(){
 
@@ -986,6 +989,30 @@ createYearlyTodoPrintFile(){
     pandoc -o "$printFile.html" "$printFile"
 
 }
+
+createContextList(){
+
+    local context=$1
+    local filename=$2
+    local printfile=$3
+
+    echo>"$printfile"
+    createMarkdownHeading "1" "$context todo list" "$printfile"
+    echo "*Date of Creation* : $longdate" >>"$printfile"
+    echo >>"$printfile"
+
+    grep -i "\@$context" <"$2/todo.txt" | \
+    sed -n -e "s/^\(.*\)/* &/p" >>"$printfile"
+
+    echo >>"$printfile"
+
+    grep -i "\@$context" <"$2/next.md" >>"$printfile"
+
+}
+
+alias createshoptodoprintfile="createContextList 'shop' '$rootpath/do/me' '$rootpath/docs/$today-shop list for month-$monthCount.md'"
+alias createhometodoprintfile="createContextList 'home' '$rootpath/do/me' '$rootpath/docs/$today-home list for month-$monthCount.md'"
+
 
 
 # remember the milk me update
