@@ -69,9 +69,9 @@ alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash his
 
 ### todo.txt
 
-alias dt='sh "$rootpath/Do/dev/todo.sh" -N -f'
-alias mt='sh "$rootpath/Do/me/todo.sh" -N -f'
-alias wt='sh "$rootpath/Do/work/todo.sh" -N -f'
+alias dt='sh "$rootpath/Do/dev/todo.sh" -a -N -f'
+alias mt='sh "$rootpath/Do/me/todo.sh" -a -N -f'
+alias wt='sh "$rootpath/Do/work/todo.sh" -a -N -f'
 
 alias devtodo='dt list'
 alias metodo='mt list'
@@ -480,15 +480,11 @@ alias scheduletodoyearlytasks="scheduleBatchTodoYearlyTasks"
 bumpDailyTodoItems(){
 
 	local todofilepath=$1
-	local todoundonefilepath=$2	
-	local temptodopath=$todofilepath-".temp"
+	local todoundonefilepath=$2
 	
 	grep -e "\day:[0-9][0-9]" $todofilepath >> $todoundonefilepath
-	
 	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
 	sed -i '' -e "/day:[0-9][0-9]/d" $todofilepath
-	
-	# cp $todofilepath $temptodopath && sed -i -e "/+day\-[0-9][0-9]/d" $temptodopath && cat  $todofilepath && rm $temptodopath
 	
 }
 
@@ -699,7 +695,7 @@ StartDay(){
 	commitdo
 	commitreference
 	commitsupport
-	doarchive
+    #doarchive
 
 }
 
@@ -779,7 +775,7 @@ alias endworkingday="endday && endworkday"
 
 StartWeek(){
 
-	doarchive
+    #doarchive
     #bumptodoweeklyitems
 		
 	if [ $# -eq 0 ]; 
@@ -796,7 +792,7 @@ alias startweek=StartWeek
 
 StartMonth(){
 
-	doarchive && \ 
+    #doarchive
 	bumptodomonthlyitems && \
 	scheduletodomonthlytasks && \
 	commitdo
@@ -807,7 +803,7 @@ alias startmonth=StartMonth
 
 StartYear(){
 
-	doarchive && \ 
+    #doarchive
 	bumptodoyearlyitems && \
 	scheduletodoyearlytasks && \
 	commitdo
@@ -1014,7 +1010,6 @@ createContextList(){
 
 alias createshoptodoprintfile="createContextList 'shop' '$rootpath/do/me' '$rootpath/docs/$today-shop list for month-$monthCount.md'"
 alias createhometodoprintfile="createContextList 'home' '$rootpath/do/me' '$rootpath/docs/$today-home list for month-$monthCount.md'"
-
 
 
 # remember the milk me update
