@@ -72,9 +72,10 @@ alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash his
 alias dt='sh "$rootpath/Do/dev/todo.sh"'
 alias mt='sh "$rootpath/Do/me/todo.sh"'
 alias wt='sh "$rootpath/Do/work/todo.sh"'
-alias devtodo='sh $rootpath/Do/dev/todo.sh list'
-alias metodo='sh $rootpath/Do/me/todo.sh list'
-alias worktodo='sh $rootpath/Do/work/todo.sh list'
+
+alias devtodo='dt list'
+alias metodo='mt list'
+alias worktodo='wt list'
 
 alias doarchive="mt archive && wt archive && dt archive"
 alias adddoreport="mt report && wt report && dt report"
