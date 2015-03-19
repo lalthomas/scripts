@@ -206,27 +206,27 @@ createjournalfile(){
 
 # //TODO : improve
 
-addMeDoneItemsToJournal(){
+addMyDoneItemsToJournal(){
 
 createMarkdownHeading "2" "Done Tasks" "$personaljournalfilepath"
 mt listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$personaljournalfilepath"
 }
 
-addMeDoneItemsToYesterdayJournal(){
+addMyDoneItemsToYesterdayJournal(){
+
+## //TODO : improve
 
 createMarkdownHeading "2" "Done Tasks" "$yesterdayPersonalJournalFilename"
 $1 listall "x $longyesterday" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$yesterdayPersonalJournalFilename"
 }
 
+alias adddoneitemstomyjournal="addMyDoneItemsToJournal"
+alias adddoneitemstoyesterdaymyjournal="addMyDoneItemsToYesterdayJournal"
 
-alias addmedoneitemstojournal="addMeDoneItemsToJournal"
-alias addmedoneitemstoyesterdayjournal="addMeDoneItemsToYesterdayJournal"
-
-alias createmejournal="createjournalfile '$rootpath/do/me' '$personaljournalfilename'"
-alias createworkjournal="createjournalfile '$rootpath/do/work' '$workjournalfilename' "
-alias createdevjournal="createjournalfile '$rootpath/do/dev' '$devjournalfilename' "
-alias createjournal="createmejournal && createworkjournal && createdevjournal"
-
+alias createmyjournal="createjournalfile '$rootpath/do' '$rootpath/docs' '$personaljournalfilename'"
+alias createworkjournal="createjournalfile '$rootpath/do work' '$rootpath/docs work' '$workjournalfilename' "
+alias createdevjournal="createjournalfile '$rootpath/do dev' '$rootpath/docs dev' '$devjournalfilename' "
+alias createjournal="createjournal && createjournalwork && createjournaldev"
 
 # todo routine todo scheduling functions
 
@@ -304,15 +304,25 @@ addDailyTasksForTheMonth(){
 	# START=`echo $startDate | tr -d -`;	
 	for (( c=0; c<$numberOfDays; c++ ))
 	do
-		# echo -n "`date --date="$START +$c day" +%Y-%m-%d` ";
-		local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
-        schedulemetododailytasks $doDate
-        scheduledevtododailytasks $doDate
-        scheduleworktododailytasks $doDate
-        #echo $doDate
-
+		# echo -n "`date --date="$START +$c day" +%Y-%m-%d` ";		
+		case "$OSTYPE" in
+		 darwin*) 		
+		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
+		  # don't refactor
+		  schedulemytododailytasks $doDate
+          scheduledevtododailytasks $doDate
+          scheduleworktododailytasks $doDate        
+		;; 
+		cygwin|msys*)		
+		 # Windows		  
+		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
+		  # don't refactor
+		  schedulemytododailytasks $doDate
+          scheduledevtododailytasks $doDate
+          scheduleworktododailytasks $doDate        
+		;; 		
+	   esac		
 	done
-	
 }
 
 alias adddailytasksforthemonth="addDailyTasksForTheMonth"
@@ -328,12 +338,10 @@ scheduleToDoWeeklyTasks() {
 		local referencedate="$3"
 	fi
 
-       local currentWeekCount=$(date -j -f '%Y-%m-%d' $referencedate +%V)
-
 	case "$OSTYPE" in
 	darwin*) 
 		# OSX		
-		
+		local currentWeekCount=$(date -j -f '%Y-%m-%d' $referencedate +%V)
 		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$1" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
 		sed -e "s/^001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
@@ -348,17 +356,19 @@ scheduleToDoWeeklyTasks() {
 		tr '\r' ' '>>$2
 		
 		;; 
-	msys*)
-		# Windows
+	
+	cygwin|msys*)
+		# Windows		
+		local currentWeekCount="$(date -d"$referencedate" +%V)"
 		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$1" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
-		sed -e "s/^001/$(date +%Y-%m-%d -d "$referencedate + 0 day") &/p" | \
-		sed -e "s/^002/$(date +%Y-%m-%d -d "$referencedate + 1 day") &/p" | \
-		sed -e "s/^003/$(date +%Y-%m-%d -d "$referencedate + 2 day") &/p" | \
-		sed -e "s/^004/$(date +%Y-%m-%d -d "$referencedate + 3 day") &/p" | \
-		sed -e "s/^005/$(date +%Y-%m-%d -d "$referencedate + 4 day") &/p" | \
-		sed -e "s/^006/$(date +%Y-%m-%d -d "$referencedate + 5 day") &/p" | \
-		sed -e "s/^007/$(date +%Y-%m-%d -d "$referencedate + 6 day") &/p" | \
+		sed -e "s/^001/$(date +%Y-%m-%d --d "$referencedate + 0 day") &/p" | \
+		sed -e "s/^002/$(date +%Y-%m-%d --d "$referencedate + 1 day") &/p" | \
+		sed -e "s/^003/$(date +%Y-%m-%d --d "$referencedate + 2 day") &/p" | \
+		sed -e "s/^004/$(date +%Y-%m-%d --d "$referencedate + 3 day") &/p" | \
+		sed -e "s/^005/$(date +%Y-%m-%d --d "$referencedate + 4 day") &/p" | \
+		sed -e "s/^006/$(date +%Y-%m-%d --d "$referencedate + 5 day") &/p" | \
+		sed -e "s/^007/$(date +%Y-%m-%d --d "$referencedate + 6 day") &/p" | \
 		sort -n | \
 		uniq | \
 		tr '\r' ' '>>$2
@@ -394,31 +404,42 @@ alias scheduletodoweeklytasks="scheduleBatchTodoWeeklyTasks"
 
 scheduleToDoMonthlyTasks() {
 
-   # TODO : add cygwin support
+   # add cygwin support
+
+   currentMonthFirstMonday=$(d=$(date -d `date +%Y%m"01"` +%u);date -d `date +%Y-%m-"0"$(((9-$d)%7))` '+%Y-%m-%d') # cygwin, git-bash 
+   currentMonthSecondMonday=$(date -d "$currentMonthFirstMonday 7 days" '+%Y-%m-%d')
+   currentMonthThirdMonday=$(date -d "$currentMonthFirstMonday 14 days" '+%Y-%m-%d')
+   currentMonthFourthMonday=$(date -d "$currentMonthFirstMonday 21 days" '+%Y-%m-%d')
 
 	if [ $# -eq 2 ]; 
 	then
-		export referencedate=$(date -v -Mon "+%Y-%m-%d")
+		export referencedate=$(date -v -Mon "+%Y-%m-%d") # we get the current week's Monday
 	else
 		export referencedate=$(date -j -v "mon" -f '%Y-%m-%d' "$3" +%Y-%m-%d)	    
 	fi
 	
 	sed -n -e "s/month:NN/month:$monthCount/p" <"$1" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
-	sed -e "s/^0001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-	sed -e "s/^0002/$(date -j -v +7d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-	sed -e "s/^0003/$(date -j -v +14d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-	sed -e "s/^0004/$(date -j -v +21d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+	sed -e "s/^0001/$currentMonthFirstMonday &/p" | \
+	sed -e "s/^0002/$currentMonthSecondMonday &/p" | \
+	sed -e "s/^0003/$currentMonthThirdMonday &/p" | \
+	sed -e "s/^0004/$currentMonthFourthMonday &/p" | \
+
+#	sed -e "s/^0001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+#	sed -e "s/^0002/$(date -j -v +7d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+#	sed -e "s/^0003/$(date -j -v +14d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+#	sed -e "s/^0004/$(date -j -v +21d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
+
 	sort -n | \
 	uniq | \
 	tr '\r' ' '>>$2
 	
 }
-alias schedulemetodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
-alias scheduledevtodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
-alias scheduleworktodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
-alias scheduletodomonthlytasks="schedulemetodomonthlytasks && scheduledevtodomonthlytasks && scheduleworktodomonthlytasks"
 
+alias schedulemytodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
+alias scheduledevtodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
+alias scheduleworktodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
+alias scheduletodomonthlytasks="schedulemetodomonthlytasks && scheduledevtodomonthlytasks && scheduleworktodomonthlytasks"
 
 scheduleToDoYearlyTasks() {
 
@@ -545,17 +566,14 @@ OrganizeBookmarks() {
 }
 alias organizebookmarks=OrganizeBookmarks
 
-
 mailPriorityToDo() {
-	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "lal.thomas.mail+todo@gmail.com"
+	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "$3"
 }
 
-alias mailmetodopriority="mailPriorityToDo 'me todo' '$rootpath/Do/me/todo.txt'" 
-alias mailworktodopriority="mailPriorityToDo 'work todo' '$rootpath/Do/work/todo.txt'" 
-alias maildevtodopriority="mailPriorityToDo 'dev todo' '$rootpath/Do/dev/todo.txt'" 
+alias mailmytodoprioritylist="mailPriorityToDo 'my todo' '$rootpath/do/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
+alias mailworktodoprioritylist="mailPriorityToDo 'work todo' '$rootpath/do work/todo.txt' 'lalt@rapidvaluesolutions.com@gmail.com'"
+alias maildevtodoprioritylist="mailPriorityToDo 'dev todo' '$rootpath/do dev/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
 alias mailtodopriority="mailmetodopriority && mailworktodopriority && maildevtodopriority"
-
-
 
 ### git 
 
@@ -622,21 +640,26 @@ curl -L -s "https://www.gitignore.io/api/$@"
 
 alias creategitignore=creategitignore
 
-
 createProjectRepository(){
 
-	local projectType=$2	
+	local projectType=$1	
 	
-	if [ $# -eq 2 ]; 
-	then
-		read -p "enter project name and press [enter]: " projectname
-	    #exit 1
-	else
-		export projectname="$3"	    
-	fi		
+	if [ $# -eq 1 ];
+	then	
+		location=pwd		
+	else 
+		location=$2		
+		if [ $# -eq 2 ]; 
+			then
+			read -p "enter project name and press [enter]: " projectname
+		    #exit 1
+		else
+			export projectname="$3"	    
+		fi		
+	fi
 	
-	mkdir -p "$1/$today-$projectname"		
-	local projectPath="$1/$today-$projectname"
+	mkdir -p "$location/$today-$projectname"		
+	local projectPath="$location/$today-$projectname"
 	
 	createMarkdownHeading "1" "ReadMe" "$projectPath/readme.md"
 
@@ -656,14 +679,13 @@ createProjectRepository(){
 	echo "project repo created successfully"
 }
 
-alias createxcodeproject="createProjectRepository '$rootpath/Office' 'xcode'"
-
+alias createxcodeproject="createProjectRepository 'xcode'"
+alias createxcodeprojectlabwork="createProjectRepository 'xcode' '$rootpath/lab work/'"
 
 AddTimeToFile(){
 
 	local tag=$1
 	local filename=$2
-
 	echo "* $tag : $(date +'%T')" >> "$filename"
 
 }
@@ -832,17 +854,17 @@ createDailyTodoPrintFile(){
 
     done
 
-    # Formatting the file
-    sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
+    # Formatting the file - remove context heading
+    # sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
 
     # thanks http://stackoverflow.com/a/7567839/2182047
-    sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
+    # sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
 
     # remove double space with one space
-    sed -i '' -e 's/  */ /g' "$printFile"
+    # sed -i '' -e 's/  */ /g' "$printFile"
 
     # add li listing
-    sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
+    # sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
 
     # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
@@ -853,7 +875,7 @@ createDailyTodoPrintFile(){
 
 createWeeklyTodoPrintFile(){
 
-    local COPYDIR="$rootpath/Docs"
+    local COPYDIR="$rootpath/docs"
     local printFile="$COPYDIR/$today-me weekly todo print list for the month.md"
 
     echo >"$printFile"
@@ -865,9 +887,9 @@ createWeeklyTodoPrintFile(){
     do
         #echo "$i=>${weeklyTasks[i]}"
 
-        createMarkdownHeading "2" "Week ${weeklyTasks[i]}" "$printFile"
+        createMarkdownHeading "1" "Week ${weeklyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt -p view context "week:${weeklyTasks[i]}" | sed "s/week:.*//" >>"$printFile"
+        mt mdview context "week:${weeklyTasks[i]}" | sed "s/week:.*//" >>"$printFile"
 
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
@@ -876,16 +898,16 @@ createWeeklyTodoPrintFile(){
     done
 
     # Formatting the file
-    sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
+    #sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
 
     # thanks http://stackoverflow.com/a/7567839/2182047
-    sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
+    #sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
 
     # remove double space with one space
-    sed -i '' -e 's/  */ /g' "$printFile"
+    #sed -i '' -e 's/  */ /g' "$printFile"
 
     # add li listing
-    sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
+    #sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
 
     # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
@@ -896,7 +918,7 @@ createWeeklyTodoPrintFile(){
 
 createMonthlylyTodoPrintFile(){
 
-    local COPYDIR="$rootpath/Docs"
+    local COPYDIR="$rootpath/docs"
     local printFile="$COPYDIR/$today-me monthly todo print list for the month.md"
 
     echo >"$printFile"
@@ -907,25 +929,25 @@ createMonthlylyTodoPrintFile(){
     for i in "${!monthlyTasks[@]}"
     do
         #echo "$i=>${weeklyTasks[i]}"
-        createMarkdownHeading "2" "Month ${monthlyTasks[i]}" "$printFile"
+        createMarkdownHeading "1" "Month ${monthlyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt -p view context "month:${monthlyTasks[i]}" | sed "s/month:.*//" >>"$printFile"
+        mt mdview context "month:${monthlyTasks[i]}" | sed "s/month:.*//" >>"$printFile"
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
         printf "\n\n" >>"$printFile"
     done
 
     # Formatting the file
-    sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
+    #sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
 
     # thanks http://stackoverflow.com/a/7567839/2182047
-    sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
+    #sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
 
     # remove double space with one space
-    sed -i '' -e 's/  */ /g' "$printFile"
+    #sed -i '' -e 's/  */ /g' "$printFile"
 
     # add li listing
-    sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
+    #sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
 
     # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
@@ -935,7 +957,7 @@ createMonthlylyTodoPrintFile(){
 
 createYearlyTodoPrintFile(){
 
-    local COPYDIR="$rootpath/Docs"
+    local COPYDIR="$rootpath/docs"
     local printFile="$COPYDIR/$today-me yearly todo print list for the month.md"
 
     echo >"$printFile"
@@ -946,25 +968,25 @@ createYearlyTodoPrintFile(){
     for i in "${!yearlyTasks[@]}"
     do
         #echo "$i=>${weeklyTasks[i]}"
-        createMarkdownHeading "2" "Year ${yearlyTasks[i]}" "$printFile"
+        createMarkdownHeading "1" "Year ${yearlyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt -p view context "year:${yearlyTasks[i]}" | sed "s/year:.*//" >>"$printFile"
+        mt mdview context "year:${yearlyTasks[i]}" | sed "s/year:.*//" >>"$printFile"
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
         printf "\n\n" >>"$printFile"
     done
 
     # Formatting the file
-    sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
+    # sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
 
     # thanks http://stackoverflow.com/a/7567839/2182047
-    sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
+    # sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
 
     # remove double space with one space
-    sed -i '' -e 's/  */ /g' "$printFile"
+    # sed -i '' -e 's/  */ /g' "$printFile"
 
     # add li listing
-    sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
+    # sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
 
     # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
