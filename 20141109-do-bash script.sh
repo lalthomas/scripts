@@ -272,21 +272,20 @@ scheduleToDoDailyTasks() {
 	
 }
 
-
-alias schedulemetododailytasks="scheduleToDoDailyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
-alias scheduledevtododailytasks="scheduleToDoDailyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
-alias scheduleworktododailytasks="scheduleToDoDailyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
+alias schedulemytododailytasks="scheduleToDoDailyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
+alias scheduledevtododailytasks="scheduleToDoDailyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
+alias scheduleworktododailytasks="scheduleToDoDailyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
 
 scheduleBatchTodoDailyTasks() {
 
     if [ $# -eq 1 ];
     then
-        schedulemetododailytasks "$1"
+        schedulemytododailytasks "$1"
         scheduledevtododailytasks "$1"
         scheduleworktododailytasks "$1"
 
     else
-        schedulemetododailytasks
+        schedulemytododailytasks
         scheduledevtododailytasks
         scheduleworktododailytasks
     fi
@@ -381,25 +380,26 @@ scheduleToDoWeeklyTasks() {
 	
 }
 
+alias schedulemytodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
+alias scheduledevtodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
+alias scheduleworktodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
+
 scheduleBatchTodoWeeklyTasks() {
 
 if [ $# -eq 1 ]; 
 	then
-		schedulemetodoweeklytasks "$1"
+		schedulemytodoweeklytasks "$1"
 		scheduledevtodoweeklytasks "$1"
 		scheduleworktodoweeklytasks "$1" 
 		
 	else						
-		schedulemetodoweeklytasks
+		schedulemytodoweeklytasks
 		scheduledevtodoweeklytasks
 		scheduleworktodoweeklytasks								
 	fi
 
 }
 
-alias schedulemetodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
-alias scheduledevtodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
-alias scheduleworktodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
 alias scheduletodoweeklytasks="scheduleBatchTodoWeeklyTasks"
 
 scheduleToDoMonthlyTasks() {
