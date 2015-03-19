@@ -57,7 +57,7 @@ workjournalfilename=$today-$dayOfWeeK" work journal"$extension
 devjournalfilename=$today-$dayOfWeeK" dev journal"$extension
 
 personaljournalfilepath="$rootpath/docs/$personaljournalfilename"
-workjournalfilepath="$rootpath/docs/$workjournalfilename"
+workjournalfilepath="$rootpath/docs work/$workjournalfilename"
 
 yesterdayPersonalJournalFilename=$yesterday-$dayofWeekYesterday" personal journal"$extension
 yesterdayPersonalJournalFilepath="$rootpath/docs/$yesterdayPersonalJournalFilename"
@@ -69,22 +69,22 @@ alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash his
 
 ### todo.txt
 
-alias dt='sh "$rootpath/Do/dev/todo.sh" -a -N -f'
-alias mt='sh "$rootpath/Do/me/todo.sh" -a -N -f'
-alias wt='sh "$rootpath/Do/work/todo.sh" -a -N -f'
+alias mt='sh "$rootpath/do/todo.sh" -a -N -f'
+alias dt='sh "$rootpath/do dev/todo.sh" -a -N -f'
+alias wt='sh "$rootpath/do office/todo.sh" -a -N -f'
 
 alias devtodo='dt list'
-alias metodo='mt list'
+alias mytodo='mt list'
 alias worktodo='wt list'
 
 alias doarchive="mt archive && wt archive && dt archive"
 alias adddoreport="mt report && wt report && dt report"
 
-alias devtodobirdseyereport="dt birdseye > '$rootpath/docs/$today-dev todo birdseye report for week-$weekCount.md'"
-alias metodobirdseyereport="mt birdseye > '$rootpath/docs/$today-me todo birdseye report for week-$weekCount.md'"
-alias worktodobirdseyereport="wt birdseye > '$rootpath/docs/$today-work todo birdseye report for week-$weekCount.md'"
-alias addtodobirdseyereport="devtodobirdseyereport && metodobirdseyereport && worktodobirdseyereport"
+alias mytodobirdseyereport="mt birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
+alias devtodobirdseyereport="dt birdseye > '$rootpath/docs dev/$today-dev todo birdseye report for week-$weekCount.md'"
+alias worktodobirdseyereport="wt birdseye > '$rootpath/docs work/$today-work todo birdseye report for week-$weekCount.md'"
 
+alias addtodobirdseyereport="mytodobirdseyereport && worktodobirdseyereport && devtodobirdseyereport"
 
 # Start utility functions
 
@@ -155,11 +155,11 @@ createMarkdownHeading(){
 
 createjournalfile(){
 
-	local COPYDIR="$rootpath/Docs"
 	local todofolder="$1"
-	local journalname="$2"
+	local copydir="$2"
+	local journalname="$3"
 	local todofilepath="$todofolder/todo.txt"
-	local journalpath="$todofolder/$journalname"
+	local journalpath="$copydir/$journalname"
 	local plannerfilepath="$todofolder/planner.md"
 	local sectionplannerfilepath="$todofolder/journal.md"	
 
@@ -167,10 +167,9 @@ createjournalfile(){
 
 
 	# check if file exists or not
-	if [ ! -f "$COPYDIR"/"$journalname" ];then
+	if [ ! -f "$copydir"/"$journalname" ];then
 
-	  createMarkdownHeading "1" "$today" "$journalpath"
-	  
+	  createMarkdownHeading "1" "$today" "$journalpath"	  
 	  createMarkdownHeading "2" "Scheduled Tasks" "$journalpath"   
 	  
 	  # Dump the today's scheduled task to todo.txt and extra line breaks	  
@@ -179,13 +178,12 @@ createjournalfile(){
 
 	  # Read input file into a string variable. 
 	  # Thanks : http://stackoverflow.com/a/2789399/2182047  
-	  copyfilecontent=$(cat $sectionplannerfilepath)
+	  copyfilecontent=$(cat "$sectionplannerfilepath")
 	  #copy contents to journal file
 	  printf "$copyfilecontent" >>"$journalpath"  
 	  # add two blank line
-	  printf "\n\n" >>"$journalpath"	  	  
- 	  
-	  mv "$journalpath" "$COPYDIR"/"$journalname"
+	  printf "\n\n" >>"$journalpath"	  	   	  
+	  mv "$journalpath" "$copydir"/"$journalname"
 
 	fi
 
@@ -194,11 +192,11 @@ createjournalfile(){
 	case "$OSTYPE" in
 	darwin*) 
 		# OSX		
-		open "$COPYDIR"/"$journalname"		
+		open "$copydir"/"$journalname"		
 		;; 
 	msys*)
 		# Windows
-		start "" "$COPYDIR"/"$journalname"
+		start "" "$copydir"/"$journalname"
 		;; 		
 	*) 
 		echo "unknown: $OSTYPE" 
@@ -453,27 +451,25 @@ scheduleToDoYearlyTasks() {
 	
 }
 
-
-alias schedulemetodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/me/planner.md' '$rootpath/Do/me/todo.txt'"
-alias scheduledevtodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/dev/planner.md' '$rootpath/Do/dev/todo.txt'"
-alias scheduleworktodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/Do/work/planner.md' '$rootpath/Do/work/todo.txt'"
+alias schedulemytodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
+alias scheduledevtodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
+alias scheduleworktodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
 
 
 scheduleBatchTodoYearlyTasks() {
 
     if [ $# -eq 1 ];
     then
-        schedulemetodoyearlytasks "$1"
+        schedulemytodoyearlytasks "$1"
         scheduledevtodoyearlytasks "$1"
         scheduleworktodoyearlytasks "$1"
     else
-        schedulemetodoyearlytasks
+        schedulemytodoyearlytasks
         scheduledevtodoyearlytasks
         scheduleworktodoyearlytasks
     fi
 
 }
-
 
 alias scheduletodoyearlytasks="scheduleBatchTodoYearlyTasks"
 
@@ -488,11 +484,10 @@ bumpDailyTodoItems(){
 	
 }
 
-alias bumpmetododailyitems="bumpDailyTodoItems  '$rootpath/Do/me/todo.txt' '$rootpath/Do/me/undone.txt' "
-alias bumpdevtododailyitems="bumpDailyTodoItems  '$rootpath/Do/dev/todo.txt' '$rootpath/Do/dev/undone.txt' "
-alias bumpworktododailyitems="bumpDailyTodoItems  '$rootpath/Do/work/todo.txt' '$rootpath/Do/work/undone.txt' "
+alias bumpmytododailyitems="bumpDailyTodoItems  '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpdevtododailyitems="bumpDailyTodoItems  '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
+alias bumpworktododailyitems="bumpDailyTodoItems  '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
 alias bumptododailyitems="bumpmetododailyitems && bumpdevtododailyitems && bumpworktododailyitems"
-
 
 bumpWeeklyTodoItems(){
 
@@ -504,9 +499,9 @@ bumpWeeklyTodoItems(){
 
 }
 
-alias bumpmetodoweeklyitems="bumpWeeklyTodoItems  '$rootpath/Do/me/todo.txt' '$rootpath/Do/me/undone.txt' "
-alias bumpdevtodoweeklyitems="bumpWeeklyTodoItems  '$rootpath/Do/dev/todo.txt' '$rootpath/Do/dev/undone.txt' "
-alias bumpworktodoweeklyitems="bumpWeeklyTodoItems  '$rootpath/Do/work/todo.txt' '$rootpath/Do/work/undone.txt' "
+alias bumpmytodoweeklyitems="bumpWeeklyTodoItems  '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpdevtodoweeklyitems="bumpWeeklyTodoItems  '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
+alias bumpworktodoweeklyitems="bumpWeeklyTodoItems  '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
 alias bumptodoweeklyitems="bumpmetodoweeklyitems && bumpdevtodoweeklyitems && bumpworktodoweeklyitems"
 
 bumpMonthlyTodoItems(){
@@ -519,9 +514,9 @@ bumpMonthlyTodoItems(){
 
 }
 
-alias bumpmetodomonthlyitems="bumpMonthlyTodoItems '$rootpath/Do/me/todo.txt' '$rootpath/Do/me/undone.txt' "
-alias bumpdevtodomonthlyitems="bumpMonthlyTodoItems '$rootpath/Do/dev/todo.txt' '$rootpath/Do/dev/undone.txt' "
-alias bumpworktodomonthlyitems="bumpMonthlyTodoItems '$rootpath/Do/work/todo.txt' '$rootpath/Do/work/undone.txt' "
+alias bumpmytodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpdevtodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
+alias bumpworktodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
 alias bumptodomonthlyitems="bumpmetodomonthlyitems && bumpdevtodomonthlyitems && bumpworktodomonthlyitems"
 
 bumpYearlyTodoItems(){
@@ -534,11 +529,10 @@ bumpYearlyTodoItems(){
 
 }
 
-alias bumpmetodoyearlyitems="bumpYearlyTodoItems '$rootpath/Do/me/todo.txt' '$rootpath/Do/me/undone.txt' "
-alias bumpdevtodoyearlyitems="bumpYearlyTodoItems '$rootpath/Do/dev/todo.txt' '$rootpath/Do/dev/undone.txt' "
-alias bumpworktodoyearlyitems="bumpYearlyTodoItems '$rootpath/Do/work/todo.txt' '$rootpath/Do/work/undone.txt' "
+alias bumpmytodoyearlyitems="bumpYearlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpdevtodoyearlyitems="bumpYearlyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
+alias bumpworktodoyearlyitems="bumpYearlyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
 alias bumptodoyearlyitems="bumpmetodoyearlyitems && bumpdevtodoyearlyitems && bumpworktodoyearlyitems"
-
 
 ## bookmarks
 OrganizeBookmarks() {
@@ -588,9 +582,18 @@ commitGitRepoChanges(){
 	
 }
 
-alias commitdo="commitGitRepoChanges '$rootpath/Do/'"
-alias commitreference="commitGitRepoChanges '$rootpath/Reference/'"
-alias commitsupport="commitGitRepoChanges '$rootpath/Support/'"
+alias commitdo="commitGitRepoChanges '$rootpath/do/'"
+alias commitdowork="commitGitRepoChanges '$rootpath/do work/'"
+alias commitdodev="commitGitRepoChanges '$rootpath/do dev/'"
+
+alias commitreference="commitGitRepoChanges '$rootpath/reference/'"
+alias commitreferencework="commitGitRepoChanges '$rootpath/reference work/'"
+alias commitreferencedev="commitGitRepoChanges '$rootpath/reference dev/'"
+
+alias commitsupport="commitGitRepoChanges '$rootpath/support/'"
+alias commitsupportwork="commitGitRepoChanges '$rootpath/support work/'"
+alias commitsupportdev="commitGitRepoChanges '$rootpath/Support dev/'"
+
 alias commitscript="commitGitRepoChanges '$rootpath/scripts/source'"
 
 createArticleRepository(){
@@ -604,13 +607,11 @@ createArticleRepository(){
 	
 }
 
-
-alias createblogpost="createArticleRepository '$rootpath/Blog'"
-alias createwikiarticle="createArticleRepository '$rootpath/Office Wiki'"
-
+alias createblogpost="createArticleRepository '$rootpath/blog'"
+alias createblogpostwork="createArticleRepository '$rootpath/blog work'"
+alias createblogpostdev="createArticleRepository '$rootpath/blog dev'"
 
 # thanks https://www.gitignore.io/docs
-
 # run creategitignore xcode >.gitignore
 
 function creategitignore() { 
@@ -690,49 +691,44 @@ alias startbirthdayserver="StartMarkdownServer"
 
 # starty of day functions
 
-StartDay(){
-	
-	commitdo
-	commitreference
-	commitsupport
-    #doarchive
-
-}
-
 StartMyDay(){		
 		
     # bumpmetododailyitems && \ schedulemetododailytasks
-	createmejournal	
+    
+    commitdo 
+    commitreference
+    commitsupport   
+	createmyjournal		
 	
 	# GTD
-	open "$rootpath/do/me/next.txt"
-	open "$rootpath/do/me/contexts.md"
-	open "$rootpath/do/me/projects.md"
+	open "$rootpath/do/next.txt"
+	open "$rootpath/do/contexts.md"
+	open "$rootpath/do/projects.md"
 	
 }
-alias startmeday=StartMyDay
-
+alias startmyday="StartMyDay && startbirthdayserver"
 
 StartWorkDay(){
 
     # bumpworktododailyitems && \	scheduleworktododailytasks
+	commitdowork 
+    commitreferencework
+    commitsupportwork	
 	createworkjournal
 	addcheckintimetoworkjournal
+	
+	# GTD
+	open "$rootpath/do work/next.txt"
+	open "$rootpath/do work/contexts.md"
+	open "$rootpath/do work/projects.md"
 
 	# Apps
 	open -a "Xcode"
 	open -a "firefox"
 	open -a "thunderbird"
-	open -a "skype"
 	open -a "todotxtmac"
+	# open -a "skype"
 	#open -a "Momentics"
-
-	# GTD
-	open "$rootpath/do/work/next.txt"
-	open "$rootpath/do/work/contexts.md"
-	open "$rootpath/do/work/projects.md"
-
-
 }
 
 alias startworkday=StartWorkDay
@@ -740,28 +736,19 @@ alias startworkday=StartWorkDay
 StartDevDay(){
 
     # bumpdevtododailyitems && \ scheduledevtododailytasks
+    commitdodev
+    commitreferencedev
+    commitsupportdev	
 	createdevjournal
 	
 	# GTD
-	open "$rootpath/do/dev/next.txt"
-	open "$rootpath/do/dev/contexts.md"
-	open "$rootpath/do/dev/projects.md"
+	open "$rootpath/do dev/next.txt"
+	open "$rootpath/do dev/contexts.md"
+	open "$rootpath/do dev/projects.md"
 
 }
 
-
-alias startworkingday="StartDay && startmeday && startworkday && startbirthdayserver"
-alias startholiday="StartDay && startmeday && startbirthdayserver"
-
-
-EndDay(){
-
-	echo ""
-
-}
-
-alias endday=EndDay
-
+alias startdevday=StartDevDay
 
 EndWorkDay(){
 
@@ -771,49 +758,43 @@ EndWorkDay(){
 
 alias endworkday=EndWorkDay
 
-alias endworkingday="endday && endworkday"
-
-StartWeek(){
+StartMyWeek(){
 
     #doarchive
-    #bumptodoweeklyitems
+    #bumpmytodoweeklyitems
 		
 	if [ $# -eq 0 ]; 
 	then
-		scheduletodoweeklytasks	    		
+		schedulemytodoweeklytasks	    		
 	else
-		scheduletodoweeklytasks "$1"		
-	fi
-	
-	commitdo
+		schedulemytodoweeklytasks "$1"		
+	fi	
+	commitdo	
 }
 
-alias startweek=StartWeek
+alias startweek=StartMyWeek
 
-StartMonth(){
+StartMyMonth(){
 
     #doarchive
-	bumptodomonthlyitems && \
-	scheduletodomonthlytasks && \
+	bumpmytodomonthlyitems && \
+	schedulemytodomonthlytasks && \
 	commitdo
 }
 
-alias startmonth=StartMonth
+alias startmymonth=StartMyMonth
 
-
-StartYear(){
+StartMyYear(){
 
     #doarchive
-	bumptodoyearlyitems && \
-	scheduletodoyearlytasks && \
+	bumpmytodoyearlyitems && \
+	schedulemytodoyearlytasks && \
 	commitdo
 }
 
-alias startyear=StartYear
-
+alias startyear=StartMyYear
 
 # file maniapulation functions
-
 
 ConvertAllFilenamesToLower(){
 
@@ -822,7 +803,9 @@ ConvertAllFilenamesToLower(){
 
 }
 
-alias renamedocfilenamestolowercase="ConvertAllFilenamesToLower $rootpath/docs"
+alias renamedocs="ConvertAllFilenamesToLower $rootpath/docs"
+alias renamedocswork="ConvertAllFilenamesToLower $rootpath/docs work"
+alias renamedocsdev="ConvertAllFilenamesToLower $rootpath/docs dev"
 
 # print todo functions
 
@@ -839,9 +822,9 @@ createDailyTodoPrintFile(){
     for i in "${!dailyTasks[@]}"
     do
 
-        createMarkdownHeading "2" "Day ${dailyTasks[i]}" "$printFile"
+        createMarkdownHeading "1" "Day ${dailyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt -p view context "day:${dailyTasks[i]}" | sed "s/day:.*//" >>"$printFile"
+        mt mdview context "day:${dailyTasks[i]}" | sed "s/day:.*//" >>"$printFile"
 
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
@@ -991,7 +974,7 @@ createYearlyTodoPrintFile(){
 
 createNonRecuringTodoPrintFile(){
 
-    local COPYDIR="$rootpath/Docs"
+    local COPYDIR="$rootpath/docs"
     local printFile="$COPYDIR/$today-me yearly todo print list for projects.md"
 
     # \:\|month\:\|week\:\|day\:
@@ -1036,9 +1019,8 @@ createContextList(){
 
 }
 
-alias createshoptodoprintfile="createContextList 'shop' '$rootpath/do/me' '$rootpath/docs/$today-shop list for month-$monthCount.md'"
-alias createhometodoprintfile="createContextList 'home' '$rootpath/do/me' '$rootpath/docs/$today-home list for month-$monthCount.md'"
-
+alias createshoptodoprintfile="createContextList 'shop' '$rootpath/do' '$rootpath/docs/$today-shop list for month-$monthCount.md'"
+alias createhometodoprintfile="createContextList 'home' '$rootpath/do' '$rootpath/docs/$today-home list for month-$monthCount.md'"
 
 # remember the milk me update
 
