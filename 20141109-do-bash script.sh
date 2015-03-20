@@ -642,45 +642,51 @@ alias creategitignore=creategitignore
 
 createProjectRepository(){
 
-	local projectType=$1	
-	
-	if [ $# -eq 1 ];
+	local projecttype=$1
+	local location=$2
+	local projectname=$3	
+		
+	if [ $# -eq 0 ];	
 	then	
-		location=pwd		
-	else 
-		location=$2		
-		if [ $# -eq 2 ]; 
-			then
-			read -p "enter project name and press [enter]: " projectname
-		    #exit 1
-		else
-			export projectname="$3"	    
-		fi		
-	fi
+      projecttype='xcode'	
+	  location=$PWD
+	  read -p "enter project name and press [enter]: " projectname
+	else   
+   		if [ $# -eq 1 ];
+			then	
+			  location=$PWD
+			  read -p "enter project name and press [enter]: " projectname
+			else
+				if [ $# -eq 2 ]; 				
+				then
+				  read -p "enter project name and press [enter]: " projectname							 								
+				fi						
+		fi	   		   		
+    fi
 	
 	mkdir -p "$location/$today-$projectname"		
-	local projectPath="$location/$today-$projectname"
-	
-	createMarkdownHeading "1" "ReadMe" "$projectPath/readme.md"
+	local projectpath="$location/$today-$projectname"
+	createMarkdownHeading "1" "ReadMe" "$projectpath/readme.md"
 
-	case "$projectType" in
+	case "$projecttype" in
 		xcode*) 
-			creategitignore 'objective-c,osx'>"$projectPath/.gitignore" 		
+			creategitignore 'objective-c,osx'>"$projectpath/.gitignore" 		
 			;; 
 		momemtics*)		
-			echo "Momentics gitignore not made"
+			echo "momentics gitignore not made"
 		  ;;
 		*) 
 			echo "unknown: $OSTYPE" 
 		 ;;
 	esac
 	
-	createGitRepo "$projectPath" >/dev/null
+	createGitRepo "$projectpath" >/dev/null
 	echo "project repo created successfully"
+	
 }
 
 alias createxcodeproject="createProjectRepository 'xcode'"
-alias createxcodeprojectlabwork="createProjectRepository 'xcode' '$rootpath/lab work/'"
+alias createxcodeprojectatlabwork="createProjectRepository 'xcode' '$rootpath/lab work/'"
 
 AddTimeToFile(){
 
