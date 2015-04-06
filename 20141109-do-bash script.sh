@@ -508,7 +508,7 @@ bumpDailyTodoItems(){
 alias bumpmytododailyitems="bumpDailyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
 alias bumpdevtododailyitems="bumpDailyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
 alias bumpworktododailyitems="bumpDailyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptododailyitems="bumpmetododailyitems && bumpdevtododailyitems && bumpworktododailyitems"
+alias bumptododailyitems="bumpmytododailyitems && bumpdevtododailyitems && bumpworktododailyitems"
 
 bumpWeeklyTodoItems(){
 
