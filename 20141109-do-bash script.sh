@@ -523,7 +523,7 @@ bumpWeeklyTodoItems(){
 alias bumpmytodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
 alias bumpdevtodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
 alias bumpworktodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptodoweeklyitems="bumpmetodoweeklyitems && bumpdevtodoweeklyitems && bumpworktodoweeklyitems"
+alias bumptodoweeklyitems="bumpmytodoweeklyitems && bumpdevtodoweeklyitems && bumpworktodoweeklyitems"
 
 bumpMonthlyTodoItems(){
 
