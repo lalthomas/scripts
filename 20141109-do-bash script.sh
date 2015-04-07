@@ -226,7 +226,7 @@ alias adddoneitemstoyesterdaymyjournal="addMyDoneItemsToYesterdayJournal"
 alias createmyjournal="createJournalFile '$rootpath/do' '$rootpath/docs' '$personaljournalfilename'"
 alias createworkjournal="createJournalfile '$rootpath/do work' '$rootpath/docs work' '$workjournalfilename' "
 alias createdevjournal="createJournalfile '$rootpath/do dev' '$rootpath/docs dev' '$devjournalfilename' "
-alias createjournal="createjournal && createjournalwork && createjournaldev"
+alias createjournal="createmyjournal && createworkjournal && createdevjournal"
 
 # todo routine todo scheduling functions
 
