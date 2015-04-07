@@ -71,7 +71,7 @@ alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash his
 
 alias mt='sh "$rootpath/do/todo.sh" -a -N -f'
 alias dt='sh "$rootpath/do dev/todo.sh" -a -N -f'
-alias wt='sh "$rootpath/do office/todo.sh" -a -N -f'
+alias wt='sh "$rootpath/do work/todo.sh" -a -N -f'
 
 alias devtodo='dt list'
 alias mytodo='mt list'
@@ -153,7 +153,7 @@ createMarkdownHeading(){
 
 # journal utlity functions
 
-createjournalfile(){
+createJournalFile(){
 
 	local todofolder="$1"
 	local copydir="$2"
@@ -214,16 +214,16 @@ mt listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[
 
 addMyDoneItemsToYesterdayJournal(){
 
-## //TODO : improve
+	## //TODO : improve
+	createMarkdownHeading "2" "Done Tasks" "$yesterdayPersonalJournalFilename"
+	$1 listall "x $longyesterday" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$yesterdayPersonalJournalFilename"
 
-createMarkdownHeading "2" "Done Tasks" "$yesterdayPersonalJournalFilename"
-$1 listall "x $longyesterday" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$yesterdayPersonalJournalFilename"
 }
 
 alias adddoneitemstomyjournal="addMyDoneItemsToJournal"
 alias adddoneitemstoyesterdaymyjournal="addMyDoneItemsToYesterdayJournal"
 
-alias createmyjournal="createjournalfile '$rootpath/do' '$rootpath/docs' '$personaljournalfilename'"
+alias createmyjournal="createJournalFile '$rootpath/do' '$rootpath/docs' '$personaljournalfilename'"
 alias createworkjournal="createjournalfile '$rootpath/do work' '$rootpath/docs work' '$workjournalfilename' "
 alias createdevjournal="createjournalfile '$rootpath/do dev' '$rootpath/docs dev' '$devjournalfilename' "
 alias createjournal="createjournal && createjournalwork && createjournaldev"
@@ -496,8 +496,8 @@ alias scheduletodoyearlytasks="scheduleBatchTodoYearlyTasks"
 
 bumpDailyTodoItems(){
 
-	local todofilepath=$1
-	local todoundonefilepath=$2
+	local todofilepath="$1"
+	local todoundonefilepath="$2"
 	
 	grep -e "\day:[0-9][0-9]" $todofilepath >> $todoundonefilepath
 	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
@@ -505,25 +505,25 @@ bumpDailyTodoItems(){
 	
 }
 
-alias bumpmytododailyitems="bumpDailyTodoItems  '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
-alias bumpdevtododailyitems="bumpDailyTodoItems  '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
-alias bumpworktododailyitems="bumpDailyTodoItems  '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptododailyitems="bumpmetododailyitems && bumpdevtododailyitems && bumpworktododailyitems"
+alias bumpmytododailyitems="bumpDailyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpdevtododailyitems="bumpDailyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
+alias bumpworktododailyitems="bumpDailyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
+alias bumptododailyitems="bumpmytododailyitems && bumpdevtododailyitems && bumpworktododailyitems"
 
 bumpWeeklyTodoItems(){
 
-	local todofilepath=$1
-	local todoundonefilepath=$2
+	local todofilepath="$1"
+	local todoundonefilepath="$2"
 	
 	grep -e "\week:[0-9][0-9]" $todofilepath >> $todoundonefilepath
 	sed -i '' -e "/week:[0-9][0-9]/d" $todofilepath
 
 }
 
-alias bumpmytodoweeklyitems="bumpWeeklyTodoItems  '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
-alias bumpdevtodoweeklyitems="bumpWeeklyTodoItems  '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
-alias bumpworktodoweeklyitems="bumpWeeklyTodoItems  '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptodoweeklyitems="bumpmetodoweeklyitems && bumpdevtodoweeklyitems && bumpworktodoweeklyitems"
+alias bumpmytodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpdevtodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
+alias bumpworktodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
+alias bumptodoweeklyitems="bumpmytodoweeklyitems && bumpdevtodoweeklyitems && bumpworktodoweeklyitems"
 
 bumpMonthlyTodoItems(){
 
@@ -738,7 +738,7 @@ alias startmyday="StartMyDay && startbirthdayserver"
 
 StartWorkDay(){
 
-    # bumpworktododailyitems && \	scheduleworktododailytasks
+    # bumpworktododailyitems && scheduleworktododailytasks
 	commitdowork 
     commitreferencework
     commitsupportwork	
@@ -824,16 +824,16 @@ alias startyear=StartMyYear
 
 # file maniapulation functions
 
-ConvertAllFilenamesToLower(){
+convertAllFilenamesToLower(){
 
 	cd "$1"
 	for f in *; do mv "$f" "`echo $f | tr "[:upper:]" "[:lower:]"`"; done
 
 }
 
-alias renamedocs="ConvertAllFilenamesToLower $rootpath/docs"
-alias renamedocswork="ConvertAllFilenamesToLower $rootpath/docs work"
-alias renamedocsdev="ConvertAllFilenamesToLower $rootpath/docs dev"
+alias renamedocs="convertAllFilenamesToLower $rootpath/docs"
+alias renamedocswork="convertAllFilenamesToLower $rootpath/docs work"
+alias renamedocsdev="convertAllFilenamesToLower $rootpath/docs dev"
 
 # print todo functions
 
