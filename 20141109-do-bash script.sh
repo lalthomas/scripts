@@ -71,7 +71,7 @@ alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash his
 
 alias mt='sh "$rootpath/do/todo.sh" -a -N -f'
 alias dt='sh "$rootpath/do dev/todo.sh" -a -N -f'
-alias wt='sh "$rootpath/do office/todo.sh" -a -N -f'
+alias wt='sh "$rootpath/do work/todo.sh" -a -N -f'
 
 alias devtodo='dt list'
 alias mytodo='mt list'
@@ -496,8 +496,8 @@ alias scheduletodoyearlytasks="scheduleBatchTodoYearlyTasks"
 
 bumpDailyTodoItems(){
 
-	local todofilepath=$1
-	local todoundonefilepath=$2
+	local todofilepath="$1"
+	local todoundonefilepath="$2"
 	
 	grep -e "\day:[0-9][0-9]" $todofilepath >> $todoundonefilepath
 	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
@@ -512,8 +512,8 @@ alias bumptododailyitems="bumpmytododailyitems && bumpdevtododailyitems && bumpw
 
 bumpWeeklyTodoItems(){
 
-	local todofilepath=$1
-	local todoundonefilepath=$2
+	local todofilepath="$1"
+	local todoundonefilepath="$2"
 	
 	grep -e "\week:[0-9][0-9]" $todofilepath >> $todoundonefilepath
 	sed -i '' -e "/week:[0-9][0-9]/d" $todofilepath
