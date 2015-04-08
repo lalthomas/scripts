@@ -553,7 +553,7 @@ bumpYearlyTodoItems(){
 alias bumpmytodoyearlyitems="bumpYearlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
 alias bumpdevtodoyearlyitems="bumpYearlyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
 alias bumpworktodoyearlyitems="bumpYearlyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptodoyearlyitems="bumpmetodoyearlyitems && bumpdevtodoyearlyitems && bumpworktodoyearlyitems"
+alias bumptodoyearlyitems="bumpmytodoyearlyitems && bumpdevtodoyearlyitems && bumpworktodoyearlyitems"
 
 ## bookmarks
 OrganizeBookmarks() {
@@ -573,7 +573,7 @@ mailPriorityToDo() {
 alias mailmytodoprioritylist="mailPriorityToDo 'my todo' '$rootpath/do/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
 alias mailworktodoprioritylist="mailPriorityToDo 'work todo' '$rootpath/do work/todo.txt' 'lalt@rapidvaluesolutions.com@gmail.com'"
 alias maildevtodoprioritylist="mailPriorityToDo 'dev todo' '$rootpath/do dev/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
-alias mailtodopriority="mailmetodopriority && mailworktodopriority && maildevtodopriority"
+alias mailtodopriority="mailmytodoprioritylist && mailworktodopriority && maildevtodopriority"
 
 ### git 
 
