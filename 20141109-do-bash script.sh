@@ -268,7 +268,7 @@ scheduleToDoDailyTasks() {
 	sed -n -e "s/^/$referencedate /p" | \
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>$2
+	tr '\r' ' '>>"$2"
 	
 }
 
@@ -309,16 +309,16 @@ addDailyTasksForTheMonth(){
 		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
 		  # don't refactor
 		  schedulemytododailytasks $doDate
-          scheduledevtododailytasks $doDate
-          scheduleworktododailytasks $doDate        
+          scheduleworktododailytasks $doDate 
+		  scheduledevtododailytasks $doDate                 
 		;; 
 		cygwin|msys*)		
 		 # Windows		  
 		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
 		  # don't refactor
 		  schedulemytododailytasks $doDate
-          scheduledevtododailytasks $doDate
           scheduleworktododailytasks $doDate        
+		  scheduledevtododailytasks $doDate          
 		;; 		
 	   esac		
 	done
