@@ -538,7 +538,7 @@ bumpMonthlyTodoItems(){
 alias bumpmytodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
 alias bumpdevtodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
 alias bumpworktodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptodomonthlyitems="bumpmetodomonthlyitems && bumpdevtodomonthlyitems && bumpworktodomonthlyitems"
+alias bumptodomonthlyitems="bumpmytodomonthlyitems && bumpdevtodomonthlyitems && bumpworktodomonthlyitems"
 
 bumpYearlyTodoItems(){
 
