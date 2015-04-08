@@ -326,6 +326,7 @@ addDailyTasksForTheMonth(){
 
 alias adddailytasksforthemonth="addDailyTasksForTheMonth"
 
+# The `referencedate` is preferably be the first Monday of the month
 
 scheduleToDoWeeklyTasks() {
 
@@ -352,7 +353,7 @@ scheduleToDoWeeklyTasks() {
 		sed -e "s/^007/$(date -j -v +6d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
 		sort -n | \
 		uniq | \
-		tr '\r' ' '>>$2
+		tr '\r' ' '>>"$2"
 		
 		;; 
 	
@@ -370,7 +371,7 @@ scheduleToDoWeeklyTasks() {
 		sed -e "s/^007/$(date +%Y-%m-%d --d "$referencedate + 6 day") &/p" | \
 		sort -n | \
 		uniq | \
-		tr '\r' ' '>>$2
+		tr '\r' ' '>>"$2"
 		;; 		
 					
 	*) 
@@ -432,14 +433,14 @@ scheduleToDoMonthlyTasks() {
 
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>$2
+	tr '\r' ' '>>"$2"
 	
 }
 
 alias schedulemytodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
 alias scheduledevtodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
 alias scheduleworktodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
-alias scheduletodomonthlytasks="schedulemetodomonthlytasks && scheduledevtodomonthlytasks && scheduleworktodomonthlytasks"
+alias scheduletodomonthlytasks="schedulemytodomonthlytasks && scheduledevtodomonthlytasks && scheduleworktodomonthlytasks"
 
 scheduleToDoYearlyTasks() {
 
