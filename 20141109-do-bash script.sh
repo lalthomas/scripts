@@ -77,7 +77,10 @@ alias devtodo='dt list'
 alias mytodo='mt list'
 alias worktodo='wt list'
 
-alias doarchive="mt archive && wt archive && dt archive"
+alias mytodoarchive="mt archive"
+alias worktoarchive="wt archive"
+alias devtodoarchive="dt archive"
+
 alias adddoreport="mt report && wt report && dt report"
 
 alias mytodobirdseyereport="mt birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
@@ -832,9 +835,9 @@ convertAllFilenamesToLower(){
 
 }
 
-alias renamedocs="convertAllFilenamesToLower $rootpath/docs"
-alias renamedocswork="convertAllFilenamesToLower $rootpath/docs work"
-alias renamedocsdev="convertAllFilenamesToLower $rootpath/docs dev"
+alias renamedocs="convertAllFilenamesToLower '$rootpath/docs'"
+alias renamedocswork="convertAllFilenamesToLower '$rootpath/docs work'"
+alias renamedocsdev="convertAllFilenamesToLower '$rootpath/docs dev'"
 
 # print todo functions
 
