@@ -1,12 +1,11 @@
 #!/bin/bash -x
 
+# Filename : 20141109-do-bash script.sh
 # Author : Lal Thomas 
 # Date : 2014-11-09
 # © Lal Thomas (lal.thomas.mail@gmail.com)
 
 # initialize global variables 
-
-
 # do scripts varaibles
 
 today=$(date "+%Y%m%d")
@@ -652,7 +651,7 @@ createProjectRepository(){
 		
 	if [ $# -eq 0 ];	
 	then	
-      projecttype='xcode'	
+      projecttype='os'	
 	  location=$PWD
 	  read -p "enter project name and press [enter]: " projectname
 	else   
@@ -673,6 +672,9 @@ createProjectRepository(){
 	createMarkdownHeading "1" "ReadMe" "$projectpath/readme.md"
 
 	case "$projecttype" in
+	    os*)	    
+		    creategitignore 'osx,windows'>"$projectpath/.gitignore"
+		    ;;
 		xcode*) 
 			creategitignore 'objective-c,osx'>"$projectpath/.gitignore" 		
 			;; 
@@ -689,6 +691,7 @@ createProjectRepository(){
 	
 }
 
+alias createprojectrepo="createProjectRepository"
 alias createxcodeproject="createProjectRepository 'xcode'"
 alias createxcodeprojectatlabwork="createProjectRepository 'xcode' '$rootpath/lab work/'"
 
