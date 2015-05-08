@@ -77,7 +77,10 @@ alias devtodo='dt list'
 alias mytodo='mt list'
 alias worktodo='wt list'
 
-alias doarchive="mt archive && wt archive && dt archive"
+alias mytodoarchive="mt archive"
+alias worktoarchive="wt archive"
+alias devtodoarchive="dt archive"
+
 alias adddoreport="mt report && wt report && dt report"
 
 alias mytodobirdseyereport="mt birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
@@ -268,7 +271,7 @@ scheduleToDoDailyTasks() {
 	sed -n -e "s/^/$referencedate /p" | \
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>$2
+	tr '\r' ' '>>"$2"
 	
 }
 
@@ -309,16 +312,16 @@ addDailyTasksForTheMonth(){
 		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
 		  # don't refactor
 		  schedulemytododailytasks $doDate
-          scheduledevtododailytasks $doDate
-          scheduleworktododailytasks $doDate        
+          scheduleworktododailytasks $doDate 
+		  scheduledevtododailytasks $doDate                 
 		;; 
 		cygwin|msys*)		
 		 # Windows		  
 		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
 		  # don't refactor
 		  schedulemytododailytasks $doDate
-          scheduledevtododailytasks $doDate
           scheduleworktododailytasks $doDate        
+		  scheduledevtododailytasks $doDate          
 		;; 		
 	   esac		
 	done
@@ -326,6 +329,7 @@ addDailyTasksForTheMonth(){
 
 alias adddailytasksforthemonth="addDailyTasksForTheMonth"
 
+# The `referencedate` is preferably be the first Monday of the month
 
 scheduleToDoWeeklyTasks() {
 
@@ -352,7 +356,7 @@ scheduleToDoWeeklyTasks() {
 		sed -e "s/^007/$(date -j -v +6d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
 		sort -n | \
 		uniq | \
-		tr '\r' ' '>>$2
+		tr '\r' ' '>>"$2"
 		
 		;; 
 	
@@ -370,7 +374,7 @@ scheduleToDoWeeklyTasks() {
 		sed -e "s/^007/$(date +%Y-%m-%d --d "$referencedate + 6 day") &/p" | \
 		sort -n | \
 		uniq | \
-		tr '\r' ' '>>$2
+		tr '\r' ' '>>"$2"
 		;; 		
 					
 	*) 
@@ -432,14 +436,14 @@ scheduleToDoMonthlyTasks() {
 
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>$2
+	tr '\r' ' '>>"$2"
 	
 }
 
 alias schedulemytodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
 alias scheduledevtodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
 alias scheduleworktodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
-alias scheduletodomonthlytasks="schedulemetodomonthlytasks && scheduledevtodomonthlytasks && scheduleworktodomonthlytasks"
+alias scheduletodomonthlytasks="schedulemytodomonthlytasks && scheduledevtodomonthlytasks && scheduleworktodomonthlytasks"
 
 scheduleToDoYearlyTasks() {
 
@@ -553,7 +557,7 @@ bumpYearlyTodoItems(){
 alias bumpmytodoyearlyitems="bumpYearlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
 alias bumpdevtodoyearlyitems="bumpYearlyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
 alias bumpworktodoyearlyitems="bumpYearlyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptodoyearlyitems="bumpmetodoyearlyitems && bumpdevtodoyearlyitems && bumpworktodoyearlyitems"
+alias bumptodoyearlyitems="bumpmytodoyearlyitems && bumpdevtodoyearlyitems && bumpworktodoyearlyitems"
 
 ## bookmarks
 OrganizeBookmarks() {
@@ -573,7 +577,7 @@ mailPriorityToDo() {
 alias mailmytodoprioritylist="mailPriorityToDo 'my todo' '$rootpath/do/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
 alias mailworktodoprioritylist="mailPriorityToDo 'work todo' '$rootpath/do work/todo.txt' 'lalt@rapidvaluesolutions.com@gmail.com'"
 alias maildevtodoprioritylist="mailPriorityToDo 'dev todo' '$rootpath/do dev/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
-alias mailtodopriority="mailmetodopriority && mailworktodopriority && maildevtodopriority"
+alias mailtodopriority="mailmytodoprioritylist && mailworktodopriority && maildevtodopriority"
 
 ### git 
 
@@ -831,9 +835,9 @@ convertAllFilenamesToLower(){
 
 }
 
-alias renamedocs="convertAllFilenamesToLower $rootpath/docs"
-alias renamedocswork="convertAllFilenamesToLower $rootpath/docs work"
-alias renamedocsdev="convertAllFilenamesToLower $rootpath/docs dev"
+alias renamedocs="convertAllFilenamesToLower '$rootpath/docs'"
+alias renamedocswork="convertAllFilenamesToLower '$rootpath/docs work'"
+alias renamedocsdev="convertAllFilenamesToLower '$rootpath/docs dev'"
 
 # print todo functions
 
