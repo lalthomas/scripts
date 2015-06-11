@@ -502,9 +502,9 @@ bumpDailyTodoItems(){
 	local todofilepath="$1"
 	local todoundonefilepath="$2"
 	
-	grep -e "\day:[0-9][0-9]" $todofilepath >> $todoundonefilepath
+	grep -e "\day:[0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
 	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
-	sed -i '' -e "/day:[0-9][0-9]/d" $todofilepath
+	sed -i '' -e "/day:[0-9][0-9]/d" "$todofilepath"
 	
 }
 
@@ -518,8 +518,8 @@ bumpWeeklyTodoItems(){
 	local todofilepath="$1"
 	local todoundonefilepath="$2"
 	
-	grep -e "\week:[0-9][0-9]" $todofilepath >> $todoundonefilepath
-	sed -i '' -e "/week:[0-9][0-9]/d" $todofilepath
+	grep -e "\week:[0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
+	sed -i '' -e "/week:[0-9][0-9]/d" "$todofilepath"
 
 }
 
@@ -533,8 +533,8 @@ bumpMonthlyTodoItems(){
 	local todofilepath=$1
 	local todoundonefilepath=$2
 	
-	grep -e "\month:[0-9][0-9]" $todofilepath >> $todoundonefilepath
-	sed -i '' -e "/month:[0-9][0-9]/d" $todofilepath
+	grep -e "\month:[0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
+	sed -i '' -e "/month:[0-9][0-9]/d" "$todofilepath"
 
 }
 
@@ -548,8 +548,8 @@ bumpYearlyTodoItems(){
 	local todofilepath=$1
 	local todoundonefilepath=$2
 	
-	grep -e "\year:[0-9][0-9][0-9][0-9]" $todofilepath >> $todoundonefilepath
-	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" $todofilepath
+	grep -e "\year:[0-9][0-9][0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
+	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" "$todofilepath"
 
 }
 
