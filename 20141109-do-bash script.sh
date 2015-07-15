@@ -34,9 +34,8 @@ export doRootPath="$rootpath/action/20140310-do"
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
 alias todoarchive="t archive"
-alias adddoreport="t report"
-alias todobirdseyereport="t birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
-alias addtodobirdseyereport="todobirdseyereport"
+alias addreport="t report"
+alias addtodobirdseyereport="t birdseye > '$rootpath/docs/$today-todo birdseye report for week-$weekCount.md'"
 
 # todo routine todo scheduling functions
 
