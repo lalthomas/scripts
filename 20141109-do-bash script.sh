@@ -28,12 +28,6 @@ case "$OSTYPE" in
 	*) echo "unknown: $OSTYPE" ;;
 esac
 
-
-### bash
-
-alias clearhistory="history -c"
-alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash history.txt'"
-
 ### todo.txt
 
 export doRootPath="$rootpath/action/20140310-do"	
@@ -45,7 +39,6 @@ alias mytodobirdseyereport="t birdseye > '$rootpath/docs/$today-my todo birdseye
 alias addtodobirdseyereport="mytodobirdseyereport"
 
 # todo routine todo scheduling functions
-
 
 scheduleToDoDailyTasks() {
 
