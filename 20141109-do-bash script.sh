@@ -51,10 +51,10 @@ case "$OSTYPE" in
 esac
 
 extension=".md"
-journalfilename=$today-$dayOfWeeK" personal journal"$extension
+journalfilename=$today-$dayOfWeeK" journal"$extension
 journalfilepath="$rootpath/docs/$journalfilename"
 
-yesterdayjournalfilename=$yesterday-$dayofWeekYesterday" personal journal"$extension
+yesterdayjournalfilename=$yesterday-$dayofWeekYesterday" journal"$extension
 yesterdayjournalfilepath="$rootpath/docs/$yesterdayjournalfilename"
 
 ### bash
@@ -64,21 +64,21 @@ alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash his
 
 ### todo.txt
 
-alias mt='sh "$rootpath/do/todo.sh" -a -N -f'
+alias t='sh "$rootpath/do/todo.sh" -a -N -f'
 alias dt='sh "$rootpath/do dev/todo.sh" -a -N -f'
 alias wt='sh "$rootpath/do work/todo.sh" -a -N -f'
 
 alias devtodo='dt list'
-alias mytodo='mt list'
+alias mytodo='t list'
 alias worktodo='wt list'
 
-alias mytodoarchive="mt archive"
+alias mytodoarchive="t archive"
 alias worktoarchive="wt archive"
 alias devtodoarchive="dt archive"
 
-alias adddoreport="mt report && wt report && dt report"
+alias adddoreport="t report && wt report && dt report"
 
-alias mytodobirdseyereport="mt birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
+alias mytodobirdseyereport="t birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
 alias devtodobirdseyereport="dt birdseye > '$rootpath/docs dev/$today-dev todo birdseye report for week-$weekCount.md'"
 alias worktodobirdseyereport="wt birdseye > '$rootpath/docs work/$today-work todo birdseye report for week-$weekCount.md'"
 
@@ -207,7 +207,7 @@ createJournalFile(){
 addMyDoneItemsToJournal(){
 
 createMarkdownHeading "2" "Done Tasks" "$journalfilepath"
-mt listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$journalfilepath"
+t listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$journalfilepath"
 }
 
 addMyDoneItemsToYesterdayJournal(){
@@ -846,14 +846,14 @@ createDailyTodoPrintFile(){
     echo >"$printFile"
     echo >"$printFile.html"
 
-    local dailyTasks=($( mt list "day:" | grep -oh "day:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
+    local dailyTasks=($( t list "day:" | grep -oh "day:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
 
     for i in "${!dailyTasks[@]}"
     do
 
         createMarkdownHeading "1" "Day ${dailyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt mdview context "day:${dailyTasks[i]}" | sed "s/day:.*//" >>"$printFile"
+        t mdview context "day:${dailyTasks[i]}" | sed "s/day:.*//" >>"$printFile"
 
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
@@ -888,7 +888,7 @@ createWeeklyTodoPrintFile(){
     echo >"$printFile"
     echo >"$printFile.html"
 
-    local weeklyTasks=($( mt list "week:" | grep -oh "week:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
+    local weeklyTasks=($( t list "week:" | grep -oh "week:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
 
     for i in "${!weeklyTasks[@]}"
     do
@@ -896,7 +896,7 @@ createWeeklyTodoPrintFile(){
 
         createMarkdownHeading "1" "Week ${weeklyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt mdview context "week:${weeklyTasks[i]}" | sed "s/week:.*//" >>"$printFile"
+        t mdview context "week:${weeklyTasks[i]}" | sed "s/week:.*//" >>"$printFile"
 
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
@@ -931,14 +931,14 @@ createMonthlylyTodoPrintFile(){
     echo >"$printFile"
     echo >"$printFile.html"
 
-    local monthlyTasks=($( mt list "month:" | grep -oh "month:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
+    local monthlyTasks=($( t list "month:" | grep -oh "month:[0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9]" ))
 
     for i in "${!monthlyTasks[@]}"
     do
         #echo "$i=>${weeklyTasks[i]}"
         createMarkdownHeading "1" "Month ${monthlyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt mdview context "month:${monthlyTasks[i]}" | sed "s/month:.*//" >>"$printFile"
+        t mdview context "month:${monthlyTasks[i]}" | sed "s/month:.*//" >>"$printFile"
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
         printf "\n\n" >>"$printFile"
@@ -970,14 +970,14 @@ createYearlyTodoPrintFile(){
     echo >"$printFile"
     echo >"$printFile.html"
 
-    local yearlyTasks=($( mt list "year:" | grep -oh "year:[0-9][0-9][0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9][0-9][0-9]" ))
+    local yearlyTasks=($( t list "year:" | grep -oh "year:[0-9][0-9][0-9][0-9]" | sort | uniq | grep -oh "[0-9][0-9][0-9][0-9]" ))
 
     for i in "${!yearlyTasks[@]}"
     do
         #echo "$i=>${weeklyTasks[i]}"
         createMarkdownHeading "1" "Year ${yearlyTasks[i]}" "$printFile"
         # truncate characters from interating marker day which includes interating symbol (here day) context and projects
-        mt mdview context "year:${yearlyTasks[i]}" | sed "s/year:.*//" >>"$printFile"
+        t mdview context "year:${yearlyTasks[i]}" | sed "s/year:.*//" >>"$printFile"
         # add page break after each day todos
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
         printf "\n\n" >>"$printFile"
@@ -1007,7 +1007,7 @@ createNonRecuringTodoPrintFile(){
     local printFile="$COPYDIR/$today-me yearly todo print list for projects.md"
 
     # \:\|month\:\|week\:\|day\:
-    mt -+ -p view project | sed -e '/year:/d' | sed -e '/month:/d' | sed -e '/week:/d' | sed -e '/day:/d'  >>"$printFile"
+    t -+ -p view project | sed -e '/year:/d' | sed -e '/month:/d' | sed -e '/week:/d' | sed -e '/day:/d'  >>"$printFile"
 
     # Formatting the file
     sed -i '' -e "s/=====  Projects  =====//" "$printFile"
@@ -1053,8 +1053,8 @@ alias createhometodoprintfile="createContextList 'home' '$rootpath/do' '$rootpat
 
 # remember the milk me update
 
-# mt listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "me todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
-# mt archive
+# t listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "me todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
+# t archive
 
 # wt listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "work todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
 # wt archive
