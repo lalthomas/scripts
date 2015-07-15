@@ -50,7 +50,6 @@ esac
 extension=".md"
 journalfilename=$today-$dayOfWeeK" journal"$extension
 journalfilepath="$rootpath/docs/$journalfilename"
-
 yesterdayjournalfilename=$yesterday-$dayofWeekYesterday" journal"$extension
 yesterdayjournalfilepath="$rootpath/docs/$yesterdayjournalfilename"
 
@@ -62,16 +61,9 @@ alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash his
 ### todo.txt
 
 alias t='sh "$rootpath/do/todo.sh" -a -N -f'
-
-
 alias mytodo='t list'
-
-
 alias mytodoarchive="t archive"
-
-
-alias adddoreport="t report && wt report"
-
+alias adddoreport="t report"
 alias mytodobirdseyereport="t birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
 
 
