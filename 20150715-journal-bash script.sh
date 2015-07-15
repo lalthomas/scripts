@@ -83,3 +83,14 @@ alias adddoneitemstoyesterdaymyjournal="addMyDoneItemsToYesterdayJournal"
 
 alias createmyjournal="createJournalFile '$rootpath/do' '$rootpath/docs' '$journalfilename'"
 alias createjournal="createmyjournal && createworkjournal && createdevjournal"
+
+AddTimeToFile(){
+
+	local tag=$1
+	local filename=$2
+	echo "* $tag : $(date +'%T')" >> "$filename"
+
+}
+
+alias addcheckintimetoworkjournal="AddTimeToFile 'Checkin Time' '$workjournalfilepath'"
+alias addcheckouttimetoworkjournal="AddTimeToFile 'Checkout Time' '$workjournalfilepath'"

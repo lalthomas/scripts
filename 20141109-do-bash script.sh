@@ -341,19 +341,6 @@ mailPriorityToDo() {
 alias mailmytodoprioritylist="mailPriorityToDo 'my todo' '$doRootPath/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
 alias mailtodopriority="mailmytodoprioritylist"
 
-
-AddTimeToFile(){
-
-	local tag=$1
-	local filename=$2
-	echo "* $tag : $(date +'%T')" >> "$filename"
-
-}
-
-alias addcheckintimetoworkjournal="AddTimeToFile 'Checkin Time' '$workjournalfilepath'"
-alias addcheckouttimetoworkjournal="AddTimeToFile 'Checkout Time' '$workjournalfilepath'"
-
-
 # starty of day functions
 
 StartMyDay(){		
