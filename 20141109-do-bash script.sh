@@ -32,11 +32,11 @@ esac
 
 export doRootPath="$rootpath/action/20140310-do"	
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
-alias mytodo='t list'
-alias mytodoarchive="t archive"
+alias todo='t list'
+alias todoarchive="t archive"
 alias adddoreport="t report"
-alias mytodobirdseyereport="t birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
-alias addtodobirdseyereport="mytodobirdseyereport"
+alias todobirdseyereport="t birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
+alias addtodobirdseyereport="todobirdseyereport"
 
 # todo routine todo scheduling functions
 
@@ -81,16 +81,16 @@ scheduleToDoDailyTasks() {
 	
 }
 
-alias schedulemytododailytasks="scheduleToDoDailyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
+alias scheduletododailytasks="scheduleToDoDailyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
 
 scheduleBatchTodoDailyTasks() {
 
     if [ $# -eq 1 ];
     then
-        schedulemytododailytasks "$1"
+        scheduletododailytasks "$1"
         
     else
-        schedulemytododailytasks        
+        scheduletododailytasks        
     fi
 
 }
@@ -111,13 +111,13 @@ addDailyTasksForTheMonth(){
 		 darwin*) 		
 		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
 		  # don't refactor
-		  schedulemytododailytasks $doDate          
+		  scheduletododailytasks $doDate          
 		;; 
 		cygwin|msys*)		
 		 # Windows		  
 		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
 		  # don't refactor
-		  schedulemytododailytasks $doDate          
+		  scheduletododailytasks $doDate          
 		;; 		
 	   esac		
 	done
@@ -180,16 +180,16 @@ scheduleToDoWeeklyTasks() {
 	
 }
 
-alias schedulemytodoweeklytasks="scheduleToDoWeeklyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
+alias scheduletodoweeklytasks="scheduleToDoWeeklyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
 
 scheduleBatchTodoWeeklyTasks() {
 
 if [ $# -eq 1 ]; 
 	then
-		schedulemytodoweeklytasks "$1"		
+		scheduletodoweeklytasks "$1"		
 		
 	else						
-		schedulemytodoweeklytasks		
+		scheduletodoweeklytasks		
 	fi
 
 }
@@ -230,8 +230,8 @@ scheduleToDoMonthlyTasks() {
 	
 }
 
-alias schedulemytodomonthlytasks="scheduleToDoMonthlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
-alias scheduletodomonthlytasks="schedulemytodomonthlytasks"
+alias scheduletodomonthlytasks="scheduleToDoMonthlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
+alias scheduletodomonthlytasks="scheduletodomonthlytasks"
 
 scheduleToDoYearlyTasks() {
 
@@ -264,16 +264,16 @@ scheduleToDoYearlyTasks() {
 	
 }
 
-alias schedulemytodoyearlytasks="scheduleToDoYearlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
+alias scheduletodoyearlytasks="scheduleToDoYearlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
 
 
 scheduleBatchTodoYearlyTasks() {
 
     if [ $# -eq 1 ];
     then
-        schedulemytodoyearlytasks "$1"        
+        scheduletodoyearlytasks "$1"        
     else
-        schedulemytodoyearlytasks        
+        scheduletodoyearlytasks        
     fi
 
 }
@@ -291,8 +291,8 @@ bumpDailyTodoItems(){
 	
 }
 
-alias bumpmytododailyitems="bumpDailyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptododailyitems="bumpmytododailyitems"
+alias bumptododailyitems="bumpDailyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
+alias bumptododailyitems="bumptododailyitems"
 
 bumpWeeklyTodoItems(){
 
@@ -304,8 +304,8 @@ bumpWeeklyTodoItems(){
 
 }
 
-alias bumpmytodoweeklyitems="bumpWeeklyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptodoweeklyitems="bumpmytodoweeklyitems"
+alias bumptodoweeklyitems="bumpWeeklyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
+alias bumptodoweeklyitems="bumptodoweeklyitems"
 
 bumpMonthlyTodoItems(){
 
@@ -317,8 +317,8 @@ bumpMonthlyTodoItems(){
 
 }
 
-alias bumpmytodomonthlyitems="bumpMonthlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptodomonthlyitems="bumpmytodomonthlyitems"
+alias bumptodomonthlyitems="bumpMonthlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
+alias bumptodomonthlyitems="bumptodomonthlyitems"
 
 bumpYearlyTodoItems(){
 
@@ -330,16 +330,16 @@ bumpYearlyTodoItems(){
 
 }
 
-alias bumpmytodoyearlyitems="bumpYearlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptodoyearlyitems="bumpmytodoyearlyitems"
+alias bumptodoyearlyitems="bumpYearlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
+alias bumptodoyearlyitems="bumptodoyearlyitems"
 
 
 mailPriorityToDo() {
 	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "$3"
 }
 
-alias mailmytodoprioritylist="mailPriorityToDo 'my todo' '$doRootPath/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
-alias mailtodopriority="mailmytodoprioritylist"
+alias mailtodoprioritylist="mailPriorityToDo 'my todo' '$doRootPath/todo.txt' 'lal.thomas.mail+todo@gmail.com'"
+alias mailtodopriority="mailtodoprioritylist"
 
 # starty of day functions
 
@@ -413,13 +413,13 @@ alias endworkday=EndWorkDay
 StartMyWeek(){
 
     #doarchive
-    #bumpmytodoweeklyitems
+    #bumptodoweeklyitems
 		
 	if [ $# -eq 0 ]; 
 	then
-		schedulemytodoweeklytasks	    		
+		scheduletodoweeklytasks	    		
 	else
-		schedulemytodoweeklytasks "$1"		
+		scheduletodoweeklytasks "$1"		
 	fi	
 	commitdo	
 }
@@ -429,8 +429,8 @@ alias startweek=StartMyWeek
 StartMyMonth(){
 
     #doarchive
-	bumpmytodomonthlyitems && \
-	schedulemytodomonthlytasks && \
+	bumptodomonthlyitems && \
+	scheduletodomonthlytasks && \
 	commitdo
 }
 
@@ -439,8 +439,8 @@ alias startmymonth=StartMyMonth
 StartMyYear(){
 
     #doarchive
-	bumpmytodoyearlyitems && \
-	schedulemytodoyearlytasks && \
+	bumptodoyearlyitems && \
+	scheduletodoyearlytasks && \
 	commitdo
 }
 
