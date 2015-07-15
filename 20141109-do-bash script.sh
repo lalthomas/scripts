@@ -65,8 +65,6 @@ alias mytodo='t list'
 alias mytodoarchive="t archive"
 alias adddoreport="t report"
 alias mytodobirdseyereport="t birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
-
-
 alias addtodobirdseyereport="mytodobirdseyereport"
 
 # Start utility functions
@@ -254,21 +252,15 @@ scheduleToDoDailyTasks() {
 }
 
 alias schedulemytododailytasks="scheduleToDoDailyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
-alias scheduledevtododailytasks="scheduleToDoDailyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
-alias scheduleworktododailytasks="scheduleToDoDailyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
 
 scheduleBatchTodoDailyTasks() {
 
     if [ $# -eq 1 ];
     then
         schedulemytododailytasks "$1"
-        scheduledevtododailytasks "$1"
-        scheduleworktododailytasks "$1"
-
+        
     else
-        schedulemytododailytasks
-        scheduledevtododailytasks
-        scheduleworktododailytasks
+        schedulemytododailytasks        
     fi
 
 }
@@ -289,17 +281,13 @@ addDailyTasksForTheMonth(){
 		 darwin*) 		
 		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
 		  # don't refactor
-		  schedulemytododailytasks $doDate
-          scheduleworktododailytasks $doDate 
-		  scheduledevtododailytasks $doDate                 
+		  schedulemytododailytasks $doDate          
 		;; 
 		cygwin|msys*)		
 		 # Windows		  
 		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
 		  # don't refactor
-		  schedulemytododailytasks $doDate
-          scheduleworktododailytasks $doDate        
-		  scheduledevtododailytasks $doDate          
+		  schedulemytododailytasks $doDate          
 		;; 		
 	   esac		
 	done
@@ -363,21 +351,15 @@ scheduleToDoWeeklyTasks() {
 }
 
 alias schedulemytodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
-alias scheduledevtodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
-alias scheduleworktodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
 
 scheduleBatchTodoWeeklyTasks() {
 
 if [ $# -eq 1 ]; 
 	then
-		schedulemytodoweeklytasks "$1"
-		scheduledevtodoweeklytasks "$1"
-		scheduleworktodoweeklytasks "$1" 
+		schedulemytodoweeklytasks "$1"		
 		
 	else						
-		schedulemytodoweeklytasks
-		scheduledevtodoweeklytasks
-		scheduleworktodoweeklytasks								
+		schedulemytodoweeklytasks		
 	fi
 
 }
@@ -419,9 +401,7 @@ scheduleToDoMonthlyTasks() {
 }
 
 alias schedulemytodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
-alias scheduledevtodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
-alias scheduleworktodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
-alias scheduletodomonthlytasks="schedulemytodomonthlytasks && scheduledevtodomonthlytasks && scheduleworktodomonthlytasks"
+alias scheduletodomonthlytasks="schedulemytodomonthlytasks"
 
 scheduleToDoYearlyTasks() {
 
@@ -455,21 +435,15 @@ scheduleToDoYearlyTasks() {
 }
 
 alias schedulemytodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
-alias scheduledevtodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/do dev/planner.md' '$rootpath/do dev/todo.txt'"
-alias scheduleworktodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/do work/planner.md' '$rootpath/do work/todo.txt'"
 
 
 scheduleBatchTodoYearlyTasks() {
 
     if [ $# -eq 1 ];
     then
-        schedulemytodoyearlytasks "$1"
-        scheduledevtodoyearlytasks "$1"
-        scheduleworktodoyearlytasks "$1"
+        schedulemytodoyearlytasks "$1"        
     else
-        schedulemytodoyearlytasks
-        scheduledevtodoyearlytasks
-        scheduleworktodoyearlytasks
+        schedulemytodoyearlytasks        
     fi
 
 }
@@ -488,9 +462,7 @@ bumpDailyTodoItems(){
 }
 
 alias bumpmytododailyitems="bumpDailyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
-alias bumpdevtododailyitems="bumpDailyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
-alias bumpworktododailyitems="bumpDailyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptododailyitems="bumpmytododailyitems && bumpdevtododailyitems && bumpworktododailyitems"
+alias bumptododailyitems="bumpmytododailyitems"
 
 bumpWeeklyTodoItems(){
 
@@ -503,9 +475,7 @@ bumpWeeklyTodoItems(){
 }
 
 alias bumpmytodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
-alias bumpdevtodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
-alias bumpworktodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptodoweeklyitems="bumpmytodoweeklyitems && bumpdevtodoweeklyitems && bumpworktodoweeklyitems"
+alias bumptodoweeklyitems="bumpmytodoweeklyitems"
 
 bumpMonthlyTodoItems(){
 
@@ -518,9 +488,7 @@ bumpMonthlyTodoItems(){
 }
 
 alias bumpmytodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
-alias bumpdevtodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
-alias bumpworktodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptodomonthlyitems="bumpmytodomonthlyitems && bumpdevtodomonthlyitems && bumpworktodomonthlyitems"
+alias bumptodomonthlyitems="bumpmytodomonthlyitems"
 
 bumpYearlyTodoItems(){
 
@@ -533,9 +501,7 @@ bumpYearlyTodoItems(){
 }
 
 alias bumpmytodoyearlyitems="bumpYearlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
-alias bumpdevtodoyearlyitems="bumpYearlyTodoItems '$rootpath/do dev/todo.txt' '$rootpath/do dev/undone.txt' "
-alias bumpworktodoyearlyitems="bumpYearlyTodoItems '$rootpath/do work/todo.txt' '$rootpath/do work/undone.txt' "
-alias bumptodoyearlyitems="bumpmytodoyearlyitems && bumpdevtodoyearlyitems && bumpworktodoyearlyitems"
+alias bumptodoyearlyitems="bumpmytodoyearlyitems"
 
 ## bookmarks
 OrganizeBookmarks() {
@@ -553,9 +519,7 @@ mailPriorityToDo() {
 }
 
 alias mailmytodoprioritylist="mailPriorityToDo 'my todo' '$rootpath/do/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
-alias mailworktodoprioritylist="mailPriorityToDo 'work todo' '$rootpath/do work/todo.txt' 'lalt@rapidvaluesolutions.com@gmail.com'"
-alias maildevtodoprioritylist="mailPriorityToDo 'dev todo' '$rootpath/do dev/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
-alias mailtodopriority="mailmytodoprioritylist && mailworktodopriority && maildevtodopriority"
+alias mailtodopriority="mailmytodoprioritylist"
 
 ### git 
 
@@ -583,17 +547,8 @@ commitGitRepoChanges(){
 }
 
 alias commitdo="commitGitRepoChanges '$rootpath/do/'"
-alias commitdowork="commitGitRepoChanges '$rootpath/do work/'"
-alias commitdodev="commitGitRepoChanges '$rootpath/do dev/'"
-
 alias commitreference="commitGitRepoChanges '$rootpath/reference/'"
-alias commitreferencework="commitGitRepoChanges '$rootpath/reference work/'"
-alias commitreferencedev="commitGitRepoChanges '$rootpath/reference dev/'"
-
 alias commitsupport="commitGitRepoChanges '$rootpath/support/'"
-alias commitsupportwork="commitGitRepoChanges '$rootpath/support work/'"
-alias commitsupportdev="commitGitRepoChanges '$rootpath/Support dev/'"
-
 alias commitscript="commitGitRepoChanges '$rootpath/scripts/source'"
 
 createArticleRepository(){
@@ -608,8 +563,6 @@ createArticleRepository(){
 }
 
 alias createblogpost="createArticleRepository '$rootpath/blog'"
-alias createblogpostwork="createArticleRepository '$rootpath/blog work'"
-alias createblogpostdev="createArticleRepository '$rootpath/blog dev'"
 
 # thanks https://www.gitignore.io/docs
 # run creategitignore xcode >.gitignore
@@ -818,8 +771,6 @@ convertAllFilenamesToLower(){
 }
 
 alias renamedocs="convertAllFilenamesToLower '$rootpath/docs'"
-alias renamedocswork="convertAllFilenamesToLower '$rootpath/docs work'"
-alias renamedocsdev="convertAllFilenamesToLower '$rootpath/docs dev'"
 
 # print todo functions
 
