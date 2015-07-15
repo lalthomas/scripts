@@ -52,10 +52,10 @@ esac
 
 extension=".md"
 journalfilename=$today-$dayOfWeeK" personal journal"$extension
-personaljournalfilepath="$rootpath/docs/$journalfilename"
+journalfilepath="$rootpath/docs/$journalfilename"
 
 yesterdayjournalfilename=$yesterday-$dayofWeekYesterday" personal journal"$extension
-yesterdayPersonalJournalFilepath="$rootpath/docs/$yesterdayjournalfilename"
+yesterdayjournalfilepath="$rootpath/docs/$yesterdayjournalfilename"
 
 ### bash
 
@@ -206,8 +206,8 @@ createJournalFile(){
 
 addMyDoneItemsToJournal(){
 
-createMarkdownHeading "2" "Done Tasks" "$personaljournalfilepath"
-mt listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$personaljournalfilepath"
+createMarkdownHeading "2" "Done Tasks" "$journalfilepath"
+mt listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$journalfilepath"
 }
 
 addMyDoneItemsToYesterdayJournal(){
