@@ -8,40 +8,23 @@
 # initialize global variables 
 # do scripts variables
 
-today=$(date "+%Y%m%d")
-longdate=$(date "+%Y-%m-%d")
-weekCount=$(date +'%V')
-dayOfWeeK=$(date +%A)
-monthCount=$(date +'%m')
-yearCount=$(date +'%Y')
-dayOfWeekLowerCase=$(date +%A | sed -e 's/\(.*\)/\L\1/')
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 
 # find the OS type for rootpath
 
 case "$OSTYPE" in
 	darwin*) 
 	# OSX
-	export rootpath="/Users/rapid/Dropbox" 
-	yesterday=$(date -v-1d "+%Y%m%d")
-	longyesterday=$(date -v-1d "+%Y-%m-%d")	
-	dayofWeekYesterday=$(date -v-1d +%A)
+	export rootpath="/Users/rapid/Dropbox" 	
 	;; 
 	msys*) 
 	# Windows
-	export rootpath="/d/Dropbox"  
-	yesterday=$(date --date='yesterday' +'%Y%m%d')
-	longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
-	dayofWeekYesterday=$(date --date='yesterday' +%A)
+	export rootpath="/d/Dropbox"  	
 	;;	
 	
 	cygwin*) 
 	# Windows
-	export rootpath="d:/Dropbox"  
-	yesterday=$(date --date='yesterday' +'%Y%m%d')
-	longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
-	dayofWeekYesterday=$(date --date='yesterday' +%A)
+	export rootpath="d:/Dropbox"  	
 	;;	
 	
 	*) echo "unknown: $OSTYPE" ;;
