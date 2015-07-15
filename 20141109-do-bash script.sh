@@ -43,16 +43,6 @@ alias adddoreport="t report"
 alias mytodobirdseyereport="t birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
 alias addtodobirdseyereport="mytodobirdseyereport"
 
-# Start utility functions
-
-mailtopocket() {
-	echo "$1" | mail -s "$1" "add@getpocket.com"
-}
-alias mailtopocket=mailtopocket
-
-
-
-
 # todo routine todo scheduling functions
 
 
