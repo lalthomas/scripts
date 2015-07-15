@@ -20,21 +20,14 @@ case "$OSTYPE" in
 	msys*) 
 	# Windows
 	export rootpath="/d/Dropbox"  	
-	;;	
-	
+	;;		
 	cygwin*) 
 	# Windows
 	export rootpath="d:/Dropbox"  	
-	;;	
-	
+	;;		
 	*) echo "unknown: $OSTYPE" ;;
 esac
 
-extension=".md"
-journalfilename=$today-$dayOfWeeK" journal"$extension
-journalfilepath="$rootpath/docs/$journalfilename"
-yesterdayjournalfilename=$yesterday-$dayofWeekYesterday" journal"$extension
-yesterdayjournalfilepath="$rootpath/docs/$yesterdayjournalfilename"
 
 ### bash
 
