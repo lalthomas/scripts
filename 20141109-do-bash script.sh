@@ -6,7 +6,7 @@
 # © Lal Thomas (lal.thomas.mail@gmail.com)
 
 # initialize global variables 
-# do scripts varaibles
+# do scripts variables
 
 today=$(date "+%Y%m%d")
 longdate=$(date "+%Y-%m-%d")
