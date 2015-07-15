@@ -10,13 +10,10 @@
 
 today=$(date "+%Y%m%d")
 longdate=$(date "+%Y-%m-%d")
-
 weekCount=$(date +'%V')
 dayOfWeeK=$(date +%A)
-
 monthCount=$(date +'%m')
 yearCount=$(date +'%Y')
-
 dayOfWeekLowerCase=$(date +%A | sed -e 's/\(.*\)/\L\1/')
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
