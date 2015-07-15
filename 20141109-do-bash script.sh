@@ -15,7 +15,7 @@ currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 case "$OSTYPE" in
 	darwin*) 
 	# OSX
-	export rootpath="/Users/rapid/Dropbox" 	
+	export rootpath="/Users/rapid/Dropbox" 		
 	;; 
 	msys*) 
 	# Windows
@@ -36,7 +36,8 @@ alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash his
 
 ### todo.txt
 
-alias t='sh "$rootpath/do/todo.sh" -a -N -f'
+export doRootPath="$rootpath/action/20140310-do"	
+alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias mytodo='t list'
 alias mytodoarchive="t archive"
 alias adddoreport="t report"
@@ -87,7 +88,7 @@ scheduleToDoDailyTasks() {
 	
 }
 
-alias schedulemytododailytasks="scheduleToDoDailyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
+alias schedulemytododailytasks="scheduleToDoDailyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
 
 scheduleBatchTodoDailyTasks() {
 
@@ -186,7 +187,7 @@ scheduleToDoWeeklyTasks() {
 	
 }
 
-alias schedulemytodoweeklytasks="scheduleToDoWeeklyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
+alias schedulemytodoweeklytasks="scheduleToDoWeeklyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
 
 scheduleBatchTodoWeeklyTasks() {
 
@@ -236,7 +237,7 @@ scheduleToDoMonthlyTasks() {
 	
 }
 
-alias schedulemytodomonthlytasks="scheduleToDoMonthlyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
+alias schedulemytodomonthlytasks="scheduleToDoMonthlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
 alias scheduletodomonthlytasks="schedulemytodomonthlytasks"
 
 scheduleToDoYearlyTasks() {
@@ -270,7 +271,7 @@ scheduleToDoYearlyTasks() {
 	
 }
 
-alias schedulemytodoyearlytasks="scheduleToDoYearlyTasks '$rootpath/do/planner.md' '$rootpath/do/todo.txt'"
+alias schedulemytodoyearlytasks="scheduleToDoYearlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
 
 
 scheduleBatchTodoYearlyTasks() {
@@ -297,7 +298,7 @@ bumpDailyTodoItems(){
 	
 }
 
-alias bumpmytododailyitems="bumpDailyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpmytododailyitems="bumpDailyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
 alias bumptododailyitems="bumpmytododailyitems"
 
 bumpWeeklyTodoItems(){
@@ -310,7 +311,7 @@ bumpWeeklyTodoItems(){
 
 }
 
-alias bumpmytodoweeklyitems="bumpWeeklyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpmytodoweeklyitems="bumpWeeklyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
 alias bumptodoweeklyitems="bumpmytodoweeklyitems"
 
 bumpMonthlyTodoItems(){
@@ -323,7 +324,7 @@ bumpMonthlyTodoItems(){
 
 }
 
-alias bumpmytodomonthlyitems="bumpMonthlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpmytodomonthlyitems="bumpMonthlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
 alias bumptodomonthlyitems="bumpmytodomonthlyitems"
 
 bumpYearlyTodoItems(){
@@ -336,7 +337,7 @@ bumpYearlyTodoItems(){
 
 }
 
-alias bumpmytodoyearlyitems="bumpYearlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
+alias bumpmytodoyearlyitems="bumpYearlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
 alias bumptodoyearlyitems="bumpmytodoyearlyitems"
 
 
@@ -344,7 +345,7 @@ mailPriorityToDo() {
 	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "$3"
 }
 
-alias mailmytodoprioritylist="mailPriorityToDo 'my todo' '$rootpath/do/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
+alias mailmytodoprioritylist="mailPriorityToDo 'my todo' '$doRootPath/todo.txt' 'lal.thomas.mail+mytodo@gmail.com'"
 alias mailtodopriority="mailmytodoprioritylist"
 
 
@@ -372,9 +373,9 @@ StartMyDay(){
 	createmyjournal		
 	
 	# GTD
-	open "$rootpath/do/next.txt"
-	open "$rootpath/do/contexts.md"
-	open "$rootpath/do/projects.md"
+	open "$doRootPath/next.txt"
+	open "$doRootPath/contexts.md"
+	open "$doRootPath/projects.md"
 	
 }
 alias startmyday="StartMyDay && startbirthdayserver"
@@ -389,9 +390,9 @@ StartWorkDay(){
 	addcheckintimetoworkjournal
 	
 	# GTD
-	open "$rootpath/do work/next.txt"
-	open "$rootpath/do work/contexts.md"
-	open "$rootpath/do work/projects.md"
+	open "$doRootPath work/next.txt"
+	open "$doRootPath work/contexts.md"
+	open "$doRootPath work/projects.md"
 
 	# Apps
 	open -a "Xcode"
@@ -413,9 +414,9 @@ StartDevDay(){
 	createdevjournal
 	
 	# GTD
-	open "$rootpath/do dev/next.txt"
-	open "$rootpath/do dev/contexts.md"
-	open "$rootpath/do dev/projects.md"
+	open "$doRootPath dev/next.txt"
+	open "$doRootPath dev/contexts.md"
+	open "$doRootPath dev/projects.md"
 
 }
 
@@ -677,15 +678,13 @@ createContextList(){
 
 }
 
-alias createshoptodoprintfile="createContextList 'shop' '$rootpath/do' '$rootpath/docs/$today-shop list for month-$monthCount.md'"
-alias createhometodoprintfile="createContextList 'home' '$rootpath/do' '$rootpath/docs/$today-home list for month-$monthCount.md'"
+alias createshoptodoprintfile="createContextList 'shop' '$doRootPath' '$rootpath/docs/$today-shop list for month-$monthCount.md'"
+alias createhometodoprintfile="createContextList 'home' '$doRootPath' '$rootpath/docs/$today-home list for month-$monthCount.md'"
 
 # remember the milk me update
 
 # t listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "me todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
 # t archive
-
-
 
 # Hidden Applications
 # open -a 'FileMerge'"
