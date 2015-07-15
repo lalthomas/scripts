@@ -51,15 +51,15 @@ case "$OSTYPE" in
 esac
 
 extension=".md"
-personaljournalfilename=$today-$dayOfWeeK" personal journal"$extension
+journalfilename=$today-$dayOfWeeK" personal journal"$extension
 workjournalfilename=$today-$dayOfWeeK" work journal"$extension
 devjournalfilename=$today-$dayOfWeeK" dev journal"$extension
 
-personaljournalfilepath="$rootpath/docs/$personaljournalfilename"
+personaljournalfilepath="$rootpath/docs/$journalfilename"
 workjournalfilepath="$rootpath/docs work/$workjournalfilename"
 
-yesterdayPersonalJournalFilename=$yesterday-$dayofWeekYesterday" personal journal"$extension
-yesterdayPersonalJournalFilepath="$rootpath/docs/$yesterdayPersonalJournalFilename"
+yesterdayjournalfilename=$yesterday-$dayofWeekYesterday" personal journal"$extension
+yesterdayPersonalJournalFilepath="$rootpath/docs/$yesterdayjournalfilename"
 
 ### bash
 
@@ -217,15 +217,15 @@ mt listall "x $longdate" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[
 addMyDoneItemsToYesterdayJournal(){
 
 	## //TODO : improve
-	createMarkdownHeading "2" "Done Tasks" "$yesterdayPersonalJournalFilename"
-	$1 listall "x $longyesterday" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$yesterdayPersonalJournalFilename"
+	createMarkdownHeading "2" "Done Tasks" "$yesterdayjournalfilename"
+	$1 listall "x $longyesterday" | sed -n -e 's/[0-9][0-9][0-9] x [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ \* /p'>>"$yesterdayjournalfilename"
 
 }
 
 alias adddoneitemstomyjournal="addMyDoneItemsToJournal"
 alias adddoneitemstoyesterdaymyjournal="addMyDoneItemsToYesterdayJournal"
 
-alias createmyjournal="createJournalFile '$rootpath/do' '$rootpath/docs' '$personaljournalfilename'"
+alias createmyjournal="createJournalFile '$rootpath/do' '$rootpath/docs' '$journalfilename'"
 alias createworkjournal="createJournalFile '$rootpath/do work' '$rootpath/docs work' '$workjournalfilename'"
 alias createdevjournal="createJournalFile '$rootpath/do dev' '$rootpath/docs dev' '$devjournalfilename'"
 alias createjournal="createmyjournal && createworkjournal && createdevjournal"
