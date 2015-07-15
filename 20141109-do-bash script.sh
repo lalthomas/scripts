@@ -339,16 +339,6 @@ bumpYearlyTodoItems(){
 alias bumpmytodoyearlyitems="bumpYearlyTodoItems '$rootpath/do/todo.txt' '$rootpath/do/undone.txt' "
 alias bumptodoyearlyitems="bumpmytodoyearlyitems"
 
-## bookmarks
-OrganizeBookmarks() {
-
- 	sed -E "s/\<li\>(.*)\<\/li\>/\1/g" <$rootpath/inbox/ril_export.html | \
-	sed -E "s/(.*)time_added\=\"(.*)\" tags=\"(.*)\"/\2-\1\3/g" | \ 
- 	sed -E "s/^(.*)$/\<li\>\1<\/li\>/g" >$rootpath/inbox/bookmarks.html \
- 	&& pandoc --no-wrap -o $rootpath/inbox/bookmarks.md $rootpath/inbox/bookmarks.html \
- 	&& open "$rootpath/inbox/bookmarks.md"
-}
-alias organizebookmarks=OrganizeBookmarks
 
 mailPriorityToDo() {
 	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "$3"
