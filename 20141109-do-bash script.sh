@@ -465,17 +465,6 @@ StartMyYear(){
 
 alias startyear=StartMyYear
 
-# file maniapulation functions
-
-convertAllFilenamesToLower(){
-
-	cd "$1"
-	for f in *; do mv "$f" "`echo $f | tr "[:upper:]" "[:lower:]"`"; done
-
-}
-
-alias renamedocs="convertAllFilenamesToLower '$rootpath/docs'"
-
 # print todo functions
 
 createDailyTodoPrintFile(){
