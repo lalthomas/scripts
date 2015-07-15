@@ -52,11 +52,7 @@ esac
 
 extension=".md"
 journalfilename=$today-$dayOfWeeK" personal journal"$extension
-workjournalfilename=$today-$dayOfWeeK" work journal"$extension
-devjournalfilename=$today-$dayOfWeeK" dev journal"$extension
-
 personaljournalfilepath="$rootpath/docs/$journalfilename"
-workjournalfilepath="$rootpath/docs work/$workjournalfilename"
 
 yesterdayjournalfilename=$yesterday-$dayofWeekYesterday" personal journal"$extension
 yesterdayPersonalJournalFilepath="$rootpath/docs/$yesterdayjournalfilename"
@@ -226,8 +222,6 @@ alias adddoneitemstomyjournal="addMyDoneItemsToJournal"
 alias adddoneitemstoyesterdaymyjournal="addMyDoneItemsToYesterdayJournal"
 
 alias createmyjournal="createJournalFile '$rootpath/do' '$rootpath/docs' '$journalfilename'"
-alias createworkjournal="createJournalFile '$rootpath/do work' '$rootpath/docs work' '$workjournalfilename'"
-alias createdevjournal="createJournalFile '$rootpath/do dev' '$rootpath/docs dev' '$devjournalfilename'"
 alias createjournal="createmyjournal && createworkjournal && createdevjournal"
 
 # todo routine todo scheduling functions
