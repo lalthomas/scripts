@@ -59,3 +59,24 @@ createMarkdownHeading(){
   esac  
   
 }
+
+StartServer(){
+
+	local serverRootPath=$1
+	cd "$serverRootPath"	
+	python "$rootpath/scripts/source/20140607-start simple http server with markdown support-python script.py"	
+
+}
+
+StartMarkdownServer(){
+
+	python "$rootpath/scripts/project/20150106-brainerd markdown server/brainerd.py"
+
+}
+
+alias startserverat="StartServer"
+alias startbirthdayserver="StartMarkdownServer"
+
+
+
+
