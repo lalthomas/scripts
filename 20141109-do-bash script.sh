@@ -65,21 +65,17 @@ alias exportbashhistory="grep -v '^#' $HISTFILE >'$rootpath/docs/$today-bash his
 ### todo.txt
 
 alias t='sh "$rootpath/do/todo.sh" -a -N -f'
-alias dt='sh "$rootpath/do dev/todo.sh" -a -N -f'
 alias wt='sh "$rootpath/do work/todo.sh" -a -N -f'
 
-alias devtodo='dt list'
 alias mytodo='t list'
 alias worktodo='wt list'
 
 alias mytodoarchive="t archive"
 alias worktoarchive="wt archive"
-alias devtodoarchive="dt archive"
 
-alias adddoreport="t report && wt report && dt report"
+alias adddoreport="t report && wt report"
 
 alias mytodobirdseyereport="t birdseye > '$rootpath/docs/$today-my todo birdseye report for week-$weekCount.md'"
-alias devtodobirdseyereport="dt birdseye > '$rootpath/docs dev/$today-dev todo birdseye report for week-$weekCount.md'"
 alias worktodobirdseyereport="wt birdseye > '$rootpath/docs work/$today-work todo birdseye report for week-$weekCount.md'"
 
 alias addtodobirdseyereport="mytodobirdseyereport && worktodobirdseyereport && devtodobirdseyereport"
@@ -1059,8 +1055,6 @@ alias createhometodoprintfile="createContextList 'home' '$rootpath/do' '$rootpat
 # wt listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "work todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
 # wt archive
 
-# dt listpri | sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g" | sed -E "s/([0-9]{3})[[:space:]](\((A|B|C)\))[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})//g"  | sed -E "s/(\+(.*))|(\@(.*))//g"  | sed '/TODO\:/d' | sed '/--/d' | mail -s  "dev todo" 'lalthomas+24a2d5+import@rmilk.com' 'lal.thomas.mail+todo@gmail.com'
-# dt archive
 
 # Hidden Applications
 # open -a 'FileMerge'"
