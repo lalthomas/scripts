@@ -17,8 +17,12 @@ set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 set copyfilename="D:\Dropbox\support\20140618-home support template-contact card.md"
 set /p name="enter contact name:"
 set /p homephonenumber="enter phone number:"
+set /p email="enter email:"
 
-set filename="%datestamp%-%name% %homephonenumber%.md"
+set filename="%datestamp%-%name%.md"
 type %copyfilename% >> %filename%
-echo %name% %homephonenumber%  >> %filename%
-
+echo %name% >> %filename%
+echo %homephonenumber%  >> %filename%
+echo %email% >> %filename%
+REM Open the file
+%filename%
