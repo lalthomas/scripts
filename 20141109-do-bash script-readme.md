@@ -1,6 +1,9 @@
 README
 ======
 
+Procedures
+----------
+
 ### How to test the script on development
 
 * open bash prompt
@@ -11,4 +14,7 @@ For Mac
 
 ### Run the script on production
 
+Log
+---
 
+* 2015-07-15 Dev, Work and Me do files are merged, so the change need to be propagated to script
