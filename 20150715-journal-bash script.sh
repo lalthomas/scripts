@@ -28,22 +28,7 @@ createJournalFile(){
 	  printf "\n\n" >>"$docJournalFile"	  
 
 	fi
-
-	# open the file
-	# open command don't work on windows	
-	case "$OSTYPE" in
-	darwin*) 
-		# OSX		
-		open "$docJournalFile"		
-		;; 
-	msys*)
-		# Windows
-		start "" "$docJournalFile"
-		;; 		
-	*) 
-		echo "unknown: $OSTYPE" 
-		;;
-	esac
+	openFile "$docJournalFile"
 }
 
 # //TODO : improve
@@ -67,5 +52,5 @@ log(){
 	echo "$now $@">> $doLogPath
 }
 
-alias addcheckintimetolog="log 'checkin' "
-alias addcheckouttimetolog="log 'checkout'"
+alias addCheckInTimetoLog="log 'checkin' "
+alias addCheckOutTimetoLog="log 'checkout'"
