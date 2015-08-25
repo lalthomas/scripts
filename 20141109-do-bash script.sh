@@ -82,12 +82,32 @@ scheduleToDoDailyTasks() {
 	
 }
 
-
 addDailyTasksForTheMonth(){
 
-	local numberOfDays=$1
-    local referencedate="$yearCount-$monthCount-01"
-
+	local referencedate=$yearCount-$monthCount"-01"
+		
+	if [ $# -eq 1 ]; 
+	then
+		local numberOfDays=$1
+	else
+		case $monthCount in
+			01) numberOfDays=31 ;;	
+			02) numberOfDays=29 ;;	
+			03) numberOfDays=31 ;;	
+			04) numberOfDays=30 ;;
+			05) numberOfDays=31 ;;	
+			06) numberOfDays=30 ;;	
+			07) numberOfDays=31 ;;	
+			08) numberOfDays=31 ;;	
+			09) numberOfDays=30 ;;	
+			10) numberOfDays=31 ;;	
+			11) numberOfDays=30 ;;	
+			12) numberOfDays=31 ;;		
+		esac
+    fi
+	
+	echo $numberOfDays
+	
 	# START=`echo $startDate | tr -d -`;	
 	for (( c=0; c<$numberOfDays; c++ ))
 	do
@@ -107,8 +127,6 @@ addDailyTasksForTheMonth(){
 	   esac		
 	done
 }
-
-alias adddailytasksforthemonth="addDailyTasksForTheMonth"
 
 # The `referencedate` is preferably be the first Monday of the month
 
