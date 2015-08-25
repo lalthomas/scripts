@@ -132,8 +132,9 @@ addDailyTasksForTheMonth(){
 
 scheduleToDoWeeklyTasks() {
 
-# in order to run the script properly the referencedate` should be start of the week
-# todo:get monday when week count is given
+# in order to run the script properly the `referencedate` should be start of the week
+# todo: get monday when week count is given
+# todo: get current week monday date
 
 	if [ $# -eq 1 ]; 
 	then
