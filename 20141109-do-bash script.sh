@@ -82,21 +82,6 @@ scheduleToDoDailyTasks() {
 
 alias scheduletododailytasks="scheduleToDoDailyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
 
-scheduleBatchTodoDailyTasks() {
-
-    if [ $# -eq 1 ];
-    then
-        scheduletododailytasks "$1"
-        
-    else
-        scheduletododailytasks        
-    fi
-
-}
-
-alias scheduletododailytasks="scheduleBatchTodoDailyTasks"
-
-
 addDailyTasksForTheMonth(){
 
 	local numberOfDays=$1
