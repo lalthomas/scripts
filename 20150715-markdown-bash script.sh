@@ -60,6 +60,24 @@ createMarkdownHeading(){
   
 }
 
+createMarkdownParagraph(){
+	local paraType=$1
+	local paraTitle=$2
+	local filePath=$3
+	
+	case $paraType in
+	'normal') 
+		printf "$paraTitle" >>"$filePath"
+		printf "\n\n" >>"$filePath"
+	;;
+	'code') 
+		printf "`$paraTitle`" >>"$filePath"
+		printf "\n\n" >>"$filePath"
+	;;
+	esac  
+}
+
+
 StartServer(){
 
 	local serverRootPath=$1
