@@ -191,11 +191,6 @@ scheduleToDoMonthlyTasks() {
 
    # add cygwin support
 
-   currentMonthFirstMonday=$(d=$(date -d `date +%Y%m"01"` +%u);date -d `date +%Y-%m-"0"$(((9-$d)%7))` '+%Y-%m-%d') # cygwin, git-bash 
-   currentMonthSecondMonday=$(date -d "$currentMonthFirstMonday 7 days" '+%Y-%m-%d')
-   currentMonthThirdMonday=$(date -d "$currentMonthFirstMonday 14 days" '+%Y-%m-%d')
-   currentMonthFourthMonday=$(date -d "$currentMonthFirstMonday 21 days" '+%Y-%m-%d')
-
 	if [ $# -eq 2 ]; 
 	then
 		export referencedate=$(date -v -Mon "+%Y-%m-%d") # we get the current week's Monday
@@ -209,12 +204,6 @@ scheduleToDoMonthlyTasks() {
 	sed -e "s/^0002/$currentMonthSecondMonday &/p" | \
 	sed -e "s/^0003/$currentMonthThirdMonday &/p" | \
 	sed -e "s/^0004/$currentMonthFourthMonday &/p" | \
-
-#	sed -e "s/^0001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-#	sed -e "s/^0002/$(date -j -v +7d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-#	sed -e "s/^0003/$(date -j -v +14d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-#	sed -e "s/^0004/$(date -j -v +21d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-
 	sort -n | \
 	uniq | \
 	tr '\r' ' '>>"$2"
