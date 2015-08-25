@@ -189,16 +189,9 @@ scheduleToDoWeeklyTasks() {
 
 scheduleToDoMonthlyTasks() {
 
-   # add cygwin support
-
-	if [ $# -eq 2 ]; 
-	then
-		export referencedate=$(date -v -Mon "+%Y-%m-%d") # we get the current week's Monday
-	else
-		export referencedate=$(date -j -v "mon" -f '%Y-%m-%d' "$3" +%Y-%m-%d)	    
-	fi
-	
-	sed -n -e "s/month:NN/month:$monthCount/p" <"$1" | \
+   # todo add support reference month   
+   
+	sed -n -e "s/month:NN/month:$monthCount/p" <"$doPlannerFile" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -e "s/^0001/$currentMonthFirstMonday &/p" | \
 	sed -e "s/^0002/$currentMonthSecondMonday &/p" | \
@@ -206,12 +199,9 @@ scheduleToDoMonthlyTasks() {
 	sed -e "s/^0004/$currentMonthFourthMonday &/p" | \
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>"$2"
+	tr '\r' ' '>>"$doTodoFile"
 	
 }
-
-alias scheduletodomonthlytasks="scheduleToDoMonthlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
-alias scheduletodomonthlytasks="scheduletodomonthlytasks"
 
 scheduleToDoYearlyTasks() {
 
