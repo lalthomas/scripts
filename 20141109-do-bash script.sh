@@ -10,35 +10,11 @@
 
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# find the OS type for rootPath
-
-case "$OSTYPE" in
-	darwin*) 
-	# OSX
-	export rootPath="/Users/rapid/Dropbox" 		
-	;; 
-	msys*) 
-	# Windows
-	export rootPath="/d/Dropbox"  	
-	;;		
-	cygwin*) 
-	# Windows
-	export rootPath="d:/Dropbox"  	
-	;;		
-	*) echo "unknown: $OSTYPE" ;;
-esac
-
-### todo.txt
-
-export doRootPath="$rootPath/action/20140310-do"	
-export doPlannerFile="$doRootPath/planner.md"
-export doTodoFile="$doRootPath/todo.txt"
-export doInvalidFile="$doRootPath/invalid.txt"
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
 alias todoarchive="t archive"
 alias addreport="t report"
-alias addtodobirdseyereport="t birdseye > '$rootPath/docs/$today-todo birdseye report for week-$weekCount.md'"
+alias addtodobirdseyereport="t birdseye > '$docRootPath/$today-todo birdseye report for week-$weekCount.md'"
 
 # todo routine todo scheduling functions
 
