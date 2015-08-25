@@ -43,13 +43,13 @@ alias addtodobirdseyereport="t birdseye > '$rootPath/docs/$today-todo birdseye r
 
 scheduleToDoDailyTasks() {
 
-	if [ $# -eq 2 ]; 
+	if [ $# -eq 1 ]; 
 	then
-		local referencedate=$(date "+%Y-%m-%d")
+		local referencedate="$1"		
 	    #exit 1
 	else
-		local referencedate="$3"
-	fi
+		local referencedate=$longdate
+	fi	
 	
 	case "$OSTYPE" in
 
