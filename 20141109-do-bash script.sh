@@ -245,16 +245,10 @@ bumpWeeklyTodoItems(){
 
 bumpMonthlyTodoItems(){
 
-	local todofilepath=$1
-	local todoundonefilepath=$2
-	
-	grep -e "\month:[0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
-	sed -i '' -e "/month:[0-9][0-9]/d" "$todofilepath"
+	grep -e "\month:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
+	sed -i '' -e "/month:[0-9][0-9]/d" "$doTodoFile"
 
 }
-
-alias bumptodomonthlyitems="bumpMonthlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptodomonthlyitems="bumptodomonthlyitems"
 
 bumpYearlyTodoItems(){
 
