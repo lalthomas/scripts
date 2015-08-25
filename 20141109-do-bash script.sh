@@ -132,19 +132,22 @@ addDailyTasksForTheMonth(){
 
 scheduleToDoWeeklyTasks() {
 
-	if [ $# -eq 2 ]; 
+# in order to run the script properly the referencedate` should be start of the week
+# todo:get monday when week count is given
+
+	if [ $# -eq 1 ]; 
 	then
-		local referencedate=$(date "+%Y-%m-%d")
+		local referencedate="$1"		
 	    #exit 1
 	else
-		local referencedate="$3"
+		local referencedate=$longdate
 	fi
 
 	case "$OSTYPE" in
 	darwin*) 
 		# OSX		
 		local currentWeekCount=$(date -j -f '%Y-%m-%d' $referencedate +%V)
-		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$1" | \
+		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$doPlannerFile" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
 		sed -e "s/^001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
 		sed -e "s/^002/$(date -j -v +1d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
@@ -155,14 +158,14 @@ scheduleToDoWeeklyTasks() {
 		sed -e "s/^007/$(date -j -v +6d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
 		sort -n | \
 		uniq | \
-		tr '\r' ' '>>"$2"
+		tr '\r' ' '>>"$doTodoFile"
 		
 		;; 
 	
 	cygwin|msys*)
 		# Windows		
 		local currentWeekCount="$(date -d"$referencedate" +%V)"
-		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$1" | \
+		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$doPlannerFile" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
 		sed -e "s/^001/$(date +%Y-%m-%d --d "$referencedate + 0 day") &/p" | \
 		sed -e "s/^002/$(date +%Y-%m-%d --d "$referencedate + 1 day") &/p" | \
@@ -173,7 +176,7 @@ scheduleToDoWeeklyTasks() {
 		sed -e "s/^007/$(date +%Y-%m-%d --d "$referencedate + 6 day") &/p" | \
 		sort -n | \
 		uniq | \
-		tr '\r' ' '>>"$2"
+		tr '\r' ' '>>"$doTodoFile"
 		;; 		
 					
 	*) 
@@ -182,22 +185,6 @@ scheduleToDoWeeklyTasks() {
 	esac	
 	
 }
-
-alias scheduletodoweeklytasks="scheduleToDoWeeklyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
-
-scheduleBatchTodoWeeklyTasks() {
-
-if [ $# -eq 1 ]; 
-	then
-		scheduletodoweeklytasks "$1"		
-		
-	else						
-		scheduletodoweeklytasks		
-	fi
-
-}
-
-alias scheduletodoweeklytasks="scheduleBatchTodoWeeklyTasks"
 
 scheduleToDoMonthlyTasks() {
 
