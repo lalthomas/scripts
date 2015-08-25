@@ -242,108 +242,55 @@ alias mailtodopriority="mailtodoprioritylist"
 
 # starty of day functions
 
-StartMyDay(){		
-		
-    # bumpmetododailyitems && \ schedulemetododailytasks
-    
-    commitdo 
-    commitreference
-    commitsupport   
-	createmyjournal		
+startDay(){		
+			
+    commitdo	
+	createJournalFile "$doPlannerFile" "$journalPath" "$doPlannerFile" "$doRootPath/journal.md"
+	addCheckInTimetoLog
 	
 	# GTD
-	open "$doRootPath/next.txt"
-	open "$doRootPath/contexts.md"
-	open "$doRootPath/projects.md"
+	# open "$doRootPath/$today-todo.txt"
+	openFile "$doRootPath/inbox.txt"
+	openFile "$doRootPath/contexts.md"
+	openFile "$doRootPath/projects.md"
 	
 }
-alias startmyday="StartMyDay && startbirthdayserver"
+endDay(){
 
-StartWorkDay(){
-
-    # bumpworktododailyitems && scheduleworktododailytasks
-	commitdowork 
-    commitreferencework
-    commitsupportwork	
-	createworkjournal
-	addcheckintimetoworkjournal
-	
-	# GTD
-	open "$doRootPath work/next.txt"
-	open "$doRootPath work/contexts.md"
-	open "$doRootPath work/projects.md"
-
-	# Apps
-	open -a "Xcode"
-	open -a "firefox"
-	open -a "thunderbird"
-	open -a "todotxtmac"
-	# open -a "skype"
-	#open -a "Momentics"
+	addCheckOutTimetoLog	
+	addMyDoneItemsToJournal
 }
 
-alias startworkday=StartWorkDay
-
-StartDevDay(){
-
-    # bumpdevtododailyitems && \ scheduledevtododailytasks
-    commitdodev
-    commitreferencedev
-    commitsupportdev	
-	createdevjournal
+startWeek(){
 	
-	# GTD
-	open "$doRootPath dev/next.txt"
-	open "$doRootPath dev/contexts.md"
-	open "$doRootPath dev/projects.md"
-
-}
-
-alias startdevday=StartDevDay
-
-EndWorkDay(){
-
-	addcheckouttimetoworkjournal	
+	# as per the current implemenation run either monday
+	# or as pass current week monday as argument otherwise 
+	# the command will produce undesired output
 	
-}
-
-alias endworkday=EndWorkDay
-
-StartMyWeek(){
-
-    #doarchive
-    #bumptodoweeklyitems
-		
 	if [ $# -eq 0 ]; 
 	then
-		scheduletodoweeklytasks	    		
+		scheduleToDoWeeklyTasks	    		
 	else
-		scheduletodoweeklytasks "$1"		
+		scheduleToDoWeeklyTasks "$1"		
 	fi	
 	commitdo	
 }
 
-alias startweek=StartMyWeek
+startMonth(){
 
-StartMyMonth(){
-
-    #doarchive
-	bumptodomonthlyitems && \
-	scheduletodomonthlytasks && \
+    doarchive
+	bumpMonthlyTodoItems && \
+	scheduleToDoMonthlyTasks && \
 	commitdo
 }
 
-alias startmymonth=StartMyMonth
-
-StartMyYear(){
+startYear(){
 
     #doarchive
-	bumptodoyearlyitems && \
-	scheduletodoyearlytasks && \
+	bumpYearlyTodoItems && \
+	scheduleToDoYearlyTasks && \
 	commitdo
 }
-
-alias startyear=StartMyYear
 
 # print todo functions
 
