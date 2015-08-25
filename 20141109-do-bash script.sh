@@ -10,32 +10,32 @@
 
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# find the OS type for rootpath
+# find the OS type for rootPath
 
 case "$OSTYPE" in
 	darwin*) 
 	# OSX
-	export rootpath="/Users/rapid/Dropbox" 		
+	export rootPath="/Users/rapid/Dropbox" 		
 	;; 
 	msys*) 
 	# Windows
-	export rootpath="/d/Dropbox"  	
+	export rootPath="/d/Dropbox"  	
 	;;		
 	cygwin*) 
 	# Windows
-	export rootpath="d:/Dropbox"  	
+	export rootPath="d:/Dropbox"  	
 	;;		
 	*) echo "unknown: $OSTYPE" ;;
 esac
 
 ### todo.txt
 
-export doRootPath="$rootpath/action/20140310-do"	
+export doRootPath="$rootPath/action/20140310-do"	
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
 alias todoarchive="t archive"
 alias addreport="t report"
-alias addtodobirdseyereport="t birdseye > '$rootpath/docs/$today-todo birdseye report for week-$weekCount.md'"
+alias addtodobirdseyereport="t birdseye > '$rootPath/docs/$today-todo birdseye report for week-$weekCount.md'"
 
 # todo routine todo scheduling functions
 
@@ -449,7 +449,7 @@ alias startyear=StartMyYear
 
 createDailyTodoPrintFile(){
 
-    local COPYDIR="$rootpath/Docs"
+    local COPYDIR="$rootPath/Docs"
     local printFile="$COPYDIR/$today-me daily todo print list for the month.md"
 
     echo >"$printFile"
@@ -491,7 +491,7 @@ createDailyTodoPrintFile(){
 
 createWeeklyTodoPrintFile(){
 
-    local COPYDIR="$rootpath/docs"
+    local COPYDIR="$rootPath/docs"
     local printFile="$COPYDIR/$today-me weekly todo print list for the month.md"
 
     echo >"$printFile"
@@ -534,7 +534,7 @@ createWeeklyTodoPrintFile(){
 
 createMonthlylyTodoPrintFile(){
 
-    local COPYDIR="$rootpath/docs"
+    local COPYDIR="$rootPath/docs"
     local printFile="$COPYDIR/$today-me monthly todo print list for the month.md"
 
     echo >"$printFile"
@@ -573,7 +573,7 @@ createMonthlylyTodoPrintFile(){
 
 createYearlyTodoPrintFile(){
 
-    local COPYDIR="$rootpath/docs"
+    local COPYDIR="$rootPath/docs"
     local printFile="$COPYDIR/$today-me yearly todo print list for the month.md"
 
     echo >"$printFile"
@@ -612,7 +612,7 @@ createYearlyTodoPrintFile(){
 
 createNonRecuringTodoPrintFile(){
 
-    local COPYDIR="$rootpath/docs"
+    local COPYDIR="$rootPath/docs"
     local printFile="$COPYDIR/$today-me yearly todo print list for projects.md"
 
     # \:\|month\:\|week\:\|day\:
@@ -657,8 +657,8 @@ createContextList(){
 
 }
 
-alias createshoptodoprintfile="createContextList 'shop' '$doRootPath' '$rootpath/docs/$today-shop list for month-$monthCount.md'"
-alias createhometodoprintfile="createContextList 'home' '$doRootPath' '$rootpath/docs/$today-home list for month-$monthCount.md'"
+alias createshoptodoprintfile="createContextList 'shop' '$doRootPath' '$rootPath/docs/$today-shop list for month-$monthCount.md'"
+alias createhometodoprintfile="createContextList 'home' '$doRootPath' '$rootPath/docs/$today-home list for month-$monthCount.md'"
 
 # remember the milk me update
 
