@@ -25,8 +25,40 @@ export doInvalidFile="$doRootPath/invalid.txt"
 export doJournalPath="$doRootPath/journal.md"
 export doLogPath="$doRootPath/log.txt"
 
+### reference
+
+export referenceRootPath="$rootPath/reference"
+
+### support
+
+export supportRootPath="$rootPath/support"
+
+
 ### docs
 
 export docRootPath="$rootPath/docs"	
 export docJournalFile="$docRootPath/$today-journal.md"
 export docYesterdayJournalFile="$docRootPath/$yesterday-journal.md"
+
+
+openFile(){
+
+# open the file
+	# open command don't work on windows	
+	case "$OSTYPE" in
+	cygwin*)		
+		 "C:/Program Files (x86)/Notepad++/notepad++.exe" "$1"
+		;;	
+	darwin*) 
+		# OSX		
+		open  "$1"		
+		;; 
+	msys*)
+		# Windows
+		start ""  "$1"
+		;; 		
+	*) 
+		echo "unknown: $OSTYPE" 
+		;;
+	esac
+}
