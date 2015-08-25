@@ -9,6 +9,7 @@ export weekCount=$(date +'%V')
 export dayOfWeeK=$(date +%A)
 export monthCount=$(date +'%m')
 export yearCount=$(date +'%Y')
+export now=$(date "+%Y-%m-%d %H%M%S")
 export dayOfWeekLowerCase=$(date +%A | sed -e 's/\(.*\)/\L\1/')
 export currentMonthFirstMonday=$(d=$(date -d `date +%Y%m"01"` +%u);date -d `date +%Y-%m-"0"$(((9-$d)%7))` '+%Y-%m-%d') # cygwin, git-bash 
 export currentMonthSecondMonday=$(date -d "$currentMonthFirstMonday 7 days" '+%Y-%m-%d')
