@@ -251,18 +251,11 @@ bumpMonthlyTodoItems(){
 }
 
 bumpYearlyTodoItems(){
-
-	local todofilepath=$1
-	local todoundonefilepath=$2
 	
-	grep -e "\year:[0-9][0-9][0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
-	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" "$todofilepath"
+	grep -e "\year:[0-9][0-9][0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
+	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" "$doTodoFile"
 
 }
-
-alias bumptodoyearlyitems="bumpYearlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptodoyearlyitems="bumptodoyearlyitems"
-
 
 mailPriorityToDo() {
 	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "$3"
