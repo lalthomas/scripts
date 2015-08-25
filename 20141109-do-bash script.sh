@@ -82,7 +82,6 @@ scheduleToDoDailyTasks() {
 	
 }
 
-alias scheduletododailytasks="scheduleToDoDailyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
 
 addDailyTasksForTheMonth(){
 
@@ -97,13 +96,13 @@ addDailyTasksForTheMonth(){
 		 darwin*) 		
 		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
 		  # don't refactor
-		  scheduletododailytasks $doDate          
+		  scheduleToDoDailyTasks $doDate          
 		;; 
 		cygwin|msys*)		
 		 # Windows		  
 		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
 		  # don't refactor
-		  scheduletododailytasks $doDate          
+		  scheduleToDoDailyTasks $doDate          
 		;; 		
 	   esac		
 	done
