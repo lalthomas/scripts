@@ -73,12 +73,12 @@ scheduleToDoDailyTasks() {
         ;;
 	esac	
 	
-	sed -n -e "s/day:NN/day:$dateNum/p" <"$1" | \
+	sed -n -e "s/day:NN/day:$dateNum/p" <"$doPlannerFile" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -n -e "s/^/$referencedate /p" | \
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>"$2"
+	tr '\r' ' '>>"$doTodoFile"
 	
 }
 
