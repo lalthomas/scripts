@@ -33,6 +33,7 @@ esac
 export doRootPath="$rootPath/action/20140310-do"	
 export doPlannerFile="$doRootPath/planner.md"
 export doTodoFile="$doRootPath/todo.txt"
+export doInvalidFile="$doRootPath/invalid.txt"
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
 alias todoarchive="t archive"
@@ -227,19 +228,13 @@ scheduleToDoYearlyTasks() {
 	
 }
 
-bumpDailyTodoItems(){
+bumpDailyTodoItems(){	
 
-	local todofilepath="$1"
-	local todoundonefilepath="$2"
-	
-	grep -e "\day:[0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
+	grep -e "\day:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
 	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
-	sed -i '' -e "/day:[0-9][0-9]/d" "$todofilepath"
+	sed -i '' -e "/day:[0-9][0-9]/d" "$doTodoFile"
 	
 }
-
-alias bumptododailyitems="bumpDailyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptododailyitems="bumptododailyitems"
 
 bumpWeeklyTodoItems(){
 
