@@ -205,16 +205,9 @@ scheduleToDoMonthlyTasks() {
 
 scheduleToDoYearlyTasks() {
 
-	# TODO : add cygwin support
-
-	if [ $# -eq 2 ]; 
-	then
-		export referencedate=$(date -v -Mon "+%Y-%m-%d")
-	else
-		export referencedate=$(date -j -v "mon" -f '%Y-%m-%d' "$3" +%Y-%m-%d)	    
-	fi
+	# TODO : add support for referenceYear
 	
-	sed -n -e "s/year:NNNN/year:$yearCount/p" <"$1" | \
+	sed -n -e "s/year:NNNN/year:$yearCount/p" <"$doPlannerFile" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -e "s/^00001/$yearCount-01-01 &/p" | \
 	sed -e "s/^00002/$yearCount-02-01 &/p" | \
@@ -230,25 +223,9 @@ scheduleToDoYearlyTasks() {
 	sed -e "s/^00012/$yearCount-12-01 &/p" | \
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>$2
+	tr '\r' ' '>>"$doTodoFile"
 	
 }
-
-alias scheduletodoyearlytasks="scheduleToDoYearlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
-
-
-scheduleBatchTodoYearlyTasks() {
-
-    if [ $# -eq 1 ];
-    then
-        scheduletodoyearlytasks "$1"        
-    else
-        scheduletodoyearlytasks        
-    fi
-
-}
-
-alias scheduletodoyearlytasks="scheduleBatchTodoYearlyTasks"
 
 bumpDailyTodoItems(){
 
