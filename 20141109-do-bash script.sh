@@ -31,6 +31,8 @@ esac
 ### todo.txt
 
 export doRootPath="$rootPath/action/20140310-do"	
+export doPlannerFile="$doRootPath/planner.md"
+export doTodoFile="$doRootPath/todo.txt"
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
 alias todoarchive="t archive"
