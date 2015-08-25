@@ -29,10 +29,9 @@ commitGitRepoChanges(){
 	
 }
 
-alias commitdo="commitGitRepoChanges '$rootpath/do/'"
-alias commitreference="commitGitRepoChanges '$rootpath/reference/'"
-alias commitsupport="commitGitRepoChanges '$rootpath/support/'"
-alias commitscript="commitGitRepoChanges '$rootpath/scripts/source'"
+alias commitdo="commitGitRepoChanges '$doRootPath'"
+alias commitreference="commitGitRepoChanges '$referenceRootPath'"
+alias commitsupport="commitGitRepoChanges '$supportRootPath'"
 
 createArticleRepository(){
 
@@ -45,12 +44,11 @@ createArticleRepository(){
 	
 }
 
-alias createblogpost="createArticleRepository '$rootpath/blog'"
 
 # thanks https://www.gitignore.io/docs
 # run creategitignore xcode >.gitignore
 
-function creategitignore() { 
+creategitignore() { 
 
 curl -L -s "https://www.gitignore.io/api/$@"
 
@@ -108,4 +106,3 @@ createProjectRepository(){
 
 alias createprojectrepo="createProjectRepository"
 alias createxcodeproject="createProjectRepository 'xcode'"
-alias createxcodeprojectatlabwork="createProjectRepository 'xcode' '$rootpath/lab work/'"
