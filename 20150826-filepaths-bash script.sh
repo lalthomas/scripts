@@ -33,18 +33,24 @@ export referenceRootPath="$rootPath/reference"
 
 export supportRootPath="$rootPath/support"
 
-
 ### docs
 
 export docRootPath="$rootPath/docs"	
 export docJournalFile="$docRootPath/$today-journal.md"
 export docYesterdayJournalFile="$docRootPath/$yesterday-journal.md"
 
+### print file
+
+
+
 
 openFile(){
 
+# open command don't work on windows	
+# todo: add support multiple type for cygwin
+
 # open the file
-	# open command don't work on windows	
+
 	case "$OSTYPE" in
 	cygwin*)		
 		 "C:/Program Files (x86)/Notepad++/notepad++.exe" "$1"
