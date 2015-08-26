@@ -14,6 +14,16 @@ For Mac
 
 ### Run the script on production
 
+Files
+-----
+
+- 20141109-do-bash script-readme.md
+- 20141109-do-bash script.sh
+- 20141109-do-bash script-tickets.txt
+- 20150825-do-bash script-testing checklist.md
+- 20150825-do-bash script-testing script.sh
+
+
 Log
 ---
 

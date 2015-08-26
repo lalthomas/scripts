@@ -10,44 +10,23 @@
 
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# find the OS type for rootpath
-
-case "$OSTYPE" in
-	darwin*) 
-	# OSX
-	export rootpath="/Users/rapid/Dropbox" 		
-	;; 
-	msys*) 
-	# Windows
-	export rootpath="/d/Dropbox"  	
-	;;		
-	cygwin*) 
-	# Windows
-	export rootpath="d:/Dropbox"  	
-	;;		
-	*) echo "unknown: $OSTYPE" ;;
-esac
-
-### todo.txt
-
-export doRootPath="$rootpath/action/20140310-do"	
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
 alias todoarchive="t archive"
 alias addreport="t report"
-alias addtodobirdseyereport="t birdseye > '$rootpath/docs/$today-todo birdseye report for week-$weekCount.md'"
+alias addtodobirdseyereport="t birdseye > '$docRootPath/$today-todo birdseye report for week-$weekCount.md'"
 
 # todo routine todo scheduling functions
 
 scheduleToDoDailyTasks() {
 
-	if [ $# -eq 2 ]; 
+	if [ $# -eq 1 ]; 
 	then
-		local referencedate=$(date "+%Y-%m-%d")
+		local referencedate="$1"		
 	    #exit 1
 	else
-		local referencedate="$3"
-	fi
+		local referencedate=$longdate
+	fi	
 	
 	case "$OSTYPE" in
 
@@ -71,37 +50,41 @@ scheduleToDoDailyTasks() {
         ;;
 	esac	
 	
-	sed -n -e "s/day:NN/day:$dateNum/p" <"$1" | \
+	sed -n -e "s/day:NN/day:$dateNum/p" <"$doPlannerFile" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -n -e "s/^/$referencedate /p" | \
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>"$2"
+	tr '\r' ' '>>"$doTodoFile"
 	
 }
 
-alias scheduletododailytasks="scheduleToDoDailyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
-
-scheduleBatchTodoDailyTasks() {
-
-    if [ $# -eq 1 ];
-    then
-        scheduletododailytasks "$1"
-        
-    else
-        scheduletododailytasks        
-    fi
-
-}
-
-alias scheduletododailytasks="scheduleBatchTodoDailyTasks"
-
-
 addDailyTasksForTheMonth(){
 
-	local numberOfDays=$1
-    local referencedate="$yearCount-$monthCount-01"
-
+	local referencedate=$yearCount-$monthCount"-01"
+		
+	if [ $# -eq 1 ]; 
+	then
+		local numberOfDays=$1
+	else
+		case $monthCount in
+			01) numberOfDays=31 ;;	
+			02) numberOfDays=29 ;;	
+			03) numberOfDays=31 ;;	
+			04) numberOfDays=30 ;;
+			05) numberOfDays=31 ;;	
+			06) numberOfDays=30 ;;	
+			07) numberOfDays=31 ;;	
+			08) numberOfDays=31 ;;	
+			09) numberOfDays=30 ;;	
+			10) numberOfDays=31 ;;	
+			11) numberOfDays=30 ;;	
+			12) numberOfDays=31 ;;		
+		esac
+    fi
+	
+	echo $numberOfDays
+	
 	# START=`echo $startDate | tr -d -`;	
 	for (( c=0; c<$numberOfDays; c++ ))
 	do
@@ -110,37 +93,39 @@ addDailyTasksForTheMonth(){
 		 darwin*) 		
 		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
 		  # don't refactor
-		  scheduletododailytasks $doDate          
+		  scheduleToDoDailyTasks $doDate          
 		;; 
 		cygwin|msys*)		
 		 # Windows		  
 		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
 		  # don't refactor
-		  scheduletododailytasks $doDate          
+		  scheduleToDoDailyTasks $doDate          
 		;; 		
 	   esac		
 	done
 }
 
-alias adddailytasksforthemonth="addDailyTasksForTheMonth"
-
 # The `referencedate` is preferably be the first Monday of the month
 
 scheduleToDoWeeklyTasks() {
 
-	if [ $# -eq 2 ]; 
+# in order to run the script properly the `referencedate` should be start of the week
+# todo: get monday when week count is given
+# todo: get current week monday date
+
+	if [ $# -eq 1 ]; 
 	then
-		local referencedate=$(date "+%Y-%m-%d")
+		local referencedate="$1"		
 	    #exit 1
 	else
-		local referencedate="$3"
+		local referencedate=$longdate
 	fi
 
 	case "$OSTYPE" in
 	darwin*) 
 		# OSX		
 		local currentWeekCount=$(date -j -f '%Y-%m-%d' $referencedate +%V)
-		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$1" | \
+		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$doPlannerFile" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
 		sed -e "s/^001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
 		sed -e "s/^002/$(date -j -v +1d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
@@ -151,14 +136,14 @@ scheduleToDoWeeklyTasks() {
 		sed -e "s/^007/$(date -j -v +6d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
 		sort -n | \
 		uniq | \
-		tr '\r' ' '>>"$2"
+		tr '\r' ' '>>"$doTodoFile"
 		
 		;; 
 	
 	cygwin|msys*)
 		# Windows		
 		local currentWeekCount="$(date -d"$referencedate" +%V)"
-		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$1" | \
+		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$doPlannerFile" | \
 		sed -n -e "s/\*[[:blank:]]//p" | \
 		sed -e "s/^001/$(date +%Y-%m-%d --d "$referencedate + 0 day") &/p" | \
 		sed -e "s/^002/$(date +%Y-%m-%d --d "$referencedate + 1 day") &/p" | \
@@ -169,7 +154,7 @@ scheduleToDoWeeklyTasks() {
 		sed -e "s/^007/$(date +%Y-%m-%d --d "$referencedate + 6 day") &/p" | \
 		sort -n | \
 		uniq | \
-		tr '\r' ' '>>"$2"
+		tr '\r' ' '>>"$doTodoFile"
 		;; 		
 					
 	*) 
@@ -179,71 +164,27 @@ scheduleToDoWeeklyTasks() {
 	
 }
 
-alias scheduletodoweeklytasks="scheduleToDoWeeklyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
-
-scheduleBatchTodoWeeklyTasks() {
-
-if [ $# -eq 1 ]; 
-	then
-		scheduletodoweeklytasks "$1"		
-		
-	else						
-		scheduletodoweeklytasks		
-	fi
-
-}
-
-alias scheduletodoweeklytasks="scheduleBatchTodoWeeklyTasks"
-
 scheduleToDoMonthlyTasks() {
 
-   # add cygwin support
-
-   currentMonthFirstMonday=$(d=$(date -d `date +%Y%m"01"` +%u);date -d `date +%Y-%m-"0"$(((9-$d)%7))` '+%Y-%m-%d') # cygwin, git-bash 
-   currentMonthSecondMonday=$(date -d "$currentMonthFirstMonday 7 days" '+%Y-%m-%d')
-   currentMonthThirdMonday=$(date -d "$currentMonthFirstMonday 14 days" '+%Y-%m-%d')
-   currentMonthFourthMonday=$(date -d "$currentMonthFirstMonday 21 days" '+%Y-%m-%d')
-
-	if [ $# -eq 2 ]; 
-	then
-		export referencedate=$(date -v -Mon "+%Y-%m-%d") # we get the current week's Monday
-	else
-		export referencedate=$(date -j -v "mon" -f '%Y-%m-%d' "$3" +%Y-%m-%d)	    
-	fi
-	
-	sed -n -e "s/month:NN/month:$monthCount/p" <"$1" | \
+   # todo add support reference month   
+   
+	sed -n -e "s/month:NN/month:$monthCount/p" <"$doPlannerFile" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -e "s/^0001/$currentMonthFirstMonday &/p" | \
 	sed -e "s/^0002/$currentMonthSecondMonday &/p" | \
 	sed -e "s/^0003/$currentMonthThirdMonday &/p" | \
 	sed -e "s/^0004/$currentMonthFourthMonday &/p" | \
-
-#	sed -e "s/^0001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-#	sed -e "s/^0002/$(date -j -v +7d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-#	sed -e "s/^0003/$(date -j -v +14d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-#	sed -e "s/^0004/$(date -j -v +21d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>"$2"
+	tr '\r' ' '>>"$doTodoFile"
 	
 }
 
-alias scheduletodomonthlytasks="scheduleToDoMonthlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
-alias scheduletodomonthlytasks="scheduletodomonthlytasks"
-
 scheduleToDoYearlyTasks() {
 
-	# TODO : add cygwin support
-
-	if [ $# -eq 2 ]; 
-	then
-		export referencedate=$(date -v -Mon "+%Y-%m-%d")
-	else
-		export referencedate=$(date -j -v "mon" -f '%Y-%m-%d' "$3" +%Y-%m-%d)	    
-	fi
+	# TODO : add support for referenceYear
 	
-	sed -n -e "s/year:NNNN/year:$yearCount/p" <"$1" | \
+	sed -n -e "s/year:NNNN/year:$yearCount/p" <"$doPlannerFile" | \
 	sed -n -e "s/\*[[:blank:]]//p" | \
 	sed -e "s/^00001/$yearCount-01-01 &/p" | \
 	sed -e "s/^00002/$yearCount-02-01 &/p" | \
@@ -259,79 +200,38 @@ scheduleToDoYearlyTasks() {
 	sed -e "s/^00012/$yearCount-12-01 &/p" | \
 	sort -n | \
 	uniq | \
-	tr '\r' ' '>>$2
+	tr '\r' ' '>>"$doTodoFile"
 	
 }
 
-alias scheduletodoyearlytasks="scheduleToDoYearlyTasks '$doRootPath/planner.md' '$doRootPath/todo.txt'"
+bumpDailyTodoItems(){	
 
-
-scheduleBatchTodoYearlyTasks() {
-
-    if [ $# -eq 1 ];
-    then
-        scheduletodoyearlytasks "$1"        
-    else
-        scheduletodoyearlytasks        
-    fi
-
-}
-
-alias scheduletodoyearlytasks="scheduleBatchTodoYearlyTasks"
-
-bumpDailyTodoItems(){
-
-	local todofilepath="$1"
-	local todoundonefilepath="$2"
-	
-	grep -e "\day:[0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
+	grep -e "\day:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
 	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
-	sed -i '' -e "/day:[0-9][0-9]/d" "$todofilepath"
+	sed -i '' -e "/day:[0-9][0-9]/d" "$doTodoFile"
 	
 }
-
-alias bumptododailyitems="bumpDailyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptododailyitems="bumptododailyitems"
 
 bumpWeeklyTodoItems(){
 
-	local todofilepath="$1"
-	local todoundonefilepath="$2"
-	
-	grep -e "\week:[0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
-	sed -i '' -e "/week:[0-9][0-9]/d" "$todofilepath"
+	grep -e "\week:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
+	sed -i '' -e "/week:[0-9][0-9]/d" "$doTodoFile"
 
 }
-
-alias bumptodoweeklyitems="bumpWeeklyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptodoweeklyitems="bumptodoweeklyitems"
 
 bumpMonthlyTodoItems(){
 
-	local todofilepath=$1
-	local todoundonefilepath=$2
-	
-	grep -e "\month:[0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
-	sed -i '' -e "/month:[0-9][0-9]/d" "$todofilepath"
+	grep -e "\month:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
+	sed -i '' -e "/month:[0-9][0-9]/d" "$doTodoFile"
 
 }
-
-alias bumptodomonthlyitems="bumpMonthlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptodomonthlyitems="bumptodomonthlyitems"
 
 bumpYearlyTodoItems(){
-
-	local todofilepath=$1
-	local todoundonefilepath=$2
 	
-	grep -e "\year:[0-9][0-9][0-9][0-9]" "$todofilepath" >> "$todoundonefilepath"
-	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" "$todofilepath"
+	grep -e "\year:[0-9][0-9][0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
+	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" "$doTodoFile"
 
 }
-
-alias bumptodoyearlyitems="bumpYearlyTodoItems '$doRootPath/todo.txt' '$doRootPath/undone.txt' "
-alias bumptodoyearlyitems="bumptodoyearlyitems"
-
 
 mailPriorityToDo() {
 	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "$3"
@@ -342,115 +242,61 @@ alias mailtodopriority="mailtodoprioritylist"
 
 # starty of day functions
 
-StartMyDay(){		
-		
-    # bumpmetododailyitems && \ schedulemetododailytasks
-    
-    commitdo 
-    commitreference
-    commitsupport   
-	createmyjournal		
+startDay(){		
+			
+    commitdo	
+	createJournalFile "$doPlannerFile" "$journalPath" "$doPlannerFile" "$doRootPath/journal.md"
+	addCheckInTimetoLog
 	
 	# GTD
-	open "$doRootPath/next.txt"
-	open "$doRootPath/contexts.md"
-	open "$doRootPath/projects.md"
+	# open "$doRootPath/$today-todo.txt"
+	openFile "$doRootPath/inbox.txt"
+	openFile "$doRootPath/contexts.md"
+	openFile "$doRootPath/projects.md"
 	
 }
-alias startmyday="StartMyDay && startbirthdayserver"
+endDay(){
 
-StartWorkDay(){
-
-    # bumpworktododailyitems && scheduleworktododailytasks
-	commitdowork 
-    commitreferencework
-    commitsupportwork	
-	createworkjournal
-	addcheckintimetoworkjournal
-	
-	# GTD
-	open "$doRootPath work/next.txt"
-	open "$doRootPath work/contexts.md"
-	open "$doRootPath work/projects.md"
-
-	# Apps
-	open -a "Xcode"
-	open -a "firefox"
-	open -a "thunderbird"
-	open -a "todotxtmac"
-	# open -a "skype"
-	#open -a "Momentics"
+	addCheckOutTimetoLog	
+	addMyDoneItemsToJournal
 }
 
-alias startworkday=StartWorkDay
-
-StartDevDay(){
-
-    # bumpdevtododailyitems && \ scheduledevtododailytasks
-    commitdodev
-    commitreferencedev
-    commitsupportdev	
-	createdevjournal
+startWeek(){
 	
-	# GTD
-	open "$doRootPath dev/next.txt"
-	open "$doRootPath dev/contexts.md"
-	open "$doRootPath dev/projects.md"
-
-}
-
-alias startdevday=StartDevDay
-
-EndWorkDay(){
-
-	addcheckouttimetoworkjournal	
+	# as per the current implemenation run either monday
+	# or as pass current week monday as argument otherwise 
+	# the command will produce undesired output
 	
-}
-
-alias endworkday=EndWorkDay
-
-StartMyWeek(){
-
-    #doarchive
-    #bumptodoweeklyitems
-		
 	if [ $# -eq 0 ]; 
 	then
-		scheduletodoweeklytasks	    		
+		scheduleToDoWeeklyTasks	    		
 	else
-		scheduletodoweeklytasks "$1"		
+		scheduleToDoWeeklyTasks "$1"		
 	fi	
 	commitdo	
 }
 
-alias startweek=StartMyWeek
+startMonth(){
 
-StartMyMonth(){
-
-    #doarchive
-	bumptodomonthlyitems && \
-	scheduletodomonthlytasks && \
+    doarchive
+	bumpMonthlyTodoItems && \
+	scheduleToDoMonthlyTasks && \
 	commitdo
 }
 
-alias startmymonth=StartMyMonth
-
-StartMyYear(){
+startYear(){
 
     #doarchive
-	bumptodoyearlyitems && \
-	scheduletodoyearlytasks && \
+	bumpYearlyTodoItems && \
+	scheduleToDoYearlyTasks && \
 	commitdo
 }
-
-alias startyear=StartMyYear
 
 # print todo functions
 
 createDailyTodoPrintFile(){
-
-    local COPYDIR="$rootpath/Docs"
-    local printFile="$COPYDIR/$today-me daily todo print list for the month.md"
+    
+    local printFile="$docRootPath/$today-daily todo list.md"
 
     echo >"$printFile"
     echo >"$printFile.html"
@@ -469,30 +315,14 @@ createDailyTodoPrintFile(){
         printf "\n\n" >>"$printFile"
 
     done
-
-    # Formatting the file - remove context heading
-    # sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
-
-    # thanks http://stackoverflow.com/a/7567839/2182047
-    # sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
-
-    # remove double space with one space
-    # sed -i '' -e 's/  */ /g' "$printFile"
-
-    # add li listing
-    # sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
-
-    # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
-
 
 }
 
 
 createWeeklyTodoPrintFile(){
 
-    local COPYDIR="$rootpath/docs"
-    local printFile="$COPYDIR/$today-me weekly todo print list for the month.md"
+    local printFile="$docRootPath/$today-weekly todo list.md"
 
     echo >"$printFile"
     echo >"$printFile.html"
@@ -512,30 +342,13 @@ createWeeklyTodoPrintFile(){
         printf "\n\n" >>"$printFile"
 
     done
-
-    # Formatting the file
-    #sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
-
-    # thanks http://stackoverflow.com/a/7567839/2182047
-    #sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
-
-    # remove double space with one space
-    #sed -i '' -e 's/  */ /g' "$printFile"
-
-    # add li listing
-    #sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
-
-    # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
-
-
 }
 
 
 createMonthlylyTodoPrintFile(){
 
-    local COPYDIR="$rootpath/docs"
-    local printFile="$COPYDIR/$today-me monthly todo print list for the month.md"
+    local printFile="$docRootPath/$today-monthly todo list.md"
 
     echo >"$printFile"
     echo >"$printFile.html"
@@ -553,18 +366,6 @@ createMonthlylyTodoPrintFile(){
         printf "\n\n" >>"$printFile"
     done
 
-    # Formatting the file
-    #sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
-
-    # thanks http://stackoverflow.com/a/7567839/2182047
-    #sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
-
-    # remove double space with one space
-    #sed -i '' -e 's/  */ /g' "$printFile"
-
-    # add li listing
-    #sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
-
     # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
 
@@ -572,9 +373,8 @@ createMonthlylyTodoPrintFile(){
 
 
 createYearlyTodoPrintFile(){
-
-    local COPYDIR="$rootpath/docs"
-    local printFile="$COPYDIR/$today-me yearly todo print list for the month.md"
+    
+    local printFile="$docRootPath/$today-yearly todo list.md"
 
     echo >"$printFile"
     echo >"$printFile.html"
@@ -591,20 +391,7 @@ createYearlyTodoPrintFile(){
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
         printf "\n\n" >>"$printFile"
     done
-
-    # Formatting the file
-    # sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
-
-    # thanks http://stackoverflow.com/a/7567839/2182047
-    # sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
-
-    # remove double space with one space
-    # sed -i '' -e 's/  */ /g' "$printFile"
-
-    # add li listing
-    # sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
-
-    # convert to markdown
+	
     pandoc -o "$printFile.html" "$printFile"
 
 }
@@ -612,8 +399,7 @@ createYearlyTodoPrintFile(){
 
 createNonRecuringTodoPrintFile(){
 
-    local COPYDIR="$rootpath/docs"
-    local printFile="$COPYDIR/$today-me yearly todo print list for projects.md"
+    local printFile="$docRootPath/$today-projects todo list.md"
 
     # \:\|month\:\|week\:\|day\:
     t -+ -p view project | sed -e '/year:/d' | sed -e '/month:/d' | sed -e '/week:/d' | sed -e '/day:/d'  >>"$printFile"
@@ -648,17 +434,14 @@ createContextList(){
     echo "*Date of Creation* : $longdate" >>"$printfile"
     echo >>"$printfile"
 
-    grep -i "\@$context" <"$2/todo.txt" | \
+    grep -i "\@$context" <"$doTodoFile" | \
     sed -n -e "s/^\(.*\)/* &/p" >>"$printfile"
-
-    echo >>"$printfile"
-
-    grep -i "\@$context" <"$2/next.md" >>"$printfile"
+    echo >>"$printfile"    
 
 }
 
-alias createshoptodoprintfile="createContextList 'shop' '$doRootPath' '$rootpath/docs/$today-shop list for month-$monthCount.md'"
-alias createhometodoprintfile="createContextList 'home' '$doRootPath' '$rootpath/docs/$today-home list for month-$monthCount.md'"
+alias createshoptodoprintfile="createContextList 'shop' '$doRootPath' '$docRootPath/$today-shop list for month-$monthCount.md'"
+alias createhometodoprintfile="createContextList 'home' '$doRootPath' '$docRootPath/$today-home list for month-$monthCount.md'"
 
 # remember the milk me update
 

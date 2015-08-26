@@ -3,32 +3,37 @@
 # Date : 2015-07-15
 # © Lal Thomas (lal.thomas.mail@gmail.com)
 
-alias today=$(date "+%Y%m%d")
-alias longdate=$(date "+%Y-%m-%d")
-alias weekCount=$(date +'%V')
-alias dayOfWeeK=$(date +%A)
-alias monthCount=$(date +'%m')
-alias yearCount=$(date +'%Y')
-alias dayOfWeekLowerCase=$(date +%A | sed -e 's/\(.*\)/\L\1/')
+export today=$(date "+%Y%m%d")
+export longdate=$(date "+%Y-%m-%d")
+export weekCount=$(date +'%V')
+export dayOfWeeK=$(date +%A)
+export monthCount=$(date +'%m')
+export yearCount=$(date +'%Y')
+export now=$(date "+%Y-%m-%d %H%M%S")
+export dayOfWeekLowerCase=$(date +%A | sed -e 's/\(.*\)/\L\1/')
+export currentMonthFirstMonday=$(d=$(date -d `date +%Y%m"01"` +%u);date -d `date +%Y-%m-"0"$(((9-$d)%7))` '+%Y-%m-%d') # cygwin, git-bash 
+export currentMonthSecondMonday=$(date -d "$currentMonthFirstMonday 7 days" '+%Y-%m-%d')
+export currentMonthThirdMonday=$(date -d "$currentMonthFirstMonday 14 days" '+%Y-%m-%d')
+export currentMonthFourthMonday=$(date -d "$currentMonthFirstMonday 21 days" '+%Y-%m-%d')
 case "$OSTYPE" in
 	darwin*) 
 	# OSX	
-	alias yesterday=$(date -v-1d "+%Y%m%d")
-	alias longyesterday=$(date -v-1d "+%Y-%m-%d")	
-	alias dayofWeekYesterday=$(date -v-1d +%A)
+	export yesterday=$(date -v-1d "+%Y%m%d")
+	export longyesterday=$(date -v-1d "+%Y-%m-%d")	
+	export dayofWeekYesterday=$(date -v-1d +%A)
 	;; 
 	msys*) 
 	# Windows	
-	alias yesterday=$(date --date='yesterday' +'%Y%m%d')
-	alias longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
-	alias dayofWeekYesterday=$(date --date='yesterday' +%A)
+	export yesterday=$(date --date='yesterday' +'%Y%m%d')
+	export longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
+	export dayofWeekYesterday=$(date --date='yesterday' +%A)
 	;;	
 	
 	cygwin*) 
 	# Windows	
-	alias yesterday=$(date --date='yesterday' +'%Y%m%d')
-	alias longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
-	alias dayofWeekYesterday=$(date --date='yesterday' +%A)
+	export yesterday=$(date --date='yesterday' +'%Y%m%d')
+	export longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
+	export dayofWeekYesterday=$(date --date='yesterday' +%A)
 	;;	
 	
 	*) 
