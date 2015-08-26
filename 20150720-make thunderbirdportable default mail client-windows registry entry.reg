@@ -1,0 +1,22 @@
+; Windows Registry Editor Version 5.00
+; date of creation 2015-07-20
+; thanks : http://www.ardorpes.com/2009/05/02/make-portable-thunderbird-you-default-mail-client/
+; Changes to make TB Portable the default e-mail client 
+; Make your TB Portable the default mail client: Tools > Options. Don’t skip this step. 
+; Edit YOUR ThunderbirdPortable.exe path below. MINE is E:\\Program Files\\ThunderbirdPortable\\ThunderbirdPortable.exe 
+; Run this patch and you are done.
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Clients\Mail\Mozilla Thunderbird\shell\open\command] 
+@="\"D:\\PortableApps.com\\PortableApps\\ThunderbirdPortable\\ThunderbirdPortable.exe\" -mail"
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Clients\Mail\Mozilla Thunderbird\shell\properties] 
+@="Thunderbird &Options"
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Clients\Mail\Mozilla Thunderbird\shell\properties\command] 
+@="\"D:\\PortableApps.com\\PortableApps\\ThunderbirdPortable\\ThunderbirdPortable.exe\" -options"
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Classes\mailto\DefaultIcon] 
+@="D:\\PortableApps.com\\PortableApps\\ThunderbirdPortable\\App\\thunderbird\\thunderbird.exe,0"
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Classes\mailto\shell\open\command] 
+@="\"D:\\PortableApps.com\\PortableApps\\ThunderbirdPortable\\ThunderbirdPortable.exe\" \"%1\""
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Clients\Mail] 
+@="Mozilla Thunderbird"
+; This fixes MAPI
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{29F458BE-8866-11D5-A3DD-00B0D0F3BAA7}\LocalServer32] 
+@="D:\\PortableApps.com\\PortableApps\\ThunderbirdPortable\\ThunderbirdPortable.exe /MAPIStartUp"
