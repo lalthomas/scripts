@@ -295,9 +295,8 @@ startYear(){
 # print todo functions
 
 createDailyTodoPrintFile(){
-
-    local COPYDIR="$rootPath/Docs"
-    local printFile="$COPYDIR/$today-me daily todo print list for the month.md"
+    
+    local printFile="$docRootPath/$today-daily todo list.md"
 
     echo >"$printFile"
     echo >"$printFile.html"
@@ -316,30 +315,14 @@ createDailyTodoPrintFile(){
         printf "\n\n" >>"$printFile"
 
     done
-
-    # Formatting the file - remove context heading
-    # sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
-
-    # thanks http://stackoverflow.com/a/7567839/2182047
-    # sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
-
-    # remove double space with one space
-    # sed -i '' -e 's/  */ /g' "$printFile"
-
-    # add li listing
-    # sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
-
-    # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
-
 
 }
 
 
 createWeeklyTodoPrintFile(){
 
-    local COPYDIR="$rootPath/docs"
-    local printFile="$COPYDIR/$today-me weekly todo print list for the month.md"
+    local printFile="$docRootPath/$today-weekly todo list.md"
 
     echo >"$printFile"
     echo >"$printFile.html"
@@ -359,30 +342,13 @@ createWeeklyTodoPrintFile(){
         printf "\n\n" >>"$printFile"
 
     done
-
-    # Formatting the file
-    #sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
-
-    # thanks http://stackoverflow.com/a/7567839/2182047
-    #sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
-
-    # remove double space with one space
-    #sed -i '' -e 's/  */ /g' "$printFile"
-
-    # add li listing
-    #sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
-
-    # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
-
-
 }
 
 
 createMonthlylyTodoPrintFile(){
 
-    local COPYDIR="$rootPath/docs"
-    local printFile="$COPYDIR/$today-me monthly todo print list for the month.md"
+    local printFile="$docRootPath/$today-monthly todo list.md"
 
     echo >"$printFile"
     echo >"$printFile.html"
@@ -400,18 +366,6 @@ createMonthlylyTodoPrintFile(){
         printf "\n\n" >>"$printFile"
     done
 
-    # Formatting the file
-    #sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
-
-    # thanks http://stackoverflow.com/a/7567839/2182047
-    #sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
-
-    # remove double space with one space
-    #sed -i '' -e 's/  */ /g' "$printFile"
-
-    # add li listing
-    #sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
-
     # convert to markdown
     pandoc -o "$printFile.html" "$printFile"
 
@@ -419,9 +373,8 @@ createMonthlylyTodoPrintFile(){
 
 
 createYearlyTodoPrintFile(){
-
-    local COPYDIR="$rootPath/docs"
-    local printFile="$COPYDIR/$today-me yearly todo print list for the month.md"
+    
+    local printFile="$docRootPath/$today-yearly todo list.md"
 
     echo >"$printFile"
     echo >"$printFile.html"
@@ -438,20 +391,7 @@ createYearlyTodoPrintFile(){
         echo "<p style='page-break-after:always;'></p>">>"$printFile"
         printf "\n\n" >>"$printFile"
     done
-
-    # Formatting the file
-    # sed -i '' -e "s/=====  Contexts  =====//" "$printFile"
-
-    # thanks http://stackoverflow.com/a/7567839/2182047
-    # sed -i '' "s/--- \(.*\) ---/### \1 \\`echo -e '\r'`/" "$printFile"
-
-    # remove double space with one space
-    # sed -i '' -e 's/  */ /g' "$printFile"
-
-    # add li listing
-    # sed -i '' -e 's/^[0-9]\{4\}/ * &/g' "$printFile"
-
-    # convert to markdown
+	
     pandoc -o "$printFile.html" "$printFile"
 
 }
@@ -459,8 +399,7 @@ createYearlyTodoPrintFile(){
 
 createNonRecuringTodoPrintFile(){
 
-    local COPYDIR="$rootPath/docs"
-    local printFile="$COPYDIR/$today-me yearly todo print list for projects.md"
+    local printFile="$docRootPath/$today-projects todo list.md"
 
     # \:\|month\:\|week\:\|day\:
     t -+ -p view project | sed -e '/year:/d' | sed -e '/month:/d' | sed -e '/week:/d' | sed -e '/day:/d'  >>"$printFile"
@@ -495,17 +434,14 @@ createContextList(){
     echo "*Date of Creation* : $longdate" >>"$printfile"
     echo >>"$printfile"
 
-    grep -i "\@$context" <"$2/todo.txt" | \
+    grep -i "\@$context" <"$doTodoFile" | \
     sed -n -e "s/^\(.*\)/* &/p" >>"$printfile"
-
-    echo >>"$printfile"
-
-    grep -i "\@$context" <"$2/next.md" >>"$printfile"
+    echo >>"$printfile"    
 
 }
 
-alias createshoptodoprintfile="createContextList 'shop' '$doRootPath' '$rootPath/docs/$today-shop list for month-$monthCount.md'"
-alias createhometodoprintfile="createContextList 'home' '$doRootPath' '$rootPath/docs/$today-home list for month-$monthCount.md'"
+alias createshoptodoprintfile="createContextList 'shop' '$doRootPath' '$docRootPath/$today-shop list for month-$monthCount.md'"
+alias createhometodoprintfile="createContextList 'home' '$doRootPath' '$docRootPath/$today-home list for month-$monthCount.md'"
 
 # remember the milk me update
 
