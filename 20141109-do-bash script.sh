@@ -12,11 +12,56 @@ currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
-alias todoarchive="t archive"
-alias addreport="t report"
-alias addtodobirdseyereport="t birdseye > '$docRootPath/$today-todo birdseye report for week-$weekCount.md'"
+
+doHelp(){
+	echo "todo.txt planning helper scripts"	
+	echo "=================================="
+	echo "addBirdsEyeReport"
+	echo "addDailyTasksForTheMonth"
+	echo "addTodoReport"
+	echo "archiveTodo"
+	echo "bumpDailyTodoItems"
+	echo "bumpMonthlyTodoItems"
+	echo "bumpWeeklyTodoItems"
+	echo "bumpYearlyTodoItems"
+	echo "createContextList"
+	echo "createDailyTodoPrintFile"
+	echo "createHomeTodoPrintFile"
+	echo "createMonthlylyTodoPrintFile"
+	echo "createNonRecuringTodoPrintFile"
+	echo "createShopTodoPrintFile"
+	echo "createWeeklyTodoPrintFile"
+	echo "createYearlyTodoPrintFile"
+	echo "endDay"
+	echo "mailPriorityToDo"
+	echo "mailTodoPriorityList"
+	echo "scheduleToDoDailyTasks"
+	echo "scheduleToDoMonthlyTasks"
+	echo "scheduleToDoWeeklyTasks"
+	echo "scheduleToDoYearlyTasks"
+	echo "startDay"
+	echo "startMonth"
+	echo "startWeek"
+	echo "startYear"	
+}
+
+alias dohelp="doHelp"
 
 # todo routine todo scheduling functions
+
+archiveTodo(){
+ t archive
+}
+
+addTodoReport(){
+ t report
+}
+
+addBirdsEyeReport(){
+
+t birdseye > '$docRootPath/$today-todo birdseye report for week-$weekCount.md'
+
+}
 
 scheduleToDoDailyTasks() {
 
@@ -237,8 +282,9 @@ mailPriorityToDo() {
 	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "$3"
 }
 
-alias mailtodoprioritylist="mailPriorityToDo 'my todo' '$doRootPath/todo.txt' 'lal.thomas.mail+todo@gmail.com'"
-alias mailtodopriority="mailtodoprioritylist"
+mailTodoPriorityList(){
+	mailPriorityToDo 'my todo' '$doRootPath/todo.txt' 'lal.thomas.mail+todo@gmail.com'
+}
 
 # starty of day functions
 
@@ -255,6 +301,7 @@ startDay(){
 	openFile "$doRootPath/projects.md"
 	
 }
+
 endDay(){
 
 	addCheckOutTimetoLog	
@@ -440,8 +487,17 @@ createContextList(){
 
 }
 
-alias createshoptodoprintfile="createContextList 'shop' '$doRootPath' '$docRootPath/$today-shop list for month-$monthCount.md'"
-alias createhometodoprintfile="createContextList 'home' '$doRootPath' '$docRootPath/$today-home list for month-$monthCount.md'"
+createShopTodoPrintFile(){
+
+createContextList 'shop' '$doRootPath' '$docRootPath/$today-shop list for month-$monthCount.md'
+
+}
+
+createHomeTodoPrintFile(){
+
+createContextList 'home' '$doRootPath' '$docRootPath/$today-home list for month-$monthCount.md'
+
+}
 
 # remember the milk me update
 
