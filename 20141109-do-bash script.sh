@@ -14,10 +14,10 @@ alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
 
 doHelp(){
+
 	echo "todo.txt planning helper scripts"	
 	echo "=================================="
 	echo "addBirdsEyeReport"
-	echo "addDailyTasksForTheMonth"
 	echo "addTodoReport"
 	echo "archiveTodo"
 	echo "bumpDailyTodoItems"
@@ -30,19 +30,21 @@ doHelp(){
 	echo "createMonthlylyTodoPrintFile"
 	echo "createNonRecuringTodoPrintFile"
 	echo "createShopTodoPrintFile"
+	echo "createTicklerFiles"
 	echo "createWeeklyTodoPrintFile"
 	echo "createYearlyTodoPrintFile"
 	echo "endDay"
 	echo "mailPriorityToDo"
 	echo "mailTodoPriorityList"
 	echo "scheduleToDoDailyTasks"
+	echo "scheduleToDoDailyTasksForTheMonth"
 	echo "scheduleToDoMonthlyTasks"
 	echo "scheduleToDoWeeklyTasks"
 	echo "scheduleToDoYearlyTasks"
 	echo "startDay"
 	echo "startMonth"
 	echo "startWeek"
-	echo "startYear"	
+	echo "startYear"
 }
 
 alias dohelp="doHelp"
@@ -64,6 +66,8 @@ t birdseye > '$docRootPath/$today-todo birdseye report for week-$weekCount.md'
 }
 
 scheduleToDoDailyTasks() {
+
+	# todo: add support for weekdays and specific day tasks
 
 	if [ $# -eq 1 ]; 
 	then
@@ -104,7 +108,7 @@ scheduleToDoDailyTasks() {
 	
 }
 
-addDailyTasksForTheMonth(){
+scheduleToDoDailyTasksForTheMonth(){
 
 	local referencedate=$yearCount-$monthCount"-01"
 		
@@ -127,8 +131,6 @@ addDailyTasksForTheMonth(){
 			12) numberOfDays=31 ;;		
 		esac
     fi
-	
-	echo $numberOfDays
 	
 	# START=`echo $startDate | tr -d -`;	
 	for (( c=0; c<$numberOfDays; c++ ))
@@ -338,6 +340,55 @@ startYear(){
 	scheduleToDoYearlyTasks && \
 	commitdo
 }
+
+
+createTicklerFiles(){
+	
+	local referencedate=$yearCount-$monthCount"-01"		
+	if [ $# -eq 1 ]; 
+	then
+		local numberOfDays=$1
+	else
+		case $monthCount in
+			01) numberOfDays=31 ;;	
+			02) numberOfDays=29 ;;	
+			03) numberOfDays=31 ;;	
+			04) numberOfDays=30 ;;
+			05) numberOfDays=31 ;;	
+			06) numberOfDays=30 ;;	
+			07) numberOfDays=31 ;;	
+			08) numberOfDays=31 ;;	
+			09) numberOfDays=30 ;;	
+			10) numberOfDays=31 ;;	
+			11) numberOfDays=30 ;;	
+			12) numberOfDays=31 ;;		
+		esac
+    fi
+	
+	# START=`echo $startDate | tr -d -`;	
+	for (( c=0; c<$numberOfDays; c++ ))
+	do
+		#echo -n "`date --date="$START +$c day" +%Y-%m-%d` ";		
+		case "$OSTYPE" in
+		 darwin*) 		  
+		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
+		  local doShortDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y%m%d)";
+		  # don't refactor		  
+		  grep -e $doDate "$doTodoFile" >> "$doRootPath/$doShortDate-todo.txt"
+		  sed -i '' -e "/"$doDate"/d" "$doTodoFile"		  
+		;; 
+		cygwin|msys*)		
+		 # Windows		  
+		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
+		  local doShortDate="$(date -d"$referencedate +$c days" +%Y%m%d)"	
+		  # don't refactor		  		  
+		  grep -e $doDate "$doTodoFile" >> "$doRootPath/$doShortDate-todo.txt"
+		  sed -i '' -e "/"$doDate"/d" "$doTodoFile"       
+		;; 		
+	   esac			   	   
+	done
+}
+
 
 # print todo functions
 
