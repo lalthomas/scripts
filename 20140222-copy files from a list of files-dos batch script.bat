@@ -1,5 +1,5 @@
 @echo on
-set dst_folder="C:\Users\admin\Film Inbox"
+set dst_folder="F:\ted"
 
 REM  Loop through the filelist
 
