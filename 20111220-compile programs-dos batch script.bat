@@ -9,12 +9,12 @@ goto End
 
 REM C
 :C
-set path=%PATH%;D:\Dev-Cpp\bin
+set path=%PATH%;"C:\Program Files (x86)\Dev-Cpp\MinGW64\bin"
 REM The following two line are Npp Hack for not changing the current path
 %~d1
 cd "%~p1"
 IF EXIST "%~n1".exe (del "%~n1".exe) ELSE (echo %1 is being processed first time)
-gcc %1
+gcc "%1"
 IF %ERRORLEVEL% EQU 0 (goto CSuccess ) ELSE (goto CFailure)
 :CFailure
 echo Program terminated with Compilation Errors
@@ -29,12 +29,12 @@ REM Cpp
 :CPP
 @echo OFF
 setlocal
-set path=%PATH%;D:\Dev-Cpp\bin
+set path=%PATH%;"C:\Program Files (x86)\Dev-Cpp\MinGW64\bin"
 REM The following two line are Npp Hack for not changing the current path
 %~d1
 cd "%~p1"
 IF EXIST "%~n1".exe (del "%~n1".exe) ELSE (echo %1 is being processed first time)
-g++ %1
+g++ "%1"
 IF %ERRORLEVEL% EQU 0 (goto CppSuccess ) ELSE (goto CppFailure)
 :CppFailure
 echo Program terminated with Compilation Errors
