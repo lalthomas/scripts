@@ -27,7 +27,7 @@ doHelp(){
 	echo "Process"
 	echo "-------"
 	echo 
-	echo "archiveTodo - move done items on todo.txt to done.txt"	
+	echo "cleanTodo - move done items on todo.txt to done.txt"	
 	echo "invalidateDailyTodoItems - move todos with day label (day:<NN>) to invalid.txt"
 	echo "invalidateMonthlyTodoItems - move todos with month label (month:<NN>) to invalid.txt"
 	echo "invalidateWeeklyTodoItems - move todo with week label (week:<NN>) to invalid.txt"
@@ -67,7 +67,7 @@ doHelp(){
 	echo " - schedule todo weekly tasks"	
 	echo 
 	echo "startMonth"
-	echo " - archiveTodo"
+	echo " - cleanTodo"
 	echo " - invalidateMonthlyTodoItems"
 	echo " - scheduleToDoMonthlyTasks"
 	echo " - commitdo"		
@@ -88,7 +88,7 @@ alias dohelp="doHelp"
 
 # todo routine todo scheduling functions
 
-archiveTodo(){
+cleanTodo(){
  t archive
 }
 
@@ -334,7 +334,7 @@ startDay(){
 	commitdo
 	
 	# GTD
-	# open "$doRootPath/$today-todo.txt"
+	open "$doRootPath/$today-todo.txt"
 	openFile "$doRootPath/inbox.txt"
 }
 
