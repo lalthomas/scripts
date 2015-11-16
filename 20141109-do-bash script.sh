@@ -17,34 +17,70 @@ doHelp(){
 
 	echo "todo.txt planning helper scripts"	
 	echo "=================================="
-	echo "addBirdsEyeReport"
-	echo "addTodoReport"
-	echo "archiveTodo"
-	echo "bumpDailyTodoItems"
-	echo "bumpMonthlyTodoItems"
-	echo "bumpWeeklyTodoItems"
-	echo "bumpYearlyTodoItems"
-	echo "createContextList"
-	echo "createDailyTodoPrintFile"
-	echo "createHomeTodoPrintFile"
-	echo "createMonthlylyTodoPrintFile"
-	echo "createNonRecuringTodoPrintFile"
-	echo "createShopTodoPrintFile"
-	echo "createTicklerFiles"
-	echo "createWeeklyTodoPrintFile"
-	echo "createYearlyTodoPrintFile"
-	echo "endDay"
-	echo "mailPriorityToDo"
-	echo "mailTodoPriorityList"
-	echo "scheduleToDoDailyTasks"
-	echo "scheduleToDoDailyTasksForTheMonth"
-	echo "scheduleToDoMonthlyTasks"
-	echo "scheduleToDoWeeklyTasks"
-	echo "scheduleToDoYearlyTasks"
+	echo 	
+	echo "Reporting"
+	echo "---------"
+	echo 
+	echo "addBirdsEyeReport - add birdseye report to $docRootPath folder"
+	echo "addTodoReport - add todo done count to report.txt"
+	echo
+	echo "Process"
+	echo "-------"
+	echo "archiveTodo - move done items on todo.txt to done.txt"	
+	echo "bumpDailyTodoItems - move todos with day label (day:<NN>) to invalid.txt"
+	echo "bumpMonthlyTodoItems - move todos with month label (month:<NN>) to invalid.txt"
+	echo "bumpWeeklyTodoItems - move todo with week label (week:<NN>) to invalid.txt"
+	echo "bumpYearlyTodoItems - move todo with year label (week:<NN>) to invalid.txt"	
+	echo "scheduleToDoDailyTasks - add day todos from planner.txt to todo.txt"
+	echo "scheduleToDoDailyTasksForTheMonth - batch add day todos from planner.txt to todo.txt for one month"
+	echo "scheduleToDoMonthlyTasks - add month todo from planner.txt template to todo.txt"
+	echo "scheduleToDoWeeklyTasks -  add weekly todo from planner.txt template to todo.txt"
+	echo "scheduleToDoWeeklyTasks <week number> -  add weekly todo from planner.txt template to todo.txt for the week number"
+	echo "scheduleToDoYearlyTasks - add yearly todo from planner.txt template to todo.txt for the current year"	
+	echo 
+	echo "Print"
+	echo "-----"
+	echo 
+	echo "createDailyTodoPrintFile - create a printable file of daily todo on $docRootPath folder"
+	echo "createHomeTodoPrintFile - create a printable file of todo with home context"
+	echo "createMonthlylyTodoPrintFil -  create a printable file of monthly todo on $docRootPath folder"
+	echo "createNonRecuringTodoPrintFile - create a printable file of non recurring todos on $docRootPath folder"
+	echo "createShopTodoPrintFile - create a printable file of shop todos on $docRootPath folder "
+	echo "createWeeklyTodoPrintFile - create a printable file of weekly todo on $docRootPath folder"
+	echo "createYearlyTodoPrintFile - create a printable file of yearly todo on $docRootPath folder"	
+	echo 
+	echo "Work Flow"
+	echo "--------"
+	echo 
 	echo "startDay"
-	echo "startMonth"
+	echo " - commit changes in $doRootPath folder"	
+	echo " - create a journal file on $journalPath (journal file) with scheduled tasks"
+	echo " - add check in time to $doLogPath file"
+	echo 
+	echo "endDay"
+	echo " - add check out time to $doLogPath file"
+	echo " - add done items from done.txt to $journalPath(journal file)"
+	echo 
 	echo "startWeek"
-	echo "startYear"
+	echo " ! run on monday or pass current week's monday as argument"
+	echo " - schedule todo weekly tasks"	
+	echo 
+	echo "startMonth"
+	echo " - archiveTodo"
+	echo " - bumpMonthlyTodoItems"
+	echo " - scheduleToDoMonthlyTasks"
+	echo " - commitdo"		
+	echo 
+	echo "startYear"	
+	echo " - bumpYearlyTodoItems"
+	echo " - scheduleToDoYearlyTasks"	
+	echo " - commitdo"
+	echo "Misc."
+	echo "------"
+	echo 
+	echo "createTicklerFiles - create tickler todo.txt files and move tasks from todo.txt"
+	echo "mailTodoPriorityList - mail all todo with priority A"
+	
 }
 
 alias dohelp="doHelp"
@@ -292,16 +328,13 @@ mailTodoPriorityList(){
 
 startDay(){		
 			
-    commitdo	
 	createJournalFile "$doPlannerFile" "$journalPath" "$doPlannerFile" "$doRootPath/journal.md"
 	addCheckInTimetoLog
+	commitdo
 	
 	# GTD
 	# open "$doRootPath/$today-todo.txt"
 	openFile "$doRootPath/inbox.txt"
-	openFile "$doRootPath/contexts.md"
-	openFile "$doRootPath/projects.md"
-	
 }
 
 endDay(){
@@ -312,7 +345,7 @@ endDay(){
 
 startWeek(){
 	
-	# as per the current implemenation run either monday
+	# as per the current implementation run either monday
 	# or as pass current week monday as argument otherwise 
 	# the command will produce undesired output
 	
