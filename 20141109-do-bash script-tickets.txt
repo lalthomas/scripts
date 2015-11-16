@@ -1,2 +1,0 @@
-x 2015-04-08 2015-04-08 0001 bumptodomonthlyitems alias not working
-2015-05-08 add support bash project repo creation
