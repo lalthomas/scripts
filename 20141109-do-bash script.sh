@@ -90,6 +90,7 @@ alias dohelp="doHelp"
 
 cleanTodo(){
  t archive
+ t invalidate
 }
 
 addTodoReport(){
