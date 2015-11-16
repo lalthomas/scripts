@@ -26,6 +26,7 @@ doHelp(){
 	echo
 	echo "Process"
 	echo "-------"
+	echo 
 	echo "archiveTodo - move done items on todo.txt to done.txt"	
 	echo "bumpDailyTodoItems - move todos with day label (day:<NN>) to invalid.txt"
 	echo "bumpMonthlyTodoItems - move todos with month label (month:<NN>) to invalid.txt"
