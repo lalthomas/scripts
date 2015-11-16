@@ -28,10 +28,10 @@ doHelp(){
 	echo "-------"
 	echo 
 	echo "archiveTodo - move done items on todo.txt to done.txt"	
-	echo "bumpDailyTodoItems - move todos with day label (day:<NN>) to invalid.txt"
-	echo "bumpMonthlyTodoItems - move todos with month label (month:<NN>) to invalid.txt"
-	echo "bumpWeeklyTodoItems - move todo with week label (week:<NN>) to invalid.txt"
-	echo "bumpYearlyTodoItems - move todo with year label (week:<NN>) to invalid.txt"	
+	echo "invalidateDailyTodoItems - move todos with day label (day:<NN>) to invalid.txt"
+	echo "invalidateMonthlyTodoItems - move todos with month label (month:<NN>) to invalid.txt"
+	echo "invalidateWeeklyTodoItems - move todo with week label (week:<NN>) to invalid.txt"
+	echo "invalidateYearlyTodoItems - move todo with year label (week:<NN>) to invalid.txt"	
 	echo "scheduleToDoDailyTasks - add day todos from planner.txt to todo.txt"
 	echo "scheduleToDoDailyTasksForTheMonth - batch add day todos from planner.txt to todo.txt for one month"
 	echo "scheduleToDoMonthlyTasks - add month todo from planner.txt template to todo.txt"
@@ -68,12 +68,12 @@ doHelp(){
 	echo 
 	echo "startMonth"
 	echo " - archiveTodo"
-	echo " - bumpMonthlyTodoItems"
+	echo " - invalidateMonthlyTodoItems"
 	echo " - scheduleToDoMonthlyTasks"
 	echo " - commitdo"		
 	echo 
 	echo "startYear"	
-	echo " - bumpYearlyTodoItems"
+	echo " - invalidateYearlyTodoItems"
 	echo " - scheduleToDoYearlyTasks"	
 	echo " - commitdo"
 	echo "Misc."
@@ -288,7 +288,7 @@ scheduleToDoYearlyTasks() {
 	
 }
 
-bumpDailyTodoItems(){	
+invalidateDailyTodoItems(){	
 
 	grep -e "\day:[0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /'>> "$doInvalidFile"
 	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
@@ -296,21 +296,21 @@ bumpDailyTodoItems(){
 	
 }
 
-bumpWeeklyTodoItems(){
+invalidateWeeklyTodoItems(){
 
 	grep -e "\week:[0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /' >> "$doInvalidFile"
 	sed -i '' -e "/week:[0-9][0-9]/d" "$doTodoFile"
 
 }
 
-bumpMonthlyTodoItems(){
+invalidateMonthlyTodoItems(){
 
 	grep -e "\month:[0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /' >> "$doInvalidFile"
 	sed -i '' -e "/month:[0-9][0-9]/d" "$doTodoFile"
 
 }
 
-bumpYearlyTodoItems(){
+invalidateYearlyTodoItems(){
 	
 	grep -e "\year:[0-9][0-9][0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /' >> "$doInvalidFile"
 	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" "$doTodoFile"
@@ -362,7 +362,7 @@ startWeek(){
 startMonth(){
 
     doarchive
-	bumpMonthlyTodoItems && \
+	invalidateMonthlyTodoItems && \
 	scheduleToDoMonthlyTasks && \
 	commitdo
 }
@@ -370,7 +370,7 @@ startMonth(){
 startYear(){
 
     #doarchive
-	bumpYearlyTodoItems && \
+	invalidateYearlyTodoItems && \
 	scheduleToDoYearlyTasks && \
 	commitdo
 }
