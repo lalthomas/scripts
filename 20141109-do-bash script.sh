@@ -290,7 +290,7 @@ scheduleToDoYearlyTasks() {
 
 bumpDailyTodoItems(){	
 
-	grep -e "\day:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
+	grep -e "\day:[0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /'>> "$doInvalidFile"
 	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
 	sed -i '' -e "/day:[0-9][0-9]/d" "$doTodoFile"
 	
@@ -298,21 +298,21 @@ bumpDailyTodoItems(){
 
 bumpWeeklyTodoItems(){
 
-	grep -e "\week:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
+	grep -e "\week:[0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /' >> "$doInvalidFile"
 	sed -i '' -e "/week:[0-9][0-9]/d" "$doTodoFile"
 
 }
 
 bumpMonthlyTodoItems(){
 
-	grep -e "\month:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
+	grep -e "\month:[0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /' >> "$doInvalidFile"
 	sed -i '' -e "/month:[0-9][0-9]/d" "$doTodoFile"
 
 }
 
 bumpYearlyTodoItems(){
 	
-	grep -e "\year:[0-9][0-9][0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
+	grep -e "\year:[0-9][0-9][0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /' >> "$doInvalidFile"
 	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" "$doTodoFile"
 
 }
