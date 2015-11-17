@@ -14,7 +14,6 @@ alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
 
 doHelp(){
-
 	echo "todo.txt planning helper scripts"	
 	echo "=================================="
 	echo 	
@@ -22,22 +21,7 @@ doHelp(){
 	echo "---------"
 	echo 
 	echo "addBirdsEyeReport - add birdseye report to $docRootPath folder"
-	echo "addTodoReport - add todo done count to report.txt"
-	echo
-	echo "Process"
-	echo "-------"
-	echo 
-	echo "cleanTodo - move done items on todo.txt to done.txt"	
-	echo "invalidateDailyTodoItems - move todos with day label (day:<NN>) to invalid.txt"
-	echo "invalidateMonthlyTodoItems - move todos with month label (month:<NN>) to invalid.txt"
-	echo "invalidateWeeklyTodoItems - move todo with week label (week:<NN>) to invalid.txt"
-	echo "invalidateYearlyTodoItems - move todo with year label (week:<NN>) to invalid.txt"	
-	echo "scheduleToDoDailyTasks - add day todos from planner.txt to todo.txt"
-	echo "scheduleToDoDailyTasksForTheMonth - batch add day todos from planner.txt to todo.txt for one month"
-	echo "scheduleToDoMonthlyTasks - add month todo from planner.txt template to todo.txt"
-	echo "scheduleToDoWeeklyTasks -  add weekly todo from planner.txt template to todo.txt"
-	echo "scheduleToDoWeeklyTasks <week number> -  add weekly todo from planner.txt template to todo.txt for the week number"
-	echo "scheduleToDoYearlyTasks - add yearly todo from planner.txt template to todo.txt for the current year"	
+	echo "addTodoReport - add todo done count to report.txt"	
 	echo 
 	echo "Print"
 	echo "-----"
@@ -80,8 +64,7 @@ doHelp(){
 	echo "------"
 	echo 
 	echo "createTicklerFiles - create tickler todo.txt files and move tasks from todo.txt"
-	echo "mailTodoPriorityList - mail all todo with priority A"
-	
+	echo "mailTodoPriorityList - mail all todo with priority A"	
 }
 
 alias dohelp="doHelp"
@@ -99,222 +82,9 @@ addTodoReport(){
 
 addBirdsEyeReport(){
 
-t birdseye > '$docRootPath/$today-todo birdseye report for week-$weekCount.md'
-
-}
-
-scheduleToDoDailyTasks() {
-
-	# todo: add support for weekdays and specific day tasks
-
-	if [ $# -eq 1 ]; 
-	then
-		local referencedate="$1"		
-	    #exit 1
-	else
-		local referencedate=$longdate
-	fi	
-	
-	case "$OSTYPE" in
-
-        darwin*)
-        # OSX
-            local dateNum=$(date -jf "%Y-%m-%d" $referencedate +"%d")
-        ;;
-
-        msys*)
-        # Windows
-            local dateNum=$(date +'%d' --date=$referencedate)
-        ;;
-
-        cygwin*)
-        # Windows
-            local dateNum=$(date +'%d' --date=$referencedate)
-        ;;
-
-        *)
-            echo "unknown: $OSTYPE"
-        ;;
-	esac	
-	
-	sed -n -e "s/day:NN/day:$dateNum/p" <"$doPlannerFile" | \
-	sed -n -e "s/\*[[:blank:]]//p" | \
-	sed -n -e "s/^/$referencedate /p" | \
-	sort -n | \
-	uniq | \
-	tr '\r' ' '>>"$doTodoFile"
-	
-}
-
-scheduleToDoDailyTasksForTheMonth(){
-
-	local referencedate=$yearCount-$monthCount"-01"
-		
-	if [ $# -eq 1 ]; 
-	then
-		local numberOfDays=$1
-	else
-		case $monthCount in
-			01) numberOfDays=31 ;;	
-			02) numberOfDays=29 ;;	
-			03) numberOfDays=31 ;;	
-			04) numberOfDays=30 ;;
-			05) numberOfDays=31 ;;	
-			06) numberOfDays=30 ;;	
-			07) numberOfDays=31 ;;	
-			08) numberOfDays=31 ;;	
-			09) numberOfDays=30 ;;	
-			10) numberOfDays=31 ;;	
-			11) numberOfDays=30 ;;	
-			12) numberOfDays=31 ;;		
-		esac
-    fi
-	
-	# START=`echo $startDate | tr -d -`;	
-	for (( c=0; c<$numberOfDays; c++ ))
-	do
-		# echo -n "`date --date="$START +$c day" +%Y-%m-%d` ";		
-		case "$OSTYPE" in
-		 darwin*) 		
-		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
-		  # don't refactor
-		  scheduleToDoDailyTasks $doDate          
-		;; 
-		cygwin|msys*)		
-		 # Windows		  
-		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
-		  # don't refactor
-		  scheduleToDoDailyTasks $doDate          
-		;; 		
-	   esac		
-	done
-}
-
-# The `referencedate` is preferably be the first Monday of the month
-
-scheduleToDoWeeklyTasks() {
-
-# in order to run the script properly the `referencedate` should be start of the week
-# todo: get monday when week count is given
-# todo: get current week monday date
-
-	if [ $# -eq 1 ]; 
-	then
-		local referencedate="$1"		
-	    #exit 1
-	else
-		local referencedate=$longdate
-	fi
-
-	case "$OSTYPE" in
-	darwin*) 
-		# OSX		
-		local currentWeekCount=$(date -j -f '%Y-%m-%d' $referencedate +%V)
-		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$doPlannerFile" | \
-		sed -n -e "s/\*[[:blank:]]//p" | \
-		sed -e "s/^001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^002/$(date -j -v +1d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^003/$(date -j -v +2d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^004/$(date -j -v +3d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^005/$(date -j -v +4d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^006/$(date -j -v +5d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^007/$(date -j -v +6d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sort -n | \
-		uniq | \
-		tr '\r' ' '>>"$doTodoFile"
-		
-		;; 
-	
-	cygwin|msys*)
-		# Windows		
-		local currentWeekCount="$(date -d"$referencedate" +%V)"
-		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$doPlannerFile" | \
-		sed -n -e "s/\*[[:blank:]]//p" | \
-		sed -e "s/^001/$(date +%Y-%m-%d --d "$referencedate + 0 day") &/p" | \
-		sed -e "s/^002/$(date +%Y-%m-%d --d "$referencedate + 1 day") &/p" | \
-		sed -e "s/^003/$(date +%Y-%m-%d --d "$referencedate + 2 day") &/p" | \
-		sed -e "s/^004/$(date +%Y-%m-%d --d "$referencedate + 3 day") &/p" | \
-		sed -e "s/^005/$(date +%Y-%m-%d --d "$referencedate + 4 day") &/p" | \
-		sed -e "s/^006/$(date +%Y-%m-%d --d "$referencedate + 5 day") &/p" | \
-		sed -e "s/^007/$(date +%Y-%m-%d --d "$referencedate + 6 day") &/p" | \
-		sort -n | \
-		uniq | \
-		tr '\r' ' '>>"$doTodoFile"
-		;; 		
-					
-	*) 
-		echo "unknown: $OSTYPE" 
-		;;
-	esac	
-	
-}
-
-scheduleToDoMonthlyTasks() {
-
-   # todo add support reference month   
-   
-	sed -n -e "s/month:NN/month:$monthCount/p" <"$doPlannerFile" | \
-	sed -n -e "s/\*[[:blank:]]//p" | \
-	sed -e "s/^0001/$currentMonthFirstMonday &/p" | \
-	sed -e "s/^0002/$currentMonthSecondMonday &/p" | \
-	sed -e "s/^0003/$currentMonthThirdMonday &/p" | \
-	sed -e "s/^0004/$currentMonthFourthMonday &/p" | \
-	sort -n | \
-	uniq | \
-	tr '\r' ' '>>"$doTodoFile"
-	
-}
-
-scheduleToDoYearlyTasks() {
-
-	# TODO : add support for referenceYear
-	
-	sed -n -e "s/year:NNNN/year:$yearCount/p" <"$doPlannerFile" | \
-	sed -n -e "s/\*[[:blank:]]//p" | \
-	sed -e "s/^00001/$yearCount-01-01 &/p" | \
-	sed -e "s/^00002/$yearCount-02-01 &/p" | \
-	sed -e "s/^00003/$yearCount-03-01 &/p" | \
-	sed -e "s/^00004/$yearCount-04-01 &/p" | \
-	sed -e "s/^00005/$yearCount-05-01 &/p" | \
-	sed -e "s/^00006/$yearCount-06-01 &/p" | \
-	sed -e "s/^00007/$yearCount-07-01 &/p" | \
-	sed -e "s/^00008/$yearCount-08-01 &/p" | \
-	sed -e "s/^00009/$yearCount-09-01 &/p" | \
-	sed -e "s/^00010/$yearCount-10-01 &/p" | \
-	sed -e "s/^00011/$yearCount-11-01 &/p" | \
-	sed -e "s/^00012/$yearCount-12-01 &/p" | \
-	sort -n | \
-	uniq | \
-	tr '\r' ' '>>"$doTodoFile"
-	
-}
-
-invalidateDailyTodoItems(){	
-
-	grep -e "\day:[0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /'>> "$doInvalidFile"
-	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
-	sed -i '' -e "/day:[0-9][0-9]/d" "$doTodoFile"
-	
-}
-
-invalidateWeeklyTodoItems(){
-
-	grep -e "\week:[0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /' >> "$doInvalidFile"
-	sed -i '' -e "/week:[0-9][0-9]/d" "$doTodoFile"
-
-}
-
-invalidateMonthlyTodoItems(){
-
-	grep -e "\month:[0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /' >> "$doInvalidFile"
-	sed -i '' -e "/month:[0-9][0-9]/d" "$doTodoFile"
-
-}
-
-invalidateYearlyTodoItems(){
-	
-	grep -e "\year:[0-9][0-9][0-9][0-9]" "$doTodoFile" | sed '/$/s/^/~ '$longdate' /' >> "$doInvalidFile"
-	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" "$doTodoFile"
+cd $docRootPath
+t birdseye > $docRootPath/$today"-todo birdseye report for week"-$weekCount.md
+openFile $docRootPath/$today"-todo birdseye report for week"-$weekCount.md
 
 }
 
@@ -353,9 +123,9 @@ startWeek(){
 	
 	if [ $# -eq 0 ]; 
 	then
-		scheduleToDoWeeklyTasks	    		
+		t plan week
 	else
-		scheduleToDoWeeklyTasks "$1"		
+		t plan week "$1"		
 	fi	
 	commitdo	
 }
@@ -363,16 +133,16 @@ startWeek(){
 startMonth(){
 
     doarchive
-	invalidateMonthlyTodoItems && \
-	scheduleToDoMonthlyTasks && \
+	t plan month invalidate && \
+	t plan month && \
 	commitdo
 }
 
 startYear(){
 
     #doarchive
-	invalidateYearlyTodoItems && \
-	scheduleToDoYearlyTasks && \
+	t plan year invalidate && \
+	t plan year && \
 	commitdo
 }
 
