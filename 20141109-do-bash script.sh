@@ -78,6 +78,7 @@ cleanTodo(){
 
 addTodoReport(){
  t report
+ openFile "$doRootPath/report.txt"
 }
 
 addBirdsEyeReport(){
