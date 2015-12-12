@@ -89,12 +89,23 @@ openFile $docRootPath/$today"-todo birdseye report for week"-$weekCount.md
 
 }
 
-mailPriorityToDo() {
-	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "$3"
+mailPriorityToDo() {	
+
+	mailSubject="$today-$1"	
+	
+	echo 
+	echo $mailSubject		
+	echo 
+	
+	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" >&1 
+	echo 
+	
+	# send mail
+	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s $mailSubject "$3"
 }
 
 mailTodoPriorityList(){
-	mailPriorityToDo 'my todo' '$doRootPath/todo.txt' 'lal.thomas.mail+todo@gmail.com'
+	mailPriorityToDo 'MIT Todos' $doRootPath/todo.txt 'lal.thomas.mail+todo@gmail.com'
 }
 
 # starty of day functions
