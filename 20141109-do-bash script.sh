@@ -73,7 +73,7 @@ alias dohelp="doHelp"
 
 cleanTodo(){
  t archive
- t invalidate
+ t invalidate 
 }
 
 addTodoReport(){
@@ -377,4 +377,23 @@ createContextList 'home' '$doRootPath' '$docRootPath/$today-home list for month-
 
 # remove console colors using sed
 # sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g"
+
+
+StartServer(){
+
+	local serverRootPath=$1
+	cd "$serverRootPath"	
+	python "$rootpath/scripts/source/20140607-start simple http server with markdown support-python script.py"	
+
+}
+
+StartMarkdownServer(){
+
+	python "$rootpath/scripts/project/20150106-brainerd markdown server/brainerd.py"
+
+}
+
+alias startserverat="StartServer"
+alias startbirthdayserver="StartMarkdownServer"
+
 
