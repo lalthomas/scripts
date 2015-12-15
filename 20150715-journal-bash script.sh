@@ -49,7 +49,7 @@ addMyDoneItemsToYesterdayJournal(){
 
 log(){
 	
-	echo "$now $@">> $doLogPath
+	echo "$(date "+%Y-%m-%d %H%M%S") $@">> $doLogPath
 }
 
 alias addCheckInTimetoLog="log 'checkin' "

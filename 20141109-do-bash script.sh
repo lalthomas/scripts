@@ -16,98 +16,152 @@ alias todo='t list'
 doHelp(){
 	echo "todo.txt planning helper scripts"	
 	echo "=================================="
-	echo "addBirdsEyeReport"
-	echo "addDailyTasksForTheMonth"
-	echo "addTodoReport"
-	echo "archiveTodo"
-	echo "bumpDailyTodoItems"
-	echo "bumpMonthlyTodoItems"
-	echo "bumpWeeklyTodoItems"
-	echo "bumpYearlyTodoItems"
-	echo "createContextList"
-	echo "createDailyTodoPrintFile"
-	echo "createHomeTodoPrintFile"
-	echo "createMonthlylyTodoPrintFile"
-	echo "createNonRecuringTodoPrintFile"
-	echo "createShopTodoPrintFile"
-	echo "createWeeklyTodoPrintFile"
-	echo "createYearlyTodoPrintFile"
-	echo "endDay"
-	echo "mailPriorityToDo"
-	echo "mailTodoPriorityList"
-	echo "scheduleToDoDailyTasks"
-	echo "scheduleToDoMonthlyTasks"
-	echo "scheduleToDoWeeklyTasks"
-	echo "scheduleToDoYearlyTasks"
+	echo 	
+	echo "Reporting"
+	echo "---------"
+	echo 
+	echo "addBirdsEyeReport - add birdseye report to $docRootPath folder"
+	echo "addTodoReport - add todo done count to report.txt"	
+	echo 
+	echo "Print"
+	echo "-----"
+	echo 
+	echo "createDailyTodoPrintFile - create a printable file of daily todo on $docRootPath folder"
+	echo "createHomeTodoPrintFile - create a printable file of todo with home context"
+	echo "createMonthlylyTodoPrintFil -  create a printable file of monthly todo on $docRootPath folder"
+	echo "createNonRecuringTodoPrintFile - create a printable file of non recurring todos on $docRootPath folder"
+	echo "createShopTodoPrintFile - create a printable file of shop todos on $docRootPath folder "
+	echo "createWeeklyTodoPrintFile - create a printable file of weekly todo on $docRootPath folder"
+	echo "createYearlyTodoPrintFile - create a printable file of yearly todo on $docRootPath folder"	
+	echo 
+	echo "Work Flow"
+	echo "--------"
+	echo 
 	echo "startDay"
-	echo "startMonth"
+	echo " - commit changes in $doRootPath folder"	
+	echo " - create a journal file on $journalPath (journal file) with scheduled tasks"
+	echo " - add check in time to $doLogPath file"
+	echo 
+	echo "endDay"
+	echo " - add check out time to $doLogPath file"
+	echo " - add done items from done.txt to $journalPath(journal file)"
+	echo 
 	echo "startWeek"
+	echo " ! run on monday or pass current week's monday as argument"
+	echo " - schedule todo weekly tasks"	
+	echo 
+	echo "startMonth"
+	echo " - cleanTodo"
+	echo " - invalidateMonthlyTodoItems"
+	echo " - scheduleToDoMonthlyTasks"
+	echo " - commitdo"		
+	echo 
 	echo "startYear"	
+	echo " - invalidateYearlyTodoItems"
+	echo " - scheduleToDoYearlyTasks"	
+	echo " - commitdo"
+	echo "Misc."
+	echo "------"
+	echo 
+	echo "createTicklerFiles - create tickler todo.txt files and move tasks from todo.txt"
+	echo "mailTodoPriorityList - mail all todo with priority A"	
 }
 
 alias dohelp="doHelp"
 
 # todo routine todo scheduling functions
 
-archiveTodo(){
+cleanTodo(){
  t archive
+ t invalidate 
 }
 
 addTodoReport(){
  t report
+ openFile "$doRootPath/report.txt"
 }
 
 addBirdsEyeReport(){
 
-t birdseye > '$docRootPath/$today-todo birdseye report for week-$weekCount.md'
+cd $docRootPath
+t birdseye > $docRootPath/$today"-todo birdseye report for week"-$weekCount.md
+openFile $docRootPath/$today"-todo birdseye report for week"-$weekCount.md
 
 }
 
-scheduleToDoDailyTasks() {
+mailPriorityToDo() {	
 
-	if [ $# -eq 1 ]; 
+	mailSubject="$today-$1"	
+	
+	echo 
+	echo $mailSubject		
+	echo 
+	
+	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" >&1 
+	echo 
+	
+	# send mail
+	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s $mailSubject "$3"
+}
+
+mailTodoPriorityList(){
+	mailPriorityToDo 'MIT Todos' $doRootPath/todo.txt 'lal.thomas.mail+todo@gmail.com'
+}
+
+# starty of day functions
+
+startDay(){		
+			
+	createJournalFile "$doPlannerFile" "$journalPath" "$doPlannerFile" "$doRootPath/journal.md"
+	addCheckInTimetoLog
+	commitdo
+	
+	# GTD
+	open "$doRootPath/$today-todo.txt"
+	openFile "$doRootPath/inbox.txt"
+}
+
+endDay(){
+
+	addCheckOutTimetoLog	
+	addMyDoneItemsToJournal
+}
+
+startWeek(){
+	
+	# as per the current implementation run either monday
+	# or as pass current week monday as argument otherwise 
+	# the command will produce undesired output
+	
+	if [ $# -eq 0 ]; 
 	then
-		local referencedate="$1"		
-	    #exit 1
+		t plan week
 	else
-		local referencedate=$longdate
+		t plan week "$1"		
 	fi	
-	
-	case "$OSTYPE" in
-
-        darwin*)
-        # OSX
-            local dateNum=$(date -jf "%Y-%m-%d" $referencedate +"%d")
-        ;;
-
-        msys*)
-        # Windows
-            local dateNum=$(date +'%d' --date=$referencedate)
-        ;;
-
-        cygwin*)
-        # Windows
-            local dateNum=$(date +'%d' --date=$referencedate)
-        ;;
-
-        *)
-            echo "unknown: $OSTYPE"
-        ;;
-	esac	
-	
-	sed -n -e "s/day:NN/day:$dateNum/p" <"$doPlannerFile" | \
-	sed -n -e "s/\*[[:blank:]]//p" | \
-	sed -n -e "s/^/$referencedate /p" | \
-	sort -n | \
-	uniq | \
-	tr '\r' ' '>>"$doTodoFile"
-	
+	commitdo	
 }
 
-addDailyTasksForTheMonth(){
+startMonth(){
 
-	local referencedate=$yearCount-$monthCount"-01"
-		
+    doarchive
+	t plan month invalidate && \
+	t plan month && \
+	commitdo
+}
+
+startYear(){
+
+    #doarchive
+	t plan year invalidate && \
+	t plan year && \
+	commitdo
+}
+
+
+createTicklerFiles(){
+	
+	local referencedate=$yearCount-$monthCount"-01"		
 	if [ $# -eq 1 ]; 
 	then
 		local numberOfDays=$1
@@ -128,216 +182,30 @@ addDailyTasksForTheMonth(){
 		esac
     fi
 	
-	echo $numberOfDays
-	
 	# START=`echo $startDate | tr -d -`;	
 	for (( c=0; c<$numberOfDays; c++ ))
 	do
-		# echo -n "`date --date="$START +$c day" +%Y-%m-%d` ";		
+		#echo -n "`date --date="$START +$c day" +%Y-%m-%d` ";		
 		case "$OSTYPE" in
-		 darwin*) 		
+		 darwin*) 		  
 		  local doDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y-%m-%d)";
-		  # don't refactor
-		  scheduleToDoDailyTasks $doDate          
+		  local doShortDate="$(date -j -v +"$c"d -f '%Y-%m-%d' $referencedate +%Y%m%d)";
+		  # don't refactor		  
+		  grep -e $doDate "$doTodoFile" >> "$doRootPath/$doShortDate-todo.txt"
+		  sed -i '' -e "/"$doDate"/d" "$doTodoFile"		  
 		;; 
 		cygwin|msys*)		
 		 # Windows		  
 		  local doDate="$(date -d"$referencedate +$c days" +%Y-%m-%d)"	
-		  # don't refactor
-		  scheduleToDoDailyTasks $doDate          
+		  local doShortDate="$(date -d"$referencedate +$c days" +%Y%m%d)"	
+		  # don't refactor		  		  
+		  grep -e $doDate "$doTodoFile" >> "$doRootPath/$doShortDate-todo.txt"
+		  sed -i '' -e "/"$doDate"/d" "$doTodoFile"       
 		;; 		
-	   esac		
+	   esac			   	   
 	done
 }
 
-# The `referencedate` is preferably be the first Monday of the month
-
-scheduleToDoWeeklyTasks() {
-
-# in order to run the script properly the `referencedate` should be start of the week
-# todo: get monday when week count is given
-# todo: get current week monday date
-
-	if [ $# -eq 1 ]; 
-	then
-		local referencedate="$1"		
-	    #exit 1
-	else
-		local referencedate=$longdate
-	fi
-
-	case "$OSTYPE" in
-	darwin*) 
-		# OSX		
-		local currentWeekCount=$(date -j -f '%Y-%m-%d' $referencedate +%V)
-		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$doPlannerFile" | \
-		sed -n -e "s/\*[[:blank:]]//p" | \
-		sed -e "s/^001/$(date -j -v +0d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^002/$(date -j -v +1d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^003/$(date -j -v +2d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^004/$(date -j -v +3d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^005/$(date -j -v +4d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^006/$(date -j -v +5d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sed -e "s/^007/$(date -j -v +6d -f '%Y-%m-%d' $referencedate +%Y-%m-%d) &/p" | \
-		sort -n | \
-		uniq | \
-		tr '\r' ' '>>"$doTodoFile"
-		
-		;; 
-	
-	cygwin|msys*)
-		# Windows		
-		local currentWeekCount="$(date -d"$referencedate" +%V)"
-		sed -n -e "s/week:NN/week:$currentWeekCount/p" <"$doPlannerFile" | \
-		sed -n -e "s/\*[[:blank:]]//p" | \
-		sed -e "s/^001/$(date +%Y-%m-%d --d "$referencedate + 0 day") &/p" | \
-		sed -e "s/^002/$(date +%Y-%m-%d --d "$referencedate + 1 day") &/p" | \
-		sed -e "s/^003/$(date +%Y-%m-%d --d "$referencedate + 2 day") &/p" | \
-		sed -e "s/^004/$(date +%Y-%m-%d --d "$referencedate + 3 day") &/p" | \
-		sed -e "s/^005/$(date +%Y-%m-%d --d "$referencedate + 4 day") &/p" | \
-		sed -e "s/^006/$(date +%Y-%m-%d --d "$referencedate + 5 day") &/p" | \
-		sed -e "s/^007/$(date +%Y-%m-%d --d "$referencedate + 6 day") &/p" | \
-		sort -n | \
-		uniq | \
-		tr '\r' ' '>>"$doTodoFile"
-		;; 		
-					
-	*) 
-		echo "unknown: $OSTYPE" 
-		;;
-	esac	
-	
-}
-
-scheduleToDoMonthlyTasks() {
-
-   # todo add support reference month   
-   
-	sed -n -e "s/month:NN/month:$monthCount/p" <"$doPlannerFile" | \
-	sed -n -e "s/\*[[:blank:]]//p" | \
-	sed -e "s/^0001/$currentMonthFirstMonday &/p" | \
-	sed -e "s/^0002/$currentMonthSecondMonday &/p" | \
-	sed -e "s/^0003/$currentMonthThirdMonday &/p" | \
-	sed -e "s/^0004/$currentMonthFourthMonday &/p" | \
-	sort -n | \
-	uniq | \
-	tr '\r' ' '>>"$doTodoFile"
-	
-}
-
-scheduleToDoYearlyTasks() {
-
-	# TODO : add support for referenceYear
-	
-	sed -n -e "s/year:NNNN/year:$yearCount/p" <"$doPlannerFile" | \
-	sed -n -e "s/\*[[:blank:]]//p" | \
-	sed -e "s/^00001/$yearCount-01-01 &/p" | \
-	sed -e "s/^00002/$yearCount-02-01 &/p" | \
-	sed -e "s/^00003/$yearCount-03-01 &/p" | \
-	sed -e "s/^00004/$yearCount-04-01 &/p" | \
-	sed -e "s/^00005/$yearCount-05-01 &/p" | \
-	sed -e "s/^00006/$yearCount-06-01 &/p" | \
-	sed -e "s/^00007/$yearCount-07-01 &/p" | \
-	sed -e "s/^00008/$yearCount-08-01 &/p" | \
-	sed -e "s/^00009/$yearCount-09-01 &/p" | \
-	sed -e "s/^00010/$yearCount-10-01 &/p" | \
-	sed -e "s/^00011/$yearCount-11-01 &/p" | \
-	sed -e "s/^00012/$yearCount-12-01 &/p" | \
-	sort -n | \
-	uniq | \
-	tr '\r' ' '>>"$doTodoFile"
-	
-}
-
-bumpDailyTodoItems(){	
-
-	grep -e "\day:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
-	# thanks :  http://robots.thoughtbot.com/sed-102-replace-in-place
-	sed -i '' -e "/day:[0-9][0-9]/d" "$doTodoFile"
-	
-}
-
-bumpWeeklyTodoItems(){
-
-	grep -e "\week:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
-	sed -i '' -e "/week:[0-9][0-9]/d" "$doTodoFile"
-
-}
-
-bumpMonthlyTodoItems(){
-
-	grep -e "\month:[0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
-	sed -i '' -e "/month:[0-9][0-9]/d" "$doTodoFile"
-
-}
-
-bumpYearlyTodoItems(){
-	
-	grep -e "\year:[0-9][0-9][0-9][0-9]" "$doTodoFile" >> "$doInvalidFile"
-	sed -i '' -e "/year:[0-9][0-9][0-9][0-9]/d" "$doTodoFile"
-
-}
-
-mailPriorityToDo() {
-	sed -n -e "s/(A)\(.*\)/* \1/p" <"$2" | mail -s "$today-$1" "$3"
-}
-
-mailTodoPriorityList(){
-	mailPriorityToDo 'my todo' '$doRootPath/todo.txt' 'lal.thomas.mail+todo@gmail.com'
-}
-
-# starty of day functions
-
-startDay(){		
-			
-    commitdo	
-	createJournalFile "$doPlannerFile" "$journalPath" "$doPlannerFile" "$doRootPath/journal.md"
-	addCheckInTimetoLog
-	
-	# GTD
-	# open "$doRootPath/$today-todo.txt"
-	openFile "$doRootPath/inbox.txt"
-	openFile "$doRootPath/contexts.md"
-	openFile "$doRootPath/projects.md"
-	
-}
-
-endDay(){
-
-	addCheckOutTimetoLog	
-	addMyDoneItemsToJournal
-}
-
-startWeek(){
-	
-	# as per the current implemenation run either monday
-	# or as pass current week monday as argument otherwise 
-	# the command will produce undesired output
-	
-	if [ $# -eq 0 ]; 
-	then
-		scheduleToDoWeeklyTasks	    		
-	else
-		scheduleToDoWeeklyTasks "$1"		
-	fi	
-	commitdo	
-}
-
-startMonth(){
-
-    doarchive
-	bumpMonthlyTodoItems && \
-	scheduleToDoMonthlyTasks && \
-	commitdo
-}
-
-startYear(){
-
-    #doarchive
-	bumpYearlyTodoItems && \
-	scheduleToDoYearlyTasks && \
-	commitdo
-}
 
 # print todo functions
 
@@ -509,4 +377,23 @@ createContextList 'home' '$doRootPath' '$docRootPath/$today-home list for month-
 
 # remove console colors using sed
 # sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g"
+
+
+StartServer(){
+
+	local serverRootPath=$1
+	cd "$serverRootPath"	
+	python "$rootpath/scripts/source/20140607-start simple http server with markdown support-python script.py"	
+
+}
+
+StartMarkdownServer(){
+
+	python "$rootpath/scripts/project/20150106-brainerd markdown server/brainerd.py"
+
+}
+
+alias startserverat="StartServer"
+alias startbirthdayserver="StartMarkdownServer"
+
 
