@@ -19,7 +19,6 @@ goto END
 :CGROUP
 REM C,C++,C#,Java
 set path=%PATH%;"%scriptFolderPath%\tools\astyle\"
-pause
 REM The following two line are Npp Hack for not changing the current path
 %~d1
 cd "%~p1"
