@@ -1,5 +1,5 @@
-REM Author Lal Thomas (lal.thomas.mail@gmail.com)
 @echo OFF
+REM Author Lal Thomas (lal.thomas.mail@gmail.com)
 
 REM get the script folder path
 set scriptFolderPathFull=%~dp0%
