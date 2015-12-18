@@ -1,7 +1,6 @@
 @echo OFF
 setlocal
 
-
 REM Program variables
 set CCompilerPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\gcc.exe"
 set CppCompilterPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\g++.exe"
