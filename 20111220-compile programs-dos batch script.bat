@@ -10,11 +10,23 @@ REM get the script folder path
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
+REM Thanks you http://stackoverflow.com/a/2541820
+IF [%~x1] == [] ( 
+IF EXIST %1 ( CALL:FOLDER "%CD%" )
+) ELSE ( 
+IF EXIST %1 ( CALL:MAP %1 )
+)
+REM premature exit to define functions beneath
+EXIT /B %ERRORLEVEL%
+
+REM Subroutine
+:MAP
+REM echo %1
 if /i %~x1 == .c ( goto C )
 if /i %~x1 == .cpp ( goto CPP )
 if /i %~x1 == .cs ( goto CS)
 if /i %~x1 == .java ( goto JAVA )
-goto End
+EXIT /b 0
 
 REM C
 :C
@@ -25,12 +37,14 @@ IF EXIST %~n1.exe (del %~n1.exe) ELSE (echo %1 is being processed first time)
 %CCompilerPath% %1
 IF %ERRORLEVEL% EQU 0 (goto CSuccess ) ELSE (goto CFailure)
 :CFailure
-echo Program terminated with Compilation Errors
+echo Program terminated with compilation errors
+SET /p option="press o to open file : " 
+IF "%option%" == "o" ( start explorer %1)
 pause
-goto End
+EXIT /b 0
 :CSuccess
 ren a.exe "%~n1".exe
-goto End
+EXIT /b 0
 
 
 REM Cpp
@@ -44,12 +58,14 @@ IF EXIST %~n1.exe (del %~n1.exe) ELSE (echo %1 is being processed first time)
 %CppCompilterPath% %1
 IF %ERRORLEVEL% EQU 0 (goto CppSuccess ) ELSE (goto CppFailure)
 :CppFailure
-echo Program terminated with Compilation Errors
+echo Program terminated with compilation errors
+SET /p option="press o to open file : " 
+IF "%option%" == "o" ( start explorer %1)
 pause
-goto End
+EXIT /b 0
 :CppSuccess
 ren a.exe "%~n1".exe
-goto End
+EXIT /b 0
 
 
 REM CSharp
@@ -71,7 +87,7 @@ call temp.bat
 del temp.bat
 pause
 :EOS
-goto End
+EXIT /b 0
 endlocal
 
 REM Java
@@ -83,8 +99,13 @@ REM The following two line are Npp Hack for not changing the current path
 cd %~p1
 ::javac %1
 %JavaCompilerPath% %1
-goto End
+EXIT /b 0
 
-:End
-REM pause
+:FOLDER
+SET /p _Opt="Are you sure to compile all files on the folder(y/n)" 
+IF "%_Opt%" == "n" ( goto :EOF)
+echo Batch Processing folder... : %1 
+for %%a in ("%CD%"\*.*) do ( CALL:MAP "%%a" )
+EXIT /b 0
+
 endlocal
