@@ -45,6 +45,7 @@ IF EXIST %~n1.exe (del %~n1.exe) ELSE (echo %1 is being processed first time)
 IF %ERRORLEVEL% EQU 0 (goto CppSuccess ) ELSE (goto CppFailure)
 :CppFailure
 echo Program terminated with Compilation Errors
+pause
 goto End
 :CppSuccess
 ren a.exe "%~n1".exe
@@ -68,6 +69,7 @@ echo IF %%ERRORLEVEL%% EQU 0 ( echo "Successfully Compiled..." ) >>temp.bat
 cls
 call temp.bat
 del temp.bat
+pause
 :EOS
 goto End
 endlocal
@@ -84,5 +86,5 @@ cd %~p1
 goto End
 
 :End
-pause
+REM pause
 endlocal
