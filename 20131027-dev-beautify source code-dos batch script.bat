@@ -14,7 +14,7 @@ if /i %~x1 == .html ( goto  HTML )
 if /i %~x1 == .htm ( goto HTML )
 if /i %~x1 == .xml ( goto  XML )
 if /i %~x1 == .css ( goto CSS)
-goto END
+goto EOF
 
 :CGROUP
 REM C,C++,C#,Java
@@ -25,7 +25,7 @@ cd "%~p1"
 cls
 call astyle --style=gnu %1
 IF %ERRORLEVEL% EQU 0 (del %1.orig) ELSE (pause echo Lexical Error in Program )
-goto END
+goto EOF
 
 :HTML
 REM HTML
@@ -36,7 +36,7 @@ REM The following two line are Npp Hack for not changing the current path
 cd "%~p1"
 cls
 call htb /ablns4 %scriptFolderPath%\temp.html %1
-goto END
+goto EOF
 
 :XML
 REM HTML
@@ -47,7 +47,7 @@ REM The following two line are Npp Hack for not changing the current path
 cd "%~p1"
 cls
 call xmlindent -o %1 %scriptFolderPath%\temp.xml 
-goto END
+goto EOF
 
 :CSS
 REM CSS
@@ -72,8 +72,7 @@ IF /I "%_Opt%" == "2" ( SET _OptValue= --template=medium)
 IF /I "%_Opt%" == "3" ( SET _OptValue= --template=high)
 call csstidy "%scriptFolderPath%\temp.css" --timestamp=false --allow_html_in_templates=false --compress_colors=false --compress_font=false --lowercase_s=true --preserve_css=true --remove_last_;=false --remove_bslash=false --sort_properties=true --sort_selectors=false --case_properties=0 %_OptValue% %1
 IF %ERRORLEVEL% NOT EQU 0 (copy "%scriptFolderPath%\temp.css" %1 )
-goto END
+goto EOF
 
-:END
 REM pause
-endlocal
+EOFlocal
