@@ -29,7 +29,7 @@ echo Program terminated with Compilation Errors
 pause
 goto End
 :CSuccess
-ren a.exe %~n1.exe
+ren a.exe "%~n1".exe
 goto End
 
 
@@ -47,7 +47,7 @@ IF %ERRORLEVEL% EQU 0 (goto CppSuccess ) ELSE (goto CppFailure)
 echo Program terminated with Compilation Errors
 goto End
 :CppSuccess
-ren a.exe %~n1.exe
+ren a.exe "%~n1".exe
 goto End
 
 
