@@ -23,7 +23,7 @@ REM The following two line are Npp Hack for not changing the current path
 %~d1
 cd "%~p1"
 cls
-call astyle --brackets=break --max-instatement-indent=0 --indent-brackets --indent-labels --indent-namespaces --indent-cases --indent-switches --indent-classes --convert-tabs %1
+call astyle --style=gnu %1
 IF %ERRORLEVEL% EQU 0 (del %1.orig) ELSE (pause echo Lexical Error in Program )
 goto END
 
