@@ -10,9 +10,9 @@ javac %1
 REM Makes html file
 set path=%ORGIN%
 @echo ON
-type E:\Devel\Mis\AppletTem_1.txt >AppletView.html
+type AppletTem_1.txt >AppletView.html
 echo "%~n1" >>AppletView.html
-type E:\Devel\Mis\AppletTem_2.txt >>AppletView.html
+type AppletTem_2.txt >>AppletView.html
 
 REM Runs the html file using appletviewer
 @echo OFF
