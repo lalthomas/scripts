@@ -37,7 +37,9 @@ IF EXIST %~n1.exe (del %~n1.exe) ELSE (echo %1 is being processed first time)
 %CCompilerPath% %1
 IF %ERRORLEVEL% EQU 0 (goto CSuccess ) ELSE (goto CFailure)
 :CFailure
-echo Program terminated with Compilation Errors
+echo Program terminated with compilation errors
+SET /p option="press o to open file : " 
+IF "%option%" == "o" ( start explorer %1)
 pause
 EXIT /b 0
 :CSuccess
@@ -56,7 +58,9 @@ IF EXIST %~n1.exe (del %~n1.exe) ELSE (echo %1 is being processed first time)
 %CppCompilterPath% %1
 IF %ERRORLEVEL% EQU 0 (goto CppSuccess ) ELSE (goto CppFailure)
 :CppFailure
-echo Program terminated with Compilation Errors
+echo Program terminated with compilation errors
+SET /p option="press o to open file : " 
+IF "%option%" == "o" ( start explorer %1)
 pause
 EXIT /b 0
 :CppSuccess
