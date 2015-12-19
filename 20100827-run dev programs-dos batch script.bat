@@ -64,7 +64,7 @@ REM invoke the adminstrator dialog box
 Powershell -Command "& {Start-Process" \"%OrginalPath%\\temp.bat\"-verb RunAs}"
 )
 
-call "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" "http://localhost/site/%ParentDir%/%~n1%~x1"
+start "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" "http://localhost/site/%ParentDir%/%~n1%~x1"
 del "%OrginalPath%\temp.bat"
 goto END
 
