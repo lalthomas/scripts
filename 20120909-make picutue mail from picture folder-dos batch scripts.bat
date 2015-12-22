@@ -4,9 +4,16 @@ REM ****************************************************
 REM Script to get the last folder in the file path
 REM Credit : http://stackoverflow.com/questions/2396003/get-parent-directory-name-for-a-particular-file-using-dos-batch-scripting
 setlocal
-set path=%PATH%;E:\Devel\Mis\MakeMail
-REM set ParentDir=%~p1
-set ParentDir=%CD%
+
+REM get the script folder path
+set scriptFolderPathFull=%~dp0%
+set scriptFolderPath=%scriptFolderPathFull:~0,-1%
+
+set path=%PATH%;%~dp1
+%~d1
+cd %~dp1
+set ParentDir=%~dp1
+REM set ParentDir=%CD%
 REM echo %ParentDir%
 
 REM Replaces every space with colon
@@ -49,7 +56,7 @@ REM To enable looop count
 setlocal ENABLEDELAYEDEXPANSION
 for %%a in ( *.jpg,*.png,*.gif ) do (
 REM Extracts the IPTC Caption of the image
-call exiftool -iptc:Caption-Abstract "%%a" >captionimage.txt
+call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -iptc:Caption-Abstract "%%a" >captionimage.txt
 for /f "delims=" %%x in (captionimage.txt) do echo ^<p style=^'text-align:left;^'^>%%x^</p^> >>index.eml
 echo ^<p^>^</p^> >>index.eml
 REM Must use !s! for delayed expansion
@@ -59,7 +66,7 @@ del captionimage.txt
 )
 echo ^</div^> >>index.eml
 echo ^</body^>^</html^> >>index.eml
-call fart index.eml "<p style='text-align:left;'>Caption-Abstract                : " "<p style='text-align:left;'>"
+call "%scriptFolderPath%\tools\fart\fart.exe" index.eml "<p style='text-align:left;'>Caption-Abstract                : " "<p style='text-align:left;'>"
 
 
 REM Loop through all images in the folder
@@ -79,7 +86,7 @@ echo  filename=^"%%a^" >>index.eml
 echo.>>index.eml >>index.eml
 
 REM Encodes the image to Base64 encoding
-base64 -e "%%a" "encodeimage.txt"
+"%scriptFolderPath%\tools\base64\base64.exe" -e "%%a" "encodeimage.txt"
 type encodeimage.txt>>index.eml
 REM call :getcaption %caption%
 
@@ -87,10 +94,11 @@ REM Clean Up
 del encodeimage.txt
 )
 endlocal
-REM pause
 
 del "%ParentDir%.eml"
 ren "index.eml" "%ParentDir%.eml"
+
+REM pause
 
 goto :EOF
 
