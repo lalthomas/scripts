@@ -56,7 +56,7 @@ echo ^</body^>^</html^> >>%fileName%
 call "%scriptFolderPath%\tools\fart\fart.exe" %fileName% "<p style='text-align:left;'>Caption-Abstract                : " "<p style='text-align:left;'>"
 call :EmbedImage "%*"
 endlocal
-REM pause
+pause
 
 goto :EOF
 
