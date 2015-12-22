@@ -32,69 +32,29 @@ set ParentDir=%ParentDir::= %
 REM ------------------------------
 
 set fileName="%ParentDir%.eml"
-print From - Wed Jul 18 11\:06\:40 2012 >%fileName%                                                                       
+
+echo From - Wed Jul 18 11\:06\:40 2012 >%fileName%                                                                       
 REM ****************************************************
 echo Message-ID: ^<50064B68.2070405@gmail.com^> >>%fileName%
 echo Date: Wed, 18 Jul 2012 11:06:40 +0530 >>%fileName%
 echo MIME-Version: 1.0 >>%fileName%
 echo Subject: %ParentDir% >>%fileName%
-
 echo Content-Type: multipart/related; >>%fileName%
 echo  boundary=^"------------090109080102010402080505^" >>%fileName%
 echo.>>%fileName%
 echo This is a multi-part message in MIME format. >>%fileName%
 echo --------------090109080102010402080505 >>%fileName%
-
 echo Content-Type: text/html; charset=ISO-8859-1 >>%fileName%
 echo Content-Transfer-Encoding: 7bit >>%fileName%
 echo.>>%fileName%
 echo ^<html^>^<head^>^<meta http-equiv=^"content-type^" content=^"text/html; charset=ISO-8859-1^"^>^<title^>%ParentDir%^</title^> ^</head^>^<body^> >>%fileName%
-
 echo ^<h1^> %ParentDir% ^</h1^> >>%fileName%
 echo  ^<div align=^"center^"^> >>%fileName%
-
-set /a s=1
-REM To enable looop count
-setlocal ENABLEDELAYEDEXPANSION
-for %%a in ( *.jpg,*.png,*.gif ) do (
-REM Extracts the IPTC Caption of the image
-call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -iptc:Caption-Abstract "%%a" >captionimage.txt
-for /f "delims=" %%x in (captionimage.txt) do echo ^<p style=^'text-align:left;^'^>%%x^</p^> >>%fileName%
-echo ^<p^>^</p^> >>%fileName%
-REM Must use !s! for delayed expansion
-echo ^<img src=^"cid:part!s!.01030501.02050408@gmail.com^" alt=^"^"^> >>%fileName%
-set /a s=s+1
-del captionimage.txt
-)
+call :AddCaptionText "%*"
 echo ^</div^> >>%fileName%
 echo ^</body^>^</html^> >>%fileName%
 call "%scriptFolderPath%\tools\fart\fart.exe" %fileName% "<p style='text-align:left;'>Caption-Abstract                : " "<p style='text-align:left;'>"
-
-
-REM Loop through all images in the folder
-set /a s=1
-REM To enable looop count
-setlocal ENABLEDELAYEDEXPANSION
-for %%a in ( *.jpg,*.png,*.gif ) do (
-echo --------------090109080102010402080505 >>%fileName%
-echo Content-Type: image/jpeg; >>%fileName%
-echo  name=^"%%a^" >>%fileName%
-echo Content-Transfer-Encoding: base64 >>%fileName%
-REM Must use !s! for delayed expansion
-echo Content-ID: ^<part!s!.01030501.02050408@gmail.com^> >>%fileName%
-set /a s=s+1
-echo Content-Disposition: inline; >>%fileName%
-echo  filename=^"%%a^" >>%fileName%
-echo.>>%fileName% >>%fileName%
-
-REM Encodes the image to Base64 encoding
-"%scriptFolderPath%\tools\base64\base64.exe" -e "%%a" "encodeimage.txt"
-type encodeimage.txt>>%fileName%
-REM call :getcaption %caption%
-
-REM Clean Up
-del encodeimage.txt
-)
+call :EmbedImage "%*"
 endlocal
 REM pause
 
@@ -110,3 +70,68 @@ goto :EOF
 endlocal
 REM End of Script
 exit
+
+REM -------------------------------
+:AddCaptionText
+set /a s=1
+REM To enable looop count
+setlocal ENABLEDELAYEDEXPANSION
+setlocal
+:LOOP_FILE_ONE
+if [%1] NEQ [] (
+  REM echo %1
+  REM Extracts the IPTC Caption of the image
+  call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -iptc:Caption-Abstract %1 >captionimage.txt
+  for /f "delims=" %%x in (captionimage.txt) do echo ^<p style=^'text-align:left;^'^>%%x^</p^> >>%fileName%
+  echo ^<p^>^</p^> >>%fileName%
+  REM Must use !s! for delayed expansion
+  echo ^<img src=^"cid:part!s!.01030501.02050408@gmail.com^" alt=^"^"^> >>%fileName%
+  set /a s=s+1
+  del captionimage.txt
+) ELSE ( 
+  goto LOOP_FILE_ONE_EXIT 
+)
+SHIFT
+GOTO LOOP_FILE_ONE
+:LOOP_FILE_ONE_EXIT 
+REM pause
+endlocal
+EXIT /b 0
+
+REM -------------------------------
+
+:EmbedImage
+REM Loop through all images in the folder
+set /a s=1
+REM To enable looop count
+setlocal ENABLEDELAYEDEXPANSION
+setlocal
+:LOOP_FILE_TWO
+if [%1] NEQ [] (
+  REM echo %1
+  echo --------------090109080102010402080505 >>%fileName%
+  echo Content-Type: image/jpeg; >>%fileName%
+  echo  name=^"%1^" >>%fileName%
+  echo Content-Transfer-Encoding: base64 >>%fileName%
+  REM Must use !s! for delayed expansion
+  echo Content-ID: ^<part!s!.01030501.02050408@gmail.com^> >>%fileName%
+  set /a s=s+1
+  echo Content-Disposition: inline; >>%fileName%
+  echo  filename=^"%1^" >>%fileName%
+  echo.>>%fileName% >>%fileName%
+
+  REM Encodes the image to Base64 encoding
+  "%scriptFolderPath%\tools\base64\base64.exe" -e %1 "encodeimage.txt"
+  type encodeimage.txt>>%fileName%
+  REM call :getcaption %caption%
+
+  REM Clean Up
+  del encodeimage.txt
+) ELSE ( 
+  goto LOOP_FILE_TWO_EXIT 
+)
+SHIFT
+GOTO LOOP_FILE_TWO
+:LOOP_FILE_TWO_EXIT 
+EXIT /b 0
+
