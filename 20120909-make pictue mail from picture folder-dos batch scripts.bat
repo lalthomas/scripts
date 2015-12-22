@@ -12,44 +12,46 @@ set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 set path=%PATH%;%~dp1
 %~d1
 cd %~dp1
-set ParentDir=%~dp1
-REM set ParentDir=%CD%
-REM echo %ParentDir%
 
-REM Replaces every space with colon
+REM ------------------------------
+REM take the parent folder path
+setlocal
+set ParentDir=%~p1
 set ParentDir=%ParentDir: =:%
-REM echo %ParentDir%
-
-REM Replaces every back slash with space
 set ParentDir=%ParentDir:\= %
-REM echo %ParentDir%
-
-REM Calls a routine that calculates the last folder
 call :getparentdir %ParentDir%
-
-REM Replaces every colon with space
 set ParentDir=%ParentDir::= %
-REM echo ParentDir is %ParentDir%
+goto :MADE_FOLDER
+:getparentdir
+if "%~1" EQU "" goto :MADE_FOLDER
+Set ParentDir=%~1
+shift
+goto :getparentdir
+:MADE_FOLDER 
+set ParentDir=%ParentDir::= %
+REM ------------------------------
 
-echo From - Wed Jul 18 11:06:40 2012 >index.eml                                                                              
-echo Message-ID: ^<50064B68.2070405@gmail.com^> >>index.eml
-echo Date: Wed, 18 Jul 2012 11:06:40 +0530 >>index.eml
-echo MIME-Version: 1.0 >>index.eml
-echo Subject: %ParentDir% >>index.eml
+set fileName="%ParentDir%.eml"
+print From - Wed Jul 18 11\:06\:40 2012 >%fileName%                                                                       
+REM ****************************************************
+echo Message-ID: ^<50064B68.2070405@gmail.com^> >>%fileName%
+echo Date: Wed, 18 Jul 2012 11:06:40 +0530 >>%fileName%
+echo MIME-Version: 1.0 >>%fileName%
+echo Subject: %ParentDir% >>%fileName%
 
-echo Content-Type: multipart/related; >>index.eml
-echo  boundary=^"------------090109080102010402080505^" >>index.eml
-echo.>>index.eml
-echo This is a multi-part message in MIME format. >>index.eml
-echo --------------090109080102010402080505 >>index.eml
+echo Content-Type: multipart/related; >>%fileName%
+echo  boundary=^"------------090109080102010402080505^" >>%fileName%
+echo.>>%fileName%
+echo This is a multi-part message in MIME format. >>%fileName%
+echo --------------090109080102010402080505 >>%fileName%
 
-echo Content-Type: text/html; charset=ISO-8859-1 >>index.eml
-echo Content-Transfer-Encoding: 7bit >>index.eml
-echo.>>index.eml
-echo ^<html^>^<head^>^<meta http-equiv=^"content-type^" content=^"text/html; charset=ISO-8859-1^"^>^<title^>%ParentDir%^</title^> ^</head^>^<body^> >>index.eml
+echo Content-Type: text/html; charset=ISO-8859-1 >>%fileName%
+echo Content-Transfer-Encoding: 7bit >>%fileName%
+echo.>>%fileName%
+echo ^<html^>^<head^>^<meta http-equiv=^"content-type^" content=^"text/html; charset=ISO-8859-1^"^>^<title^>%ParentDir%^</title^> ^</head^>^<body^> >>%fileName%
 
-echo ^<h1^> %ParentDir% ^</h1^> >>index.eml
-echo  ^<div align=^"center^"^> >>index.eml
+echo ^<h1^> %ParentDir% ^</h1^> >>%fileName%
+echo  ^<div align=^"center^"^> >>%fileName%
 
 set /a s=1
 REM To enable looop count
@@ -57,16 +59,16 @@ setlocal ENABLEDELAYEDEXPANSION
 for %%a in ( *.jpg,*.png,*.gif ) do (
 REM Extracts the IPTC Caption of the image
 call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -iptc:Caption-Abstract "%%a" >captionimage.txt
-for /f "delims=" %%x in (captionimage.txt) do echo ^<p style=^'text-align:left;^'^>%%x^</p^> >>index.eml
-echo ^<p^>^</p^> >>index.eml
+for /f "delims=" %%x in (captionimage.txt) do echo ^<p style=^'text-align:left;^'^>%%x^</p^> >>%fileName%
+echo ^<p^>^</p^> >>%fileName%
 REM Must use !s! for delayed expansion
-echo ^<img src=^"cid:part!s!.01030501.02050408@gmail.com^" alt=^"^"^> >>index.eml
+echo ^<img src=^"cid:part!s!.01030501.02050408@gmail.com^" alt=^"^"^> >>%fileName%
 set /a s=s+1
 del captionimage.txt
 )
-echo ^</div^> >>index.eml
-echo ^</body^>^</html^> >>index.eml
-call "%scriptFolderPath%\tools\fart\fart.exe" index.eml "<p style='text-align:left;'>Caption-Abstract                : " "<p style='text-align:left;'>"
+echo ^</div^> >>%fileName%
+echo ^</body^>^</html^> >>%fileName%
+call "%scriptFolderPath%\tools\fart\fart.exe" %fileName% "<p style='text-align:left;'>Caption-Abstract                : " "<p style='text-align:left;'>"
 
 
 REM Loop through all images in the folder
@@ -74,30 +76,26 @@ set /a s=1
 REM To enable looop count
 setlocal ENABLEDELAYEDEXPANSION
 for %%a in ( *.jpg,*.png,*.gif ) do (
-echo --------------090109080102010402080505 >>index.eml
-echo Content-Type: image/jpeg; >>index.eml
-echo  name=^"%%a^" >>index.eml
-echo Content-Transfer-Encoding: base64 >>index.eml
+echo --------------090109080102010402080505 >>%fileName%
+echo Content-Type: image/jpeg; >>%fileName%
+echo  name=^"%%a^" >>%fileName%
+echo Content-Transfer-Encoding: base64 >>%fileName%
 REM Must use !s! for delayed expansion
-echo Content-ID: ^<part!s!.01030501.02050408@gmail.com^> >>index.eml
+echo Content-ID: ^<part!s!.01030501.02050408@gmail.com^> >>%fileName%
 set /a s=s+1
-echo Content-Disposition: inline; >>index.eml
-echo  filename=^"%%a^" >>index.eml
-echo.>>index.eml >>index.eml
+echo Content-Disposition: inline; >>%fileName%
+echo  filename=^"%%a^" >>%fileName%
+echo.>>%fileName% >>%fileName%
 
 REM Encodes the image to Base64 encoding
 "%scriptFolderPath%\tools\base64\base64.exe" -e "%%a" "encodeimage.txt"
-type encodeimage.txt>>index.eml
+type encodeimage.txt>>%fileName%
 REM call :getcaption %caption%
 
 REM Clean Up
 del encodeimage.txt
 )
 endlocal
-
-del "%ParentDir%.eml"
-ren "index.eml" "%ParentDir%.eml"
-
 REM pause
 
 goto :EOF
@@ -111,16 +109,4 @@ set caption=%~1
 goto :EOF
 endlocal
 REM End of Script
-REM ****************************************************
-
-
-REM Routine that returns the last word of the string
-setlocal
-:getparentdir
-if "%~1" EQU "" goto :EOF
-Set ParentDir=%~1
-shift
-goto getparentdir
-endlocal
-
-
+exit
