@@ -27,7 +27,7 @@ if "%~1" EQU "" goto :MADE_FOLDER
 Set ParentDir=%~1
 shift
 goto :getparentdir
-:MADE_FOLDER 
+:MADE_FOLDER
 set ParentDir=%ParentDir::= %
 REM ------------------------------
 
