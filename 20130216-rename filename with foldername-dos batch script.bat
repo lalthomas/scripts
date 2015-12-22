@@ -15,6 +15,9 @@ REM Replaces all empty space
 set mon=%mon: =%
 echo %mon% %day% %yyyy% %hh% %min% %filename%
 REM ****************************************************
+set path=%PATH%;%~dp1
+%~d1
+cd %~p1
 
 REM ****************************************************
 REM Script to get the last folder in the file path
