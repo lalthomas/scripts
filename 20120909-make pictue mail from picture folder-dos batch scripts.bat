@@ -82,9 +82,6 @@ for %%f in (%*) do (
   del encodeimage.txt
 )
 
-call :EmbedImage "%*"
-endlocal
-
 
 REM warning !!! : never change the position of the code - high side effect
 
