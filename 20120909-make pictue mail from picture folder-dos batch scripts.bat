@@ -20,7 +20,7 @@ REM ****************************************************
 echo Message-ID: ^<50064B68.2070405@gmail.com^> >>%fileName%
 echo Date: Wed, 18 Jul 2012 11:06:40 +0530 >>%fileName%
 echo MIME-Version: 1.0 >>%fileName%
-echo Subject: %ParentDir% >>%fileName%
+echo Subject: $SUBJECT$ >>%fileName%
 echo Content-Type: multipart/related; >>%fileName%
 echo  boundary=^"------------090109080102010402080505^" >>%fileName%
 echo.>>%fileName%
@@ -30,8 +30,8 @@ echo Content-Type: text/html; charset=ISO-8859-1 >>%fileName%
 echo Content-Transfer-Encoding: 7bit >>%fileName%
 echo.>>%fileName%
 echo ^<html^>^<head^>^<meta http-equiv=^"content-type^" content=^"text/html; charset=ISO-8859-1^"^>^<title^>%ParentDir%^</title^> ^</head^>^<body^> >>%fileName%
-echo ^<h1^> %ParentDir% ^</h1^> >>%fileName%
 echo  ^<div align=^"center^"^> >>%fileName%
+echo ^<h1^> $SUBJECT$ ^</h1^> >>%fileName%
 
 REM ------------------------
 set /a s=1
@@ -105,6 +105,7 @@ REM ------------------------------
 
 ren %fileName% "%ParentDir%.eml"
 del %fileName%
+call "%scriptFolderPath%\tools\fart\fart.exe" "%ParentDir%.eml" "$SUBJECT$" "%ParentDir%"
 
 goto :EOF
 
