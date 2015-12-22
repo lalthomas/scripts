@@ -1,6 +1,6 @@
 @echo OFF
 setlocal
-set path=%PATH%;C:\Program Files\IrfanView
-i_view32.exe %1 /wall=2
-i_view32.exe /killmesoftly
+set path=%PATH%;D:\PortableApps.com\PortableApps\IrfanViewPortable\
+IrfanViewPortable.exe %1 /wall=3
+IrfanViewPortable.exe /killmesoftly
 endlocal
