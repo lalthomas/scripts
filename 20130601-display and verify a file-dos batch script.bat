@@ -1,4 +1,4 @@
-@echo OFF
+@echo ON
 REM ======================================
 REM Author : Lal Thomas
 REM Email  : lal.thomas.mail@gmail.com
@@ -6,7 +6,7 @@ REM ======================================
 @echo OFF
 REM Display Checklist 
 echo ============
-echo Check List
+echo %~n1.%~x1
 echo ============
 REM Thanks : http://stackoverflow.com/q/134001
 SetLocal EnableDelayedExpansion
