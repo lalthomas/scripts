@@ -7,6 +7,9 @@ set savedirectory=%~dp1%~n1
 set file=%file:\=\\%
 set savedirectory=%savedirectory:\=\\%
 
+%~d1
+cd %~p1
+
 echo VirtualDub.Open(%file%,"",0); >>screen.vcf
 echo VirtualDub.audio.SetSource(1); >>screen.vcf
 echo VirtualDub.audio.SetMode(0); >>screen.vcf
