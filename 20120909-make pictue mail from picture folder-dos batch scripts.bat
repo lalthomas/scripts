@@ -73,65 +73,65 @@ exit
 
 REM -------------------------------
 :AddCaptionText
-set /a s=1
-REM To enable looop count
-setlocal ENABLEDELAYEDEXPANSION
-setlocal
-:LOOP_FILE_ONE
-if [%1] NEQ [] (
-  REM echo %1
-  REM Extracts the IPTC Caption of the image
-  call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -iptc:Caption-Abstract %1 >captionimage.txt
-  for /f "delims=" %%x in (captionimage.txt) do echo ^<p style=^'text-align:left;^'^>%%x^</p^> >>%fileName%
-  echo ^<p^>^</p^> >>%fileName%
-  REM Must use !s! for delayed expansion
-  echo ^<img src=^"cid:part!s!.01030501.02050408@gmail.com^" alt=^"^"^> >>%fileName%
-  set /a s=s+1
-  del captionimage.txt
-) ELSE ( 
-  goto LOOP_FILE_ONE_EXIT 
-)
-SHIFT
-GOTO LOOP_FILE_ONE
-:LOOP_FILE_ONE_EXIT 
-REM pause
-endlocal
+ set /a s=1
+ REM To enable looop count
+ setlocal ENABLEDELAYEDEXPANSION
+ setlocal
+ :LOOP_FILE_ONE
+ if [%1] NEQ [] (
+   REM echo %1
+   REM Extracts the IPTC Caption of the image
+   call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -iptc:Caption-Abstract %1 >captionimage.txt
+   for /f "delims=" %%x in (captionimage.txt) do echo ^<p style=^'text-align:left;^'^>%%x^</p^> >>%fileName%
+   echo ^<p^>^</p^> >>%fileName%
+   REM Must use !s! for delayed expansion
+   echo ^<img src=^"cid:part!s!.01030501.02050408@gmail.com^" alt=^"^"^> >>%fileName%
+   set /a s=s+1
+   del captionimage.txt
+ ) ELSE ( 
+   goto LOOP_FILE_ONE_EXIT 
+ )
+ SHIFT
+ GOTO LOOP_FILE_ONE
+ :LOOP_FILE_ONE_EXIT 
+ REM pause
+ endlocal
 EXIT /b 0
 
 REM -------------------------------
 
 :EmbedImage
-REM Loop through all images in the folder
-set /a s=1
-REM To enable looop count
-setlocal ENABLEDELAYEDEXPANSION
-setlocal
-:LOOP_FILE_TWO
-if [%1] NEQ [] (
-  REM echo %1
-  echo --------------090109080102010402080505 >>%fileName%
-  echo Content-Type: image/jpeg; >>%fileName%
-  echo  name=^"%1^" >>%fileName%
-  echo Content-Transfer-Encoding: base64 >>%fileName%
-  REM Must use !s! for delayed expansion
-  echo Content-ID: ^<part!s!.01030501.02050408@gmail.com^> >>%fileName%
-  set /a s=s+1
-  echo Content-Disposition: inline; >>%fileName%
-  echo  filename=^"%1^" >>%fileName%
-  echo.>>%fileName% >>%fileName%
-
-  REM Encodes the image to Base64 encoding
-  "%scriptFolderPath%\tools\base64\base64.exe" -e %1 "encodeimage.txt"
-  type encodeimage.txt>>%fileName%
-  REM call :getcaption %caption%
-
-  REM Clean Up
-  del encodeimage.txt
-) ELSE ( 
-  goto LOOP_FILE_TWO_EXIT 
-)
-SHIFT
-GOTO LOOP_FILE_TWO
-:LOOP_FILE_TWO_EXIT 
+ REM Loop through all images in the folder
+ set /a s=1
+ REM To enable looop count
+ setlocal ENABLEDELAYEDEXPANSION
+ setlocal
+ :LOOP_FILE_TWO
+ if [%1] NEQ [] (
+   REM echo %1
+   echo --------------090109080102010402080505 >>%fileName%
+   echo Content-Type: image/jpeg; >>%fileName%
+   echo  name=^"%1^" >>%fileName%
+   echo Content-Transfer-Encoding: base64 >>%fileName%
+   REM Must use !s! for delayed expansion
+   echo Content-ID: ^<part!s!.01030501.02050408@gmail.com^> >>%fileName%
+   set /a s=s+1
+   echo Content-Disposition: inline; >>%fileName%
+   echo  filename=^"%1^" >>%fileName%
+   echo.>>%fileName% >>%fileName%
+   
+   REM Encodes the image to Base64 encoding
+   "%scriptFolderPath%\tools\base64\base64.exe" -e %1 "encodeimage.txt"
+   type encodeimage.txt>>%fileName%
+   REM call :getcaption %caption%
+   
+   REM Clean Up
+   del encodeimage.txt
+ ) ELSE ( 
+    goto LOOP_FILE_TWO_EXIT 
+ )
+ SHIFT
+ GOTO LOOP_FILE_TWO
+ :LOOP_FILE_TWO_EXIT 
 EXIT /b 0
 
