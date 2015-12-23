@@ -13,7 +13,7 @@ cd %~dp1
 
 type "%scriptFolderPath%%headerFilePath%" >%filename%
 for %%f in (%*) do (
-  echo ^<p^>^<span style^=^"background-image:url^(^'%%~nxf^'^);^"^>^</span^>^<a href^=^"^'%%~nxf^'^"^>%%~nxf^<^/a^>^<^/p^> >>%filename%
+  echo ^<p^>^<span style^=^"background-image:url^(^'%%~nxf^'^);^"^>^</span^>^<a href^=^"%%~nxf^"^>%%~nxf^<^/a^>^<^/p^> >>%filename%
 )
 type "%scriptFolderPath%%footerFilePath%" >>%filename%
 
