@@ -6,12 +6,14 @@ set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
 set IISPATH="C:\inetpub\wwwroot\site"
+set JAVAPATH="C:\Program Files\Java\jdk1.7.0_51\bin"
 
 if /i %~x1 == .html ( goto HTML)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .class ( goto JAVA )
 if /i %~x1 == .jar ( goto JAVAJAR )
 if /i %~x1 == .php ( goto PHP )
+
 REM Execute Exe,Bat
 set path=%PATH%;%CD%
 %~d1
@@ -31,16 +33,27 @@ REM Java
 :JAVA
 @echo OFF
 setlocal
-set path=%PATH%;"C:\Program Files\Java\jdk1.5.0\bin"
+set path=%PATH%;%JAVAPATH%
 %~d1
 cd "%~p1"
+REM check whether the file is an applet
+REM thank you : http://stackoverflow/a/21072632
+echo."%~n1" | findstr /c:"Applet">nul && (
+REM "Assuming this is an applet since applet name found"
+set appletFile=%~n1-applet.html
+echo ^<html^>^<head^>AppletViewer^<^/head^>^<body^>^<applet code^="%~n1" width^=500 height^=500^>^<^/applet^>^<^/body^>^<^/html^> >%~n1-applet.html
+call appletviewer %~n1-applet.html
+) || (
+rem this is commandlline
 call java "%~n1"
+)
+REM pause
 goto END
 
 :JAVAJAR
 @echo OFF
 setlocal
-set path=%PATH%;"C:\Program Files\Java\jdk1.5.0\bin"
+set path=%PATH%;%JAVAPATH%
 %~d1
 cd "%~p1"
 call java -jar "%1"
@@ -93,6 +106,7 @@ set ParentDir=%~1
 shift
 goto :getparentdir
 
+pause
 :END
 endlocal
 
