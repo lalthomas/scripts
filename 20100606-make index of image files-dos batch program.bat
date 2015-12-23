@@ -1,5 +1,5 @@
 setlocal
-@echo ON
+@echo OFF
 REM get the script folder path
 
 REM Script to get the attributes of file
@@ -35,5 +35,5 @@ for %%f in (%*) do (
 )
 type "%scriptFolderPath%%footerFilePath%" >>%filename%
 
-pause
+REM pause
 endlocal
