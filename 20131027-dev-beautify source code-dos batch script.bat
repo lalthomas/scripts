@@ -5,6 +5,8 @@ set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
 setlocal
+%~d1
+cd "%~p1"
 REM Thanks you http://stackoverflow.com/a/2541820
 IF [%~x1] == [] ( 
 IF EXIST %1 ( CALL:FOLDER "%CD%" )
@@ -32,9 +34,6 @@ REM Section
 REM C,C++,C#,Java
 set path=%PATH%;"%scriptFolderPath%\tools\astyle\"
 REM The following two line are Npp Hack for not changing the current path
-%~d1
-cd "%~p1"
-cls
 call astyle --style=gnu %1
 IF %ERRORLEVEL% EQU 0 (del %1.orig) ELSE (pause echo Lexical Error in Program )
 EXIT /b 0
@@ -45,9 +44,6 @@ REM HTML
 copy %1 %scriptFolderPath%\temp.html
 set path=%PATH%;"%scriptFolderPath%\tools\htb"
 REM The following two line are Npp Hack for not changing the current path
-%~d1
-cd "%~p1"
-cls
 call htb /ablns4 %scriptFolderPath%\temp.html %1
 EXIT /b 0
 
@@ -57,9 +53,6 @@ REM HTML
 copy %1 "%scriptFolderPath%\temp.xml"
 set path=%PATH%;"%scriptFolderPath%\tools\xml-indent"
 REM The following two line are Npp Hack for not changing the current path
-%~d1
-cd "%~p1"
-cls
 call xmlindent -o %1 %scriptFolderPath%\temp.xml 
 EXIT /b 0
 
@@ -69,8 +62,6 @@ copy %1 "%scriptFolderPath%\temp.css"
 set path=%PATH%;"%scriptFolderPath%\tools\css-tidy"
 @echo OFF
 REM The following two line are Npp Hack for not changing the current path
-%~d1
-cd "%~p1"
 cls
 echo Beautify CSS Options
 echo .....................................................
