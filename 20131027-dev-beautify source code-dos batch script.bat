@@ -35,16 +35,28 @@ REM C,C++,C#,Java
 set path=%PATH%;"%scriptFolderPath%\tools\astyle\"
 REM The following two line are Npp Hack for not changing the current path
 call astyle --style=gnu %1
-IF %ERRORLEVEL% EQU 0 (del %1.orig) ELSE (pause echo Lexical Error in Program )
+IF %ERRORLEVEL% EQU 0 ( del %1.orig ) ELSE ( pause echo lexical error in program %~nx1 )
 EXIT /b 0
 
 REM Section
 :HTML
 REM HTML
-copy %1 %scriptFolderPath%\temp.html
+@echo ON
+set tempFile="%~n1.tmp.html"
+copy %1 %tempFile%
 set path=%PATH%;"%scriptFolderPath%\tools\htb"
-REM The following two line are Npp Hack for not changing the current path
-call htb /ablns4 %scriptFolderPath%\temp.html %1
+REM The following two line are npp Hack for not changing the current path
+pause
+REM !!!! input file and output file should be different other it won't work
+htb.exe -l4 %1 %tempFile%
+pause
+IF %ERRORLEVEL% EQU 0 (   
+  move /Y %tempFile% %1  
+) ELSE (
+  echo lexical error in program %~nx1
+  pause
+  )
+pause  
 EXIT /b 0
 
 REM Section
