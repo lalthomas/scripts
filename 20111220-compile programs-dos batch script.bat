@@ -99,6 +99,15 @@ REM The following two line are Npp Hack for not changing the current path
 cd %~p1
 ::javac %1
 %JavaCompilerPath% %1
+IF %ERRORLEVEL% EQU 0 (goto JavaSuccess ) ELSE (goto JavaFailure)
+:JavaFailure
+echo Program terminated with compilation errors
+SET /p option="press o to open file : " 
+IF "%option%" == "o" ( start explorer %1)
+pause
+EXIT /b 0
+:JavaSuccess
+echo "%~n1".java compiled successfully
 EXIT /b 0
 
 :FOLDER
