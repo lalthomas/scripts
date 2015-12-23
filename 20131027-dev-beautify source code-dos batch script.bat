@@ -41,22 +41,17 @@ EXIT /b 0
 REM Section
 :HTML
 REM HTML
-@echo ON
+@echo OFF
 set tempFile="%~n1.tmp.html"
 copy %1 %tempFile%
 set path=%PATH%;"%scriptFolderPath%\tools\htb"
-REM The following two line are npp Hack for not changing the current path
-pause
-REM !!!! input file and output file should be different other it won't work
 htb.exe -l4 %1 %tempFile%
-pause
 IF %ERRORLEVEL% EQU 0 (   
   move /Y %tempFile% %1  
 ) ELSE (
   echo lexical error in program %~nx1
   pause
   )
-pause  
 EXIT /b 0
 
 REM Section
