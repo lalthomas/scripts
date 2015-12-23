@@ -10,6 +10,7 @@ set IISPATH="C:\inetpub\wwwroot\site"
 if /i %~x1 == .html ( goto HTML)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .class ( goto JAVA )
+if /i %~x1 == .jar ( goto JAVAJAR )
 if /i %~x1 == .php ( goto PHP )
 REM Execute Exe,Bat
 set path=%PATH%;%CD%
@@ -34,6 +35,15 @@ set path=%PATH%;"C:\Program Files\Java\jdk1.5.0\bin"
 %~d1
 cd "%~p1"
 call java "%~n1"
+goto END
+
+:JAVAJAR
+@echo OFF
+setlocal
+set path=%PATH%;"C:\Program Files\Java\jdk1.5.0\bin"
+%~d1
+cd "%~p1"
+call java -jar "%1"
 goto END
 
 REM PHP
