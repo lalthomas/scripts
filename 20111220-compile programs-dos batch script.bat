@@ -44,6 +44,7 @@ pause
 EXIT /b 0
 :CSuccess
 ren a.exe "%~n1".exe
+echo "%~n1%~x1" compiled successfully
 EXIT /b 0
 
 
@@ -65,6 +66,7 @@ pause
 EXIT /b 0
 :CppSuccess
 ren a.exe "%~n1".exe
+echo "%~n1%~x1" compiled successfully
 EXIT /b 0
 
 
@@ -107,7 +109,7 @@ IF "%option%" == "o" ( start explorer %1)
 pause
 EXIT /b 0
 :JavaSuccess
-echo "%~n1.%~x1" compiled successfully
+echo "%~n1%~x1" compiled successfully
 EXIT /b 0
 
 :FOLDER
