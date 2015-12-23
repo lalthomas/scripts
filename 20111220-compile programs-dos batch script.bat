@@ -107,7 +107,7 @@ IF "%option%" == "o" ( start explorer %1)
 pause
 EXIT /b 0
 :JavaSuccess
-echo "%~n1".java compiled successfully
+echo "%~n1.%~x1" compiled successfully
 EXIT /b 0
 
 :FOLDER
