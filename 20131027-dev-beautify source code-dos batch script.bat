@@ -9,7 +9,7 @@ setlocal
 cd "%~p1"
 REM Thanks you http://stackoverflow.com/a/2541820
 IF [%~x1] == [] ( 
-IF EXIST %1 ( CALL:FOLDER "%CD%" )
+IF EXIST %1 ( CALL:FOLDER %1 )
 ) ELSE ( 
 IF EXIST %1 ( CALL:MAP %1 )
 )
@@ -105,10 +105,11 @@ EXIT /b 0
 
 
 :FOLDER
-SET /p _Opt="Are you sure to beautify all files on the folder(y/n)" 
+SET /p _Opt="Are you sure to beautify all files on the folder" %1 "(y/n)" 
 IF "%_Opt%" == "n" ( goto :EOF)
 echo Batch Processing folder... : %1 
-for %%a in ("%CD%"\*.*) do ( CALL:MAP "%%a" )
+for %%a in (%1\*.*) do ( CALL:MAP "%%a" )
+pause
 EXIT /b 0
 
 REM pause
