@@ -13,6 +13,7 @@ if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .class ( goto JAVA )
 if /i %~x1 == .jar ( goto JAVAJAR )
 if /i %~x1 == .php ( goto PHP )
+if /i %~x1 == .sql ( goto SQL )
 
 REM Execute Exe,Bat
 set path=%PATH%;%CD%
@@ -91,6 +92,18 @@ start "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" "http://localhost/sit
 del "%OrginalPath%\temp.bat"
 goto END
 
+
+:SQL
+@echo OFF
+setlocal
+set path=%PATH%;C:\Program Files\MySQL\MySQL Server 5.1\bin
+SET /p _Opt="Are you sure to restore the database (y/n) : " 
+IF "%_Opt%" == "n" ( goto :EOF)
+set username=root
+set password=tiger
+mysql -u%username% -p%password% <%1
+pause
+goto END
 
 :getParentFolderName
 REM thanks : http://stackoverflow.com/questions/2396003/get-parent-directory-name-for-a-particular-file-using-dos-batch-scripting
