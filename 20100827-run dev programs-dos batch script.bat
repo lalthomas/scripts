@@ -8,7 +8,7 @@ REM get the script folder path
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
-set IISPATH="C:\inetpub\wwwroot\site"
+set IISPATH="C:\inetpub\wwwroot\"
 set JAVAPATH="C:\Program Files\Java\jdk1.7.0_51\bin"
 
 if /i %~x1 == .html ( goto HTML)
@@ -83,7 +83,7 @@ REM invoke the adminstrator dialog box
 Powershell -Command "& {Start-Process" \"%OrginalPath%\\temp.bat\"-verb RunAs}"
 )
 
-start "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" "http://localhost/site/%ParentDir%/%~n1%~x1"
+start "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" "http://localhost/%ParentDir%/%~n1%~x1"
 del "%OrginalPath%\temp.bat"
 goto END
 
