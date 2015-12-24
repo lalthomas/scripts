@@ -1,8 +1,10 @@
-@echo OFF
+@echo ON
 setlocal
 cd "%~dp1"
 for /f "tokens=*" %%a in ( %~n1%~x1 ) do (  
-  start explorer "%%a"
-)
-endlocal
 
+  echo."%%a" | findstr /C:"# ">nul && ( echo %%a skipped ) || ( start explorer "%%a" )
+ 
+)
+pause
+endlocal
