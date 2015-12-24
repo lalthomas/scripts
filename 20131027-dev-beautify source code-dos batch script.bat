@@ -27,6 +27,7 @@ if /i %~x1 == .html ( goto  HTML )
 if /i %~x1 == .htm ( goto HTML )
 if /i %~x1 == .xml ( goto  XML )
 if /i %~x1 == .css ( goto CSS)
+if /i %~x1 == .php ( goto PHP)
 EXIT /b 0
 
 REM Section
@@ -86,6 +87,22 @@ call csstidy "%scriptFolderPath%\temp.css" --timestamp=false --allow_html_in_tem
 IF %ERRORLEVEL% NOT EQU 0 (copy "%scriptFolderPath%\temp.css" %1 )
 pause
 EXIT /b 0
+
+
+:PHP
+set tempFile="%~n1.tmp.php"
+copy %1 %tempFile%
+set path=%PATH%;"%scriptFolderPath%\tools\phpcb"
+call phpcb --align-equal-statements --space-after-if --space-after-switch --space-after-while --space-after-end-angle-bracket --space-before-start-angle-bracket --change-shell-comment-to-double-slashes-comment --force-large-php-code-tag --glue-amperscore --force-true-false-null-contant-lowercase --one-true-brace-function-declaration --comment-rendering-style PEAR %1 >%tempFile%
+IF %ERRORLEVEL% EQU 0 (   
+  move /Y %tempFile% %1  
+) ELSE (
+  echo lexical error in program %~nx1
+  pause
+  )
+del %tempFile%
+EXIT /b 0
+
 
 :FOLDER
 SET /p _Opt="Are you sure to beautify all files on the folder(y/n)" 
