@@ -1,6 +1,9 @@
 @echo OFF
 setlocal
 
+%~d1
+cd "%~p1"
+
 REM get the script folder path
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
@@ -17,16 +20,13 @@ if /i %~x1 == .sql ( goto SQL )
 
 REM Execute Exe,Bat
 set path=%PATH%;%CD%
-%~d1
-cd "%~p1"
+
 call "%~n1"
 goto END
 
 REM HTML
 :html
 set path=%PATH%;%CD%
-%~d1
-cd "%~p1"
 call "%ProgramFiles%\Mozilla Firefox\firefox.exe" "%~n1%~x1"
 exit
 
@@ -35,8 +35,6 @@ REM Java
 @echo OFF
 setlocal
 set path=%PATH%;%JAVAPATH%
-%~d1
-cd "%~p1"
 REM check whether the file is an applet
 REM thank you : http://stackoverflow/a/21072632
 echo."%~n1" | findstr /c:"Applet">nul && (
@@ -55,8 +53,6 @@ goto END
 @echo OFF
 setlocal
 set path=%PATH%;%JAVAPATH%
-%~d1
-cd "%~p1"
 call java -jar "%1"
 goto END
 
@@ -64,7 +60,6 @@ REM PHP
 :PHP
 @echo OFF
 setlocal
-%~d1
 set OrginalPath=%CD%
 set ParentDir=%~p1
 REM this reduce the 
@@ -104,6 +99,7 @@ set password=tiger
 mysql -u%username% -p%password% <%1
 pause
 goto END
+
 
 :getParentFolderName
 REM thanks : http://stackoverflow.com/questions/2396003/get-parent-directory-name-for-a-particular-file-using-dos-batch-scripting
