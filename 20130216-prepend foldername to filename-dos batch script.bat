@@ -8,25 +8,21 @@ for %%a in ( %* ) do (
 
   %%~da
   cd "%%~pa"    
-
-  echo file : %%~na
-  echo file drive : %%~da
-  echo file folder path : %%~dpa
-  echo .
-  
+  REM echo file : %%~na
+  REM echo file drive : %%~da
+  REM echo file folder path : %%~dpa
+  REM echo .  
   set ParentDir=%%~dpa
-  echo ParentDir # is !ParentDir!
+  REM echo ParentDir # is !ParentDir!
   set ParentDir=!ParentDir: =:!
   set ParentDir=!ParentDir:\= !
   call :getparentdir !ParentDir!
   set ParentDir=!ParentDir::= !
-  echo ParentDir ## is !ParentDir!
-  pause
-    
-  REN "%%~na%%~xa" "!ParentDir!-%%~na%%~xa"
-  
-  echo LOOP END..
-  pause    
+  REM echo ParentDir ## is !ParentDir!
+  REM pause    
+  REN "%%~na%%~xa" "!ParentDir!-%%~na%%~xa"      
+  REM echo LOOP END..
+  REM pause    
   
 )
 
@@ -35,9 +31,10 @@ exit \b 0
 REM -----------------------
 
 :getparentdir
-echo argument : %1
+REM echo argument : %1
 if "%~1" EQU "" ( goto end )
 set ParentDir=%~1
 shift
 goto :getparentdir
 :end
+REM -----------------------
