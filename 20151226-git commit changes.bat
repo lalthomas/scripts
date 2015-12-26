@@ -4,7 +4,8 @@ setlocal enabledelayedexpansion
 set gitPath="C:\Program Files (x86)\Git\bin\sh.exe"
 REM echo all: %*
 
-for %%a in ( %* ) do (          
+for %%a in ( %* ) do (  
+  echo.
   echo change in : %%a
   set /p "commitMessage=enter commit message : "
   call :MAP %%a "!commitMessage!"  
