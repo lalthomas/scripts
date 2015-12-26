@@ -1,16 +1,43 @@
-@echo ON
+@echo OFF
 setlocal
+setlocal enabledelayedexpansion
+
+set ParentDir=""
+
 for %%a in ( %* ) do (  
+
+  %%~da
+  cd "%%~pa"    
 
   echo file : %%~na
   echo file drive : %%~da
   echo file folder path : %%~dpa
   echo .
   
-  %%~da
-  cd "%%~pa"
-  dir
+  set ParentDir=%%~dpa
+  echo ParentDir # is !ParentDir!
+  set ParentDir=!ParentDir: =:!
+  set ParentDir=!ParentDir:\= !
+  call :getparentdir !ParentDir!
+  set ParentDir=!ParentDir::= !
+  echo ParentDir ## is !ParentDir!
+  pause
+    
+  
+  
+  echo LOOP END..
+  pause    
   
 )
-endlocal
-pause
+
+exit \b 0
+
+REM -----------------------
+
+:getparentdir
+echo argument : %1
+if "%~1" EQU "" ( goto end )
+set ParentDir=%~1
+shift
+goto :getparentdir
+:end
