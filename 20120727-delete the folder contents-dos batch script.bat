@@ -1,0 +1,1 @@
+cmd /c “cd /d %1 && del /s /f /q *.*
