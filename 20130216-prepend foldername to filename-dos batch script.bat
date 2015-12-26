@@ -23,7 +23,7 @@ for %%a in ( %* ) do (
   echo ParentDir ## is !ParentDir!
   pause
     
-  
+  REN "%%~na%%~xa" "!ParentDir!-%%~na%%~xa"
   
   echo LOOP END..
   pause    
