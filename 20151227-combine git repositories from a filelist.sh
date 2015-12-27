@@ -36,6 +36,7 @@ if [ -d "$path" ]; then
 	 git merge -s ours --no-commit "$folderNameDashed"/master
 	 git read-tree --prefix="$folderName"/ -u "$folderNameDashed"/master
 	 git commit -m "merging ""$folderName"" into subdirectory"
+	 git remote remove "$folderNameDashed"
  done < "$1"
 
 fi
