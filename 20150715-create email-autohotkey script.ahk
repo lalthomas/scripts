@@ -1,0 +1,9 @@
+^!n::
+
+{
+
+run mailto:
+
+return
+
+}
