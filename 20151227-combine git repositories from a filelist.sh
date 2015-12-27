@@ -1,7 +1,15 @@
 #!/bin/bash
-set -x
+# set -x
 
-read -p "enter a directory for new repo : " path
+# Input to this script is file with list of git repositories"
+#
+# file.txt
+# --------
+# d:\repo 1\
+# d:\repo 2\
+#
+#
+read -p "enter a name for combined repo : " path
 cd $path
 mkdir parent
 cd parent
@@ -17,7 +25,7 @@ do
     S=$((S +1))
 	folderName=${line##*\\}
 	folderNameDashed=${folderName// /-}
-	echo "$folderName"
+	# echo "$folderName"
 	# echo "text read from file: $line"		
 	# folderPath=$( printf '%q' "$line" )			
 	git remote add "$folderNameDashed" "$line"
