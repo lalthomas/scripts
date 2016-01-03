@@ -28,7 +28,7 @@ doHelp(){
 	echo 
 	echo "createDailyTodoPrintFile - create a printable file of daily todo on $docRootPath folder"
 	echo "createHomeTodoPrintFile - create a printable file of todo with home context"
-	echo "createMonthlylyTodoPrintFil -  create a printable file of monthly todo on $docRootPath folder"
+	echo "createMonthlylyTodoPrintFile -  create a printable file of monthly todo on $docRootPath folder"
 	echo "createNonRecuringTodoPrintFile - create a printable file of non recurring todos on $docRootPath folder"
 	echo "createShopTodoPrintFile - create a printable file of shop todos on $docRootPath folder "
 	echo "createWeeklyTodoPrintFile - create a printable file of weekly todo on $docRootPath folder"
