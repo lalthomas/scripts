@@ -60,6 +60,7 @@ doHelp(){
 	echo " - invalidateYearlyTodoItems"
 	echo " - scheduleToDoYearlyTasks"	
 	echo " - commitdo"
+	echo 
 	echo "Misc."
 	echo "------"
 	echo 
