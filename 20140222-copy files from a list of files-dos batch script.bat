@@ -1,8 +1,12 @@
-@echo on
-set dst_folder="F:\ted"
-
+@echo OFF
+setlocal
+REM argument one - filelist
+REM argument two - destinaton folder
+set dst_folder=%2
 REM  Loop through the filelist
-
-for /f "delims=" %%a in (filelist.txt) do (
-xcopy %%a %dst_folder%
+%~d1
+cd %~dp1
+for /f "delims=" %%a in ( %~nx1 ) do (
+xcopy "%%a" %dst_folder%
 )
+REM pause
