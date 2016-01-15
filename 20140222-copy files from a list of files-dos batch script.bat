@@ -7,6 +7,6 @@ REM  Loop through the filelist
 %~d1
 cd %~dp1
 for /f "delims=" %%a in ( %~nx1 ) do (
-xcopy "%%a" %dst_folder%
+xcopy "%%~dpna.*" %dst_folder%
 )
 REM pause
