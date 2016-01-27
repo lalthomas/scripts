@@ -5,6 +5,7 @@ REM Program variables
 set CCompilerPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\gcc.exe"
 set CppCompilterPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\g++.exe"
 set JavaCompilerPath="C:\Program Files\Java\jdk1.7.0_51\bin\javac.exe"
+set 
 
 REM get the script folder path
 set scriptFolderPathFull=%~dp0%
@@ -26,6 +27,7 @@ if /i %~x1 == .c ( goto C )
 if /i %~x1 == .cpp ( goto CPP )
 if /i %~x1 == .cs ( goto CS)
 if /i %~x1 == .java ( goto JAVA )
+if /i %~x1 == .tex ( goto LATEX )
 EXIT /b 0
 
 REM C
@@ -110,6 +112,36 @@ pause
 EXIT /b 0
 :JavaSuccess
 echo "%~n1%~x1" compiled successfully
+EXIT /b 0
+
+
+REM LATEX
+:LATEX
+@echo OFF
+setlocal
+REM The following two line are Npp Hack for not changing the current path
+%~d1
+cd %~p1
+REM clean up
+del *.dvi
+del *.aux
+del *.bbl
+del *.blg
+del *.brf
+del *.out
+
+:: Run pdflatex -&gt; bibtex -&gt; pdflatex -&gt; pdflatex
+bibtex  %1
+:: If you are using multibib the following will run bibtex on all aux files
+:: FOR /R . %%G IN (*.aux) DO bibtex %%G
+pdflatex %1
+
+IF %ERRORLEVEL% EQU 0 (goto LatexSuccess ) ELSE (goto LatexFailure)
+:LatexFailure
+pause
+EXIT /b 0
+:LatexSuccess
+START "" "%~n1.pdf"
 EXIT /b 0
 
 :FOLDER
