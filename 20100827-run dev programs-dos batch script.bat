@@ -1,4 +1,6 @@
 @echo OFF
+REM Author Lal Thomas <www.lalamboori.blogspot.in>
+REM 
 setlocal
 
 %~d1
