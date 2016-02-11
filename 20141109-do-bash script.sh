@@ -23,44 +23,6 @@ doHelp(){
 	echo "addBirdsEyeReport - add birdseye report to $docRootPath folder"
 	echo "addTodoReport - add todo done count to report.txt"	
 	echo 
-	echo "Print"
-	echo "-----"
-	echo 
-	echo "createDailyTodoPrintFile - create a printable file of daily todo on $docRootPath folder"
-	echo "createHomeTodoPrintFile - create a printable file of todo with home context"
-	echo "createMonthlylyTodoPrintFile -  create a printable file of monthly todo on $docRootPath folder"
-	echo "createNonRecuringTodoPrintFile - create a printable file of non recurring todos on $docRootPath folder"
-	echo "createShopTodoPrintFile - create a printable file of shop todos on $docRootPath folder "
-	echo "createWeeklyTodoPrintFile - create a printable file of weekly todo on $docRootPath folder"
-	echo "createYearlyTodoPrintFile - create a printable file of yearly todo on $docRootPath folder"	
-	echo 
-	echo "Work Flow"
-	echo "--------"
-	echo 
-	echo "startDay"
-	echo " - commit changes in $doRootPath folder"	
-	echo " - create a journal file on $journalPath (journal file) with scheduled tasks"
-	echo " - add check in time to $doLogPath file"
-	echo 
-	echo "endDay"
-	echo " - add check out time to $doLogPath file"
-	echo " - add done items from done.txt to $journalPath(journal file)"
-	echo 
-	echo "startWeek"
-	echo " ! run on monday or pass current week's monday as argument"
-	echo " - schedule todo weekly tasks"	
-	echo 
-	echo "startMonth"
-	echo " - cleanTodo"
-	echo " - invalidateMonthlyTodoItems"
-	echo " - scheduleToDoMonthlyTasks"
-	echo " - commitdo"		
-	echo 
-	echo "startYear"	
-	echo " - invalidateYearlyTodoItems"
-	echo " - scheduleToDoYearlyTasks"	
-	echo " - commitdo"
-	echo 
 	echo "Misc."
 	echo "------"
 	echo 
@@ -107,56 +69,6 @@ mailPriorityToDo() {
 
 mailTodoPriorityList(){
 	mailPriorityToDo 'MIT Todos' $doRootPath/todo.txt 'lal.thomas.mail+todo@gmail.com'
-}
-
-# starty of day functions
-
-startDay(){		
-			
-	createJournalFile "$doPlannerFile" "$journalPath" "$doPlannerFile" "$doRootPath/journal.md"
-	addCheckInTimetoLog
-	commitdo
-	
-	# GTD
-	open "$doRootPath/$today-todo.txt"
-	openFile "$doRootPath/inbox.txt"
-}
-
-endDay(){
-
-	addCheckOutTimetoLog	
-	addMyDoneItemsToJournal
-}
-
-startWeek(){
-	
-	# as per the current implementation run either monday
-	# or as pass current week monday as argument otherwise 
-	# the command will produce undesired output
-	
-	if [ $# -eq 0 ]; 
-	then
-		t plan week
-	else
-		t plan week "$1"		
-	fi	
-	commitdo	
-}
-
-startMonth(){
-
-    doarchive
-	t plan month invalidate && \
-	t plan month && \
-	commitdo
-}
-
-startYear(){
-
-    #doarchive
-	t plan year invalidate && \
-	t plan year && \
-	commitdo
 }
 
 
