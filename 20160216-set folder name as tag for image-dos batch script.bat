@@ -41,7 +41,7 @@ IF [%~x1] == [] (
 	call :getParentFolderName
  )
 set tags=%ParentDir%
-set tags=%tags: =,%
+set tags=%tags: =; %
 call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -overwrite_original_in_place -preserve -Keywords+="%tags%" %location%
 EXIT /b 0
 
