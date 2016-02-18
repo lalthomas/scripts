@@ -1,4 +1,5 @@
 @echo OFF
+setlocal
 REM Author Lal Thomas
 REM Date : 2016-02-16
 REM get the script folder path
@@ -16,23 +17,29 @@ for %%f in (%*) do (
   IF EXIST %%f ( CALL :MAP %%f )
  )
 )
+endlocal
 pause
 EXIT /b 0
 
 :MAP
+setlocal
 REM if not /i %%~xf == .jpg ( goto :EOF )
 call :setImageMetaData %1
+endlocal
 EXIT /b 0
 
 :FOLDER
+setlocal
 REM SET /p _Opt="Are you sure to process all files on the folder(y/n)" 
 REM IF "%_Opt%" == "n" ( goto :EOF)
 echo batch processing folder : %1 
 REM for %%a in (%1\*.*) do ( CALL :MAP "%%a" )
 call :setImageMetaData %1
+endlocal
 EXIT /b 0
 
 :setImageMetaData
+setlocal
 set location=%1
 IF [%~x1] == [] ( 
 	set ParentDir=%~n1	
@@ -42,7 +49,8 @@ IF [%~x1] == [] (
  )
 set tags=%ParentDir%
 set tags=%tags: =; %
-call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -overwrite_original_in_place -preserve -Keywords+="%tags%" %location%
+call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -overwrite_original_in_place -preserve -sep ";" -Keywords+="%tags%" %location%
+endlocal
 EXIT /b 0
 
 
