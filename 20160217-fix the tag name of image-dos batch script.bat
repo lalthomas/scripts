@@ -16,22 +16,28 @@ for %%f in (%*) do (
   IF EXIST %%f ( CALL :MAP %%f )
  )
 )
+echo Done !!!
 pause
 EXIT /b 0
 
 :MAP
+setlocal
 REM if not /i %%~xf == .jpg ( goto :EOF )
 call :fixImageMetaData %1
+endlocal
 EXIT /b 0
 
 :FOLDER
+setlocal
 REM SET /p _Opt="Are you sure to process all files on the folder(y/n)" 
 REM IF "%_Opt%" == "n" ( goto :EOF)
-echo batch processing folder : %1 
+echo batch processing folder : %1 ...
 for %%a in (%1\*.*) do ( CALL :MAP "%%a" )
+endlocal
 EXIT /b 0
 
 :fixImageMetaData
+setlocal
 set location=%1
 set tempFileName=%~n1.txt
 
@@ -39,9 +45,9 @@ REM reads all metadata and write to file
 REM call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -a -u -g1 %location%>%tempFileName%
 
 REM get the keywords and write to file
-call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -iptc:Keywords %location%>%tempFileName%
-call "%scriptFolderPath%\tools\fart\fart.exe" %tempFileName% "Keywords                        : " "#"
-set /p data=<%tempFileName%&& del %tempFileName%
+call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -quiet -iptc:Keywords %location%>%tempFileName%
+call "%scriptFolderPath%\tools\fart\fart.exe" -q %tempFileName% "Keywords                        : " "#"
+set /p data=<%tempFileName% && del %tempFileName%
 REM echo data is %data%
 set data=%data:.=%
 set data=%data:,=; %
@@ -74,8 +80,9 @@ for /l %%a in (0,1,25) do (
  call set "data=%%data:!_FROM!=!_TO!%%
 )
 REM end of case conversion
-
-call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -overwrite_original_in_place -preserve -Keywords="%data%" %location%
+echo processing : %location%
+call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -quiet -overwrite_original_in_place -preserve -sep ";" -Keywords="%data%" %location%
+endlocal
 EXIT /b 0
 
 
