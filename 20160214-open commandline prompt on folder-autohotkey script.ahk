@@ -1,6 +1,6 @@
 ;Thank you http://lifehacker.com/5306401/open-a-new-command-prompt-from-explorer-with-a-hotkey
 #IfWinActive ahk_class CabinetWClass ; for use in explorer.
-^!h::
+^!h::   ; ctrl+alt+h
 ClipSaved := ClipboardAll
 Send !d
 Sleep 10
