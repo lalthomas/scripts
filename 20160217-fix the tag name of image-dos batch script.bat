@@ -47,7 +47,7 @@ REM call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -a -u -g1 %location%>%
 REM get the keywords and write to file
 call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -quiet -iptc:Keywords %location%>%tempFileName%
 call "%scriptFolderPath%\tools\fart\fart.exe" -q %tempFileName% "Keywords                        : " "#"
-set /p data=<%tempFileName% && del %tempFileName%
+set /p data=<%tempFileName%
 REM echo data is %data%
 set data=%data:.=%
 set data=%data:,=; %
@@ -82,6 +82,7 @@ for /l %%a in (0,1,25) do (
 REM end of case conversion
 echo processing : %location%
 call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -quiet -overwrite_original_in_place -preserve -sep ";" -Keywords="%data%" %location%
+del %tempFileName%
 endlocal
 EXIT /b 0
 
