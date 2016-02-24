@@ -109,9 +109,9 @@ endYear(){
 
 }
 
-alias workflow=_main_
+alias workflow=_workflow_main_
 
-_main_(){
+_workflow_main_(){
 
 	# Get action
 	action=$1

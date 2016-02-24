@@ -6,7 +6,7 @@
 filename=$1
 shift
 
-alias wish=_main_
+alias wish=_wish_main_
 
 usage(){
 
@@ -70,7 +70,7 @@ emailPeople(){
 }
 
 
-_main_(){
+_wish_main_(){
 
 ACTION=$1
 shift
