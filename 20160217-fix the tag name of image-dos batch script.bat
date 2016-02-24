@@ -52,8 +52,10 @@ REM echo data is %data%
 set data=%data:.=%
 set data=%data:,=; %
 set data=%data:/=; %
-set data=%data:  = %
 set data=%data:#=%
+set data=%data:(=%
+set data=%data:)=%
+set data=%data:  = %
 
 REM remove duplicate values
 REM ----------------------------
@@ -61,6 +63,8 @@ for %%a in ( %data% ) do (
 	set elem[%%a]=X
 )
 set "noDupData=#"
+
+
 for /F "tokens=2 delims=[]" %%a in ( 'set elem[' ) do (
  call :concat %%a 
 )
