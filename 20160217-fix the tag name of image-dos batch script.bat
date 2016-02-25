@@ -16,7 +16,8 @@ for %%f in (%*) do (
   IF EXIST %%f ( CALL :MAP %%f )
  )
 )
-echo Done !!!
+REM done with a bell
+echo Done  !!!
 pause
 EXIT /b 0
 
