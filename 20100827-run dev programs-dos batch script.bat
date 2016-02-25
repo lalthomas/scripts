@@ -1,4 +1,6 @@
 @echo OFF
+REM Author Lal Thomas <www.lalamboori.blogspot.in>
+REM 
 setlocal
 
 %~d1
@@ -10,6 +12,8 @@ set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
 set IISPATH="C:\inetpub\wwwroot\"
 set JAVAPATH="C:\Program Files\Java\jdk1.7.0_51\bin"
+set PYTHON3="C:\Users\admin\AppData\Local\Programs\Python\Python35"
+set PYTHON2="C:\Python27"
 
 if /i %~x1 == .html ( goto HTML)
 if /i %~x1 == .java ( goto JAVA )
@@ -17,6 +21,7 @@ if /i %~x1 == .class ( goto JAVA )
 if /i %~x1 == .jar ( goto JAVAJAR )
 if /i %~x1 == .php ( goto PHP )
 if /i %~x1 == .sql ( goto SQL )
+if /i %~x1 == .py ( goto PYTHON )
 
 REM Execute Exe,Bat
 set path=%PATH%;%CD%
@@ -97,6 +102,15 @@ IF "%_Opt%" == "n" ( goto :EOF)
 set username=root
 set password=tiger
 mysql -u%username% -p%password% <%1
+pause
+goto END
+
+
+:PYTHON
+@echo OFF
+set path=%PATH%;%PYTHON3%
+echo %1
+call python %1
 pause
 goto END
 

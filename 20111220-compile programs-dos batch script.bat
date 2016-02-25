@@ -28,6 +28,7 @@ if /i %~x1 == .cpp ( goto CPP )
 if /i %~x1 == .cs ( goto CS)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .tex ( goto LATEX )
+if /i %~x1 == .md ( goto MARKDOWN )
 EXIT /b 0
 
 REM C
@@ -142,6 +143,19 @@ pause
 EXIT /b 0
 :LatexSuccess
 START "" "%~n1.pdf"
+EXIT /b 0
+
+
+:MARKDOWN
+%~d1
+cd %~p1
+call pandoc -o "%~dpn1-export.html" -i %1
+IF %ERRORLEVEL% EQU 0 (goto MarkdownSuccess ) ELSE (goto MarkdownFailure)
+:MarkdownFailure
+pause
+EXIT /b 0
+:MarkdownSuccess
+START "" "%~dpn1-export.html"
 EXIT /b 0
 
 :FOLDER

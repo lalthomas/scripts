@@ -26,12 +26,12 @@ IF [%~x1]==[] (
   REM for folder 
   %~d1
   cd "%~1"      
-  call %gitPath% --login -i -c "git add -A && git commit -am%commitMessage%" "%1"  
+  call %gitPath% --login -i -c "git add -A && git commit -am%commitMessage%" "%1"
 ) ELSE ( 
   REM for file
   %~d1
-  cd "%~p1"
-  call %gitPath% --login -i -c "git add '%~dpnx1' && git commit -am%commitMessage%" "%~dp1"  
+  cd "%~p1"        
+  call %gitPath% --login -i -c "git add '%~nx1' && git commit -m%commitMessage%" "%~dp1"      
  )
 endlocal
 exit /b 0  

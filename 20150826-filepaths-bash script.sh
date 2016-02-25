@@ -39,32 +39,5 @@ export docRootPath="$rootPath/docs"
 export docJournalFile="$docRootPath/$today-journal.md"
 export docYesterdayJournalFile="$docRootPath/$yesterday-journal.md"
 
-### print file
 
 
-
-
-openFile(){
-
-# open command don't work on windows	
-# todo: add support multiple type for cygwin
-
-# open the file
-
-	case "$OSTYPE" in
-	cygwin*)		
-		 "C:/Program Files (x86)/Notepad++/notepad++.exe" "$1"
-		;;	
-	darwin*) 
-		# OSX		
-		open  "$1"		
-		;; 
-	msys*)
-		# Windows
-		start ""  "$1"
-		;; 		
-	*) 
-		echo "unknown: $OSTYPE" 
-		;;
-	esac
-}
