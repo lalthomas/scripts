@@ -6,14 +6,14 @@
 
 ### git 
 
-createGitRepo(){ 
+createRepo(){ 
 
  git init "$1"
- commitGitRepoChanges "$1" 'init repo' 
+ commitRepoChanges "$1" 'init repo' 
  
 }
 
-commitGitRepoChanges(){
+commitRepoChanges(){
 	
 	if [ $# -eq 2 ]; 
 	then	
@@ -29,21 +29,6 @@ commitGitRepoChanges(){
 	
 }
 
-alias commitdo="commitGitRepoChanges '$doRootPath'"
-alias commitreference="commitGitRepoChanges '$referenceRootPath'"
-alias commitsupport="commitGitRepoChanges '$supportRootPath'"
-
-createArticleRepository(){
-
-	read -p "enter article name and press [enter]: " articlename		
-	mkdir -p "$1/$today-$articlename"	
-	createMarkdownHeading "1" "$articlename" "$1/$today-$articlename/$articlename".md			
-	open "$1/$today-$articlename/$articlename".md
-	createGitRepo "$1/$today-$articlename" >/dev/null
-	echo "article repo created successfully"		
-	
-}
-
 
 # thanks https://www.gitignore.io/docs
 # run creategitignore xcode >.gitignore
@@ -56,53 +41,62 @@ curl -L -s "https://www.gitignore.io/api/$@"
 
 alias creategitignore=creategitignore
 
-createProjectRepository(){
 
-	local projecttype=$1
-	local location=$2
-	local projectname=$3	
-		
-	if [ $# -eq 0 ];	
-	then	
-      projecttype='os'	
-	  location=$PWD
-	  read -p "enter project name and press [enter]: " projectname
-	else   
-   		if [ $# -eq 1 ];
-			then	
-			  location=$PWD
-			  read -p "enter project name and press [enter]: " projectname
-			else
-				if [ $# -eq 2 ]; 				
-				then
-				  read -p "enter project name and press [enter]: " projectname							 								
-				fi						
-		fi	   		   		
-    fi
-	
-	mkdir -p "$location/$today-$projectname"		
-	local projectpath="$location/$today-$projectname"
-	createMarkdownHeading "1" "ReadMe" "$projectpath/readme.md"
-
-	case "$projecttype" in
-	    os*)	    
-		    creategitignore 'osx,windows'>"$projectpath/.gitignore"
-		    ;;
-		xcode*) 
-			creategitignore 'objective-c,osx'>"$projectpath/.gitignore" 		
-			;; 
-		momemtics*)		
-			echo "momentics gitignore not made"
-		  ;;
-		*) 
-			echo "unknown: $OSTYPE" 
-		 ;;
-	esac
-	
-	createGitRepo "$projectpath" >/dev/null
-	echo "project repo created successfully"
-	
+usage(){
+ 
+ echo
+ 
 }
 
-alias createprojectrepo="createProjectRepository"
-alias createxcodeproject="createProjectRepository 'xcode'"
+alias g=_git_main_ # git helper functions
+
+_git_main_(){
+    
+	# Get action
+	action=$1
+	shift
+
+	# Get option
+	option=$1;	
+	shift
+
+	
+	re="^(help|repo)$"
+	
+	if [[ "$action" =~ $re ]]; then
+		case $action in
+		'help')
+			usage
+			;;
+		'repo')        
+			if [[ -z "$option" ]]; then
+			   echo "g error : few arguments"			   
+			else			  	
+			   case "$option" in
+					create)
+						if [[ -z $1 ]]; then 
+							"g error : few arguments"
+						else	
+							path=$@
+							createRepo $path						
+						fi
+						;;										
+					commit)
+						if [[ -z $2 ]]; then 
+							"g error : few arguments"
+						else	
+							path=$1
+							message=$2
+							commitRepoChanges $path $message
+						fi
+						;;						
+				esac
+			fi				
+			;;
+		esac
+	else
+		echo "g error: unrecognised option \"$option\"."
+		echo "try \" view help\" to get more information."
+	fi
+	
+}
