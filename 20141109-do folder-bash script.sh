@@ -52,6 +52,12 @@ openFile $docRootPath/$today"-todo birdseye report for week"-$weekCount.md
 
 }
 
+commitChanges(){
+
+"commitRepoChanges '$doRootPath'"
+
+}
+
 mailPriorityToDo() {	
 
 	mailSubject="$today-$1"	

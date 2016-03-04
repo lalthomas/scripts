@@ -63,7 +63,7 @@ _git_main_(){
 	
 	re="^(help|repo)$"
 	
-	if [[ "$action" =~ $re ]]; then
+	if [[ "$action"=~$re ]]; then
 		case $action in
 		'help')
 			usage

@@ -1,0 +1,5 @@
+commitsupport(){
+
+	commitRepoChanges '$supportRootPath'
+	
+}

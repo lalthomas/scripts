@@ -1,0 +1,7 @@
+
+
+commitreference(){
+
+commitRepoChanges '$referenceRootPath'
+
+}
