@@ -44,6 +44,14 @@ addTodoReport(){
  openFile "$doRootPath/report.txt"
 }
 
+updateInboxFile(){
+
+ getAllProjectsNames >>inbox.txt
+ getAllContextNames >>inbox.txt
+ sort inbox.txt | uniq | sort -o inbox.txt
+
+}
+
 addBirdsEyeReport(){
 
 cd $docRootPath
@@ -155,3 +163,21 @@ alias startserverat="StartServer"
 alias startbirthdayserver="StartMarkdownServer"
 
 
+getAllProjectsNames(){
+
+for file in *.txt *.md
+do
+ # do something on "$file"
+ grep -o '[^  ]*+[^  ]\+'  "$file" | grep '^+' | sort -u
+done
+
+}
+
+getAllContextNames(){
+
+for file in *.txt *.md
+do
+ grep -o '[^  ]*@[^  ]\+' "$file" | grep '^@' | sort -u
+done
+
+}
