@@ -181,3 +181,39 @@ do
 done
 
 }
+
+archiveProject(){
+
+# expects 
+# first argument - project name ( e.g. +dev )
+# second argument - archival file name ( e.g. dev project.txt)
+
+if [ -z $1 ];
+then 
+	echo "TODO: no enough arguments"
+	return
+fi
+
+projectname=$1
+
+if [ $# -eq 2 ]; 
+then
+	archiveFilename=$2
+else	
+	#replace plus symbol
+	fileNamePrefix=${projectname//+/}
+	# replace backslash in variable
+	fileNamePrefix=${fileNamePrefix//\// }
+	archiveFilename="archive/$today-$fileNamePrefix.txt"
+fi	
+
+for file in *.txt 
+do
+ grep "$projectname" "$file">>"$archiveFilename"
+ sed -i'' '/$projectname/d' "$file"
+done
+
+sort "$archiveFilename" | uniq | sort -o "$archiveFilename"
+echo "TODO: project '$projectname' archived to '$archiveFilename'"
+
+}
