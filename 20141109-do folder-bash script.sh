@@ -210,7 +210,9 @@ fi
 for file in *.txt 
 do
  grep "$projectname" "$file">>"$archiveFilename"
- sed -i'' '/$projectname/d' "$file"
+ # thanks http://stackoverflow.com/a/10467453/2182047
+ # sed escape before replace 
+ sed -i'' "/$(echo $projectname | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/d" "$file"
 done
 
 sort "$archiveFilename" | uniq | sort -o "$archiveFilename"
