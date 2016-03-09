@@ -46,9 +46,9 @@ addTodoReport(){
 
 updateInboxFile(){
 
- getAllProjectsNames >>inbox.txt
- getAllContextNames >>inbox.txt
- sort inbox.txt | uniq | sort -o inbox.txt
+ getAllProjectsNames >>inbox.md
+ getAllContextNames >>inbox.md
+ sort inbox.md | uniq | sort -o inbox.md
 
 }
 
