@@ -71,7 +71,7 @@ _wish_main_(){
 		occasion=$(echo $line | awk -F'|' '{print $3}')  
 		cygstart $emailClient -compose "to='"$name"',subject="$occasion
 		counter=$((counter + 1))  
-	   done
+	  done
 
 	}
 
