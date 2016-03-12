@@ -207,6 +207,82 @@ _do_main_(){
         echo "TODO: project '$projectname' archived to '$archiveFilename'"
         
     }
+	
+	usage(){
+
+        echo 
+        echo "dofolder OPTIONS"      
+        echo " helper script to managing do folder"   
+        echo 
+        echo "OPTIONS are..."
+        echo 		
+		echo "clean_todo_file"
+		echo "add_todo_report"
+		echo "update_inbox_file"
+		echo "add_birdseye_report"
+		echo "mail_priority_todo"
+		echo "mail_todo_priority_list"
+		echo "create_tickler_files"
+		echo "start_server"
+		echo "start_markdown_server"
+		echo "get_all_projects_names"		
+		echo "get_all_contexs_names"
+		echo "archive_project"
+		echo "usage"
+        
+    }
+
+	ACTION=$1
+	shift
+
+	# test the script
+	# echo $filename $ACTION
+
+	case "$ACTION" in
+		
+		help|usage)
+			usage   
+			;;
+		clean_todo_file)
+			clean_todo_file
+			;;
+		add_todo_report)
+			add_todo_report
+			;;
+		update_inbox_file)
+			update_inbox_file
+			;;			
+		add_birdseye_report)
+			add_birdseye_report
+			;;
+		mail_priority_todo)
+			mail_priority_todo
+			;;
+		mail_todo_priority_list)
+			mail_todo_priority_list
+			;;
+		create_tickler_files)
+			create_tickler_files
+			;;
+		start_server)
+			start_server
+			;;
+		start_markdown_server)
+			start_markdown_server
+			;;
+		get_all_projects_names)
+			get_all_projects_names
+			;;
+		get_all_contexs_names)
+			get_all_contexs_names
+			;;
+		archive_project)
+			archive_project
+			;;
+		usage)		
+			usage
+			;;
+	esac
 
 }
 
