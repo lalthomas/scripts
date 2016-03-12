@@ -9,92 +9,93 @@ shift
 
 alias wish=_wish_main_
 
-_wish_main_(){	
+_wish_main_(){  
 
-	dieWithHelp(){
-		case "$1" in
-			help)       
-				help;;
-			shorthelp) 
-				shorthelp;;
-		esac
-		shift
-		die "$@"
-	}
+    dieWithHelp(){
+        case "$1" in
+            help)       
+                help;;
+            shorthelp) 
+                shorthelp;;
+        esac
+        shift
+        die "$@"
+    }
 
-	die(){
-		echo "$*"
-		exit 1
-	}
-	
-	add(){	 
-	
-		read -p "enter occasion title [ happy birthday (default)] :" occasion		
-		[[ -z "${occasion// }" ]] && occasion="happy birthday"	
-		read -p "enter name : " name
-		read -p "enter email : " address
-		read -p "enter comment : " comment
-		read -p "enter date of occasion YYYYMMDD : " occasionDate 
-		# echo the lowercase
-		echo "$occasionDate | $name <$address> | $occasion | $comment" | awk '{print tolower($0)}' >>"$filename"	
-		echo "entry : \"$occasionDate | $name <$address> | $occasion | $comment\" added successfully..."
-	
-	}
+    die(){
+        echo "$*"
+        exit 1
+    }
+    
+    add(){   
+    
+        read -p "enter occasion title [ happy birthday (default)] :" occasion       
+        [[ -z "${occasion// }" ]] && occasion="happy birthday"  
+        read -p "enter name : " name
+        read -p "enter email : " address
+        read -p "enter comment : " comment
+        read -p "enter date of occasion YYYYMMDD : " occasionDate 
+        # echo the lowercase
+        echo "$occasionDate | $name <$address> | $occasion | $comment" | awk '{print tolower($0)}' >>"$filename"    
+        echo "entry : \"$occasionDate | $name <$address> | $occasion | $comment\" added successfully..."
+    
+    }
 
-	list(){	 	
-	 
-		echo "No | Occasion  | Name(s)                   | Comment             "
-		echo "---| ----------| ------------------------- | --------------------"
-		counter=1
-		grep -e "[0-9]\{4\}$monthCount$dayCount" "$filename" | while read -r  line ; do      
-		name=$(echo $line | awk -F'|' '{print $2}')
-		occasion=$(echo $line | awk -F'|' '{print $3}')
-		comment=$(echo $line | awk -F'|' '{print $4}')
-		echo $counter " | " $occasion " | " $name  " | " $comment
-		counter=$((counter + 1))  
-		done
-	 
-	}
-	
-	listall(){
-	
-	 cat --number "$filename"
-	
-	}
+    list(){     
+     
+        echo "No | Occasion  | Name(s)                   | Comment             "
+        echo "---| ----------| ------------------------- | --------------------"
+        counter=1
+        grep -e "[0-9]\{4\}$monthCount$dayCount" "$filename" | while read -r  line ;
+        do      
+            name=$(echo $line | awk -F'|' '{print $2}')
+            occasion=$(echo $line | awk -F'|' '{print $3}')
+            comment=$(echo $line | awk -F'|' '{print $4}')
+            echo $counter " | " $occasion " | " $name  " | " $comment
+            counter=$((counter + 1))  
+        done
+     
+    }
+    
+    listall(){
+    
+     cat --number "$filename"
+    
+    }
 
-	emailPeople(){
-		
-		emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
-		counter=1
-		grep -e "[0-9]\{4\}$monthCount$dayCount" "$filename" | while read -r  line ; do      
-			name=$(echo $line | awk -F'|' '{print $2}')
-			occasion=$(echo $line | awk -F'|' '{print $3}')  
-			cygstart $emailClient -compose "to='"$name"',subject="$occasion
-			counter=$((counter + 1))  
-		done
+    emailPeople(){
+        
+        emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
+        counter=1
+        grep -e "[0-9]\{4\}$monthCount$dayCount" "$filename" | while read -r  line ; do      
+            name=$(echo $line | awk -F'|' '{print $2}')
+            occasion=$(echo $line | awk -F'|' '{print $3}')  
+            cygstart $emailClient -compose "to='"$name"',subject="$occasion
+            counter=$((counter + 1))  
+        done
 
-	}
+    }
 
-	openfile(){
-	  
-	  cygstart "$filename"
-	}
+    openfile(){
+      
+      cygstart "$filename"
+    }
 
-	usage(){
+    usage(){
 
-		echo 
-		echo "wish OPTIONS" 	 
-		echo " helper script to send wishes to people"	 
-		echo 
-		echo "OPTIONS are..."
-		echo 
-		echo " add"
-		echo " email"
-		echo " list"
-		echo " listall"
-		echo " open"
-	}
-	
+        echo 
+        echo "wish OPTIONS"      
+        echo " helper script to send wishes to people"   
+        echo 
+        echo "OPTIONS are..."
+        echo 
+        echo " add"
+        echo " email"
+        echo " list"
+        echo " listall"
+        echo " open"
+    }
+    
 ACTION=$1
 shift
 
@@ -102,33 +103,33 @@ shift
 # echo $filename $ACTION
 
 case "$ACTION" in
-	
-	help|usage)
-		usage	
-		;;
-	
-	add)
-		arguments="$@"
-		echo $arguments
-		add $arguments
-		;;
-			
-	email) 
-		emailPeople 
-		;;
-	
-	list) 
-		list 
-		;;
-	
-	listall) 
-		listall
-		;;
-	
-	open)
-		openfile 
-		;;	
-	
+    
+    help|usage)
+        usage   
+        ;;
+    
+    add)
+        arguments="$@"
+        echo $arguments
+        add $arguments
+        ;;
+            
+    email) 
+        emailPeople 
+        ;;
+    
+    list) 
+        list 
+        ;;
+    
+    listall) 
+        listall
+        ;;
+    
+    open)
+        openfile 
+        ;;  
+    
 esac
-	
+    
 }
