@@ -82,9 +82,9 @@ _do_main_(){
     
 		# create tickler todo.txt files and move tasks from todo.txt
         local referencedate=$yearCount-$monthCount"-01"     
-        if [ $# -eq 1 ]; 
+        if [ $# -eq 2 ]; 
         then
-            local numberOfDays=$1
+            local numberOfDays=$2
         else
             case $monthCount in
                 01) numberOfDays=31 ;;  
@@ -139,7 +139,7 @@ _do_main_(){
 
     start_server(){
     
-        local serverRootPath=$1
+        local serverRootPath=$2
         cd "$serverRootPath"    
         python "$rootpath/scripts/source/20140607-start simple http server with markdown support-python script.py"  
         
@@ -172,11 +172,13 @@ _do_main_(){
     
     archive_project(){
 
+		echo arguments are $@
+	
         # expects 
         # first argument - project name ( e.g. +dev )
         # second argument - archival file name ( e.g. dev project.txt)
 
-        if [ -z $1 ];
+        if [ -z $0 ];
         then 
             echo "TODO: no enough arguments"
             return
@@ -276,8 +278,8 @@ _do_main_(){
 		get_all_contexs_names)
 			get_all_contexs_names
 			;;
-		archive_project)
-			archive_project
+		archive_project)			
+			archive_project $1 $2
 			;;
 		usage)		
 			usage
