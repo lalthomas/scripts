@@ -46,10 +46,22 @@ _do_main_(){
         get_all_projects_names >>inbox.md
         get_all_contexs_names >>inbox.md
         sort inbox.md | uniq | sort -o inbox.md
+		echo "inbox.md file updated"
 
     }
 
+	update_projects_file(){
+	
+		t listproj >projects.md
+		echo "project.md file updated"
+	}
 
+	update_contexts_file(){
+	
+		t listcon >contexts.md
+		echo "context.md  file updated"
+	}
+	
     add_birdseye_report(){
     
         # add birdseye report to $docRootPath folder        
@@ -218,20 +230,22 @@ _do_main_(){
         echo 
         echo "OPTIONS are..."
         echo 		
-		echo "clean_todo_file"
-		echo "add_todo_report"
-		echo "update_inbox_file"
 		echo "add_birdseye_report"
+		echo "add_todo_report"
+		echo "archive_project"
+		echo "clean_todo_file"
+		echo "create_tickler_files"
+		echo "get_all_contexs_names"
+		echo "get_all_projects_names"		
 		echo "mail_priority_todo"
 		echo "mail_todo_priority_list"
-		echo "create_tickler_files"
-		echo "start_server"
 		echo "start_markdown_server"
-		echo "get_all_projects_names"		
-		echo "get_all_contexs_names"
-		echo "archive_project"
-		echo "usage"
-        
+		echo "start_server"
+		echo "update_contexts_file"
+		echo "update_inbox_file"
+		echo "update_projects_file"
+		echo "usage"   
+		
     }
 
 	ACTION=$1
@@ -240,50 +254,22 @@ _do_main_(){
 	# test the script
 	# echo $filename $ACTION
 
-	case "$ACTION" in
-		
-		help|usage)
-			usage   
-			;;
-		clean_todo_file)
-			clean_todo_file
-			;;
-		add_todo_report)
-			add_todo_report
-			;;
-		update_inbox_file)
-			update_inbox_file
-			;;			
-		add_birdseye_report)
-			add_birdseye_report
-			;;
-		mail_priority_todo)
-			mail_priority_todo
-			;;
-		mail_todo_priority_list)
-			mail_todo_priority_list
-			;;
-		create_tickler_files)
-			create_tickler_files
-			;;
-		start_server)
-			start_server
-			;;
-		start_markdown_server)
-			start_markdown_server
-			;;
-		get_all_projects_names)
-			get_all_projects_names
-			;;
-		get_all_contexs_names)
-			get_all_contexs_names
-			;;
-		archive_project)			
-			archive_project $1 $2
-			;;
-		usage)		
-			usage
-			;;
+	case "$ACTION" in		
+		add_birdseye_report) add_birdseye_report ;;
+		add_todo_report) add_todo_report ;;
+		archive_project) archive_project $1 $2	;;
+		clean_todo_file) clean_todo_file ;;
+		create_tickler_files) create_tickler_files ;;
+		get_all_contexs_names) get_all_contexs_names	;;
+		get_all_projects_names)	get_all_projects_names ;;
+		help|usage)	usage ;;
+		mail_priority_todo)	mail_priority_todo ;;
+		mail_todo_priority_list) mail_todo_priority_list ;;
+		start_markdown_server) start_markdown_server ;;
+		start_server) start_server ;;
+		update_contexts_file) update_contexts_file ;;
+		update_inbox_file) update_inbox_file ;;		
+		update_projects_file) update_projects_file ;;
 	esac
 
 }
