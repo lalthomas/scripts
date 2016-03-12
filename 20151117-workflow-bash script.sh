@@ -53,7 +53,7 @@ startDay(){
 	
 	# GTD
 	t file open "$doRootPath/todo.txt"
-	t file open "$doRootPath/inbox.txt"
+	t file open "$doRootPath/inbox.md"
 }
 
 endDay(){
