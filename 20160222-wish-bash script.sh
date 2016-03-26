@@ -46,7 +46,7 @@ _wish_main_(){
         echo "No | Occasion  | Name(s)                   | Comment             "
         echo "---| ----------| ------------------------- | --------------------"
         counter=1
-        grep -e "[0-9]\{4\}$monthCount$dayCount" "$filename" | while read -r  line ;
+        grep -e "^[0-9]\{4\}$monthCount$dayCount" "$filename" | while read -r  line ;
         do      
             name=$(echo $line | awk -F'|' '{print $2}')
             occasion=$(echo $line | awk -F'|' '{print $3}')
@@ -67,7 +67,7 @@ _wish_main_(){
         
         emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
         counter=1
-        grep -e "[0-9]\{4\}$monthCount$dayCount" "$filename" | while read -r  line ; do      
+        grep -e "^[0-9]\{4\}$monthCount$dayCount" "$filename" | while read -r  line ; do      
             name=$(echo $line | awk -F'|' '{print $2}')
             occasion=$(echo $line | awk -F'|' '{print $3}')  
             cygstart $emailClient -compose "to='"$name"',subject="$occasion
