@@ -84,11 +84,20 @@ endWeek(){
 }
 
 startMonth(){
-
-    t doarchive
-    t plan month invalidate && \
-    t plan month && \
-    commitdo
+    	
+	dofolder clean_todo_file
+	dofolder update_contexts_file
+	dofolder update_projects_file
+	dofolder update_inbox_file
+	t file open "$doRootPath/inbox.md"
+	t file open "$doRootPath/outline.md"
+	t file open "$doRootPath/calendar.txt"
+	t file open "$doRootPath/projects.md"
+	t file open "$doRootPath/contexts.md"
+	t file open "$doRootPath/waiting.txt"	
+    # t plan month invalidate && \
+    # t plan month && 
+    # commitdo
 }
 
 endMonth(){
