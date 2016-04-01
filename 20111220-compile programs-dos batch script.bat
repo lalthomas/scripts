@@ -5,7 +5,6 @@ REM Program variables
 set CCompilerPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\gcc.exe"
 set CppCompilterPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\g++.exe"
 set JavaCompilerPath="C:\Program Files\Java\jdk1.7.0_51\bin\javac.exe"
-set 
 
 REM get the script folder path
 set scriptFolderPathFull=%~dp0%
@@ -131,18 +130,21 @@ del *.blg
 del *.brf
 del *.out
 
+pdflatex %1
 :: Run pdflatex -&gt; bibtex -&gt; pdflatex -&gt; pdflatex
 bibtex  %1
 :: If you are using multibib the following will run bibtex on all aux files
 :: FOR /R . %%G IN (*.aux) DO bibtex %%G
 pdflatex %1
 
+
+
 IF %ERRORLEVEL% EQU 0 (goto LatexSuccess ) ELSE (goto LatexFailure)
 :LatexFailure
 pause
 EXIT /b 0
 :LatexSuccess
-START "" "%~n1.pdf"
+start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~n1.pdf"
 EXIT /b 0
 
 
