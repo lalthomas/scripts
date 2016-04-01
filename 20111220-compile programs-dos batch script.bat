@@ -139,13 +139,13 @@ bibtex.exe "%~dp1\build\%~n1.aux"
 :: If you are using multibib the following will run bibtex on all aux files
 :: FOR /R . %%G IN (*.aux) DO bibtex %%G
 pdflatex.exe -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
-pdflatex.exe -interaction=batchmode -synctex=-1 -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1 -quiet 
+pdflatex.exe -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1 -quiet 
 IF %ERRORLEVEL% EQU 0 (goto LatexSuccess ) ELSE (goto LatexFailure)
 :LatexFailure
 pause
 EXIT /b 0
 :LatexSuccess
-start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf" -reuse-instance
+start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 
 
