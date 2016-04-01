@@ -122,29 +122,30 @@ setlocal
 REM The following two line are Npp Hack for not changing the current path
 %~d1
 cd %~p1
-REM clean up
-del *.dvi
-del *.aux
-del *.bbl
-del *.blg
-del *.brf
-del *.out
 
-pdflatex %1
+IF NOT EXIST "%~dp1\build" mkdir build
+
+REM clean up
+del build\*.dvi
+del build\*.aux
+del build\*.bbl
+del build\*.blg
+del build\*.brf
+del build\*.out
+pdflatex -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
+type "%~dp1\build\%~n1.log" | findstr Warning:
 :: Run pdflatex -&gt; bibtex -&gt; pdflatex -&gt; pdflatex
-bibtex  %1
+bibtex.exe "%~dp1\build\%~n1.aux"
 :: If you are using multibib the following will run bibtex on all aux files
 :: FOR /R . %%G IN (*.aux) DO bibtex %%G
-pdflatex %1
-
-
-
+pdflatex.exe -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
+pdflatex.exe -interaction=batchmode -synctex=-1 -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1 -quiet 
 IF %ERRORLEVEL% EQU 0 (goto LatexSuccess ) ELSE (goto LatexFailure)
 :LatexFailure
 pause
 EXIT /b 0
 :LatexSuccess
-start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~n1.pdf"
+start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf" -reuse-instance
 EXIT /b 0
 
 
