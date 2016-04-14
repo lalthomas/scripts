@@ -152,13 +152,14 @@ EXIT /b 0
 :MARKDOWN
 %~d1
 cd %~p1
-call pandoc -o "%~dpn1-export.html" -i %1
+IF NOT EXIST "%~dp1\build" mkdir build
+call pandoc -o "%~pd1\build\%~n1.html" -i %1
 IF %ERRORLEVEL% EQU 0 (goto MarkdownSuccess ) ELSE (goto MarkdownFailure)
 :MarkdownFailure
 pause
 EXIT /b 0
 :MarkdownSuccess
-START "" "%~dpn1-export.html"
+START "" "%~pd1\build\%~n1.html"
 EXIT /b 0
 
 :FOLDER
