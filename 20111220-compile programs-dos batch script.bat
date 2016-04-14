@@ -5,7 +5,6 @@ REM Program variables
 set CCompilerPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\gcc.exe"
 set CppCompilterPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\g++.exe"
 set JavaCompilerPath="C:\Program Files\Java\jdk1.7.0_51\bin\javac.exe"
-set 
 
 REM get the script folder path
 set scriptFolderPathFull=%~dp0%
@@ -123,39 +122,59 @@ setlocal
 REM The following two line are Npp Hack for not changing the current path
 %~d1
 cd %~p1
-REM clean up
-del *.dvi
-del *.aux
-del *.bbl
-del *.blg
-del *.brf
-del *.out
 
+IF NOT EXIST "%~dp1\build" mkdir build
+
+REM clean up
+del build\*.dvi
+del build\*.aux
+del build\*.bbl
+del build\*.blg
+del build\*.brf
+del build\*.out
+pdflatex -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
+type "%~dp1\build\%~n1.log" | findstr Warning:
 :: Run pdflatex -&gt; bibtex -&gt; pdflatex -&gt; pdflatex
-bibtex  %1
+bibtex.exe "%~dp1\build\%~n1.aux"
 :: If you are using multibib the following will run bibtex on all aux files
 :: FOR /R . %%G IN (*.aux) DO bibtex %%G
-pdflatex %1
-
+pdflatex.exe -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
+pdflatex.exe -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1 -quiet 
 IF %ERRORLEVEL% EQU 0 (goto LatexSuccess ) ELSE (goto LatexFailure)
 :LatexFailure
 pause
 EXIT /b 0
 :LatexSuccess
-START "" "%~n1.pdf"
+start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 
 
 :MARKDOWN
 %~d1
 cd %~p1
-call pandoc -o "%~dpn1-export.html" -i %1
-IF %ERRORLEVEL% EQU 0 (goto MarkdownSuccess ) ELSE (goto MarkdownFailure)
-:MarkdownFailure
-pause
+IF NOT EXIST "%~dp1\build" mkdir build
+call pandoc -o "%~pd1\%~n1.pdf" %1
+IF %ERRORLEVEL% EQU 0 (goto MarkdownFirstSuccess ) ELSE (goto MarkdownFirstFailure)
 EXIT /b 0
-:MarkdownSuccess
-START "" "%~dpn1-export.html"
+:MarkdownFirstSuccess
+move "%~pd1\%~n1.pdf" "%~pd1\build" && START "" "%~pd1\build\%~n1.pdf"
+EXIT /b 0
+:MarkdownFirstFailure
+echo. 
+echo ==================================================== 
+echo compiling failed..., trying with html, press any key
+echo ====================================================
+echo.
+pause
+call pandoc -o "%~pd1\build\%~n1.html" %1
+IF %ERRORLEVEL% EQU 0 ( goto MarkdownSecondSuccess ) ELSE ( goto MarkdownSecondFailure )
+EXIT /b 0
+:MarkdownSecondSuccess
+START "" "%~pd1\build\%~n1.html"
+EXIT /b 0
+:MarkdownSecondFailure
+echo compiling failed again...
+pause
 EXIT /b 0
 
 :FOLDER
