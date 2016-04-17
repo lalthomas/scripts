@@ -153,7 +153,7 @@ EXIT /b 0
 %~d1
 cd %~p1
 IF NOT EXIST "%~dp1\build" mkdir build
-call pandoc -o "%~pd1\%~n1.pdf" %1
+call pandoc %1 -o "%~pd1\%~n1.pdf"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownFirstSuccess ) ELSE (goto MarkdownFirstFailure)
 EXIT /b 0
 :MarkdownFirstSuccess
@@ -166,7 +166,7 @@ echo compiling failed..., trying with html, press any key
 echo ====================================================
 echo.
 pause
-call pandoc -o "%~pd1\build\%~n1.html" %1
+call pandoc %1 -o "%~pd1\build\%~n1.html" 
 IF %ERRORLEVEL% EQU 0 ( goto MarkdownSecondSuccess ) ELSE ( goto MarkdownSecondFailure )
 EXIT /b 0
 :MarkdownSecondSuccess
