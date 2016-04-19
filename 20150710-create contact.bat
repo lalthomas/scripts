@@ -1,10 +1,12 @@
-@echo off
+@echo OFF
 
 REM Author Lal Thomas
 REM Date 2015-07-10
-
 Setlocal EnableDelayedExpansion
 
+set scriptFolderPathFull=%~dp0%
+set scriptFolderPath=%scriptFolderPathFull:~0,-1%
+ 
 REM Thanks http://stackoverflow.com/a/19706067/2182047
 REM Original modified for need
 for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
@@ -22,14 +24,15 @@ set /p homephonenumber="enter home phone number : "
 set /p email="enter email : "
 set /p facebookurl="enter facebook url : "
 
-set filename="%datestamp%-%namelower%.md"
-type %copyfilename% >> %filename%
-call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$LONGDATE$" "%longdatestamp%"
-call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$NAME$" "%name%"
-call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$BIRTHDAY$" "%name%"
-call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$NUMBER01$" "%name%"
-call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$EMAIL$" "%name%"
-call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$URL01$" "%name%"
+set filename=%datestamp%-%namelower%.md
+set fullfilepath="%CD%\%filename%"
+type %copyfilename% >> %fullfilepath%
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$LONGDATE$" "%longdatestamp%"
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$NAME$" "%name%"
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$BIRTHDAY$" "%birthday%"
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$NUMBER01$" "%homephonenumber%"
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$EMAIL$" "%email%"
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$URL01$" "%facebookurl%"
 
 REM Open the file
-%filename%
+%fullfilepath%
