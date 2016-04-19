@@ -15,14 +15,21 @@ set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
 set copyfilename="D:\Dropbox\support\20140618-home support template-contact card.md"
-set /p name="enter contact name:"
-set /p homephonenumber="enter phone number:"
-set /p email="enter email:"
+set /p name="enter contact name : "
+set /p namelower="enter contact name in lowercase : "
+set /p birthday="enter birthday (YYYY-MM-DD) : "
+set /p homephonenumber="enter home phone number : "
+set /p email="enter email : "
+set /p facebookurl="enter facebook url : "
 
-set filename="%datestamp%-%name%.md"
+set filename="%datestamp%-%namelower%.md"
 type %copyfilename% >> %filename%
-echo %name% >> %filename%
-echo %homephonenumber%  >> %filename%
-echo %email% >> %filename%
+call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$LONGDATE$" "%longdatestamp%"
+call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$NAME$" "%name%"
+call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$BIRTHDAY$" "%name%"
+call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$NUMBER01$" "%name%"
+call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$EMAIL$" "%name%"
+call "%scriptFolderPath%\tools\fart\fart.exe" "%filename%" "$URL01$" "%name%"
+
 REM Open the file
 %filename%
