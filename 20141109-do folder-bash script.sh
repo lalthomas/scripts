@@ -184,12 +184,14 @@ _do_main_(){
     
     archive_project(){
 
-		echo arguments are $@
+		# echo arguments are $@
 	
         # expects 
         # first argument - project name ( e.g. +dev )
         # second argument - archival file name ( e.g. dev project.txt)
 
+		# echo Number of argument : $#
+		
         if [ -z $0 ];
         then 
             echo "TODO: no enough arguments"
@@ -198,9 +200,10 @@ _do_main_(){
 
         projectname=$1
 
-        if [ $# -eq 2 ]; 
+        if [ $# -gt 1 ]; 
         then
-            archiveFilename=$2
+			shift
+            archiveFilename=$*
         else    
             #replace plus symbol
             fileNamePrefix=${projectname//+/}
@@ -208,6 +211,9 @@ _do_main_(){
             fileNamePrefix=${fileNamePrefix//\// }
             archiveFilename="archive/$today-$fileNamePrefix.txt"
         fi  
+		
+		# echo project name : $projectname
+		# echo filename : $archiveFilename
 
         for file in *.txt 
         do
