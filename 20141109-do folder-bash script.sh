@@ -199,7 +199,7 @@ _do_main_(){
         fi
 
         projectname=$1
-
+		
         if [ $# -gt 1 ]; 
         then
 			shift
@@ -213,20 +213,30 @@ _do_main_(){
         fi  
 		
 		# echo project name : $projectname
-		# echo filename : $archiveFilename
+		# echo filename : $archiveFilename		
 
-        for file in *.txt 
-        do
-             grep "$projectname" "$file">>"$archiveFilename"
-             # thanks http://stackoverflow.com/a/10467453/2182047
-             # sed escape before replace 
-             sed -i'' "/$(echo $projectname | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/d" "$file"
-        done
-
-        sort "$archiveFilename" | uniq | sort -o "$archiveFilename"
+		replace_lines_in_txt_files_having_term $projectname $archiveFilename
+		
         echo "TODO: project '$projectname' archived to '$archiveFilename'"
         
     }
+	
+	replace_lines_in_txt_files_having_term(){
+				
+		term=$1
+		shift
+		filename=$*
+		
+        for file in *.txt 
+        do
+             grep "$term" "$file">>"$filename"
+             # thanks http://stackoverflow.com/a/10467453/2182047
+             # sed escape before replace 
+             sed -i'' "/$(echo $term | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/d" "$file"
+        done
+        sort "$filename" | uniq | sort -o "$filename"
+	
+	}
 	
 	usage(){
 
