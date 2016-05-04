@@ -153,22 +153,42 @@ EXIT /b 0
 %~d1
 cd %~p1
 IF NOT EXIST "%~dp1\build" mkdir build
-call pandoc %1 -o "%~pd1\%~n1.pdf"
+
+REM comment for html
+REM call pandoc %1 -o "%~n1.pdf"
+
+REM comment for PDF
+call pandoc %1 -s -o "%~n1.html"
+
 IF %ERRORLEVEL% EQU 0 (goto MarkdownFirstSuccess ) ELSE (goto MarkdownFirstFailure)
 EXIT /b 0
+
 :MarkdownFirstSuccess
-move "%~pd1\%~n1.pdf" "%~pd1\build" && START "" "%~pd1\build\%~n1.pdf"
+
+REM comment for html
+REM move "%~pd1\%~n1.pdf" "%~pd1\build" && START "" "%~pd1\build\%~n1.pdf"
+
+REM comment for PDF
+move "%~pd1\%~n1.html" "%~pd1\build" &&  START "" "%~pd1\build\%~n1.html"
+
 EXIT /b 0
+
 :MarkdownFirstFailure
 echo. 
-echo ==================================================== 
-echo compiling failed..., trying with html, press any key
-echo ====================================================
+echo =======================================================
+echo compiling failed..., press any key for trying with html
+echo =======================================================
 echo.
 pause
-call pandoc %1 -o "%~pd1\build\%~n1.html" 
-IF %ERRORLEVEL% EQU 0 ( goto MarkdownSecondSuccess ) ELSE ( goto MarkdownSecondFailure )
+
+REM comment for html
+REM call pandoc %1 -o -s "%~pd1\build\%~n1.html"
+
+REM comment for html
+REM IF %ERRORLEVEL% EQU 0 ( goto MarkdownSecondSuccess ) ELSE ( goto MarkdownSecondFailure )
+
 EXIT /b 0
+
 :MarkdownSecondSuccess
 START "" "%~pd1\build\%~n1.html"
 EXIT /b 0
