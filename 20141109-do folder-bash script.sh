@@ -183,13 +183,12 @@ _do_main_(){
     }
     
     archive_project(){
-
-		# echo arguments are $@
-	
+		
         # expects 
         # first argument - project name ( e.g. +dev )
         # second argument - archival file name ( e.g. dev project.txt)
-
+		
+		# echo arguments are $@	
 		# echo Number of argument : $#
 		
         if [ -z $0 ];
@@ -221,6 +220,36 @@ _do_main_(){
         
     }
 	
+	aggregate_lines_with_term(){
+	
+		# expects 
+        # first argument - term ( e.g. +dev )
+        # second argument - file name ( e.g. dev project.txt)
+		
+		 if [ -z $0 ];
+        then 
+            echo "TODO: no enough arguments"
+            return
+        fi
+
+        term=$1		
+		
+        if [ $# -gt 1 ]; 
+        then
+			shift
+            filename=$*
+        else    
+            #replace plus symbol
+            fileNamePrefix=${term//+/}
+            # replace backslash in variable
+            fileNamePrefix=${fileNamePrefix//\// }
+            filename="$today-$fileNamePrefix.txt"
+        fi  
+		
+		replace_lines_in_txt_files_having_term $term $filename
+		
+	}
+	
 	replace_lines_in_txt_files_having_term(){
 				
 		term=$1
@@ -248,6 +277,7 @@ _do_main_(){
         echo 		
 		echo "add_birdseye_report"
 		echo "add_todo_report"
+		echo "aggregate_lines_with_term"
 		echo "archive_project"
 		echo "clean_todo_file"
 		echo "create_tickler_files"
@@ -260,8 +290,7 @@ _do_main_(){
 		echo "update_contexts_file"
 		echo "update_inbox_file"
 		echo "update_projects_file"
-		echo "usage"   
-		
+		echo "usage"   		
     }
 
 	ACTION=$1
@@ -274,6 +303,7 @@ _do_main_(){
 		add_birdseye_report) add_birdseye_report ;;
 		add_todo_report) add_todo_report ;;
 		archive_project) archive_project $1 $2	;;
+		aggregate_lines_with_term) aggregate_lines_with_term $1 $2;;
 		clean_todo_file) clean_todo_file ;;
 		create_tickler_files) create_tickler_files ;;
 		get_all_contexs_names) get_all_contexs_names	;;
