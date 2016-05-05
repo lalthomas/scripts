@@ -44,7 +44,7 @@ _do_main_(){
     update_inbox_file(){
 
         get_all_projects_names >>inbox.md
-        get_all_contexs_names >>inbox.md
+        get_all_contexts_names >>inbox.md
         sort inbox.md | uniq | sort -o inbox.md
 		echo "inbox.md file updated"
 
@@ -173,7 +173,7 @@ _do_main_(){
 
     }
 
-    get_all_contexs_names(){
+    get_all_contexts_names(){
 
         for file in *.txt *.md
         do
@@ -281,7 +281,7 @@ _do_main_(){
 		echo "archive_project"
 		echo "clean_todo_file"
 		echo "create_tickler_files"
-		echo "get_all_contexs_names"
+		echo "get_all_contexts_names"
 		echo "get_all_projects_names"		
 		echo "mail_priority_todo"
 		echo "mail_todo_priority_list"
@@ -306,7 +306,7 @@ _do_main_(){
 		aggregate_lines_with_term) aggregate_lines_with_term $1 $2;;
 		clean_todo_file) clean_todo_file ;;
 		create_tickler_files) create_tickler_files ;;
-		get_all_contexs_names) get_all_contexs_names	;;
+		get_all_contexts_names) get_all_contexts_names	;;
 		get_all_projects_names)	get_all_projects_names ;;
 		help|usage)	usage ;;
 		mail_priority_todo)	mail_priority_todo ;;
