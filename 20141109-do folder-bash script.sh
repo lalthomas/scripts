@@ -15,15 +15,7 @@ alias todo='t list'
 
 alias dofolder=_do_main_
 
-_do_main_(){
-
-
-    help(){
-        
-        # displays a help for the script
-        echo "do folder scripts"        
-        
-    }
+_do_main_(){   
 
     clean_todo_file(){
         
