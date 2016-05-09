@@ -15,23 +15,64 @@ _inbox_(){
 	convert2lowercase(){
 	
 		echo "Converting filenames to lowercase"
-		return name
-	}
-
-	
-	clean_docs_names(){
-	
-		for f in *; do mv "$f" "`echo $f | tr "[:upper:]" "[:lower:]"`"; done
 		
 	}
+
+		
+	clean_doc_docs_names(){
+	 
+		ls | grep -e"[0-9]\{8\}" | xargs -d"\n" mv -t /cygdrive/d/Dropbox/docs
+		echo "Files with clean name moved to d/Dropbox/docs..."
+		echo "Processing remaining files..."
+		for f in *; do 
+			date_created=$(stat --format "%W" "$f")
+			date_created_format=$(date --date="@$date_created" +%Y%m%d-%H%M)
+			newname="$(echo $f | tr "[:upper:]" "[:lower:]")" # convert to lowercase			
+			newname="$(echo $newname | sed 's/-/ /g')" # substitute dash with space
+			newname="$(echo $newname | sed 's/_/ /g')" # substitute underscore with space
+			newname="$(echo $newname | sed 's/ +/ /g')" # remove multiple spaces into one
+			newname="$date_created_format-$newname" # prepend created date			
+			echo $f : $newname
+			mv "$f" "$newname"; # rename the files
+		done	
+	}
 	
+	clean_doc_calibre_periodical(){
+		
+		for f in *; do 			
+			newname="$(echo $f | sed 's/-/ /g')" # substitute dash with space						
+			newname="$(echo $newname | sed 's/_/ /g')" # substitute underscore with space
+			newname="$(echo $newname | sed 's/\[[0-9] Attachment//g')" 
+			newname="$(echo $newname | sed 's/NewsToday\]\s*//g')" 			
+			newname="$(echo $newname | sed 's/--/-/g')" # substitute underscore with space						
+			newname="$(echo $newname | sed 's/ +/ /g')" # remove multiple spaces into one
+			newname="$(echo $newname | sed 's/-[0-9][0-9]-[a-z]*-[0-9][0-9][0-9][0-9]//g')"
+			newname="$(echo $newname | sed 's/sMathrubhumi\ /Mathrubhumi/g')"
+			newname="$(echo $newname | sed 's/FWD-//g')"
+			newname="$(echo $newname | sed 's/[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]//g')"			
+			newname="$(echo $newname | sed 's/([0-9][0-9]-[0-9][0-9].-[0-9][0-9][0-9][0-9])//g')"	
+			newname="$(echo $newname | sed 's/([0-9][0-9]_[0-9][0-9]_[0-9][0-9][0-9][0-9])//g')" 			
+			newname="$(echo $newname | sed 's/([a-z][a-z][a-z])-([0-9][0-9])-([0-9][0-9][0-9][0-9])\s\(([a-z]*)\)//g')" 			
+			newname="$(echo $newname | sed 's/(\s*)$//g')" 			
+			newname="$(echo $newname | sed 's/sDeshabhimani/Deshabhimani/g')" 			
+			newname="$(echo $newname | sed 's/MB/Mathrubhumi/g')"
+			newname="$(echo $newname | sed 's/RD/Rashtra Deepika/g')"
+			newname="$(echo $newname | sed 's/KK F/Kerala Kaumudi Flash/g')"
+			newname="$(echo $newname | sed 's/KK/Kerala Kaumudi/g')"				
+			newname="$(echo $newname | tr "[:upper:]" "[:lower:]")" # convert to lowercase
+			echo $f : $newname
+			mv "$f" "$newname"; # rename the files
+		done
+	
+	}
 	
 	usage(){
 
         echo 
         echo "Inbox OPTIONS"      
         echo " helper script to managing inbox folder"   
-        echo "clean_docs_names"
+        echo "clean_doc_docs_names"
+		echo "clean_doc_calibre_periodical"
 		
 	}
 	
@@ -42,7 +83,8 @@ _inbox_(){
 	
 	case "$ACTION" in		
 		help|usage)	usage ;;
-		clean_docs_names) clean_docs_names;;
+		clean_doc_docs_names) clean_doc_docs_names;;
+		clean_doc_calibre_periodical) clean_doc_calibre_periodical;;		
 	esac
 
 }
