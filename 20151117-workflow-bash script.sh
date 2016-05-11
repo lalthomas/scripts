@@ -152,7 +152,7 @@ _workflow_main_(){
 
     # Validate the input options
     re="^(help|start|end)$"
-    if [[ "$action" =~ $re ]]; then
+    if [[ "$action"=~$re ]]; then
         case $action in
         'help')
             usage
