@@ -7,6 +7,7 @@ setlocal enabledelayedexpansion
 set gitPath="C:\Program Files (x86)\Git\bin\sh.exe"
 REM echo all: %*
 
+REM loop through all arguments
 for %%a in ( %* ) do (  
   echo.  
   echo change in : %%a
@@ -24,12 +25,12 @@ IF [%~x1]==[] (
   REM for folder 
   %~d1
   cd "%~1"      
-  call %gitPath% --login -i -c "git diff" "%1"
+  call %gitPath% --login -i -c "git diff --minimal" "%1"
 ) ELSE ( 
   REM for file
   %~d1
   cd "%~p1"        
-  call %gitPath% --login -i -c "git diff '%~nx1'" "%~dp1"  
+  call %gitPath% --login -i -c "git diff --minimal '%~nx1'" "%~dp1"  
  )
 endlocal
 exit /b 0
