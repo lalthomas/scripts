@@ -8,7 +8,7 @@
 
 for file in *.zip; 
 do 
-	echo "Processing $f file..";
+	echo "Processing $file file..";
 	extension="${file##*.}"                     # get the extension
 	filename="${file%.*}"                       # get the filename
 	projecttype="$(unzip -l "$file" | awk 'NR > 3 {print $4}' | sed -e 's/.*\.//g' | tr -c '[:alnum:]' '[\n*]' | sort | uniq -c | sort -nr | head  -1 | awk '{ print $2}')" 
