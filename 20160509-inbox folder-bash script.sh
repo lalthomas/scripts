@@ -39,7 +39,7 @@ _inbox_(){
 	
 	clean_doc_calibre_periodical(){
 		
-		for f in *; do 						
+		for f in *; do 			
 			newname="$(echo $f | sed 's/_/ /g')" # substitute underscore with space
 			newname="$(echo $newname | sed 's/\[[0-9] Attachment//g')" 
 			newname="$(echo $newname | sed 's/NewsToday\]\s*//g')" 			
@@ -57,8 +57,10 @@ _inbox_(){
 			newname="$(echo $newname | sed 's/MB/Mathrubhumi/g')"
 			newname="$(echo $newname | sed 's/RD/Rashtra Deepika/g')"
 			newname="$(echo $newname | sed 's/KK F/Kerala Kaumudi Flash/g')"
-			newname="$(echo $newname | sed 's/KK/Kerala Kaumudi/g')"				
-			newname="$(echo $newname | tr "[:upper:]" "[:lower:]")" # convert to lowercase
+			newname="$(echo $newname | sed 's/KK/Kerala Kaumudi/g')"
+			newname="$(echo $newname | sed 's/-/ /g')" # substitute dash with space
+			newname="$(echo $newname | sed 's/\([0-9]\{8\}\) /\1-/g')" # append date string with dash			
+			newname="$(echo $newname | tr "[:upper:]" "[:lower:]")" # convert to lowercase			
 			echo $f : $newname
 			mv "$f" "$newname"; # rename the files
 		done
