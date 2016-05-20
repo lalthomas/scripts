@@ -27,7 +27,7 @@ if /i %~x1 == .cpp ( goto CPP )
 if /i %~x1 == .cs ( goto CS)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .tex ( goto LATEX )
-if /i %~x1 == .md ( goto MARKDOWN )
+if /i %~x1 == .md ( goto MARKDOWNPDF )
 EXIT /b 0
 
 REM C
@@ -149,53 +149,46 @@ start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraP
 EXIT /b 0
 
 
-:MARKDOWN
+:MARKDOWNPDF
 %~d1
 cd %~p1
 IF NOT EXIST "%~dp1\build" mkdir build
-
-REM comment for html
-REM call pandoc %1 -o "%~n1.pdf"
-
-REM comment for PDF
-call pandoc %1 -s -o "%~n1.html"
-
-IF %ERRORLEVEL% EQU 0 (goto MarkdownFirstSuccess ) ELSE (goto MarkdownFirstFailure)
+call pandoc %1 -o "%~n1.pdf"
+IF %ERRORLEVEL% EQU 0 (goto MarkdownPDFSuccess ) ELSE (goto MarkdownPDFFailure)
 EXIT /b 0
-
-:MarkdownFirstSuccess
-
-REM comment for html
-REM move "%~pd1\%~n1.pdf" "%~pd1\build" && START "" "%~pd1\build\%~n1.pdf"
-
-REM comment for PDF
-move "%~pd1\%~n1.html" "%~pd1\build" &&  START "" "%~pd1\build\%~n1.html"
-
+:MarkdownPDFSuccess
+move "%~pd1\%~n1.pdf" "%~pd1\build" && START "" "%~pd1\build\%~n1.pdf"
 EXIT /b 0
-
-:MarkdownFirstFailure
+:MarkdownPDFFailure
 echo. 
 echo =======================================================
 echo compiling failed..., press any key for trying with html
 echo =======================================================
 echo.
 pause
-
-REM comment for html
-REM call pandoc %1 -o -s "%~pd1\build\%~n1.html"
-
-REM comment for html
-REM IF %ERRORLEVEL% EQU 0 ( goto MarkdownSecondSuccess ) ELSE ( goto MarkdownSecondFailure )
-
+goto MARKDOWNHTML
 EXIT /b 0
 
-:MarkdownSecondSuccess
-START "" "%~pd1\build\%~n1.html"
+
+:MARKDOWNHTML
+%~d1
+cd %~p1
+IF NOT EXIST "%~dp1\build" mkdir build
+call pandoc %1 -s -o "%~n1.html"
+IF %ERRORLEVEL% EQU 0 (goto MarkdownHTMLSuccess ) ELSE (goto MarkdownHTMLFailure)
 EXIT /b 0
-:MarkdownSecondFailure
-echo compiling failed again...
+:MarkdownHTMLSuccess
+move "%~pd1\%~n1.html" "%~pd1\build" &&  START "" "%~pd1\build\%~n1.html"
+EXIT /b 0
+:MarkdownHTMLFailure
+echo. 
+echo ====================
+echo compiling failed...
+echo ====================
+echo.
 pause
 EXIT /b 0
+
 
 :FOLDER
 SET /p _Opt="Are you sure to compile all files on the folder(y/n)" 
@@ -205,3 +198,4 @@ for %%a in (%1\*.*) do ( CALL:MAP "%%a" )
 EXIT /b 0
 
 endlocal
+
