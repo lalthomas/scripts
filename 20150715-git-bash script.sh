@@ -6,6 +6,8 @@
 
 ### git 
 
+alias g=_git_main_ # git helper functions
+
 createRepo(){ 
 
  git init "$1"
@@ -44,11 +46,14 @@ alias creategitignore=creategitignore
 
 usage(){
  
- echo
+ echo help
+ echo ====
+ echo .
+ echo g help
+ echo g repo create <path>
+ echo g repo commit <path> <message>
  
 }
-
-alias g=_git_main_ # git helper functions
 
 _git_main_(){
     
