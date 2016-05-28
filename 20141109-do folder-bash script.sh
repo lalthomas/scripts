@@ -15,15 +15,7 @@ alias todo='t list'
 
 alias dofolder=_do_main_
 
-_do_main_(){
-
-
-    help(){
-        
-        # displays a help for the script
-        echo "do folder scripts"        
-        
-    }
+_do_main_(){   
 
     clean_todo_file(){
         
@@ -44,7 +36,7 @@ _do_main_(){
     update_inbox_file(){
 
         get_all_projects_names >>inbox.md
-        get_all_contexs_names >>inbox.md
+        get_all_contexts_names >>inbox.md
         sort inbox.md | uniq | sort -o inbox.md
 		echo "inbox.md file updated"
 
@@ -173,7 +165,7 @@ _do_main_(){
 
     }
 
-    get_all_contexs_names(){
+    get_all_contexts_names(){
 
         for file in *.txt *.md
         do
@@ -183,13 +175,14 @@ _do_main_(){
     }
     
     archive_project(){
-
-		echo arguments are $@
-	
+		
         # expects 
         # first argument - project name ( e.g. +dev )
         # second argument - archival file name ( e.g. dev project.txt)
-
+		
+		# echo arguments are $@	
+		# echo Number of argument : $#
+		
         if [ -z $0 ];
         then 
             echo "TODO: no enough arguments"
@@ -197,10 +190,11 @@ _do_main_(){
         fi
 
         projectname=$1
-
-        if [ $# -eq 2 ]; 
+		
+        if [ $# -gt 1 ]; 
         then
-            archiveFilename=$2
+			shift
+            archiveFilename=$*
         else    
             #replace plus symbol
             fileNamePrefix=${projectname//+/}
@@ -208,19 +202,62 @@ _do_main_(){
             fileNamePrefix=${fileNamePrefix//\// }
             archiveFilename="archive/$today-$fileNamePrefix.txt"
         fi  
+		
+		# echo project name : $projectname
+		# echo filename : $archiveFilename		
 
-        for file in *.txt 
-        do
-             grep "$projectname" "$file">>"$archiveFilename"
-             # thanks http://stackoverflow.com/a/10467453/2182047
-             # sed escape before replace 
-             sed -i'' "/$(echo $projectname | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/d" "$file"
-        done
-
-        sort "$archiveFilename" | uniq | sort -o "$archiveFilename"
+		replace_lines_in_txt_files_having_term $projectname $archiveFilename
+		
         echo "TODO: project '$projectname' archived to '$archiveFilename'"
         
     }
+	
+	aggregate_lines_with_term(){
+	
+		# expects 
+        # first argument - term ( e.g. +dev )
+        # second argument - file name ( e.g. dev project.txt)
+		
+		 if [ -z $0 ];
+        then 
+            echo "TODO: no enough arguments"
+            return
+        fi
+
+        term=$1		
+		
+        if [ $# -gt 1 ]; 
+        then
+			shift
+            filename=$*
+        else    
+            #replace plus symbol
+            fileNamePrefix=${term//+/}
+            # replace backslash in variable
+            fileNamePrefix=${fileNamePrefix//\// }
+            filename="$today-$fileNamePrefix.txt"
+        fi  
+		
+		replace_lines_in_txt_files_having_term $term $filename
+		
+	}
+	
+	replace_lines_in_txt_files_having_term(){
+				
+		term=$1
+		shift
+		filename=$*
+		
+        for file in *.txt 
+        do
+             grep "$term" "$file">>"$filename"
+             # thanks http://stackoverflow.com/a/10467453/2182047
+             # sed escape before replace 
+             sed -i'' "/$(echo $term | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/d" "$file"
+        done
+        sort "$filename" | uniq | sort -o "$filename"
+	
+	}
 	
 	usage(){
 
@@ -232,10 +269,11 @@ _do_main_(){
         echo 		
 		echo "add_birdseye_report"
 		echo "add_todo_report"
+		echo "aggregate_lines_with_term"
 		echo "archive_project"
 		echo "clean_todo_file"
 		echo "create_tickler_files"
-		echo "get_all_contexs_names"
+		echo "get_all_contexts_names"
 		echo "get_all_projects_names"		
 		echo "mail_priority_todo"
 		echo "mail_todo_priority_list"
@@ -244,8 +282,7 @@ _do_main_(){
 		echo "update_contexts_file"
 		echo "update_inbox_file"
 		echo "update_projects_file"
-		echo "usage"   
-		
+		echo "usage"   		
     }
 
 	ACTION=$1
@@ -258,9 +295,10 @@ _do_main_(){
 		add_birdseye_report) add_birdseye_report ;;
 		add_todo_report) add_todo_report ;;
 		archive_project) archive_project $1 $2	;;
+		aggregate_lines_with_term) aggregate_lines_with_term $1 $2;;
 		clean_todo_file) clean_todo_file ;;
 		create_tickler_files) create_tickler_files ;;
-		get_all_contexs_names) get_all_contexs_names	;;
+		get_all_contexts_names) get_all_contexts_names	;;
 		get_all_projects_names)	get_all_projects_names ;;
 		help|usage)	usage ;;
 		mail_priority_todo)	mail_priority_todo ;;

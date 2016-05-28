@@ -46,14 +46,29 @@ function usage() {
 }
 
 startDay(){     
-            
+    
+	opted="n"
     t journal create "$docJournalFile"
     t log add "checked in"
     # commitdo
     
     # GTD
     t file open "$doRootPath/todo.txt"
+	t file open "$doRootPath/projects.md"
+	t file open "$doRootPath/contexts.md"
+	t file open "$doRootPath/outline.md"	
     t file open "$doRootPath/inbox.md"
+	echo .
+	echo "List of People to wish"	
+	echo =========================
+	echo .
+	wish list
+	echo .
+	read -p "enter y to wish now : " opted
+	if [ $opted == "y" ]; then
+		wish email
+	fi
+		
 }
 
 endDay(){
@@ -137,7 +152,7 @@ _workflow_main_(){
 
     # Validate the input options
     re="^(help|start|end)$"
-    if [[ "$action" =~ $re ]]; then
+    if [[ "$action"=~$re ]]; then
         case $action in
         'help')
             usage

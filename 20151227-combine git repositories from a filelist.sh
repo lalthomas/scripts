@@ -2,10 +2,15 @@
 # set -x
 
 # cd to the folder you want the combined repository
-# procedure open git bash and drag the script file to the terminal from windows explorer
-# add space and the drag the path file to the terminal
-# enter unix path for repository as . (dot), this will give the curret directory path
-# combined repo will be generated in folder called parent
+#
+# procedure
+# ---------
+#
+# - open git bash and drag the script file to the terminal from windows explorer
+# - add space and the drag the path file to the terminal
+# - run the script by hitting enter
+# - enter unix path for repository as . (dot), this will give the current directory path
+# - combined repo will be generated in folder called parent
 
 # Input to this script is file with list of git repositories"
 #
