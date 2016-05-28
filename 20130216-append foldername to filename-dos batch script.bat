@@ -20,7 +20,7 @@ for %%a in ( %* ) do (
   set ParentDir=!ParentDir::= !
   REM echo ParentDir ## is !ParentDir!
   REM pause    
-  REN "%%~na%%~xa" "!ParentDir!-%%~na%%~xa"      
+  REN "%%~na%%~xa" "%%~na !ParentDir!%%~xa"
   REM echo LOOP END..
   REM pause    
   
