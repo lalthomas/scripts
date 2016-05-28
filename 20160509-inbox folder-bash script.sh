@@ -21,10 +21,16 @@ _inbox_(){
 		
 	clean_doc_docs_names(){
 	 
-		ls | grep -e"[0-9]\{8\}" | xargs -d"\n" mv -t /cygdrive/d/Dropbox/docs
-		echo "Files with clean name moved to d/Dropbox/docs..."
-		echo "Processing remaining files..."
+		mkdir "clean-named" &>/dev/null
+		ls | grep -e"[0-9]\{8\}" | xargs -d"\n" mv -t "$PWD/clean-named" &>/dev/null		
+		echo "Files with clean name moved ..."
+		echo "Processing remaining files ..."
+		echo .
+		shopt -u nullglob
+		shopt -u dotglob
 		for f in *; do 
+			if [[ -d $f ]]; then continue; fi # skip directories
+			if [[ $f == *.ini ]]; then continue; fi # skip ini files
 			date_created=$(stat --format "%W" "$f")
 			date_created_format=$(date --date="@$date_created" +%Y%m%d-%H%M)
 			newname="$(echo $f | tr "[:upper:]" "[:lower:]")" # convert to lowercase			
@@ -35,11 +41,14 @@ _inbox_(){
 			echo $f : $newname
 			mv "$f" "$newname"; # rename the files
 		done	
+		# delete empty folders
+		find . -empty -type d -delete
 	}
 	
 	clean_doc_calibre_periodical(){
 		
-		for f in *; do 			
+		for f in *; do
+			if [[ -d $f ]]; then continue; fi # skip directories	
 			newname="$(echo $f | sed 's/_/ /g')" # substitute underscore with space
 			newname="$(echo $newname | sed 's/\[[0-9] Attachment//g')" 
 			newname="$(echo $newname | sed 's/NewsToday\]\s*//g')" 			
