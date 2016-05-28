@@ -17,6 +17,6 @@ set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 set copyfilename="D:\Dropbox\support\20150619-home support template-todo project doc.md"
 set /p projectname="enter project name:"
 
-set filename="%datestamp%-%projectname%-project doc.md"
+set filename="%datestamp%-%projectname%.md"
 type %copyfilename% >> %filename%
 echo %projectname% >> %filename%

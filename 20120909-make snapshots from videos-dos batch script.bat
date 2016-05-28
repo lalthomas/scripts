@@ -1,11 +1,14 @@
 @echo OFF
 setlocal
 set path=%PATH%;%CD%
-set vitualdubpath=D:\Apps\PortableApps\PortableApps\VirtualDubPortable\App\VirtualDub\vdub.exe
+set vitualdubpath=D:\PortableApps.com\PortableApps\VirtualDubPortable\VirtualDubPortable.exe
 set file=%1
 set savedirectory=%~dp1%~n1
 set file=%file:\=\\%
 set savedirectory=%savedirectory:\=\\%
+
+%~d1
+cd %~p1
 
 echo VirtualDub.Open(%file%,"",0); >>screen.vcf
 echo VirtualDub.audio.SetSource(1); >>screen.vcf
