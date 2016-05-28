@@ -153,11 +153,14 @@ EXIT /b 0
 %~d1
 cd %~p1
 IF NOT EXIST "%~dp1\build" mkdir build
-call pandoc %1 -o "%~n1.pdf"
+REM small margin
+call pandoc %1 -V geometry:margin=0.5in -o "%~n1.pdf"
+REM default
+REM call pandoc %1 -o "%~n1.pdf"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownPDFSuccess ) ELSE (goto MarkdownPDFFailure)
 EXIT /b 0
 :MarkdownPDFSuccess
-move "%~pd1\%~n1.pdf" "%~pd1\build" && START "" "%~pd1\build\%~n1.pdf"
+move "%~pd1\%~n1.pdf" "%~pd1\build" && start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 :MarkdownPDFFailure
 echo. 
