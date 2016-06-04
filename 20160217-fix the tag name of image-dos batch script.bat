@@ -51,12 +51,12 @@ call "%scriptFolderPath%\tools\fart\fart.exe" -q %tempFileName% "Keywords       
 set /p data=<%tempFileName%
 REM echo data is %data%
 set data=%data:.=%
-set data=%data:,=; %
-set data=%data:/=; %
+set data=%data:,=;%
+set data=%data:/=;%
 set data=%data:#=%
 set data=%data:(=%
 set data=%data:)=%
-set data=%data:  = %
+set data=%data: =-%
 
 REM remove duplicate values
 REM ----------------------------
@@ -71,9 +71,12 @@ for /F "tokens=2 delims=[]" %%a in ( 'set elem[' ) do (
 )
 set data=%noDupData%
 REM echo unique data : %data%
-REM replace place holder value"
-set data=%data:#;=%
-REM end of removal of duplicate values
+REM echo %data%>file.txt
+REM replace place holder value
+set data=%data:#;-=%
+set data=%data: =%
+set data=%data:;-=;%
+set data=%data:-= %
 
 REM convert to data to lowercase
 REM ----------------------------
@@ -93,5 +96,5 @@ EXIT /b 0
 
 
 :concat
-set noDupData=%noDupData%; %1
+set noDupData=%noDupData%;%1
 EXIT /b 0
