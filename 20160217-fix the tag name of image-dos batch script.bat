@@ -71,7 +71,7 @@ for /F "tokens=2 delims=[]" %%a in ( 'set elem[' ) do (
 )
 set data=%noDupData%
 REM echo unique data : %data%
-REM echo %data%>file.txt
+set data=%data:--=-%
 REM replace place holder value
 set data=%data:#;-=%
 set data=%data: =%
