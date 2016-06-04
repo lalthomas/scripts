@@ -81,7 +81,7 @@ set "_UCASE=ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 set "_LCASE=abcdefghijklmnopqrstuvwxyz"
 for /l %%a in (0,1,25) do (
  call set "_FROM=%%_UCASE:~%%a,1%%
- call set "_TO=%%_LCASE:~%%a, 1%%
+ call set "_TO=%%_LCASE:~%%a,1%%
  call set "data=%%data:!_FROM!=!_TO!%%
 )
 REM end of case conversion
