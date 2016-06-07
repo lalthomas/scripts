@@ -14,11 +14,13 @@ set IISPATH="C:\inetpub\wwwroot\"
 set JAVAPATH="C:\Program Files\Java\jdk1.7.0_51\bin"
 set PYTHON3="C:\Users\admin\AppData\Local\Programs\Python\Python35"
 set PYTHON2="C:\Python27"
+set FIREFOX="%ProgramFiles%\Mozilla Firefox\firefox.exe"
 
 if /i %~x1 == .html ( goto HTML)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .class ( goto JAVA )
 if /i %~x1 == .jar ( goto JAVAJAR )
+if /i %~x1 == .md ( goto PHP )
 if /i %~x1 == .php ( goto PHP )
 if /i %~x1 == .sql ( goto SQL )
 if /i %~x1 == .py ( goto PYTHON )
@@ -26,13 +28,13 @@ if /i %~x1 == .py ( goto PYTHON )
 REM Execute Exe,Bat
 set path=%PATH%;%CD%
 
-call "%~n1"
+call %FIREFOX% "%~n1"
 goto END
 
 REM HTML
 :html
 set path=%PATH%;%CD%
-call "%ProgramFiles%\Mozilla Firefox\firefox.exe" "%~n1%~x1"
+call %FIREFOX% "%~n1%~x1"
 exit
 
 REM Java
@@ -88,7 +90,7 @@ REM invoke the adminstrator dialog box
 Powershell -Command "& {Start-Process" \"%OrginalPath%\\temp.bat\"-verb RunAs}"
 )
 
-start "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" "http://localhost/%ParentDir%/%~n1%~x1"
+call %FIREFOX% "http://localhost/%ParentDir%/%~n1%~x1"
 del "%OrginalPath%\temp.bat"
 goto END
 
