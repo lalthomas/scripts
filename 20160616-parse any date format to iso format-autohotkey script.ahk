@@ -44,7 +44,7 @@ DateParse(str) {
 	hour 	:= t1 + (t1 = 12 ? t4 = "am" ? -12.0 : 0.0 : t4 = "am" ? 0.0 : 12.0)
 	minutes := t2 + 0.0
 	seconds := t3 + 0.0
-	d := year . month . day . hour . minutes . seconds
+	d := year . "-" . month . "-" . day . "-" . hour . "-" . minutes . "-" . seconds
 	SetFormat, Float, %f%
 	Return, d
 }
