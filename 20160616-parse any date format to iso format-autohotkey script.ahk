@@ -1,32 +1,30 @@
 ^!d::  ; ctrl+alt+d coverts the date to ansi
 {
-
 	Clipboard:= ""
 	Send, ^c ;copies selected text
 	ClipWait
 	Clipboard := DateParse(Clipboard)
 	Send %Clipboard%
 	return
-
 }
 
 
 /*
-	Function: DateParse
-		Converts almost any date format to a YYYYMMDDHH24MISS value.
+Function: DateParse
+	Converts almost any date format to a YYYYMMDDHH24MISS value.
 
-	Parameters:
-		str - a date/time stamp as a string
+Parameters:
+	str - a date/time stamp as a string
 
-	Returns:
-		A valid YYYYMMDDHH24MISS value which can be used by FormatTime, EnvAdd and other time commands.
+Returns:
+	A valid YYYYMMDDHH24MISS value which can be used by FormatTime, EnvAdd and other time commands.
 
-	Example:
+Example:
 > time := DateParse("2:35 PM, 27 November, 2007")
 
-	License:
-		- Version 1.05 <http://www.autohotkey.net/~polyethene/#dateparse>
-		- Dedicated to the public domain (CC0 1.0) <http://creativecommons.org/publicdomain/zero/1.0/>
+License:
+	- Version 1.05 <http://www.autohotkey.net/~polyethene/#dateparse>
+	- Dedicated to the public domain (CC0 1.0) <http://creativecommons.org/publicdomain/zero/1.0/>
 */
 DateParse(str) {
 	static e2 = "i)(?:(\d{1,2}+)[\s\.\-\/,]+)?(\d{1,2}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*)[\s\.\-\/,]+(\d{2,4})"
