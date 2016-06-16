@@ -39,12 +39,18 @@ DateParse(str) {
 	f = %A_FormatFloat%
 	SetFormat, Float, 02.0	
 	year 	:= (d3 ? (StrLen(d3) = 2 ? 20 : "") . d3 : A_YYYY)
-	month 	:= ((d2 := d2 + 0 ? d2 : (InStr(e2, SubStr(d2, 1, 3)) - 40) // 4 + 1.0) > 0 ? d2 + 0.0 : A_MM)
-	day 	:= ((d1 += 0.0) ? d1 : A_DD)
-	hour 	:= t1 + (t1 = 12 ? t4 = "am" ? -12.0 : 0.0 : t4 = "am" ? 0.0 : 12.0)
-	minutes := t2 + 0.0
-	seconds := t3 + 0.0
-	d := year . "-" . month . "-" . day . "-" . hour . "-" . minutes . "-" . seconds
+	month 	:= appendSeparator(((d2 := d2 + 0 ? d2 : (InStr(e2, SubStr(d2, 1, 3)) - 40) // 4 + 1.0) > 0 ? d2 + 0.0 : A_MM))
+	day 	:= appendSeparator(((d1 += 0.0) ? d1 : A_DD))
+	hour 	:= appendSeparator(t1 + (t1 = 12 ? t4 = "am" ? -12.0 : 0.0 : t4 = "am" ? 0.0 : 12.0)	)
+	minutes := appendSeparator(t2 + 0.0)
+	seconds := appendSeparator(t3 + 0.0)	
+	d := year . month . day . hour . minutes . seconds
 	SetFormat, Float, %f%
 	Return, d
+}
+
+appendSeparator(value){
+	separator := "-"
+	if value >= 0
+		return  separator . value
 }
