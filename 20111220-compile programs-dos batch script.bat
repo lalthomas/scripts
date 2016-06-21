@@ -27,7 +27,7 @@ if /i %~x1 == .cpp ( goto CPP )
 if /i %~x1 == .cs ( goto CS)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .tex ( goto LATEX )
-if /i %~x1 == .md ( goto MARKDOWNPDF )
+if /i %~x1 == .md ( goto MARKDOWNHTML )
 EXIT /b 0
 
 REM C
