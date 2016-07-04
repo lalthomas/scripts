@@ -132,10 +132,11 @@ del build\*.bbl
 del build\*.blg
 del build\*.brf
 del build\*.out
+
+:: Run pdflatex -> bibtex -> pdflatex -> pdflatex
 pdflatex -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
 type "%~dp1\build\%~n1.log" | findstr Warning:
-:: Run pdflatex -&gt; bibtex -&gt; pdflatex -&gt; pdflatex
-bibtex.exe "%~dp1\build\%~n1.aux"
+bibtex.exe --include-directory="D:\Data\Mendeley" "%~dp1\build\%~n1.aux"
 :: If you are using multibib the following will run bibtex on all aux files
 :: FOR /R . %%G IN (*.aux) DO bibtex %%G
 pdflatex.exe -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
