@@ -1,4 +1,4 @@
-@echo ON
+@echo OFF
 setlocal
 REM batch script to add caption to image using exiftool
 REM Author Lal Thomas
