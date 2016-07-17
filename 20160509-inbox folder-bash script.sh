@@ -70,6 +70,22 @@ _inbox_(){
 			newname="$(echo $newname | sed 's/-/ /g')" # substitute dash with space
 			newname="$(echo $newname | sed 's/\([0-9]\{8\}\) /\1-/g')" # append date string with dash			
 			newname="$(echo $newname | tr "[:upper:]" "[:lower:]")" # convert to lowercase			
+			
+			# thanks http://stackoverflow.com/a/965072/2182047
+			filename=$(basename "$newname")
+			extension="${filename##*.}" # extract extension
+			name="${filename%.*}" #extract name
+			
+			# trim whitespaces
+			# thanks : http://www.cyberciti.biz/faq/bash-remove-whitespace-from-string/
+			shopt -s extglob 	 # turn it on
+			name="${name##*( )}" # Trim leading whitespaces
+			name="${name%%*( )}" # trim trailing whitespaces
+			shopt -u extglob  	 # turn it off
+			# end of trim
+			
+			newname="$(echo $name.$extension)" # join
+						
 			echo $f : $newname
 			mv "$f" "$newname"; # rename the files
 		done
