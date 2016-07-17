@@ -27,7 +27,8 @@ if /i %~x1 == .cpp ( goto CPP )
 if /i %~x1 == .cs ( goto CS)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .tex ( goto LATEX )
-if /i %~x1 == .md ( goto MARKDOWNHTML )
+REM if /i %~x1 == .md ( goto MARKDOWNHTML )
+if /i %~x1 == .md ( goto MARKDOWNPDF )
 EXIT /b 0
 
 REM C
@@ -155,7 +156,8 @@ EXIT /b 0
 cd %~p1
 IF NOT EXIST "%~dp1\build" mkdir build
 REM small margin
-call pandoc %1 -V geometry:margin=0.5in -o "%~n1.pdf"
+REM call pandoc %1 -V geometry:margin=0.5in -o "%~n1.pdf"
+call pandoc %1 -s -o "%~n1.pdf"
 REM default
 REM call pandoc %1 -o "%~n1.pdf"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownPDFSuccess ) ELSE (goto MarkdownPDFFailure)
