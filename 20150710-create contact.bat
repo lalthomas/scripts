@@ -1,4 +1,4 @@
-@echo OFF
+@echo ON
 
 REM Author Lal Thomas
 REM Date 2015-07-10
@@ -36,3 +36,5 @@ call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$URL01$" "%faceboo
 
 REM Open the file
 %fullfilepath%
+
+pause
