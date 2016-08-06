@@ -20,5 +20,10 @@ set filename="%datestamp%-%projectname%.md"
 echo %% %projectname% >> %filename%
 echo %% Lal Thomas >> %filename%
 echo %% %longdatestamp% >> %filename%
+echo.>> %filename%
+echo.>> %filename%
+echo Date		Notes >> %filename%
+echo ----------	------------------ >> %filename%
+
 
 start "notepad-pp" %filename%
