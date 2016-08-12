@@ -174,7 +174,7 @@ _do_main_(){
 
     }
     
-    archive_project(){
+    move_project_matches_to_file(){
 		
         # expects 
         # first argument - project name ( e.g. +dev )
@@ -270,7 +270,7 @@ _do_main_(){
 		echo "add_birdseye_report"
 		echo "add_todo_report"
 		echo "aggregate_lines_with_term"
-		echo "archive_project"
+		echo "move_project_matches_to_file"
 		echo "clean"
 		echo "create_tickler_files"
 		echo "get_all_contexts_names"
@@ -294,7 +294,7 @@ _do_main_(){
 	case "$ACTION" in		
 		add_birdseye_report) add_birdseye_report ;;
 		add_todo_report) add_todo_report ;;
-		archive_project) archive_project $1 $2	;;
+		move_project_matches_to_file) move_project_matches_to_file $1 $2	;;
 		aggregate_lines_with_term) aggregate_lines_with_term $1 $2;;
 		clean) clean ;;
 		create_tickler_files) create_tickler_files ;;
