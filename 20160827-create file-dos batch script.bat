@@ -17,5 +17,5 @@ REM create file
 copy nul %1
 explorer %1
 )
-pause
+REM pause
 exit /b 0
