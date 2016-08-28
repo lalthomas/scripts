@@ -15,5 +15,6 @@ set /p _Opt="do you want to create file %1 (y/n) :"
 IF /I "%_Opt%" == "y" ( 	
 REM create file
 copy nul "%1"
+explorer "%1"
 )
 exit /b 0
