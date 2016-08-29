@@ -109,12 +109,14 @@ goto END
 @echo OFF
 echo %1
 REM Python 2
-set path=%PATH%;%PYTHON2%
-call %PYTHON2%\python %1
+REM set path=%PATH%;%PYTHON2%
+REM call %PYTHON2%\python %1
 
 REM Python 3
 REM set path=%PATH%;%PYTHON3%
 REM call %PYTHON3%\python %1
+
+call python %1
 
 pause
 goto END
