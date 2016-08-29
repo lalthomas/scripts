@@ -10,7 +10,10 @@ set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 %~d1
 cd %~dp1
-
+if exist %1 ( 
+	explorer %1 
+	exit
+)
 set /p _Opt="do you want to create file %1 (y/n) :"	
 IF /I "%_Opt%" == "y" ( 	
 REM create file
