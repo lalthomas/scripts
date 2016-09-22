@@ -19,8 +19,8 @@ endlocal
 
 :CREATEOPEN
 Setlocal EnableDelayedExpansion
-set "SUBJECT=%~n1 Readme"
-set /p _Opt="redme file doesn't exist do you want tocreate (y/n) :"	
+set "SUBJECT=%~n1 readme"
+set /p _Opt="redme file doesn't exist do you want to create (y/n) :"	
 IF /I "%_Opt%" == "y" ( 	
 	echo %% %SUBJECT% >>"%~n1 readme.md" ^
 	&& echo %% %longdatestamp% >>"%~n1 readme.md" ^
