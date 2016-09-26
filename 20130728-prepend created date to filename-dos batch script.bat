@@ -31,7 +31,7 @@ EXIT /b 0
 	REM %mon% %day% %yyyy% %hh% %min% %filename%
 	REM Replaces all empty space
 	set mon=%mon: =%
-	set time=%yyyy%%mon%%day%
+	set time=%yyyy%%mon%%day%-%hh%%min%
 	REM echo %time%
 	REM pause
 	REM goto :EOF
