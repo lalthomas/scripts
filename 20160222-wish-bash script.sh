@@ -46,11 +46,14 @@ _wish_main_(){
 			
 			pattern="$1"
 			email="$2"
-			emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
-				
-		
-			echo "No | Occasion  | Name(s)                   | Comment             "
-			echo "---| ----------| ------------------------- | --------------------"
+			emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"				
+
+			
+			if [ -z "$email" ]; then
+				echo "No | Occasion             | Name(s)                                | Comment             "
+				echo "---| -------------------- | -------------------------------------- | --------------------"
+			fi
+			
 			counter=1
 			grep -e $pattern "$filename" | while read -r  line ;
 			do      				
@@ -59,7 +62,7 @@ _wish_main_(){
 				comment=$(echo $line | awk -F'|' '{print $4}')							
 				if [ -z "$email" ]; then
 					echo $counter " | " $occasion " | " $name  " | " $comment
-				elif [$email="yes"]; then									
+				elif [ "$email" = "yes" ]; then									
 					cygstart $emailClient -compose "to='"$name"',subject="$occasion										
 				fi						
 				counter=$((counter + 1))  
@@ -73,7 +76,7 @@ _wish_main_(){
 		today_match_pattern="^[0-9]\{4\}-$monthCount-$dayCount"
 		case "$OPTION" in		
 			email)
-				itemsMatchPattern $today_match_pattern "Yes"
+				itemsMatchPattern $today_match_pattern "yes"
 				;;
 				
 			*)
@@ -88,7 +91,7 @@ _wish_main_(){
 		yesterday_match_pattern="^[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')"
 		case "$OPTION" in					
 			email)				
-				itemsMatchPattern $yesterday_match_pattern "Yes"
+				itemsMatchPattern $yesterday_match_pattern "yes"
 				;;					
 			*)			
 				itemsMatchPattern $yesterday_match_pattern
@@ -98,8 +101,7 @@ _wish_main_(){
 	
 	}
 	   
-    openfile(){
-      
+    openfile(){      
       cygstart "$filename"
     }
 
