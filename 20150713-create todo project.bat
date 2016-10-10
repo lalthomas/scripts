@@ -20,11 +20,17 @@ set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
 set copyfilename="D:\Dropbox\support\20150619-home support template-todo project doc.md"
 set /p projectname="enter project name:"
+set /p upcoming="is this project upcoming (y/n)?"
 
 set filename=%projectname:+=%
 set filename=%filename:\= %
 set filename=%filename:/= %
 set filename="%datestamp%-%filename% readme.md"
+
+IF /I "%upcoming%" == "y" ( 	
+	cd upcoming
+	echo %projectname%>"%datestamp%-%filename%.txt"	
+)
 
 REM generate file from the template 
 type %copyfilename% >> %filename%
