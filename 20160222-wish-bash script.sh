@@ -41,42 +41,63 @@ _wish_main_(){
         echo "entry : \"$occasionDate | $name <$address> | $occasion | $comment\" added successfully..."
     
     }
-
-    list(){     
-     
-        echo "No | Occasion  | Name(s)                   | Comment             "
-        echo "---| ----------| ------------------------- | --------------------"
-        counter=1
-        grep -e $birthday_math_pattern "$filename" | while read -r  line ;
-        do      
-            name=$(echo $line | awk -F'|' '{print $2}')
-            occasion=$(echo $line | awk -F'|' '{print $3}')
-            comment=$(echo $line | awk -F'|' '{print $4}')
-            echo $counter " | " $occasion " | " $name  " | " $comment
-            counter=$((counter + 1))  
-        done
-     
-    }
-    
-    listall(){
-    
-     cat --number "$filename"
-    
-    }
-
-    emailPeople(){
-        
-        emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
-        counter=1
-        grep -e $birthday_math_pattern "$filename" | while read -r  line ; do      
-            name=$(echo $line | awk -F'|' '{print $2}')
-            occasion=$(echo $line | awk -F'|' '{print $3}')  
-            cygstart $emailClient -compose "to='"$name"',subject="$occasion
-            counter=$((counter + 1))  
-        done
-
-    }
-
+	
+	itemsMatchPattern(){		 
+			
+			pattern="$1"
+			email="$2"
+			emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
+				
+		
+			echo "No | Occasion  | Name(s)                   | Comment             "
+			echo "---| ----------| ------------------------- | --------------------"
+			counter=1
+			grep -e $pattern "$filename" | while read -r  line ;
+			do      				
+				name=$(echo $line | awk -F'|' '{print $2}')
+				occasion=$(echo $line | awk -F'|' '{print $3}')
+				comment=$(echo $line | awk -F'|' '{print $4}')							
+				if [ -z "$email" ]; then
+					echo $counter " | " $occasion " | " $name  " | " $comment
+				elif [$email="yes"]; then									
+					cygstart $emailClient -compose "to='"$name"',subject="$occasion										
+				fi						
+				counter=$((counter + 1))  
+			done									
+		}	
+			
+	# cat --number "$filename"			
+	
+	today(){		
+		OPTION=$1
+		today_match_pattern="^[0-9]\{4\}-$monthCount-$dayCount"
+		case "$OPTION" in		
+			email)
+				itemsMatchPattern $today_match_pattern "Yes"
+				;;
+				
+			*)
+				itemsMatchPattern $today_match_pattern
+				;;
+		esac
+	}	
+	
+	yesterday(){
+	
+		OPTION=$1
+		yesterday_match_pattern="^[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')"
+		case "$OPTION" in					
+			email)				
+				itemsMatchPattern $yesterday_match_pattern "Yes"
+				;;					
+			*)			
+				itemsMatchPattern $yesterday_match_pattern
+				;;
+			
+		esac
+	
+	}
+	   
     openfile(){
       
       cygstart "$filename"
@@ -90,12 +111,15 @@ _wish_main_(){
         echo 
         echo "OPTIONS are..."
         echo 
-        echo " add"
-        echo " email"
-        echo " list"
-        echo " listall"
-        echo " open"
-    }
+		echo " add"         
+		echo " open"
+		echo " today" 
+		echo " today email"		
+		echo " today list"
+		echo " yesterday"        
+		echo " yesterday email"				
+		echo " yesterday list"	         
+	}
     
 ACTION=$1
 shift
@@ -107,30 +131,29 @@ case "$ACTION" in
     
     help|usage)
         usage   
-        ;;
-    
+        ;;    
     add)
         arguments="$@"
         echo $arguments
         add $arguments
-        ;;
-            
-    email) 
-        emailPeople 
-        ;;
-    
-    list) 
-        list 
-        ;;
-    
-    listall) 
-        listall
-        ;;
-    
+        ;;                     
     open)
         openfile 
         ;;  
-    
+		
+	today)	
+		today "$@"
+		;;    
+	yesterday)
+		yesterday "$@"
+		;;
+	*)	
+		echo
+		echo "wrong option : taking default action"
+		echo
+		today "$@"
+		;;
+	
 esac
     
 }
