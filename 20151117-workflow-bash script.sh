@@ -53,20 +53,16 @@ startDay(){
     # commitdo
     
     # GTD
-    t file open "$doRootPath/todo.txt"
-	t file open "$doRootPath/projects.md"
-	t file open "$doRootPath/contexts.md"
-	t file open "$doRootPath/outline.md"	
-    t file open "$doRootPath/inbox.md"
+    t file open "$doRootPath/todo.txt"	
 	echo .
 	echo "List of People to wish"	
 	echo =========================
 	echo .
-	wish list
+	wish today
 	echo .
 	read -p "enter y to wish now : " opted
 	if [ $opted == "y" ]; then
-		wish email
+		wish today email
 	fi
 		
 }
