@@ -54,12 +54,12 @@ startDay(){
     
     # GTD
     t file open "$doRootPath/todo.txt"	
-	echo .
+	echo 
 	echo "List of People to wish"	
 	echo =========================
-	echo .
+	echo 
 	wish today
-	echo .
+	echo
 	read -p "enter y to wish now : " opted
 	if [ $opted == "y" ]; then
 		wish today email
