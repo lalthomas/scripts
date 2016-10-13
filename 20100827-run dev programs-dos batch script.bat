@@ -24,6 +24,7 @@ if /i %~x1 == .md ( goto PHP )
 if /i %~x1 == .php ( goto PHP )
 if /i %~x1 == .sql ( goto SQL )
 if /i %~x1 == .py ( goto PYTHON )
+if /i %~x1 == .sh ( goto BASH )
 
 goto END
 
@@ -108,6 +109,7 @@ goto END
 :PYTHON
 @echo OFF
 echo %1
+
 REM Python 2
 REM set path=%PATH%;%PYTHON2%
 REM call %PYTHON2%\python %1
@@ -117,9 +119,14 @@ REM set path=%PATH%;%PYTHON3%
 REM call %PYTHON3%\python %1
 
 call python %1
-
 pause
 goto END
+
+REM BASH
+:bash
+set path=%PATH%;%CD%
+call C:\cygwin64\bin\bash.exe -l -c "ags=\"$@\"; IFS=';' read -ra paths <<< \"$ags\"; cd \"${paths[0]}\"; \"./${paths[1]}\";  read -rsp $'Press any key to continue...\n' -n 1 key; " " " "%~dp1;%~nx1"
+exit
 
 
 :getParentFolderName
