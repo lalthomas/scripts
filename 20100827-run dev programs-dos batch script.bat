@@ -126,6 +126,7 @@ REM BASH
 :bash
 set path=%PATH%;%CD%
 call C:\cygwin64\bin\bash.exe -l -c "ags=\"$@\"; IFS=';' read -ra paths <<< \"$ags\"; cd \"${paths[0]}\"; \"./${paths[1]}\";  read -rsp $'Press any key to continue...\n' -n 1 key; " " " "%~dp1;%~nx1"
+REM call C:\cygwin64\bin\bash.exe %1 && pause
 exit
 
 
