@@ -42,7 +42,8 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& echo.>>%filename% ^
 	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%
 ) else if /I "%supportfiletype%" == "run.bat" (
-	echo ^REM Filename : %SUBJECT% >>%filename% ^
+	echo ^@echo OFF >>%filename% ^
+	&& echo ^REM Filename : %SUBJECT% >>%filename% ^
 	&& echo ^REM Creation Date : %longdatestamp% >>%filename% ^
 	&& echo ^REM Author : Lal Thomas >>%filename% ^
 	&& echo.>>%filename% ^
