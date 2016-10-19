@@ -10,17 +10,12 @@ REM get the script folder path
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
-set IISPATH="C:\inetpub\wwwroot\"
-set JAVAPATH="C:\Program Files\Java\jdk1.7.0_51\bin"
-set PYTHON3="C:\Users\admin\AppData\Local\Programs\Python\Python35"
-set PYTHON2="C:\Python27"
-set FIREFOX="%ProgramW6432%\Mozilla Firefox\firefox.exe"
-
 set filename=%~n1 run.bat
 set filename="%filename%"
+set runcmd=%filename% %1
 
 if exist %filename% (
-	cmd /C %filename%
+	%runcmd%	
 	exit
 )
 
