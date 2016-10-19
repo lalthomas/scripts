@@ -6,6 +6,7 @@ cd %~p1
 
 Setlocal EnableDelayedExpansion
 set "supportfiletype=%~2"
+set originalpath=%~1
 set filename=%~n1 %supportfiletype%
 set fullpath=%~dp1%filename%
 REM add quotes
@@ -39,6 +40,7 @@ if /I "%supportfiletype%" == "readme.md" (
 	echo %% %SUBJECT% >>%filename% ^
 	&& echo %% %longdatestamp% >>%filename% ^
 	&& echo %% Lal Thomas >>%filename% ^
+	&& echo %% %originalpath% >>%filename% ^
 	&& echo.>>%filename% ^
 	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%
 ) else if /I "%supportfiletype%" == "run.bat" (
@@ -46,6 +48,7 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& echo ^REM File : %SUBJECT% >>%filename% ^
 	&& echo ^REM Creation Date : %longdatestamp% >>%filename% ^
 	&& echo ^REM Author : Lal Thomas >>%filename% ^
+	&& echo ^REM Original File : %originalpath% >>%filename% ^
 	&& echo.>>%filename% ^
 	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%	
 )
