@@ -16,6 +16,14 @@ set PYTHON3="C:\Users\admin\AppData\Local\Programs\Python\Python35"
 set PYTHON2="C:\Python27"
 set FIREFOX="%ProgramW6432%\Mozilla Firefox\firefox.exe"
 
+set filename=%~n1 run.bat
+set filename="%filename%"
+
+if exist %filename% (
+	cmd /C %filename%
+	exit
+)
+
 if /i %~x1 == .html ( goto HTML)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .class ( goto JAVA )
