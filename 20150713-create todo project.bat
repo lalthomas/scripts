@@ -25,20 +25,24 @@ set /p upcoming="is this project upcoming (y/n)?"
 set filename=%projectname:+=%
 set filename=%filename:\= %
 set filename=%filename:/= %
+REM dont change the below two lines order
+set todofile="%datestamp%-%filename%.txt"
 set filename="%datestamp%-%filename% readme.md"
 
 IF /I "%upcoming%" == "y" ( 	
 	cd upcoming
-	echo %projectname%>"%datestamp%-%filename%.txt"	
+	echo %projectname%>%todofile%
 )
 
 REM generate file from the template 
 type %copyfilename% >> %filename%
 
+REM template values
 set path="%scriptFolderPath%\tools\fart"
-fart -qC %filename% "PROJECTNAME" %projectname%
-fart -qC %filename% "DATE" %longdatestamp%
+fart -qC %filename% "PROJECTNAME" "%projectname%"
+fart -qC %filename% "DATE" "%longdatestamp%"
 start explorer %filename%
-
 REM pause
 endlocal
+
+
