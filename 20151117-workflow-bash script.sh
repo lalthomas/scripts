@@ -47,9 +47,11 @@ function usage() {
 
 startDay(){     
     
+	browser="C:\Program Files\Mozilla Firefox\firefox.exe"
 	opted="n"
     t journal create "$docJournalFile"
-    t log add "checked in"
+    t log add "check-in into personal computer"
+	cygstart "$browser"
     # commitdo
     
     # GTD
@@ -69,7 +71,7 @@ startDay(){
 
 endDay(){
 
-    t log add "checked out"
+    t log add "check-out from personal computer "
     
 }
 
