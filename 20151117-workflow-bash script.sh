@@ -4,8 +4,10 @@
 # License: GPL3, http://www.gnu.org/copyleft/gpl.html
 
 
+alias gsd='sh "$toolsRootPath/20161026-get-shit-done/get-shit-done.sh"'
+alias workflow=_workflow_main_
 
-function usage() {    
+usage() {    
     echo "    routines actions"
     echo "    start day|week|month|year"
     echo "    end day|week|month|year"  
@@ -47,11 +49,11 @@ function usage() {
 
 startDay(){     
     
-	browser="C:\Program Files\Mozilla Firefox\firefox.exe"
+	browser="C:\Program Files\Mozilla Firefox\firefox.exe"	
 	opted="n"
     t journal create "$docJournalFile"
     t log add "check-in into personal computer"
-	cygstart "$browser"
+	cygstart "$browser"	
     # commitdo
     
     # GTD
@@ -66,13 +68,17 @@ startDay(){
 	if [ $opted == "y" ]; then
 		wish today email
 	fi
-		
+	read -p "do you want start work : " opted
+	if [ $opted == "y" ]; then
+		gsd work
+	fi
+	
 }
 
 endDay(){
 
     t log add "check-out from personal computer "
-    
+    gsd play
 }
 
 startWeek(){
@@ -130,8 +136,6 @@ endYear(){
  echo
 
 }
-
-alias workflow=_workflow_main_
 
 _workflow_main_(){
 
