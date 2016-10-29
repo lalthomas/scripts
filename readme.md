@@ -139,7 +139,7 @@ Dev
 
 20121127-make git init for every folder-dos batch script.bat
 20121129-make git commit for every repo-dos batch script.bat
-20131217-generate your changelogs with git log-bash script.sh
+20131217-generate changelogs with git log-bash script.sh
 20131217-git log to changelog-python script.py
 20140914-commit git changes on folder-bash script.sh
 20150611-git commit changes.sh
