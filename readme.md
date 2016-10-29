@@ -189,7 +189,7 @@ GTD
 20150826-filepaths-bash script.sh
 20151117-workflow-bash script.sh
 20160222-wish-bash script.sh
-20160401-add todo to inbox-dos batch script.bat
+20160401-add log entry to file-dos batch script.bat
 20161001-build prior knowledge-dos batch script.bat
 
 ### folder helper
