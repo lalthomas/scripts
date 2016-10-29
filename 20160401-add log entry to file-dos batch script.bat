@@ -12,5 +12,22 @@ set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
 set "datestamp=%YYYY%-%MM%-%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
-echo %datestamp% %*>>%2
+
+REM filname is passes as first argument
+set file=%1
+
+REM Get all parameters but not first
+REM Thanks http://stackoverflow.com/a/761658/2182047
+shift
+set params=%1
+:loop
+shift
+if [%1]==[] goto afterloop
+set params=%params% %1
+goto loop
+:afterloop
+
+REM echo to file
+echo %datestamp% %params%>>%file%
+
 exit
