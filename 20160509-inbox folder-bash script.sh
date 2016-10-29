@@ -20,7 +20,7 @@ _inbox_(){
 
 	clean_mail_chumma(){
 		
-				for f in *; do
+		for f in *; do
 			if [[ -d $f ]]; then continue; fi # skip directories	
 			newname="$(echo $f | sed 's/_/ /g')" # substitute underscore with space
 			newname="$(echo $newname | sed 's/\[[0-9] Attachment\]//g')" 			
@@ -55,8 +55,7 @@ _inbox_(){
 			echo $f : $newname
 			mv "$f" "$newname"; # rename the files
 		done
-		
-	
+			
 	}
 		
 	clean_doc_docs_names(){
@@ -141,9 +140,7 @@ _inbox_(){
 		echo "clean_mail_chumma"
         echo "clean_doc_docs_names"		
 	}
-	
-	
-	
+			
 	ACTION=$1
 	shift
 	
