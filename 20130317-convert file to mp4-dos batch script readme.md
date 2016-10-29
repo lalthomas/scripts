@@ -1,8 +1,8 @@
-ReadMe
-======
-
-*Date of Creation* : 2015-12-22
-
+% 20130317-convert file to mp4-dos batch script readme.md 	
+% 2015-12-22	
+% Lal Thomas 	
+% D:\Dropbox\action\20131027-scripts project\20130317-convert file to mp4-dos batch script.bat 	
+	
 
 config for big files
 
