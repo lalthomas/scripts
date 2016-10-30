@@ -51,9 +51,9 @@ startDay(){
     
 	browser="C:\Program Files\Mozilla Firefox\firefox.exe"	
 	opted="n"
-    t journal create "$docJournalFile"
-    t log add "check-in into personal computer"
 	cygstart "$browser"	
+    t journal create "$docJournalFile"
+    t log add "check-in into personal computer"	
     # commitdo
     
     # GTD
