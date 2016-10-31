@@ -34,13 +34,16 @@ _bash_(){
 			   echo "g error : few arguments"			   
 			else			  	
 			   case "$option" in
-					save)
-						filePath=
+					save)						
 						grep -v '^#' $HISTFILE > "$rootPath/docs/$today-dev bash history.txt"
 						;;										
 					clear)
 						history -c
-						;;						
+						history -w
+						echo "history cleared..."
+						;;		
+					frequent)
+						history | awk '{print $2}' | awk 'BEGIN {FS="|"} {print $1}' | sort | uniq -c | sort -r
 				esac
 			fi				
 			;;
