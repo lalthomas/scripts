@@ -34,8 +34,22 @@ _bash_(){
 			   echo "g error : few arguments"			   
 			else			  	
 			   case "$option" in
-					save)						
-						grep -v '^#' $HISTFILE > "$rootPath/docs/$today-dev bash history.txt"
+					save)
+						case "$OSTYPE" in
+							darwin*)       
+							filename="$rootPath/docs/$today-dev mac bash history doc.txt"
+							 ;; 
+							cygwin*)
+							filename="$rootPath/docs/$today-dev cygwin bash history doc.txt"
+							;;
+							msys*)       
+							filename="$rootPath/docs/$today-dev mingw bash history doc.txt"
+							;;  
+							linux*)							
+							filename="$rootPath/docs/$today-dev linux bash history doc.txt"
+							;;  							
+						esac  						
+						grep -v '^#' $HISTFILE > "$filename"
 						;;										
 					clear)
 						history -c
