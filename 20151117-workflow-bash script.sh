@@ -51,13 +51,16 @@ usage() {
 
 startDay(){     
     
-	browser="C:\Program Files\Mozilla Firefox\firefox.exe"	
+	browser="C:\Program Files\Mozilla Firefox\firefox.exe"
+	todoapp="C:\Program Files (x86)\Hughesoft\todotxt.net\todotxt.exe"
+	thunderbird="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 	opted="n"
-	cygstart "$browser"	
-    t journal create "$docJournalFile"
-    t log add "check-in into personal computer"	
-    # commitdo
-    
+	cygstart "$browser"		
+	t journal create "$docJournalFile"	    
+	t log add "check-in into personal computer"	
+    git add log.txt
+	git	commit -m"add log entry"
+	
     # GTD
     t file open "$doRootPath/todo.txt"	
 	echo 
@@ -66,21 +69,37 @@ startDay(){
 	echo 
 	wish today
 	echo
+	
 	read -p "enter y to wish now : " opted
 	if [ $opted == "y" ]; then
 		wish today email
 	fi
+	
 	read -p "do you want start work : " opted
 	if [ $opted == "y" ]; then
+		# block time wasting websites
 		gsd work
-	fi
+	else	
+		read -p "do you want check mail : " opted
+		if [ $opted == "y" ]; then
+			cygstart "$thunderbird"
+		fi	
 	
+		read -p "do you want start plan : " opted
+		if [ $opted == "y" ]; then
+			cygstart "$todoapp"
+		fi	
+	fi
 }
 
 endDay(){
 
     t log add "check-out from personal computer "
-    gsd play
+	git add log.txt
+	git	commit -m"add log entry"
+    
+	# unblock sites
+	gsd play
 }
 
 startWeek(){
