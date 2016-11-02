@@ -7,13 +7,15 @@
 alias gsd='sh "$toolsRootPath/20161026-get-shit-done/get-shit-done.sh"'
 alias workflow=_workflow_main_
 
-usage() {    
+usage() {   
+	echo "workflow"
+	echo "========"
     echo "    routines actions"
     echo "    start day|week|month|year"
     echo "    end day|week|month|year"  
     echo 
     echo " working"
-    echo " ======="
+    echo " -------"
     echo 
     echo "  workflow start day"
     echo 
