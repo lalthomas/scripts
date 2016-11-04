@@ -1,4 +1,4 @@
-@echo OFF
+@echo ON
 setlocal
 REM Author Lal Thomas
 REM Date 2015-07-10
@@ -38,6 +38,6 @@ call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$EMAIL$" "%email%"
 call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$URL01$" "%facebookurl%" >nul 2>nul
  
 REM Open the file
-%fullfilepath%
+call explorer %fullfilepath%
 endlocal
 pause
