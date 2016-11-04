@@ -112,7 +112,6 @@ Dev
 20090501-expand java jar file-dos batch  script.bat
 20100616-convert code listing with books to usable source files-dos script.bat
 20100827-run dev programs-dos batch script.bat
-20101119-pretty print html file-dos batch script.bat
 20111220-compile programs-dos batch script.bat
 20120727-expand the source code listing with the books-dos batch script.bat
 20130721-convert all html files in a folder to text-dos batch script.bat
