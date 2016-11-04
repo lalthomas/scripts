@@ -29,5 +29,3 @@ goto loop
 
 REM echo to file
 echo %datestamp% %params%>>%file%
-
-exit
