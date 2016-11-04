@@ -39,8 +39,8 @@ type %copyfilename% >> %filename%
 
 REM template values
 set path="%scriptFolderPath%\tools\fart"
-fart -qC %filename% "PROJECTNAME" "%projectname%"
-fart -qC %filename% "DATE" "%longdatestamp%"
+fart -qC %filename% "PROJECTNAME" "%projectname%" 2> nul
+fart -qC %filename% "DATE" "%longdatestamp%" 2> nul
 start explorer %filename%
 REM pause
 endlocal
