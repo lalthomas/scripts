@@ -194,15 +194,12 @@ GTD
 ### folder helper
 
 20141109-do folder-bash script.sh
-20150731-create contact file on contact folder-dos batch.bat
-20150731-create todo project file on do folder-dos batch script.bat
 20150825-do folder test-bash script script.sh
 20160225-lab folder-bash script.sh
 20160225-reference folder-bash script.sh
 20160225-support folder-bash script.sh
 20160419-contact folder-bash script.sh
 20160509-inbox folder-bash script.sh
-20160530-create file on reference folder-dos batch script.bat
 20160530-create reference file-dos batch script.bat
 20160806-open supporting file-dos batch script.bat
 
