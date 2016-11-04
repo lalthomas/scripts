@@ -1,10 +1,10 @@
 @echo off
-
 REM Author Lal Thomas <lal.thomas.mail@gmail.com>
 REM Date LONGDATE
+%~d1
+cd %1
 
 Setlocal EnableDelayedExpansion
-
 REM Thanks http://stackoverflow.com/a/19706067/2182047
 REM Original modified for need
 for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
