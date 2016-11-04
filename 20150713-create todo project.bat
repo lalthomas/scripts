@@ -1,7 +1,11 @@
 @echo OFF
+setlocal
 REM Author Lal Thomas (lal.thomas.mail@gmail.com)
 REM get the script folder path
 REM 2015-07-13
+
+%~d1
+cd %1
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 Setlocal EnableDelayedExpansion
