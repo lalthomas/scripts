@@ -1,11 +1,11 @@
 @echo OFF
-
+setlocal
 REM Author Lal Thomas
 REM Date 2015-07-10
 Setlocal EnableDelayedExpansion
 
 %~d1
-cd "%1"
+cd %1
 
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
@@ -39,5 +39,5 @@ call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$URL01$" "%faceboo
  
 REM Open the file
 %fullfilepath%
-
+endlocal
 pause
