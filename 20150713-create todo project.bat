@@ -3,10 +3,6 @@ REM Author Lal Thomas (lal.thomas.mail@gmail.com)
 REM get the script folder path
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
-
-REM Author Lal Thomas <lal.thomas.mail@gmail.com>
-REM Date LONGDATE
-
 Setlocal EnableDelayedExpansion
 
 REM Thanks http://stackoverflow.com/a/19706067/2182047
