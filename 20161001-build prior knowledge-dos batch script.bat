@@ -71,3 +71,155 @@ start "" "C:\Program Files (x86)\Evernote\Evernote\ENScript.exe" showNotes /q "t
 pause
 start "" "C:\Program Files (x86)\Evernote\Evernote\ENScript.exe" showNotes /q "tag:""studyhack""
 pause
+
+
+
+
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Dropbox\reference\20160115-horizon doc-life gtd.txt"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Dropbox\reference\20160312-life lessons doc-life gtd.md"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Dropbox\reference\20161001-active projects-dev gtd.txt"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Dropbox\reference\20161006-trigger list-life gtd doc.md"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Dropbox\reference\20140306-bookmarks doc-dev computer.txt"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Dropbox\action\20140310-do\inbox.md"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Inbox\doc\cleanup thunderbird\newstoday"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Searches\life gtd checklist.search-ms"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Searches\life gtd procedure.search-ms"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start explorer "D:\Searches\life gtd projects.search-ms"
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start "" "C:\Program Files (x86)\Evernote\Evernote\ENScript.exe" showNotes /q "tag:""gtd""
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start "" "C:\Program Files (x86)\Evernote\Evernote\ENScript.exe" showNotes /q "tag:""lifehack""
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start "" "C:\Program Files (x86)\Evernote\Evernote\ENScript.exe" showNotes /q "tag:""workhack""
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+start "" "C:\Program Files (x86)\Evernote\Evernote\ENScript.exe" showNotes /q "tag:""studyhack""
+echo.
+pause
+cls
+echo starting 
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  []
+
