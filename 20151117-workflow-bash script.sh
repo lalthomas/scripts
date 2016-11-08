@@ -58,8 +58,11 @@ startDay(){
 	cygstart "$browser"		
 	t journal create "$docJournalFile"	    
 	t log add "check-in into personal computer"	
+	
+	pushd "D:\Dropbox\action\20140310-do"
     git add log.txt
-	git	commit -m"add log entry"
+	git	commit -m"add log entry"	
+	popd
 	
     # GTD
     t file open "$doRootPath/todo.txt"	
@@ -94,9 +97,11 @@ startDay(){
 
 endDay(){
 
+	pushd "D:\Dropbox\action\20140310-do"
     t log add "check-out from personal computer "
 	git add log.txt
 	git	commit -m"add log entry"
+	popd
     
 	# unblock sites
 	gsd play
