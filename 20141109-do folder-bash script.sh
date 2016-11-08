@@ -32,7 +32,6 @@ _do_main_(){
         openFile "$doRootPath/report.txt"
     }
     
-
     update_inbox_file(){
 
         get_all_projects_names >>inbox.md
@@ -294,11 +293,11 @@ _do_main_(){
 	case "$ACTION" in		
 		add_birdseye_report) add_birdseye_report ;;
 		add_todo_report) add_todo_report ;;
-		move_project_matches_to_file) move_project_matches_to_file $1 $2	;;
-		aggregate_lines_with_term) aggregate_lines_with_term $1 $2;;
+		move_project_matches_to_file) move_project_matches_to_file $1 $2 ;;
+		aggregate_lines_with_term) aggregate_lines_with_term $1 $2 ;;
 		clean) clean ;;
 		create_tickler_files) create_tickler_files ;;
-		get_all_contexts_names) get_all_contexts_names	;;
+		get_all_contexts_names) get_all_contexts_names ;;
 		get_all_projects_names)	get_all_projects_names ;;
 		help|usage)	usage ;;
 		mail_priority_todo)	mail_priority_todo ;;
