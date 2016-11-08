@@ -13,7 +13,7 @@ alias actionfolder=_action_main_
 
 _action_main_(){
 
-	createProjectRepository(){
+	createGitRepo(){
 
 		local projecttype=$1
 		local location=$2
@@ -39,7 +39,7 @@ _action_main_(){
 
 		mkdir -p "$location/$today-$projectname"		
 		local projectpath="$location/$today-$projectname"
-		createMarkdownHeading "1" "ReadMe" "$projectpath/readme.md"
+		t markdown add H1 "ReadMe" "$projectpath/readme.md"
 
 		case "$projecttype" in
 		os*)	    
@@ -65,9 +65,9 @@ _action_main_(){
 
 		read -p "enter article name and press [enter]: " articlename		
 		mkdir -p "$1/$today-$articlename"	
-		createMarkdownHeading "1" "$articlename" "$1/$today-$articlename/$articlename".md			
+		t markdown add H1 "$articlename" "$1/$today-$articlename/$articlename".md			
 		open "$1/$today-$articlename/$articlename".md
-		createRepo "$1/$today-$articlename" >/dev/null
+		createGitRepo "$1/$today-$articlename" >/dev/null
 		echo "article repo created successfully"		
 
 	}
@@ -80,20 +80,22 @@ _action_main_(){
         echo 
         echo "OPTIONS are..."
         echo 		
-		echo "createProjectRepository"
+		echo "createGitRepo"
 		echo "createArticleRepository"
 		echo "createXcodeProject"
 		
 	}
 	
+	ACTION=$1
+	shift
 	
 	# test the script
 	# echo $filename $ACTION
 
 	case "$ACTION" in		
-		createProjectRepository) createProjectRepository ;;
+		createGitRepo) createGitRepo $1 $2 $3;;
 		createArticleRepository) createArticleRepository ;;		
-		createXcodeProject) createProjectRepository 'xcode';;
+		createXcodeProject) createGitRepo 'xcode';;
 		help|usage)	usage ;;		
 	esac
 	
