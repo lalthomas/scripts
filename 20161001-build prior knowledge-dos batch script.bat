@@ -223,3 +223,117 @@ echo --------------------
 echo.
 echo  []
 
+
+cls
+echo starting google mail...
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo.
+echo  [] inbox
+echo  [] spam
+echo  [] @action
+echo  [] @reference
+start explorer "https://mail.google.com/mail/u/0/?shva=1#label/%40action"
+echo.
+pause
+
+cls
+echo starting outlook.com mail
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo.
+echo  [] inbox
+echo  [] spam
+echo  [] @action
+echo  [] @reference
+start explorer "https://outlook.live.com/"
+echo.
+pause
+
+cls
+echo starting google calendar
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  [] appointment for the week
+echo  [] fix the time of events
+start explorer "https://calendar.google.com"
+echo.
+pause
+
+REM DO files
+
+cls
+echo starting do\contexts.md
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  [] scan through all contexts names
+start explorer "D:\Dropbox\action\20140310-do\contexts.md"
+echo.
+pause
+
+cls
+echo starting do\done.txt
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  [] go through tasks done previous week
+start explorer "D:\Dropbox\action\20140310-do\done.txt"
+echo.
+pause
+
+cls
+echo starting do\dont.md
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  [] read through the points
+start explorer "D:\Dropbox\action\20140310-do\dont.md"
+echo.
+pause
+
+cls
+echo starting do\dreams.md
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo [] read through the points
+echo [] think whether i can think of a next step for any dream item
+start explorer "D:\Dropbox\action\20140310-do\dreams.md"
+echo.
+pause
+
+cls
+echo starting do\projects.md
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  [] scan through all project names
+echo  [] think about the last thing happened in that project
+echo  [] scan Action and Contextss consecutively for each project ( t listall projectname )
+start explorer "D:\Dropbox\action\20140310-do\projects.md"
+echo.
+pause
+
+
+cls
+echo starting do/wishlist.md
+echo.
+echo Action and Contexts 
+echo --------------------
+echo.
+echo  [] create an upcomming project for each wish list items
+start explorer "D:\Dropbox\action\20140310-do\wishlist.md"
+pause
+
