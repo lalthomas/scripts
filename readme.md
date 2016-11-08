@@ -196,7 +196,6 @@ GTD
 
 20141109-do folder-bash script.sh
 20150825-do folder test-bash script script.sh
-20160225-lab folder-bash script.sh
 20160225-reference folder-bash script.sh
 20160225-support folder-bash script.sh
 20160419-contact folder-bash script.sh
