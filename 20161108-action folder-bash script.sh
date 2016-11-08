@@ -61,17 +61,6 @@ _action_main_(){
 
 	}
 
-	createArticleRepository(){
-
-		read -p "enter article name and press [enter]: " articlename		
-		mkdir -p "$1/$today-$articlename"	
-		t markdown add H1 "$articlename" "$1/$today-$articlename/$articlename".md			
-		open "$1/$today-$articlename/$articlename".md
-		createGitRepo "$1/$today-$articlename" >/dev/null
-		echo "article repo created successfully"		
-
-	}
-
 	usage(){
 		
 		echo 
@@ -93,8 +82,7 @@ _action_main_(){
 	# echo $filename $ACTION
 
 	case "$ACTION" in		
-		createGitRepo) createGitRepo $1 $2 $3;;
-		createArticleRepository) createArticleRepository ;;		
+		createGitRepo) createGitRepo $1 $2 $3;;		
 		createXcodeProject) createGitRepo 'xcode';;
 		help|usage)	usage ;;		
 	esac
