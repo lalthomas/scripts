@@ -16,6 +16,17 @@ Help
 20160723-blog it readme.md
 20160821-print all python packages-python script readme.md
 
+Run
+---
+
+20161102-aliases for lalthomas pc-dos script support file run.bat
+20161107-find search term over a list of files run.bat
+
+Test
+----
+
+20150825-do folder test-bash script script.sh
+
 SVC
 ---
 
@@ -73,6 +84,8 @@ Windows Explorer
 20160512-move files to one folder up level if the parent folder contains only one folder-bash script.sh
 20160827-create file-dos batch script.bat
 20161029-generate folder with icon-dos batch script.bat
+20161107-find search term over a list of files.py
+
 
 ### mail
 
@@ -195,13 +208,14 @@ GTD
 ### folder helper
 
 20141109-do folder-bash script.sh
-20150825-do folder test-bash script script.sh
 20160225-reference folder-bash script.sh
 20160225-support folder-bash script.sh
 20160419-contact folder-bash script.sh
 20160509-inbox folder-bash script.sh
 20160530-create reference file-dos batch script.bat
 20160806-open supporting file-dos batch script.bat
+20161108-action folder-bash script.sh
+
 
 Work
 ----
