@@ -14,9 +14,14 @@ set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
+:NAME
 set /p projectname="enter reference file name:"
-
 set filename="%datestamp%-%projectname%.md"
+echo filename : %filename%
+SET /p _Opt= Press Y for confirmation or N for retype : 
+IF /I "%_Opt%" == "N" ( goto :NAME )
+
+:CREATE
 echo %% %projectname% >> %filename%
 echo %% Lal Thomas >> %filename%
 echo %% %longdatestamp% >> %filename%
@@ -25,5 +30,11 @@ echo.>> %filename%
 echo Date		Notes >> %filename%
 echo ----------	------------------ >> %filename%
 
+REM add to revision control
+git add %filename%
+set message=%filename:"=\"%
+set message="add %message% file"
+git commit -m %message%
 
+REM start the program
 start "notepad-pp" %filename%
