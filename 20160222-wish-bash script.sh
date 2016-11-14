@@ -10,9 +10,9 @@ alias wish=_wish_main_
 
 _wish_main_(){  
 	
-	today_match_pattern="^[0-9]\{4\}-$monthCount-$dayCount"
-	yesterday_match_pattern="^[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')"
-	tomorrow_match_pattern="^[0-9]\{4\}-$(date --date='tomorrow' +'%m-%d')"
+	today_match_pattern="^\"[0-9]\{4\}-$monthCount-$dayCount\""
+	yesterday_match_pattern="^\"[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')\""
+	tomorrow_match_pattern="^\"[0-9]\{4\}-$(date --date='tomorrow' +'%m-%d')\""
 	
     dieWithHelp(){
         case "$1" in
@@ -57,11 +57,12 @@ _wish_main_(){
 			fi
 			
 			counter=1
+			formatstyle="\n %s %s %50s %10s\n"
 			grep -e $pattern "$filename" | while read -r  line ;
 			do      				
-				name=$(echo $line | awk -F'|' '{print $2}')
-				occasion=$(echo $line | awk -F'|' '{print $3}')
-				comment=$(echo $line | awk -F'|' '{print $4}')							
+				name=$(echo $line | awk -F, '{print $2}'| tr -d '"')
+				occasion=$(echo $line | awk -F, '{print $3}' | tr -d '"')
+				comment=$(echo $line | awk -F, '{print $4}' | tr -d '"')
 				if [ -z "$email" ]; then
 					echo $counter " | " $occasion " | " $name  " | " $comment
 				elif [ "$email" = "yes" ]; then									
