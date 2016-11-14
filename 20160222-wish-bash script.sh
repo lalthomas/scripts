@@ -75,12 +75,12 @@ _wish_main_(){
 	
 	email(){		
 		OPTION=$1		
-		case "$OPTION" in		
-			today)
-				itemsMatchPattern $today_match_pattern "yes"
-				;;
+		case "$OPTION" in					
 			yesterday)
 				itemsMatchPattern $yesterday_match_pattern "yes"
+				;;
+			today)
+				itemsMatchPattern $today_match_pattern "yes"
 				;;
 			tomorrow)
 				itemsMatchPattern $tomorrow_match_pattern "yes"
@@ -93,12 +93,12 @@ _wish_main_(){
 	
 	list(){	
 		OPTION=$1		
-		case "$OPTION" in					
-			today)
-				itemsMatchPattern $today_match_pattern
-				;;
+		case "$OPTION" in								
 			yesterday)
 				itemsMatchPattern $yesterday_match_pattern
+				;;
+			today)
+				itemsMatchPattern $today_match_pattern
 				;;
 			tomorrow)
 				itemsMatchPattern $tomorrow_match_pattern
