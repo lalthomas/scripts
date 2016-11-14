@@ -9,8 +9,7 @@ shift
 alias wish=_wish_main_
 
 _wish_main_(){  
-
-	birthday_math_pattern="^[0-9]\{4\}-$monthCount-$dayCount"
+	
 	today_match_pattern="^[0-9]\{4\}-$monthCount-$dayCount"
 	yesterday_match_pattern="^[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')"
 	tomorrow_match_pattern="^[0-9]\{4\}-$(date --date='tomorrow' +'%m-%d')"
