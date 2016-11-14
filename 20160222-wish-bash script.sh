@@ -11,7 +11,10 @@ alias wish=_wish_main_
 _wish_main_(){  
 
 	birthday_math_pattern="^[0-9]\{4\}-$monthCount-$dayCount"
-
+	today_match_pattern="^[0-9]\{4\}-$monthCount-$dayCount"
+	yesterday_match_pattern="^[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')"
+	tomorrow_match_pattern="^[0-9]\{4\}-$(date --date='tomorrow' +'%m-%d')"
+	
     dieWithHelp(){
         case "$1" in
             help)       
@@ -71,30 +74,38 @@ _wish_main_(){
 			
 	# cat --number "$filename"			
 	
-	today(){		
-		OPTION=$1
-		today_match_pattern="^[0-9]\{4\}-$monthCount-$dayCount"
+	email(){		
+		OPTION=$1		
 		case "$OPTION" in		
-			email)
+			today)
 				itemsMatchPattern $today_match_pattern "yes"
 				;;
-				
-			*)
-				itemsMatchPattern $today_match_pattern
+			yesterday)
+				itemsMatchPattern $yesterday_match_pattern "yes"
+				;;
+			tomorrow)
+				itemsMatchPattern $tomorrow_match_pattern "yes"
+				;;
+			*)		
+				itemsMatchPattern $today_match_pattern "yes"
 				;;
 		esac
 	}	
 	
-	yesterday(){
-	
-		OPTION=$1
-		yesterday_match_pattern="^[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')"
+	list(){	
+		OPTION=$1		
 		case "$OPTION" in					
-			email)				
-				itemsMatchPattern $yesterday_match_pattern "yes"
-				;;					
-			*)			
+			today)
+				itemsMatchPattern $today_match_pattern
+				;;
+			yesterday)
 				itemsMatchPattern $yesterday_match_pattern
+				;;
+			tomorrow)
+				itemsMatchPattern $tomorrow_match_pattern
+				;;
+			*)		
+				itemsMatchPattern $today_match_pattern
 				;;
 			
 		esac
@@ -114,20 +125,23 @@ _wish_main_(){
         echo "OPTIONS are..."
         echo 
 		echo " add"         
-		echo " open"
-		echo " today" 
-		echo " today email"		
-		echo " today list"
-		echo " yesterday"        
-		echo " yesterday email"				
-		echo " yesterday list"	         
+		echo " email" 
+		echo " email today "		
+		echo " email yesterday"		
+		echo " email tomorrow"		
+		echo " list"
+		echo " list today"				
+		echo " list yesterday"	         		     
+		echo " list tomorrow"	         		     		
+		echo " open"	
 	}
     
 ACTION=$1
 shift
 
-# test the script
-# echo $filename $ACTION
+# Get option
+option=$1;  
+shift
 
 case "$ACTION" in
     
@@ -141,21 +155,45 @@ case "$ACTION" in
         ;;                     
     open)
         openfile 
-        ;;  
-		
-	today)	
-		today "$@"
-		;;    
-	yesterday)
-		yesterday "$@"
-		;;
+        ;;  	
+	email)
+		case "$option" in
+		today)
+			email today
+			;;
+		yesterday)
+			email yesterday
+			;;
+		tomorrow)
+			email tomorrow
+			;;
+		*)
+			email today
+			;;
+		esac
+        ;;
+	
+	list)		            
+		case "$option" in
+		today)
+			list today
+			;;
+		yesterday)
+			list yesterday
+			;;   
+		tomorrow)
+			list tomorrow
+			;;
+		*)
+			list today
+			;;
+		esac
+        ;;	
 	*)	
 		echo
 		echo "wrong option : taking default action"
 		echo
-		today "$@"
-		;;
-	
-esac
-    
+		list
+		;;	
+esac    
 }
