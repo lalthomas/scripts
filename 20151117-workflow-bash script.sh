@@ -70,12 +70,12 @@ startDay(){
 	echo "List of People to wish"	
 	echo =========================
 	echo 
-	wish today
+	wish
 	echo
 	
 	read -p "enter y to wish now : " opted
 	if [ $opted == "y" ]; then
-		wish today email
+		wish email
 	fi
 	
 	read -p "do you want start work : " opted
@@ -97,6 +97,13 @@ startDay(){
 
 endDay(){
 
+	echo 
+	echo "List of People having birthday tomorrow"	
+	echo ========================================
+	echo 
+	wish list tomorrow
+	echo
+
 	pushd "D:\Dropbox\action\20140310-do"
     t log add "check-out from personal computer "
 	git add log.txt
@@ -105,6 +112,7 @@ endDay(){
     
 	# unblock sites
 	gsd play
+	
 }
 
 startWeek(){
