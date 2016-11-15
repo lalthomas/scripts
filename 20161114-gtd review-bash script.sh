@@ -34,7 +34,8 @@ _review_main_(){
 		
 		# for filename in "${files_unique[@]}"	
 		for ((i = 0; i < ${#files_unique[@]}; i++))	
-		do			
+		do	
+			## file path
 			echo ${files_unique[i]}
 			safe_replacement=$(printf '%s\n' "${files_unique[i]}" | sed 's/[\&/]/\\&/g')        			
 						
@@ -44,9 +45,10 @@ _review_main_(){
 			do				
 				TODOS[$counter]=$(echo $line | awk -F, '{print $2}' | tr -d '"')				
 				counter=$((counter + 1))			
-			done && for ((i = 0; i < ${#TODOS[@]}; i++))	
+			done && for ((i = 0; i <= ${#TODOS[@]}; i++))	
 			do	
-				echo  ${TODOS[i]}
+				# file todos
+				echo "${TODOS[i]}"
 			done && echo -e "\n" )				
 		done	 						
 	}		
