@@ -18,29 +18,41 @@ _review_main_(){
 			FILENAMES[$counter]=$(echo $line | awk -F, '{print $1}'| tr -d '"')
 			counter=$((counter + 1))			
 		done < "$datafile" 
-		
-		# echo
-		# echo ${FILENAMES[@]}
-		# echo
-		
+				
+		# select unique elements 
+		# IFS is set to accept new lines
+		IFS=$'\n'
 		files_unique=($(printf "%s\n" "${FILENAMES[@]}" | sort -u))
+		unset IFS
+				
+		# echo number of results ${#files_unique[@]}				
+		# for filename in "${files_unique[@]}"
+		# do
+		#	echo $filename
+		# done
+		
 		
 		# for filename in "${files_unique[@]}"	
-		for ((i = 0; i < ${#FILENAMES[@]}; i++))	
-		do
-			counter=1
-			echo ${FILENAMES[i]}
-			safe_replacement=$(printf '%s\n' "${FILENAMES[i]}" | sed 's/[\&/]/\\&/g')        			
-			grep -e "$safe_replacement" "$datafile" | ( while read -r line;
+		for ((i = 0; i < ${#files_unique[@]}; i++))	
+		do			
+			echo ${files_unique[i]}
+			safe_replacement=$(printf '%s\n' "${files_unique[i]}" | sed 's/[\&/]/\\&/g')        			
+						
+			# loop through
+			# innner process run first						
+			grep -e "$safe_replacement" "$datafile" | ( counter=1; while read -r line;
 			do				
-				TODOS[$counter]=$(echo $line | awk -F, '{print $2}' | tr -d '"')										
-				counter=$((counter + 1))				
-			done && echo ${TODOS[@]})
-			
-		done	 
-										
+				TODOS[$counter]=$(echo $line | awk -F, '{print $2}' | tr -d '"')				
+				counter=$((counter + 1))			
+			done && for ((i = 0; i < ${#TODOS[@]}; i++))	
+			do	
+				echo  ${TODOS[i]}
+			done && echo -e "\n" )				
+		done	 						
 	}		
 
+	
+	
 	build_prior_knoweledge(){
 		
 		pattern="."
