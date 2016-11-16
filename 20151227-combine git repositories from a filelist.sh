@@ -40,9 +40,11 @@ if [ -d "$path" ]; then
  while IFS='' read -r line || [[ -n "$line" ]]; do 	 
      S=$((S +1))	 
 	 echo "processing $S - '$line' repo"
-	 folderName=${line##*\\}
-	 folderNameDashed=${folderName// /-}
-	 # echo "$folderName"
+	 # change the backslash to forward slash
+	 folderName=${line//\//\\}	 	 
+	 # get the base name
+	 folderName=`basename  $folderName`
+	 folderNameDashed=${folderName// /-}	 	 	 
 	 # echo "text read from file: $line"		
 	 # folderPath=$( printf '%q' "$line" )			
 	 git remote add "$folderNameDashed" "$line"
@@ -50,7 +52,6 @@ if [ -d "$path" ]; then
 	 git merge -s ours --no-commit "$folderNameDashed"/master
 	 git read-tree --prefix="$folderName"/ -u "$folderNameDashed"/master
 	 git commit -m "merging ""$folderName"" into subdirectory"
-	 git remote remove "$folderNameDashed" 
+	 git remote remove "$folderNameDashed"
  done < "$1"
-
 fi
