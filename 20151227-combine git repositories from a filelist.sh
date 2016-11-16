@@ -37,9 +37,9 @@ if [ -d "$path" ]; then
  git commit -m "initial commit"
 
  # thanks: http://www.stackoverflow/a/10929511
- while IFS='' read -r line
- do 
-     S=$((S +1))
+ while IFS='' read -r line || [[ -n "$line" ]]; do 	 
+     S=$((S +1))	 
+	 echo "processing $S - '$line' repo"
 	 folderName=${line##*\\}
 	 folderNameDashed=${folderName// /-}
 	 # echo "$folderName"
@@ -50,7 +50,7 @@ if [ -d "$path" ]; then
 	 git merge -s ours --no-commit "$folderNameDashed"/master
 	 git read-tree --prefix="$folderName"/ -u "$folderNameDashed"/master
 	 git commit -m "merging ""$folderName"" into subdirectory"
-	 git remote remove "$folderNameDashed"
+	 git remote remove "$folderNameDashed" 
  done < "$1"
 
 fi
