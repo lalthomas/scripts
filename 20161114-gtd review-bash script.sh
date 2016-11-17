@@ -32,11 +32,14 @@ _review_main_(){
 		# done
 		
 		
+		
 		# for filename in "${files_unique[@]}"	
 		for ((i = 0; i < ${#files_unique[@]}; i++))	
 		do	
 			## file path
 			echo ${files_unique[i]}
+			cygstart "${files_unique[i]}"			
+						
 			safe_replacement=$(printf '%s\n' "${files_unique[i]}" | sed 's/[\&/]/\\&/g')        			
 						
 			# loop through
@@ -49,7 +52,11 @@ _review_main_(){
 			do	
 				# file todos
 				echo "${TODOS[i]}"
-			done && echo -e "\n" )				
+			done && echo -e "\n" )		
+			
+			# pause
+			read -n1 -r -p "Press any key to continue..." key
+			clear
 		done	 						
 	}		
 
