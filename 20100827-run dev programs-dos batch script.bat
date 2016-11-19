@@ -10,29 +10,38 @@ REM get the script folder path
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
+set filename=%~n1 run.bat
+set filename="%filename%"
+set runcmd=%filename% %1
+
+if exist %filename% (
+	%runcmd%	
+	exit
+)
+
 set IISPATH="C:\inetpub\wwwroot\"
 set JAVAPATH="C:\Program Files\Java\jdk1.7.0_51\bin"
 set PYTHON3="C:\Users\admin\AppData\Local\Programs\Python\Python35"
 set PYTHON2="C:\Python27"
+set FIREFOX="%ProgramW6432%\Mozilla Firefox\firefox.exe"
 
 if /i %~x1 == .html ( goto HTML)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .class ( goto JAVA )
 if /i %~x1 == .jar ( goto JAVAJAR )
+if /i %~x1 == .md ( goto PHP )
 if /i %~x1 == .php ( goto PHP )
 if /i %~x1 == .sql ( goto SQL )
 if /i %~x1 == .py ( goto PYTHON )
+if /i %~x1 == .sh ( goto BASH )
 
-REM Execute Exe,Bat
-set path=%PATH%;%CD%
-
-call "%~n1"
 goto END
 
 REM HTML
 :html
 set path=%PATH%;%CD%
-call "%ProgramFiles%\Mozilla Firefox\firefox.exe" "%~n1%~x1"
+call %FIREFOX% "%~n1%~x1"
+pause
 exit
 
 REM Java
@@ -88,7 +97,7 @@ REM invoke the adminstrator dialog box
 Powershell -Command "& {Start-Process" \"%OrginalPath%\\temp.bat\"-verb RunAs}"
 )
 
-start "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" "http://localhost/%ParentDir%/%~n1%~x1"
+call %FIREFOX% "http://localhost/%ParentDir%/%~n1%~x1"
 del "%OrginalPath%\temp.bat"
 goto END
 
@@ -108,11 +117,26 @@ goto END
 
 :PYTHON
 @echo OFF
-set path=%PATH%;%PYTHON3%
 echo %1
+
+REM Python 2
+REM set path=%PATH%;%PYTHON2%
+REM call %PYTHON2%\python %1
+
+REM Python 3
+REM set path=%PATH%;%PYTHON3%
+REM call %PYTHON3%\python %1
+
 call python %1
 pause
 goto END
+
+REM BASH
+:bash
+set path=%PATH%;%CD%
+call C:\cygwin64\bin\bash.exe -l -c "ags=\"$@\"; IFS=';' read -ra paths <<< \"$ags\"; cd \"${paths[0]}\"; \"./${paths[1]}\";  read -rsp $'Press any key to continue...\n' -n 1 key; " " " "%~dp1;%~nx1"
+REM call C:\cygwin64\bin\bash.exe %1 && pause
+exit
 
 
 :getParentFolderName

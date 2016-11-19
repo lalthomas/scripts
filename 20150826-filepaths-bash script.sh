@@ -25,6 +25,10 @@ export doInvalidFile="$doRootPath/invalid.txt"
 export doJournalPath="$doRootPath/journal.md"
 export doLogPath="$doRootPath/log.txt"
 
+### tools
+
+export toolsRootPath="$rootPath/tools"
+
 ### reference
 
 export referenceRootPath="$rootPath/reference"

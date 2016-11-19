@@ -1,1 +1,1 @@
-Get-Content filelist-1.txt Foreach-Object{copy-item -path $_.FullName -destination "Y:\Inbox\film-sudharson"}
+Get-Content filelist-1.txt Foreach-Object{copy-item -path $_.FullName -destination "Y:\file\"}

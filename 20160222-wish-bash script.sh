@@ -9,9 +9,11 @@ shift
 alias wish=_wish_main_
 
 _wish_main_(){  
-
-	birthday_math_pattern="^[0-9]\{4\}-$monthCount-$dayCount"
-
+	
+	today_match_pattern="^\"[0-9]\{4\}-$monthCount-$dayCount\""
+	yesterday_match_pattern="^\"[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')\""
+	tomorrow_match_pattern="^\"[0-9]\{4\}-$(date --date='tomorrow' +'%m-%d')\""
+	
     dieWithHelp(){
         case "$1" in
             help)       
@@ -41,44 +43,76 @@ _wish_main_(){
         echo "entry : \"$occasionDate | $name <$address> | $occasion | $comment\" added successfully..."
     
     }
+	
+	itemsMatchPattern(){		 
+			
+			pattern="$1"
+			email="$2"
+			emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"				
 
-    list(){     
-     
-        echo "No | Occasion  | Name(s)                   | Comment             "
-        echo "---| ----------| ------------------------- | --------------------"
-        counter=1
-        grep -e $birthday_math_pattern "$filename" | while read -r  line ;
-        do      
-            name=$(echo $line | awk -F'|' '{print $2}')
-            occasion=$(echo $line | awk -F'|' '{print $3}')
-            comment=$(echo $line | awk -F'|' '{print $4}')
-            echo $counter " | " $occasion " | " $name  " | " $comment
-            counter=$((counter + 1))  
-        done
-     
-    }
-    
-    listall(){
-    
-     cat --number "$filename"
-    
-    }
-
-    emailPeople(){
-        
-        emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
-        counter=1
-        grep -e $birthday_math_pattern "$filename" | while read -r  line ; do      
-            name=$(echo $line | awk -F'|' '{print $2}')
-            occasion=$(echo $line | awk -F'|' '{print $3}')  
-            cygstart $emailClient -compose "to='"$name"',subject="$occasion
-            counter=$((counter + 1))  
-        done
-
-    }
-
-    openfile(){
-      
+			
+			if [ -z "$email" ]; then
+				echo "No | Occasion             | Name(s)                                | Comment             "
+				echo "---| -------------------- | -------------------------------------- | --------------------"
+			fi
+			
+			counter=1
+			formatstyle="\n %s %s %50s %10s\n"
+			grep -e $pattern "$filename" | while read -r  line ;
+			do      				
+				name=$(echo $line | awk -F, '{print $2}'| tr -d '"')
+				occasion=$(echo $line | awk -F, '{print $3}' | tr -d '"')
+				comment=$(echo $line | awk -F, '{print $4}' | tr -d '"')
+				if [ -z "$email" ]; then
+					echo $counter " | " $occasion " | " $name  " | " $comment
+				elif [ "$email" = "yes" ]; then									
+					cygstart $emailClient -compose "to='"$name"',subject="$occasion										
+				fi						
+				counter=$((counter + 1))  
+			done									
+		}	
+			
+	# cat --number "$filename"			
+	
+	email(){		
+		OPTION=$1		
+		case "$OPTION" in					
+			yesterday)
+				itemsMatchPattern $yesterday_match_pattern "yes"
+				;;
+			today)
+				itemsMatchPattern $today_match_pattern "yes"
+				;;
+			tomorrow)
+				itemsMatchPattern $tomorrow_match_pattern "yes"
+				;;
+			*)		
+				itemsMatchPattern $today_match_pattern "yes"
+				;;
+		esac
+	}	
+	
+	list(){	
+		OPTION=$1		
+		case "$OPTION" in								
+			yesterday)
+				itemsMatchPattern $yesterday_match_pattern
+				;;
+			today)
+				itemsMatchPattern $today_match_pattern
+				;;
+			tomorrow)
+				itemsMatchPattern $tomorrow_match_pattern
+				;;
+			*)		
+				itemsMatchPattern $today_match_pattern
+				;;
+			
+		esac
+	
+	}
+	   
+    openfile(){      
       cygstart "$filename"
     }
 
@@ -90,47 +124,76 @@ _wish_main_(){
         echo 
         echo "OPTIONS are..."
         echo 
-        echo " add"
-        echo " email"
-        echo " list"
-        echo " listall"
-        echo " open"
-    }
+		echo " add"         
+		echo " email" 
+		echo " email today "		
+		echo " email yesterday"		
+		echo " email tomorrow"		
+		echo " list"
+		echo " list today"				
+		echo " list yesterday"	         		     
+		echo " list tomorrow"	         		     		
+		echo " open"	
+	}
     
 ACTION=$1
 shift
 
-# test the script
-# echo $filename $ACTION
+# Get option
+option=$1;  
+shift
 
 case "$ACTION" in
     
     help|usage)
         usage   
-        ;;
-    
+        ;;    
     add)
         arguments="$@"
         echo $arguments
         add $arguments
-        ;;
-            
-    email) 
-        emailPeople 
-        ;;
-    
-    list) 
-        list 
-        ;;
-    
-    listall) 
-        listall
-        ;;
-    
+        ;;                     
     open)
         openfile 
-        ;;  
-    
-esac
-    
+        ;;  	
+	email)
+		case "$option" in
+		today)
+			email today
+			;;
+		yesterday)
+			email yesterday
+			;;
+		tomorrow)
+			email tomorrow
+			;;
+		*)
+			email today
+			;;
+		esac
+        ;;
+	
+	list)		            
+		case "$option" in
+		today)
+			list today
+			;;
+		yesterday)
+			list yesterday
+			;;   
+		tomorrow)
+			list tomorrow
+			;;
+		*)
+			list today
+			;;
+		esac
+        ;;	
+	*)	
+		echo
+		echo "wrong option : taking default action"
+		echo
+		list
+		;;	
+esac    
 }

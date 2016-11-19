@@ -4,14 +4,18 @@
 # License: GPL3, http://www.gnu.org/copyleft/gpl.html
 
 
+alias gsd='sh "$toolsRootPath/20161026-get-shit-done/get-shit-done.sh"'
+alias workflow=_workflow_main_
 
-function usage() {    
+usage() {   
+	echo "workflow"
+	echo "========"
     echo "    routines actions"
     echo "    start day|week|month|year"
     echo "    end day|week|month|year"  
     echo 
     echo " working"
-    echo " ======="
+    echo " -------"
     echo 
     echo "  workflow start day"
     echo 
@@ -47,34 +51,68 @@ function usage() {
 
 startDay(){     
     
+	browser="C:\Program Files\Mozilla Firefox\firefox.exe"
+	todoapp="C:\Program Files (x86)\Hughesoft\todotxt.net\todotxt.exe"
+	thunderbird="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 	opted="n"
-    t journal create "$docJournalFile"
-    t log add "checked in"
-    # commitdo
-    
+	cygstart "$browser"		
+	t journal create "$docJournalFile"	    
+	t log add "check-in into personal computer"	
+	
+	pushd "D:\Dropbox\action\20140310-do"
+    git add log.txt
+	git	commit -m"add log entry"	
+	popd
+	
     # GTD
-    t file open "$doRootPath/todo.txt"
-	t file open "$doRootPath/projects.md"
-	t file open "$doRootPath/contexts.md"
-	t file open "$doRootPath/outline.md"	
-    t file open "$doRootPath/inbox.md"
-	echo .
+    t file open "$doRootPath/todo.txt"	
+	echo 
 	echo "List of People to wish"	
 	echo =========================
-	echo .
-	wish list
-	echo .
+	echo 
+	wish
+	echo
+	
 	read -p "enter y to wish now : " opted
 	if [ $opted == "y" ]; then
 		wish email
 	fi
-		
+	
+	read -p "do you want start work : " opted
+	if [ $opted == "y" ]; then
+		# block time wasting websites
+		gsd work
+	else	
+		read -p "do you want check mail : " opted
+		if [ $opted == "y" ]; then
+			cygstart "$thunderbird"
+		fi	
+	
+		read -p "do you want start plan : " opted
+		if [ $opted == "y" ]; then
+			cygstart "$todoapp"
+		fi	
+	fi
 }
 
 endDay(){
 
-    t log add "checked out"
+	echo 
+	echo "List of People having birthday tomorrow"	
+	echo ========================================
+	echo 
+	wish list tomorrow
+	echo
+
+	pushd "D:\Dropbox\action\20140310-do"
+    t log add "check-out from personal computer "
+	git add log.txt
+	git	commit -m"add log entry"
+	popd
     
+	# unblock sites
+	gsd play
+	
 }
 
 startWeek(){
@@ -132,8 +170,6 @@ endYear(){
  echo
 
 }
-
-alias workflow=_workflow_main_
 
 _workflow_main_(){
 

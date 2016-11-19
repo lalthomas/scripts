@@ -35,12 +35,29 @@ _bash_(){
 			else			  	
 			   case "$option" in
 					save)
-						filePath=
-						grep -v '^#' $HISTFILE > "$rootPath/docs/$today-dev bash history.txt"
+						case "$OSTYPE" in
+							darwin*)       
+							filename="$rootPath/docs/$today-dev mac bash history doc.txt"
+							 ;; 
+							cygwin*)
+							filename="$rootPath/docs/$today-dev cygwin bash history doc.txt"
+							;;
+							msys*)       
+							filename="$rootPath/docs/$today-dev mingw bash history doc.txt"
+							;;  
+							linux*)							
+							filename="$rootPath/docs/$today-dev linux bash history doc.txt"
+							;;  							
+						esac  						
+						grep -v '^#' $HISTFILE > "$filename"
 						;;										
 					clear)
 						history -c
-						;;						
+						history -w
+						echo "history cleared..."
+						;;		
+					frequent)
+						history | awk '{print $2}' | awk 'BEGIN {FS="|"} {print $1}' | sort | uniq -c | sort -r
 				esac
 			fi				
 			;;

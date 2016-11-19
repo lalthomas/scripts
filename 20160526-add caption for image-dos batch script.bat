@@ -49,7 +49,7 @@ setlocal
 %~d1
 cd %~dp1
 set location=%1
-if [%_caption%]==[] set _caption="%~n1"
+if [%_caption%]==[] set _caption=%~n1
 if /i %~x1 == .jpg (
 	call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -overwrite_original_in_place -preserve -IPTC:Caption-Abstract="%_caption%" %location%
  )

@@ -27,6 +27,7 @@ if /i %~x1 == .cpp ( goto CPP )
 if /i %~x1 == .cs ( goto CS)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .tex ( goto LATEX )
+if /i %~x1 == .md ( goto MARKDOWNHTML )
 if /i %~x1 == .md ( goto MARKDOWNPDF )
 EXIT /b 0
 
@@ -132,10 +133,11 @@ del build\*.bbl
 del build\*.blg
 del build\*.brf
 del build\*.out
+
+:: Run pdflatex -> bibtex -> pdflatex -> pdflatex
 pdflatex -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
 type "%~dp1\build\%~n1.log" | findstr Warning:
-:: Run pdflatex -&gt; bibtex -&gt; pdflatex -&gt; pdflatex
-bibtex.exe "%~dp1\build\%~n1.aux"
+bibtex.exe --include-directory="D:\Data\Mendeley" "%~dp1\build\%~n1.aux"
 :: If you are using multibib the following will run bibtex on all aux files
 :: FOR /R . %%G IN (*.aux) DO bibtex %%G
 pdflatex.exe -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
@@ -152,12 +154,17 @@ EXIT /b 0
 :MARKDOWNPDF
 %~d1
 cd %~p1
+set path=%path%;
 IF NOT EXIST "%~dp1\build" mkdir build
-call pandoc %1 -o "%~n1.pdf"
+REM small margin
+REM call pandoc %1 -V geometry:margin=0.5in -o "%~n1.pdf"
+call pandoc %1 --latex-engine="C:\Program Files (x86)\MiKTeX 2.9\miktex\bin\pdflatex.exe" -V geometry:margin=0.5in -s -o "%~n1.pdf"
+REM default
+REM call pandoc %1 -o "%~n1.pdf"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownPDFSuccess ) ELSE (goto MarkdownPDFFailure)
 EXIT /b 0
 :MarkdownPDFSuccess
-move "%~pd1\%~n1.pdf" "%~pd1\build" && START "" "%~pd1\build\%~n1.pdf"
+move "%~pd1\%~n1.pdf" "%~pd1\build" && start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 :MarkdownPDFFailure
 echo. 
@@ -173,8 +180,11 @@ EXIT /b 0
 :MARKDOWNHTML
 %~d1
 cd %~p1
+set path=%path%;
 IF NOT EXIST "%~dp1\build" mkdir build
+
 call pandoc %1 -s -o "%~n1.html"
+
 IF %ERRORLEVEL% EQU 0 (goto MarkdownHTMLSuccess ) ELSE (goto MarkdownHTMLFailure)
 EXIT /b 0
 :MarkdownHTMLSuccess

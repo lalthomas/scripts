@@ -4,7 +4,7 @@ REM Lal Thomas
 REM 2015-12-26
 
 setlocal enabledelayedexpansion
-set gitPath="C:\Program Files (x86)\Git\bin\sh.exe"
+set gitPath="C:\Program Files\Git\bin\sh.exe"
 REM echo all: %*
 
 REM loop through all arguments

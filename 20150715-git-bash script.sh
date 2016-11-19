@@ -46,12 +46,12 @@ alias creategitignore=creategitignore
 
 usage(){
  
- echo help
- echo ====
- echo .
- echo g help
- echo g repo create <path>
- echo g repo commit <path> <message>
+ echo "help"
+ echo "===="
+ echo 
+ echo "g help"
+ echo "g repo create <path>"
+ echo "g repo commit <path> <message>"
  
 }
 

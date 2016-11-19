@@ -7,7 +7,7 @@
 # ---------
 #
 # - open git bash and drag the script file to the terminal from windows explorer
-# - add space and the drag the path file to the terminal
+# - add space and the drag the file containing paths to the terminal
 # - run the script by hitting enter
 # - enter unix path for repository as . (dot), this will give the current directory path
 # - combined repo will be generated in folder called parent
@@ -37,12 +37,14 @@ if [ -d "$path" ]; then
  git commit -m "initial commit"
 
  # thanks: http://www.stackoverflow/a/10929511
- while IFS='' read -r line
- do 
-     S=$((S +1))
-	 folderName=${line##*\\}
-	 folderNameDashed=${folderName// /-}
-	 # echo "$folderName"
+ while IFS='' read -r line || [[ -n "$line" ]]; do 	 
+     S=$((S +1))	 
+	 echo "processing $S - '$line' repo"
+	 # change the backslash to forward slash
+	 folderName=${line//\//\\}	 	 
+	 # get the base name
+	 folderName=`basename  $folderName`
+	 folderNameDashed=${folderName// /-}	 	 	 
 	 # echo "text read from file: $line"		
 	 # folderPath=$( printf '%q' "$line" )			
 	 git remote add "$folderNameDashed" "$line"
@@ -52,5 +54,4 @@ if [ -d "$path" ]; then
 	 git commit -m "merging ""$folderName"" into subdirectory"
 	 git remote remove "$folderNameDashed"
  done < "$1"
-
 fi

@@ -51,12 +51,12 @@ call "%scriptFolderPath%\tools\fart\fart.exe" -q %tempFileName% "Keywords       
 set /p data=<%tempFileName%
 REM echo data is %data%
 set data=%data:.=%
-set data=%data:,=; %
-set data=%data:/=; %
+set data=%data:,=;%
+set data=%data:/=;%
 set data=%data:#=%
 set data=%data:(=%
 set data=%data:)=%
-set data=%data:  = %
+set data=%data: =-%
 
 REM remove duplicate values
 REM ----------------------------
@@ -71,9 +71,12 @@ for /F "tokens=2 delims=[]" %%a in ( 'set elem[' ) do (
 )
 set data=%noDupData%
 REM echo unique data : %data%
-REM replace place holder value"
-set data=%data:#;=%
-REM end of removal of duplicate values
+set data=%data:--=-%
+REM replace place holder value
+set data=%data:#;-=%
+set data=%data: =%
+set data=%data:;-=;%
+set data=%data:-= %
 
 REM convert to data to lowercase
 REM ----------------------------
@@ -81,7 +84,7 @@ set "_UCASE=ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 set "_LCASE=abcdefghijklmnopqrstuvwxyz"
 for /l %%a in (0,1,25) do (
  call set "_FROM=%%_UCASE:~%%a,1%%
- call set "_TO=%%_LCASE:~%%a, 1%%
+ call set "_TO=%%_LCASE:~%%a,1%%
  call set "data=%%data:!_FROM!=!_TO!%%
 )
 REM end of case conversion
@@ -93,5 +96,5 @@ EXIT /b 0
 
 
 :concat
-set noDupData=%noDupData%; %1
+set noDupData=%noDupData%;%1
 EXIT /b 0
