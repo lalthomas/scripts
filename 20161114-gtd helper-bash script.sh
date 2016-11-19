@@ -3,10 +3,32 @@
 # Copyright (c) Lal Thomas, http://lalamboori.blogspot.in
 # License: GPL3, http://www.gnu.org/copyleft/gpl.html
 
-alias review=_review_main_
+alias gtd=_review_main_
 datafile=$1
 
 _review_main_(){
+	
+	usage(){
+		echo "GTD Helper"
+		echo "========"		
+		echo "		"
+		echo "    review day|week|month|year"
+		echo "    action"  
+		echo 
+		echo " working"
+		echo " -------"
+		echo 
+		echo "  gtd review day"
+		echo 				      
+		echo "  gtd review week"
+		echo 		
+		echo "  gtd review month"
+		echo 		
+		echo "  gtd review year"
+		echo 			
+		echo "	gtd action"
+		
+	}
 	
 	run_actions_from_csv_file(){
 	
@@ -158,30 +180,42 @@ _review_main_(){
 	# echo action: $action option: $option term: $term
 
 	# Validate the input options
-	re="^(help|review)$"
+	re="^(help|review|action)$"
 	if [[ "$action"=~$re ]]; then
 		case $action in
 		'help')
 			usage
 			;;
-		'day')
-			reviewDay
+		'review')
+			if [[ -z "$option" ]]; then
+               echo "gtd error : few arguments"
+               #adddonUsage
+            else                
+				case "$option" in
+                    'day')
+                        reviewDay
+                        ;;
+                    'week')
+						reviewWeek
+                        ;;                  
+                    'month')
+                        reviewMonth
+                        ;;
+                    'year')
+                        reviewYear
+                        ;;
+				esac
+            fi 			
 			;;
-		 'week')
-			reviewWeek
-			;;                  
-		 'month')
-			reviewMonth
+		'action')
+			echo
 			;;
-		 'year')
-			reviewYear
-			;;
-			*)
+		*)
 			echo "invalid option"
 			;;						    
 		esac
 	else
-		echo "review error: unrecognized option \"$option\"."
+		echo "gtd error: unrecognized option \"$option\"."
 		echo "try \" view help\" to get more information."
 	fi
 }
