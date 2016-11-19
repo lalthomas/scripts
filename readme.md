@@ -203,7 +203,6 @@ GTD
 20151117-workflow-bash script.sh
 20160222-wish-bash script.sh
 20160401-add log entry to file-dos batch script.bat
-20161001-build prior knowledge-dos batch script.bat
 20161114-gtd review-bash script.sh
 
 ### folder helper
