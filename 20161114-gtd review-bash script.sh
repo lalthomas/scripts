@@ -7,17 +7,21 @@ alias review=_review_main_
 datafile=$1
 
 _review_main_(){
-
-	itemsMatchPattern(){		 				
-		
-		pattern="$1"							
-		
+	
+	run_actions_from_csv_file(){
+	
+		actionfile=$1
+		# a csv file with first column having the filename
+		# and second column having with actions, is 
+		# used here. File is displayed along with the actions
+		# 
+		pattern="."		
 		counter=1		
 		while read -r  line;
 		do      							
 			FILENAMES[$counter]=$(echo $line | awk -F, '{print $1}'| tr -d '"')
 			counter=$((counter + 1))			
-		done < "$datafile" 
+		done < "$actionfile" 
 				
 		# select unique elements 
 		# IFS is set to accept new lines
@@ -29,10 +33,8 @@ _review_main_(){
 		# for filename in "${files_unique[@]}"
 		# do
 		#	echo $filename
-		# done
-		
-		
-		
+		# done				
+
 		# for filename in "${files_unique[@]}"	
 		for ((i = 0; i < ${#files_unique[@]}; i++))	
 		do	
@@ -44,7 +46,7 @@ _review_main_(){
 						
 			# loop through
 			# innner process run first						
-			grep -e "$safe_replacement" "$datafile" | ( counter=1; while read -r line;
+			grep -e "$safe_replacement" "$actionfile" | ( counter=1; while read -r line;
 			do				
 				TODOS[$counter]=$(echo $line | awk -F, '{print $2}' | tr -d '"')				
 				counter=$((counter + 1))			
@@ -57,19 +59,11 @@ _review_main_(){
 			# pause
 			read -n1 -r -p "Press any key to continue..." key
 			clear
-		done	 						
-	}		
-
+		done	
 	
-	
-	build_prior_knoweledge(){
-		
-		pattern="."
-		# start google mail
-		itemsMatchPattern "$pattern"
-		
 	}
-
+	
+	
 	reviewDay(){     
 		
 		echo
@@ -77,11 +71,68 @@ _review_main_(){
 
 	reviewWeek(){
 
-		build_prior_knoweledge
-		# read -p "do you build prior knowledge : " opted
-		# if [ $opted == "y" ]; then
+		build_prior_knoweledge(){
+					
+			# review actions on computer contexts
+			# 	review evernote notes			
+			# 	review do files ( context.md, done.txt, dreams.md, inbox.md, projects.md, wishlist.md, projects )			
+			# 	review bookmarks file 			
+			# 	review reference files ( bookmarks doc, inbox folder list , review horizon doc, life lessons doc, active project lists, trigger list, checklists and procedures files )
+			# 	review recent newspapers
+			# 	review calendar
+			# 	review mail			
 			
-		# fi
+			run_actions_from_csv_file "$datafile"
+			
+			
+			
+			
+		}	
+	
+		pritorize_todo_projects(){
+			echo
+		}
+		
+		generate_and_view_reports(){
+			echo
+		}
+		
+		commit_changes(){
+		
+			echo
+		}
+		
+		echo "GTD Weekly Review Walk Through"
+		echo "- build prior knowledge"
+		echo "- pritorize todo projects"				
+		echo "- generate and view reports"
+		echo "- commit changes"
+		echo "- add lessons"
+		echo "- reward yourself"		
+		echo "- analyse todo projects"		
+			
+		read -p "do you want to build prior knowledge [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+		build_prior_knoweledge
+		fi
+		
+		read -p "do you want to pritorize todo projects [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+		pritorize_todo_projects
+		fi
+		
+		read -p "do you want to generate and view reports [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+		generate_and_view_reports
+		fi
+		
+		read -p "do you want to commit changes [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+		commit_changes
+		fi
+		
+		
+		
 	}
 
 	reviewMonth(){
