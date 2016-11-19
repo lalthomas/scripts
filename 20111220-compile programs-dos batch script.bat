@@ -27,7 +27,7 @@ if /i %~x1 == .cpp ( goto CPP )
 if /i %~x1 == .cs ( goto CS)
 if /i %~x1 == .java ( goto JAVA )
 if /i %~x1 == .tex ( goto LATEX )
-REM if /i %~x1 == .md ( goto MARKDOWNHTML )
+if /i %~x1 == .md ( goto MARKDOWNHTML )
 if /i %~x1 == .md ( goto MARKDOWNPDF )
 EXIT /b 0
 
@@ -158,7 +158,7 @@ set path=%path%;
 IF NOT EXIST "%~dp1\build" mkdir build
 REM small margin
 REM call pandoc %1 -V geometry:margin=0.5in -o "%~n1.pdf"
-call pandoc %1 --latex-engine="C:\Program Files\MiKTeX 2.9\miktex\bin\x64\pdflatex.exe" -V geometry:margin=0.5in -s -o "%~n1.pdf"
+call pandoc %1 --latex-engine="C:\Program Files (x86)\MiKTeX 2.9\miktex\bin\pdflatex.exe" -V geometry:margin=0.5in -s -o "%~n1.pdf"
 REM default
 REM call pandoc %1 -o "%~n1.pdf"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownPDFSuccess ) ELSE (goto MarkdownPDFFailure)

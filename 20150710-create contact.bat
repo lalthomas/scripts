@@ -1,8 +1,11 @@
 @echo ON
-
+setlocal
 REM Author Lal Thomas
 REM Date 2015-07-10
 Setlocal EnableDelayedExpansion
+
+%~d1
+cd %1
 
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
@@ -27,14 +30,14 @@ set /p facebookurl="enter facebook url : "
 set filename=%datestamp%-%namelower%.md
 set fullfilepath="%CD%\%filename%"
 type %copyfilename% >> %fullfilepath%
-call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$LONGDATE$" "%longdatestamp%"
-call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$NAME$" "%name%"
-call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$BIRTHDAY$" "%birthday%"
-call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$NUMBER01$" "%homephonenumber%"
-call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$EMAIL$" "%email%"
-call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$URL01$" "%facebookurl%"
-
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$LONGDATE$" "%longdatestamp%" >nul 2>nul
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$NAME$" "%name%" >nul 2>nul
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$BIRTHDAY$" "%birthday%" >nul 2>nul
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$NUMBER01$" "%homephonenumber%" >nul 2>nul
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$EMAIL$" "%email%" >nul 2>nul
+call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$URL01$" "%facebookurl%" >nul 2>nul
+ 
 REM Open the file
-%fullfilepath%
-
+call explorer %fullfilepath%
+endlocal
 pause

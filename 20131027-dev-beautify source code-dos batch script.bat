@@ -23,7 +23,7 @@ if /i %~x1 == .c ( goto CGROUP )
 if /i %~x1 == .cpp ( goto CGROUP )
 if /i %~x1 == .cs ( goto CGROUP )
 if /i %~x1 == .java ( goto CGROUP )
-if /i %~x1 == .html ( goto  HTML )
+if /i %~x1 == .html ( goto HTML )
 if /i %~x1 == .htm ( goto HTML )
 if /i %~x1 == .xml ( goto  XML )
 if /i %~x1 == .css ( goto CSS)
@@ -45,14 +45,34 @@ REM HTML
 @echo OFF
 set tempFile="%~n1.tmp.html"
 copy %1 %tempFile%
+
+REM HTB
 set path=%PATH%;"%scriptFolderPath%\tools\htb"
 htb.exe -l4 %1 %tempFile%
+
 IF %ERRORLEVEL% EQU 0 (   
   move /Y %tempFile% %1  
 ) ELSE (
   echo lexical error in program %~nx1
   pause
   )
+EXIT /b 0
+
+REM Section
+:HTMLTIDY
+REM HTML using TIDY
+@echo OFF
+set tempFile="%~n1.tmp.html"
+copy %1 %tempFile%
+
+set path=%PATH%;"%scriptFolderPath%\tools\tidy"
+
+REM tidy -config "%scriptFolderPath%\tools\tidy\tidyconfig.ini" %tempFile%
+tidy -config "%scriptFolderPath%\tools\tidy\setting-just-indent.ini" %tempFile%
+
+REM !!! Caution No Error Check 
+move /Y %tempFile% %1
+pause  
 EXIT /b 0
 
 REM Section

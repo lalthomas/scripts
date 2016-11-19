@@ -10,6 +10,15 @@ REM get the script folder path
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
+set filename=%~n1 run.bat
+set filename="%filename%"
+set runcmd=%filename% %1
+
+if exist %filename% (
+	%runcmd%	
+	exit
+)
+
 set IISPATH="C:\inetpub\wwwroot\"
 set JAVAPATH="C:\Program Files\Java\jdk1.7.0_51\bin"
 set PYTHON3="C:\Users\admin\AppData\Local\Programs\Python\Python35"
@@ -24,6 +33,7 @@ if /i %~x1 == .md ( goto PHP )
 if /i %~x1 == .php ( goto PHP )
 if /i %~x1 == .sql ( goto SQL )
 if /i %~x1 == .py ( goto PYTHON )
+if /i %~x1 == .sh ( goto BASH )
 
 goto END
 
@@ -108,16 +118,25 @@ goto END
 :PYTHON
 @echo OFF
 echo %1
+
 REM Python 2
-set path=%PATH%;%PYTHON2%
-call %PYTHON2%\python %1
+REM set path=%PATH%;%PYTHON2%
+REM call %PYTHON2%\python %1
 
 REM Python 3
 REM set path=%PATH%;%PYTHON3%
 REM call %PYTHON3%\python %1
 
+call python %1
 pause
 goto END
+
+REM BASH
+:bash
+set path=%PATH%;%CD%
+call C:\cygwin64\bin\bash.exe -l -c "ags=\"$@\"; IFS=';' read -ra paths <<< \"$ags\"; cd \"${paths[0]}\"; \"./${paths[1]}\";  read -rsp $'Press any key to continue...\n' -n 1 key; " " " "%~dp1;%~nx1"
+REM call C:\cygwin64\bin\bash.exe %1 && pause
+exit
 
 
 :getParentFolderName

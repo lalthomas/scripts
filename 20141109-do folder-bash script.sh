@@ -17,7 +17,7 @@ alias dofolder=_do_main_
 
 _do_main_(){   
 
-    clean_todo_file(){
+    clean(){
         
         # move done and invalid items to done.txt and invalid.txt respectively
         t archive
@@ -32,7 +32,6 @@ _do_main_(){
         openFile "$doRootPath/report.txt"
     }
     
-
     update_inbox_file(){
 
         get_all_projects_names >>inbox.md
@@ -174,7 +173,7 @@ _do_main_(){
 
     }
     
-    archive_project(){
+    move_project_matches_to_file(){
 		
         # expects 
         # first argument - project name ( e.g. +dev )
@@ -270,8 +269,8 @@ _do_main_(){
 		echo "add_birdseye_report"
 		echo "add_todo_report"
 		echo "aggregate_lines_with_term"
-		echo "archive_project"
-		echo "clean_todo_file"
+		echo "move_project_matches_to_file"
+		echo "clean"
 		echo "create_tickler_files"
 		echo "get_all_contexts_names"
 		echo "get_all_projects_names"		
@@ -294,11 +293,11 @@ _do_main_(){
 	case "$ACTION" in		
 		add_birdseye_report) add_birdseye_report ;;
 		add_todo_report) add_todo_report ;;
-		archive_project) archive_project $1 $2	;;
-		aggregate_lines_with_term) aggregate_lines_with_term $1 $2;;
-		clean_todo_file) clean_todo_file ;;
+		move_project_matches_to_file) move_project_matches_to_file $1 $2 ;;
+		aggregate_lines_with_term) aggregate_lines_with_term $1 $2 ;;
+		clean) clean ;;
 		create_tickler_files) create_tickler_files ;;
-		get_all_contexts_names) get_all_contexts_names	;;
+		get_all_contexts_names) get_all_contexts_names ;;
 		get_all_projects_names)	get_all_projects_names ;;
 		help|usage)	usage ;;
 		mail_priority_todo)	mail_priority_todo ;;
