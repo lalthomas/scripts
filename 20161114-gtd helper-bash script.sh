@@ -4,7 +4,15 @@
 # License: GPL3, http://www.gnu.org/copyleft/gpl.html
 
 alias gtd=_review_main_
-datafile=$1
+
+scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# read config file
+configfile=$1
+CFG_FILE="$configfile"
+[ -r "$CFG_FILE" ] || echo "$1" "Fatal Error: Cannot read configuration file $CFG_FILE"
+. "$CFG_FILE"
+# end of read config file
 
 _review_main_(){
 	
@@ -32,7 +40,7 @@ _review_main_(){
 	
 	run_actions_from_csv_file(){
 	
-		actionfile=$1
+		csvfile="$1"			
 		# a csv file with first column having the filename
 		# and second column having with actions, is 
 		# used here. File is displayed along with the actions
@@ -43,7 +51,7 @@ _review_main_(){
 		do      							
 			FILENAMES[$counter]=$(echo $line | awk -F, '{print $1}'| tr -d '"')
 			counter=$((counter + 1))			
-		done < "$actionfile" 
+		done < "$csvfile" 
 				
 		# select unique elements 
 		# IFS is set to accept new lines
@@ -68,7 +76,7 @@ _review_main_(){
 						
 			# loop through
 			# innner process run first						
-			grep -e "$safe_replacement" "$actionfile" | ( counter=1; while read -r line;
+			grep -e "$safe_replacement" "$csvfile" | ( counter=1; while read -r line;
 			do				
 				TODOS[$counter]=$(echo $line | awk -F, '{print $2}' | tr -d '"')				
 				counter=$((counter + 1))			
@@ -85,7 +93,6 @@ _review_main_(){
 	
 	}
 	
-	
 	reviewDay(){     
 		
 		echo
@@ -97,64 +104,91 @@ _review_main_(){
 					
 			# review actions on computer contexts
 			# 	review evernote notes			
-			# 	review do files ( context.md, done.txt, dreams.md, inbox.md, projects.md, wishlist.md, projects )			
+			# 	review do files ( context.md, done.txt, dreams.md, inbox.md, projects.md, waiting.md, wishlist.md, projects )			
 			# 	review bookmarks file 			
 			# 	review reference files ( bookmarks doc, inbox folder list , review horizon doc, life lessons doc, active project lists, trigger list, checklists and procedures files )
 			# 	review recent newspapers
 			# 	review calendar
 			# 	review mail			
 			
-			run_actions_from_csv_file "$datafile"
+			# review file is read from config file
+			run_actions_from_csv_file $REVIEW_FILE
 			
-			
-			
-			
-		}	
-	
-		pritorize_todo_projects(){
+		}		
+		add_gratitude(){
 			echo
 		}
-		
+		add_lessons(){
+			echo
+		}
+		analyse_todo_projects(){
+			#ensure that each that each project have atleast kick start action
+			echo
+		}
+		commit_changes(){
+			echo
+		}
 		generate_and_view_reports(){
 			echo
 		}
-		
-		commit_changes(){
-		
+		pritorize_todo_projects(){
 			echo
 		}
+		reward_yourself(){
+			echo
+		}	
 		
 		echo "GTD Weekly Review Walk Through"
-		echo "- build prior knowledge"
+		echo "- build prior knowledge"		
+		echo "- analyse todo projects"
 		echo "- pritorize todo projects"				
 		echo "- generate and view reports"
 		echo "- commit changes"
 		echo "- add lessons"
-		echo "- reward yourself"		
-		echo "- analyse todo projects"		
+		echo "- add gratitude"
+		echo "- reward yourself"
+				
 			
 		read -p "do you want to build prior knowledge [y|n] ? : " opted
 		if [ $opted == "y" ]; then
-		build_prior_knoweledge
+			build_prior_knoweledge
 		fi
 		
+		read -p "do you want to analyse todo projects [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			analyse_todo_projects
+		fi
+				
 		read -p "do you want to pritorize todo projects [y|n] ? : " opted
 		if [ $opted == "y" ]; then
-		pritorize_todo_projects
+			pritorize_todo_projects
 		fi
 		
 		read -p "do you want to generate and view reports [y|n] ? : " opted
 		if [ $opted == "y" ]; then
-		generate_and_view_reports
+			generate_and_view_reports
+		fi
+				
+		read -p "do you want to add lessons of the week [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			add_lessons
+		fi
+		
+		read -p "do you want to reward yourself [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			reward_yourself
+		fi
+		
+		read -p "do you want to add gratitude [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			add_gratitude
 		fi
 		
 		read -p "do you want to commit changes [y|n] ? : " opted
 		if [ $opted == "y" ]; then
-		commit_changes
+			commit_changes
 		fi
-		
-		
-		
+				
 	}
 
 	reviewMonth(){
@@ -165,7 +199,17 @@ _review_main_(){
 		echo
 	}
 
-
+	action(){
+	
+		# action file is read from config file	
+		run_actions_from_csv_file "$ACTION_FILE"
+		
+		# open active project files
+		pgmpath="20150823-open folders from file list-dos script batch script.bat"		
+		cygstart "$scriptfolder/$(cygpath -u "${pgmpath}")" $ACTIVE_PROJECT_LIST
+	}
+		
+	
 	# Get action
 	action=$1
 	shift
@@ -207,8 +251,8 @@ _review_main_(){
 				esac
             fi 			
 			;;
-		'action')
-			echo
+		'action')			
+			action
 			;;
 		*)
 			echo "invalid option"
