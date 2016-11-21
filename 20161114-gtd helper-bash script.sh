@@ -3,16 +3,15 @@
 # Copyright (c) Lal Thomas, http://lalamboori.blogspot.in
 # License: GPL3, http://www.gnu.org/copyleft/gpl.html
 
-alias gtd=_review_main_
-
 scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 # read config file
 configfile=$1
 CFG_FILE="$configfile"
 [ -r "$CFG_FILE" ] || echo "$1" "Fatal Error: Cannot read configuration file $CFG_FILE"
 . "$CFG_FILE"
 # end of read config file
+
+alias gtd=_review_main_
 
 _review_main_(){
 	
