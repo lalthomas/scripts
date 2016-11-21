@@ -51,20 +51,14 @@ usage() {
 
 startDay(){     
     
+	t log add "check-in into personal computer"	
+	
 	browser="C:\Program Files\Mozilla Firefox\firefox.exe"
 	todoapp="C:\Program Files (x86)\Hughesoft\todotxt.net\todotxt.exe"
 	thunderbird="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 	opted="n"
 	cygstart "$browser"		
-	t journal create "$docJournalFile"	    
-	t log add "check-in into personal computer"	
-	
-	pushd "D:\Dropbox\action\20140310-do"
-    git add log.txt
-	git	commit -m"add log entry"	
-	popd
-	
-    # GTD
+	t journal create "$docJournalFile"	    	   
     t file open "$doRootPath/todo.txt"	
 	echo 
 	echo "List of People to wish"	
@@ -93,9 +87,17 @@ startDay(){
 			cygstart "$todoapp"
 		fi	
 	fi
+	
+	# commit the changes
+	pushd "D:\Dropbox\action\20140310-do"
+    git add log.txt
+	git	commit -m"add log entry"	
+	popd
 }
 
 endDay(){
+	
+	t log add "check-out from personal computer "
 
 	echo 
 	echo "List of People having birthday tomorrow"	
@@ -103,16 +105,15 @@ endDay(){
 	echo 
 	wish list tomorrow
 	echo
-
-	pushd "D:\Dropbox\action\20140310-do"
-    t log add "check-out from personal computer "
-	git add log.txt
-	git	commit -m"add log entry"
-	popd
-    
+	
 	# unblock sites
 	gsd play
 	
+	pushd "D:\Dropbox\action\20140310-do"
+	git add log.txt
+	git	commit -m"add log entry"
+	popd
+    	
 }
 
 startWeek(){
