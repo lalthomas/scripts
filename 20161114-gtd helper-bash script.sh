@@ -5,7 +5,8 @@
 
 scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # read config file
-configfile=$1
+# configfile=$1
+configfile=$(cygpath -u "$1")
 CFG_FILE="$configfile"
 [ -r "$CFG_FILE" ] || echo "$1" "Fatal Error: Cannot read configuration file $CFG_FILE"
 . "$CFG_FILE"
@@ -38,8 +39,8 @@ _review_main_(){
 	}
 	
 	run_actions_from_csv_file(){
-	
-		csvfile="$1"			
+			
+		csvfile=$(cygpath -u "$1")			
 		# a csv file with first column having the filename
 		# and second column having with actions, is 
 		# used here. File is displayed along with the actions
