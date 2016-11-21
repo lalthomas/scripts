@@ -70,6 +70,7 @@ startDay(){
 	read -p "enter y to wish now : " opted
 	if [ $opted == "y" ]; then
 		wish email
+		t log add "wish friends happy birthday"	
 	fi
 	
 	read -p "do you want start work : " opted
