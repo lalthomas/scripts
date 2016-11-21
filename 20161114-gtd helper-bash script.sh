@@ -112,7 +112,7 @@ _review_main_(){
 			# 	review mail			
 			
 			# review file is read from config file
-			run_actions_from_csv_file $REVIEW_FILE
+			run_actions_from_csv_file "$REVIEW_FILE"
 			
 		}		
 		add_gratitude(){
