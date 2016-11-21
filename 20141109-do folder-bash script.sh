@@ -11,8 +11,6 @@
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
-
-
 alias dofolder=_do_main_
 
 _do_main_(){   
