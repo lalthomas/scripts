@@ -100,16 +100,23 @@ _review_main_(){
 
 	reviewWeek(){
 
+		process_inbox_folders(){
+						
+			# review file is read from config file
+			run_actions_from_csv_file "$INBOX_FOLDER_LIST"
+			
+		}
+	
 		build_prior_knoweledge(){
 					
-			# review actions on computer contexts
+			# review actions on computer contexts			
 			# 	review evernote notes			
-			# 	review do files ( context.md, done.txt, dreams.md, inbox.md, projects.md, waiting.md, wishlist.md, projects )			
-			# 	review bookmarks file 			
+			# 	review do files ( context.md, done.txt, dreams.md, inbox.md, projects.md, waiting.md, wishlist.md, projects )							
 			# 	review reference files ( bookmarks doc, inbox folder list , review horizon doc, life lessons doc, active project lists, trigger list, checklists and procedures files )
 			# 	review recent newspapers
 			# 	review calendar
-			# 	review mail			
+			# 	review mail
+			
 			
 			# review file is read from config file
 			run_actions_from_csv_file "$REVIEW_FILE"
@@ -139,6 +146,8 @@ _review_main_(){
 		}	
 		
 		echo "GTD Weekly Review Walk Through"
+		echo
+		echo "- process inbox folders"
 		echo "- build prior knowledge"		
 		echo "- analyse todo projects"
 		echo "- pritorize todo projects"				
@@ -148,42 +157,56 @@ _review_main_(){
 		echo "- add gratitude"
 		echo "- reward yourself"
 				
-			
+		
+		echo
+		read -p "do you want to process inbox folders [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			process_inbox_folders
+		fi				
+		
+		echo
 		read -p "do you want to build prior knowledge [y|n] ? : " opted
 		if [ $opted == "y" ]; then
 			build_prior_knoweledge
 		fi
 		
+		echo
 		read -p "do you want to analyse todo projects [y|n] ? : " opted
 		if [ $opted == "y" ]; then
 			analyse_todo_projects
 		fi
-				
+			
+		echo
 		read -p "do you want to pritorize todo projects [y|n] ? : " opted
 		if [ $opted == "y" ]; then
 			pritorize_todo_projects
 		fi
 		
+		echo
 		read -p "do you want to generate and view reports [y|n] ? : " opted
 		if [ $opted == "y" ]; then
 			generate_and_view_reports
 		fi
-				
+			
+		echo
 		read -p "do you want to add lessons of the week [y|n] ? : " opted
 		if [ $opted == "y" ]; then
 			add_lessons
 		fi
 		
+		echo
 		read -p "do you want to reward yourself [y|n] ? : " opted
 		if [ $opted == "y" ]; then
 			reward_yourself
 		fi
 		
+		echo
 		read -p "do you want to add gratitude [y|n] ? : " opted
 		if [ $opted == "y" ]; then
 			add_gratitude
 		fi
 		
+		echo
 		read -p "do you want to commit changes [y|n] ? : " opted
 		if [ $opted == "y" ]; then
 			commit_changes
