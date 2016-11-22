@@ -64,7 +64,7 @@ startDay(){
 	echo "List of People to wish"	
 	echo =========================
 	echo 
-	wish
+	wish list
 	echo
 	
 	read -p "enter y to wish now : " opted
