@@ -133,7 +133,9 @@ _review_main_(){
 			echo
 		}
 		analyse_todo_projects(){
-			#ensure that each that each project have atleast kick start action
+			
+			# TODO :ensure that each that each project have atleast kick start action
+			
 			echo
 		}
 		commit_changes(){
