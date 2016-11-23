@@ -40,8 +40,8 @@ _review_main_(){
 	}
 	
 	run_actions_from_csv_file(){
-			
-		csvfile=$(cygpath -u "$1")			
+				
+		csvfile=$(cygpath -u "$1")		
 		# a csv file with first column having the filename
 		# and second column having with actions, is 
 		# used here. File is displayed along with the actions
@@ -68,11 +68,21 @@ _review_main_(){
 
 		# for filename in "${files_unique[@]}"	
 		for ((i = 0; i < ${#files_unique[@]}; i++))	
-		do	
-			## file path
-			echo ${files_unique[i]}
-			cygstart "${files_unique[i]}"			
-						
+		do						
+			# to disable run use `# ` in front of initial string
+			if [[ ${files_unique[i]} = \#* ]]; then			
+				# todo heading, remove #
+				echo
+				echo ${files_unique[i]} | sed 's/^#//'
+				echo "-----------------"
+			else
+				## file path			
+				echo
+				echo ${files_unique[i]}
+				cygstart "${files_unique[i]}"
+				echo "-----------------"
+			fi
+			
 			safe_replacement=$(printf '%s\n' "${files_unique[i]}" | sed 's/[\&/]/\\&/g')        			
 						
 			# loop through
