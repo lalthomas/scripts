@@ -27,6 +27,7 @@ usage() {
     echo 
     echo "   - add check out time to $doLogPath file"
     echo "   - add done items from done.txt to journal file"
+	echo "    -  TODO: daily backup"	
     echo 
     echo "  workflow start week"
     echo 
