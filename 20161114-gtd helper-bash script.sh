@@ -98,7 +98,7 @@ _review_main_(){
 			done && echo -e "\n" )		
 			
 			# pause
-			read -n1 -r -p "Press any key to continue..." key
+			read -n1 -r -p "Press any key to continue ..." key
 			clear
 		done	
 	
