@@ -8,7 +8,7 @@ scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # configfile=$1
 configfile=$(cygpath -u "$1")
 CFG_FILE="$configfile"
-[ -r "$CFG_FILE" ] || echo "$1" "Fatal Error: Cannot read configuration file $CFG_FILE"
+[ -r "$CFG_FILE" ] || echo "$1" "fatal error: cannot read configuration file $CFG_FILE"
 . "$CFG_FILE"
 # end of read config file
 
@@ -17,9 +17,10 @@ alias gtd=_review_main_
 _review_main_(){
 	
 	usage(){
+		echo
 		echo "GTD Helper"
 		echo "========"		
-		echo "		"
+		echo "		  "
 		echo "    review day|week|month|year"
 		echo "    action"  
 		echo 
@@ -98,14 +99,7 @@ _review_main_(){
 		echo
 	}
 
-	reviewWeek(){
-
-		process_inbox_folders(){
-						
-			# review file is read from config file
-			run_actions_from_csv_file "$INBOX_FOLDER_LIST"
-			
-		}
+	reviewWeek(){		
 	
 		build_prior_knoweledge(){
 					
@@ -145,9 +139,9 @@ _review_main_(){
 			echo
 		}	
 		
-		echo "GTD Weekly Review Walk Through"
 		echo
-		echo "- process inbox folders"
+		echo "GTD Weekly Review Walk Through"
+		echo		
 		echo "- build prior knowledge"		
 		echo "- analyse todo projects"
 		echo "- pritorize todo projects"				
@@ -156,14 +150,7 @@ _review_main_(){
 		echo "- add lessons"
 		echo "- add gratitude"
 		echo "- reward yourself"
-				
-		
-		echo
-		read -p "do you want to process inbox folders [y|n] ? : " opted
-		if [ $opted == "y" ]; then
-			process_inbox_folders
-		fi				
-		
+								
 		echo
 		read -p "do you want to build prior knowledge [y|n] ? : " opted
 		if [ $opted == "y" ]; then
@@ -215,7 +202,25 @@ _review_main_(){
 	}
 
 	reviewMonth(){
+	
 		echo
+		echo "GTD Monthly Review Walk Through"
+		echo
+		echo "- process inbox folders"
+		echo
+		
+		process_inbox_folders(){
+						
+			# review file is read from config file
+			run_actions_from_csv_file "$INBOX_FOLDER_LIST"
+			
+		}
+		
+		echo
+		read -p "do you want to process inbox folders [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			process_inbox_folders
+		fi	
 	}
 
 	reviewYear(){
