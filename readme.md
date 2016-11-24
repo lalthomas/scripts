@@ -90,6 +90,7 @@ Windows Explorer
 20160827-create file-dos batch script.bat
 20161029-generate folder with icon-dos batch script.bat
 20161107-find search term over a list of files.py
+20161124-move files from a list of files-dos batch script.bat
 
 
 ### mail
