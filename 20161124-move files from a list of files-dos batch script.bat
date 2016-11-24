@@ -3,6 +3,9 @@ setlocal
 REM argument one - filelist
 REM argument two - destinaton folder
 
+REM TODO: add clipboard support for file list
+REM TODO: add file selection support for file path output
+
 %~d1
 cd %~dp1
 
