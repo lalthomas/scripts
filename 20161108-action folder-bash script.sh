@@ -9,7 +9,7 @@
 
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-alias actionfolder=_action_main_
+alias action=_action_main_
 
 
 _action_main_(){
@@ -72,7 +72,7 @@ _action_main_(){
 	usage(){
 		
 		echo 
-        echo "dofolder OPTIONS"      
+        echo "action OPTIONS"      
         echo " helper script to managing do folder"   
         echo 
         echo "OPTIONS are..."
