@@ -43,7 +43,6 @@ curl -L -s "https://www.gitignore.io/api/$@"
 
 alias creategitignore=creategitignore
 
-
 usage(){
  
  echo "help"
