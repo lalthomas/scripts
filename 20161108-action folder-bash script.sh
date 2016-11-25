@@ -11,9 +11,10 @@ currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 alias actionfolder=_action_main_
 
+
 _action_main_(){
 
-	createGitRepo(){
+	creategitrepo(){
 
 		local projecttype=$1
 		local location=$2
@@ -46,7 +47,10 @@ _action_main_(){
 			creategitignore 'osx,windows'>"$projectpath/.gitignore"
 			;;
 		xcode*) 
-			creategitignore 'objective-c,osx'>"$projectpath/.gitignore" 		
+			creategitignore 'objective-c,osx'>"$projectpath/.gitignore"
+			;; 
+		r*)
+			creategitignore 'r'>"$projectpath/.gitignore"
 			;; 
 		momemtics*)		
 			echo "momentics gitignore not made"
@@ -56,9 +60,13 @@ _action_main_(){
 		 ;;
 		esac
 
-		createRepo "$projectpath" >/dev/null
-		echo "project repo created successfully"
-
+		createRepo "$projectpath" >/dev/null		
+		echo "project  repo created successfully"
+		projectfolder=$(cygpath -d "$projectpath")
+		
+		echo $projectfolder>>"$(cygpath -u "D:\Dropbox\reference\20161001-active projects-dev gtd.txt")"
+		
+		
 	}
 
 	usage(){
@@ -69,9 +77,7 @@ _action_main_(){
         echo 
         echo "OPTIONS are..."
         echo 		
-		echo "createGitRepo"
-		echo "createArticleRepository"
-		echo "createXcodeProject"
+		echo "creategitrepo [os|xcode|r|momemtics] [path] [name]"		
 		
 	}
 	
@@ -82,8 +88,7 @@ _action_main_(){
 	# echo $filename $ACTION
 
 	case "$ACTION" in		
-		createGitRepo) createGitRepo $1 $2 $3;;		
-		createXcodeProject) createGitRepo 'xcode';;
+		creategitrepo) creategitrepo $1 $2 $3;;				
 		help|usage)	usage ;;		
 	esac
 	
