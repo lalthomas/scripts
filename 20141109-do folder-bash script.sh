@@ -32,8 +32,8 @@ _do_main_(){
     
     update_inbox_file(){
 
-        get_all_projects_names >>inbox.txt
-        get_all_contexts_names >>inbox.txt
+        get_all_projects_names | sort -u >>inbox.txt
+        get_all_contexts_names | sort -u >>inbox.txt
         sort inbox.txt | uniq | sort -o inbox.txt
 		echo "inbox.txt file updated"
 
