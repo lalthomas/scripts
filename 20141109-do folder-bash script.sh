@@ -288,6 +288,8 @@ _do_main_(){
 	# test the script
 	# echo $filename $ACTION
 
+	pushd "D:\Dropbox\action\20140310-do" > /dev/null 2>&1
+		
 	case "$ACTION" in		
 		add_birdseye_report) add_birdseye_report ;;
 		add_todo_report) add_todo_report ;;
@@ -306,7 +308,9 @@ _do_main_(){
 		update_inbox_file) update_inbox_file ;;		
 		update_projects_file) update_projects_file ;;
 	esac
-
+	
+	popd > /dev/null 2>&1
+	
 }
 
 
