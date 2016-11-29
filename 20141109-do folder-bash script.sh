@@ -32,6 +32,8 @@ _do_main_(){
     
     update_inbox_file(){
 
+		update_projects_file
+		update_contexts_file
         get_all_projects_names | sort -u >>inbox.txt
         get_all_contexts_names | sort -u >>inbox.txt
         sort inbox.txt | uniq | sort -o inbox.txt
@@ -48,7 +50,7 @@ _do_main_(){
 	update_contexts_file(){
 	
 		t listcon >contexts.md
-		echo "context.md  file updated"
+		echo "context.md file updated"
 	}
 	
     add_birdseye_report(){
@@ -155,9 +157,15 @@ _do_main_(){
     get_all_projects_names(){
 
         for file in *.txt *.md
-        do
+        do			
+			# skip resources file
+			if [[ "$file" == "resources.md" ]];
+			then						
+				continue
+			fi	
 			# get the projects from "$file"
-			grep -o '[^  ]*+[^  ]\+'  "$file" | grep '^+' | sort -u
+			grep -o '[^  ]*+[^  ]\+'  "$file" | grep '^+' | sort -u			
+			
         done
 
     }
@@ -166,6 +174,11 @@ _do_main_(){
 
         for file in *.txt *.md
         do
+			# skip resources file
+			if [[ "$file" == "resources.md" ]];
+			then						
+				continue
+			fi	
 			# get the contexts from "$file"
 			grep -o '[^  ]*@[^  ]\+' "$file" | grep '^@' | sort -u
         done
