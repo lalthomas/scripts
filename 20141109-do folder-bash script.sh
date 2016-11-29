@@ -158,11 +158,8 @@ _do_main_(){
 
         for file in *.txt *.md
         do			
-			# skip resources file
-			if [[ "$file" == "resources.md" ]];
-			then						
-				continue
-			fi	
+			# skip resources file and goals file
+			[ "$file" == "resources.md" ] && [ "$file" == "goals.md" ] && continue
 			# get the projects from "$file"
 			grep -o '[^  ]*+[^  ]\+'  "$file" | grep '^+' | sort -u			
 			
@@ -174,11 +171,8 @@ _do_main_(){
 
         for file in *.txt *.md
         do
-			# skip resources file
-			if [[ "$file" == "resources.md" ]];
-			then						
-				continue
-			fi	
+			# skip resources file and goals file
+			[ "$file" == "resources.md" ] && [ "$file" == "goals.md" ] && continue
 			# get the contexts from "$file"
 			grep -o '[^  ]*@[^  ]\+' "$file" | grep '^@' | sort -u
         done
