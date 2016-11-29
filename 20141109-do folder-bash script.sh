@@ -156,8 +156,8 @@ _do_main_(){
 
         for file in *.txt *.md
         do
-        # do something on "$file"
-        grep -o '[^  ]*+[^  ]\+'  "$file" | grep '^+' | sort -u
+			# get the projects from "$file"
+			grep -o '[^  ]*+[^  ]\+'  "$file" | grep '^+' | sort -u
         done
 
     }
@@ -166,7 +166,8 @@ _do_main_(){
 
         for file in *.txt *.md
         do
-         grep -o '[^  ]*@[^  ]\+' "$file" | grep '^@' | sort -u
+			# get the contexts from "$file"
+			grep -o '[^  ]*@[^  ]\+' "$file" | grep '^@' | sort -u
         done
 
     }
