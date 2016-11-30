@@ -42,7 +42,8 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& echo %% Lal Thomas >>%filename% ^
 	&& echo %% %originalpath% >>%filename% ^
 	&& echo.>>%filename% ^
-	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%
+	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%	
+	
 ) else if /I "%supportfiletype%" == "run.bat" (
 	echo ^@echo OFF >>%filename% ^
 	&& echo ^REM File : %SUBJECT% >>%filename% ^
@@ -50,7 +51,15 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& echo ^REM Author : Lal Thomas >>%filename% ^
 	&& echo ^REM Original File : %originalpath% >>%filename% ^
 	&& echo.>>%filename% ^
-	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%	
+	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%		
 )
+
+REM add to readme file without quotes
+echo %filename:"=% >>readme.md
+REM add to revision control
+set filenoquote=%filename:"=\"%
+set commitmessage="create %filenoquote% file and add it to 'readme.md' file listing section"
+git add %filename% "readme.md"
+git commit -m %commitmessage%
 endlocal
 exit /b 0
