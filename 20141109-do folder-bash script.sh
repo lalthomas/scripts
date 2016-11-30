@@ -15,7 +15,7 @@ alias dofolder=_do_main_
 
 _do_main_(){   
 
-    clean(){
+    clean_todo_files(){
         
         # move done and invalid items to done.txt and invalid.txt respectively
         t archive
@@ -275,19 +275,20 @@ _do_main_(){
 		echo "add_birdseye_report"
 		echo "add_todo_report"
 		echo "aggregate_lines_with_term"
-		echo "move_project_matches_to_file"
-		echo "clean"
+		echo "clean_todo_files"
 		echo "create_tickler_files"
 		echo "get_all_contexts_names"
 		echo "get_all_projects_names"		
 		echo "mail_priority_todo"
 		echo "mail_todo_priority_list"
+		echo "move_project_matches_to_file"
 		echo "start_markdown_server"
 		echo "start_server"
 		echo "update_contexts_file"
 		echo "update_inbox_file"
 		echo "update_projects_file"
-		echo "usage"   		
+		echo "usage"  		
+		
     }
 
 	ACTION=$1
@@ -303,7 +304,7 @@ _do_main_(){
 		add_todo_report) add_todo_report ;;
 		move_project_matches_to_file) move_project_matches_to_file $1 $2 ;;
 		aggregate_lines_with_term) aggregate_lines_with_term $1 $2 ;;
-		clean) clean ;;
+		clean_todo_files) clean_todo_files ;;
 		create_tickler_files) create_tickler_files ;;
 		get_all_contexts_names) get_all_contexts_names ;;
 		get_all_projects_names)	get_all_projects_names ;;

@@ -8,6 +8,8 @@ alias gsd='sh "$toolsRootPath/20161026-get-shit-done/get-shit-done.sh"'
 alias workflow=_workflow_main_
 
 usage() {   
+	
+	echo
 	echo "workflow"
 	echo "========"
     echo "    routines actions"
@@ -46,21 +48,26 @@ usage() {
     echo "   - invalidate yearly todo items"
     echo "   - schedule todo yearly tasks"  
     echo "   - commit do"
-    echo    
-    echo ""    
+    echo        
+	
 }
 
 startDay(){     
     
+	# log the workflow start
 	t log add "check-in into personal computer"	
 	
+	# variables
 	browser="C:\Program Files\Mozilla Firefox\firefox.exe"
 	todoapp="C:\Program Files (x86)\Hughesoft\todotxt.net\todotxt.exe"
 	thunderbird="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 	opted="n"
+	
+	# start browser
 	cygstart "$browser"		
 	t journal create "$docJournalFile"	    	   
     t file open "$doRootPath/todo.txt"	
+	
 	echo 
 	echo "List of People to wish"	
 	echo =========================
@@ -99,8 +106,13 @@ startDay(){
 
 endDay(){
 	
-	t log add "check-out from personal computer "
+	review(){
+		
+		# show a standup report
+		t standup    	
+	}
 
+	
 	echo 
 	echo "List of People having birthday tomorrow"	
 	echo ========================================
@@ -111,11 +123,17 @@ endDay(){
 	# unblock sites
 	gsd play
 	
+	# review
+	review
+	
+	t log add "check-out from personal computer "
+	
+	# commit the actions
 	pushd "D:\Dropbox\action\20140310-do"
 	git add log.txt
 	git	commit -m"add log entry"
-	popd
-    	
+	popd		
+		
 }
 
 startWeek(){
@@ -130,21 +148,91 @@ startWeek(){
     else
         t plan week "$1"        
     fi  
-    commitdo    
+    commitdo
+	
+	# start actions for the week	
+	gtd take_action
+	
 }
 
 endWeek(){
 
- echo
-
+	review(){
+		
+		echo
+		echo "GTD Weekly Review Walk Through"
+		echo		
+		echo "- build prior knowledge"		
+		echo "- analyse todo projects"
+		echo "- pritorize todo projects"				
+		echo "- generate and view reports"
+		echo "- commit changes"
+		echo "- add lessons"
+		echo "- add gratitude"
+		echo "- reward yourself"
+								
+		echo
+		read -p "do you want to build prior knowledge [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			gtd build_prior_knoweledge
+		fi
+		
+		echo
+		read -p "do you want to update todo files [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			# update do files
+			dofolder clean_todo_files
+			dofolder update_inbox_file
+		fi
+		
+		echo
+		read -p "do you want to analyse todo projects [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			gtd analyse_todo_projects
+		fi
+			
+		echo
+		read -p "do you want to pritorize todo projects [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			gtd pritorize_todo_projects
+		fi
+		
+		echo
+		read -p "do you want to generate and view reports [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			gtd generate_and_view_reports
+		fi
+			
+		echo
+		read -p "do you want to add lessons of the week [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			gtd add_lessons
+		fi
+		
+		echo
+		read -p "do you want to reward yourself [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			gtd reward_yourself
+		fi
+		
+		echo
+		read -p "do you want to add gratitude [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			gtd add_gratitude
+		fi
+		
+		echo
+		read -p "do you want to commit changes [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			gtd commit_changes
+		fi
+	}
+	
+	review
 }
 
 startMonth(){
-    	
-	dofolder clean_todo_file
-	dofolder update_contexts_file
-	dofolder update_projects_file
-	dofolder update_inbox_file
+    
 	t file open "$doRootPath/inbox.md"
 	t file open "$doRootPath/outline.md"
 	t file open "$doRootPath/calendar.txt"
@@ -157,7 +245,22 @@ startMonth(){
 }
 
 endMonth(){
- echo
+ 
+	review(){
+
+		echo
+		echo "GTD Monthly Review Walk Through"
+		echo
+		echo "- process inbox folders"
+		echo		 
+		echo
+		read -p "do you want to process inbox folders [y|n] ? : " opted
+		if [ $opted == "y" ]; then
+			gtd process_inbox_folders
+		fi
+
+	}
+	review
 }
 
 startYear(){
