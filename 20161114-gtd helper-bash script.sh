@@ -24,10 +24,9 @@ _review_main_(){
 		echo 
         echo "OPTIONS are..."
         echo 			
-		echo "build_prior_knoweledge"
+		echo "run_actions_from_csv_file"
 		echo "update_do_files"
-		echo "add_gratitude"
-		echo "add_lesson"
+		echo "add_gratitude"		
 		echo "analyse_todo_projects"
 		echo "commit_changes"
 		echo "generate_and_view_reports"
@@ -101,31 +100,7 @@ _review_main_(){
 		done	
 	
 	}
-	
-	build_prior_knoweledge(){
 				
-		# review actions on computer contexts			
-		# 	review evernote notes			
-		# 	review do files ( context.md, done.txt, dreams.md, inbox.md, projects.md, waiting.md, wishlist.md, projects )							
-		# 	review reference files ( bookmarks doc, inbox folder list , review horizon doc, life lessons doc, active project lists, trigger list, checklists and procedures files )
-		# 	review recent newspapers
-		# 	review calendar
-		# 	review mail
-		
-		
-		# review file is read from config file
-		run_actions_from_csv_file "$REVIEW_FILE"
-		
-	}	
-	
-	add_gratitude(){
-		echo
-	}
-	
-	add_lesson(){
-		echo
-	}		
-			
 	analyse_todo_projects(){
 		
 		# TODO :ensure that each that each project have atleast kick start action
@@ -213,9 +188,9 @@ _review_main_(){
 		clear
 					
 		
-	}
-	
-	commit_changes(){
+	}	
+		
+	pritorize_todo_projects(){
 		echo
 	}
 	
@@ -226,25 +201,11 @@ _review_main_(){
 		
 	}
 	
-	pritorize_todo_projects(){
-		echo
-	}
-	
 	reward_yourself(){
 		echo
 	}	
-		
-	process_inbox_folders(){
 					
-		# review file is read from config file
-		run_actions_from_csv_file "$INBOX_FOLDER_LIST"
-		
-	}	
-			
-	take_action(){
-	
-		# action file is read from config file	
-		run_actions_from_csv_file "$ACTION_FILE"
+	open_active_projects(){
 		
 		# open active project files
 		pgmpath="20150823-open folders from file list-dos script batch script.bat"		
@@ -270,16 +231,13 @@ _review_main_(){
 	re="^(help|review|action)$"
 	if [[ "$action"=~$re ]]; then
 		case $action in				
-		build_prior_knoweledge) build_prior_knoweledge;;		
-		add_gratitude) add_gratitude;;
-		add_lesson) add_lesson;;
-		analyse_todo_projects) analyse_todo_projects;;
-		commit_changes) commit_changes;;
+		run_actions_from_csv_file) run_actions_from_csv_file "$option" ;;		
+		analyse_todo_projects) analyse_todo_projects;;		
 		generate_and_view_reports) generate_and_view_reports;;
 		pritorize_todo_projects) pritorize_todo_projects;;
 		reward_yourself) reward_yourself;;
 		process_inbox_folders) process_inbox_folders;;
-		take_action) take_action;;				
+		open_active_projects) open_active_projects;;				
 		*)
 		echo "invalid option"
 		;;						    
