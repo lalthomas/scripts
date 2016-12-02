@@ -39,7 +39,7 @@ startDay(){
 	# log the workflow start
 	t log add "check-in into personal computer"	
 		
-	todoapp="C:\Program Files (x86)\Hughesoft\todotxt.net\todotxt.exe"
+	todoapp="C:\Program Files (x86)\QTodoTxt\qtodotxt.exe"
 	thunderbird="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 	opted="n"
 
@@ -70,7 +70,7 @@ startDay(){
 		fi			
 	fi
 	
-	read -p "do you want open todotxt app: " opted
+	read -p "do you want open todo.txt gui app: " opted
 		if [ $opted == "y" ]; then
 			cygstart "$todoapp"
 	fi
