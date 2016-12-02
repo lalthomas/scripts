@@ -97,14 +97,15 @@ startDay(){
 
 endDay(){
 	
+	echo
 	echo "  workflow end day"
     echo 
     echo "   - add check out time to $doLogPath file"
     echo "   - add done items from done.txt to journal file"
-	echo "    -  TODO: daily backup"	
+	echo "   - TODO: daily backup"	
     echo 
 	
-	echo 
+	echo  
 	echo "List of People having birthday tomorrow"	
 	echo ========================================
 	echo 
@@ -119,9 +120,9 @@ endDay(){
 		
 	# show a standup report
 	echo
-	echo "Standup Report"
+	echo "Done Report"
 	echo 
-	t standup 	
+	t xp 0
 	
 	# add gratitude
 	echo
