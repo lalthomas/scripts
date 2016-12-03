@@ -88,11 +88,10 @@ _review_main_(){
 			done && for ((i = 0; i <= ${#TODOS[@]}; i++))	
 			do	
 				# file todos
-				echo "	${TODOS[i]}"
+				echo "  ${TODOS[i]}"
 			done )		
 			
-			# pause
-			echo
+			# pause			
 			read -n1 -r -p "" key				
 			# clear
 		done	
