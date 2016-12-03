@@ -62,22 +62,19 @@ _review_main_(){
 		# do
 		#	echo $filename
 		# done				
-
+		
+		echo
 		# for filename in "${files_unique[@]}"	
 		for ((i = 0; i < ${#files_unique[@]}; i++))	
 		do						
 			# to disable run use `# ` in front of initial string
 			if [[ ${files_unique[i]} = \#* ]]; then			
-				# todo heading, remove #
-				echo
-				echo ${files_unique[i]} | sed 's/^#//'
-				echo "-----------------"
+				# todo heading, remove #				
+				echo ${files_unique[i]}							
 			else
-				## file path			
-				echo
-				echo ${files_unique[i]}
-				cygstart "${files_unique[i]}"
-				echo "-----------------"
+				## file path							
+				echo "# ${files_unique[i]}"
+				cygstart "${files_unique[i]}"				
 			fi
 			
 			safe_replacement=$(printf '%s\n' "${files_unique[i]}" | sed 's/[\&/]/\\&/g')        			
@@ -91,12 +88,13 @@ _review_main_(){
 			done && for ((i = 0; i <= ${#TODOS[@]}; i++))	
 			do	
 				# file todos
-				echo "${TODOS[i]}"
-			done && echo -e "\n" )		
+				echo "	${TODOS[i]}"
+			done )		
 			
 			# pause
-			read -n1 -r -p "Press any key to continue ..." key
-			clear
+			echo
+			read -n1 -r -p "" key				
+			# clear
 		done	
 	
 	}
