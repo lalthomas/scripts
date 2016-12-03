@@ -28,70 +28,98 @@ usage() {
 startDay(){     
     
 	echo 
-    echo "  workflow start day"
+    echo "welcome to start day program"
     echo 
-    echo "    - commit changes in $doRootPath folder"   
-    echo "    - create a journal file with scheduled tasks"
-    echo "    - add check in time to $doLogPath file"
-    echo        
-    
+	echo " here are list of things happening under this program"
+	echo 
+	echo "	- add computer checkin entry to $doLogPath"
+	echo "	- daily action list with context invocation"
+	echo "	- create a daily journal file with scheduled tasks"
+	echo "	- show a list to people having a special day on their life"
+	echo "	- prompt for wishing people"
+	echo "	- prompt for blocking distracting websites"
+	echo "	- prompt for opening mail"
+	echo "	- prompt for opening todo.txt gui app"	
+    echo "	- commit changes in log file"
+	echo "	- end of program"
+    echo            
+	
+	echo
+	echo "daily actions"
+	echo "============="
+	echo
 	
 	# log the workflow start
-	t log add "check-in into personal computer"	
-		
-	todoapp="C:\Program Files (x86)\QTodoTxt\qtodotxt.exe"
-	thunderbird="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
-	opted="n"
+	echo
+	echo "# log file"
+	echo
+	t log add "check-in into personal computer"
+	echo "	[x] log entry added"
+	echo
+	
+	# run action from csv file
+	gtd run_actions_from_csv_file "$ACTION_FOR_DAY_FILE"	
 
 	# create journal
-	t journal create "$docJournalFile"		
-	
+	t journal create "$docJournalFile"
+	echo
+	echo "# journal file"
+	echo
+	echo "	[x] journal file created and opened"	
+	echo
+		
 	echo 
 	echo "List of People to wish"	
 	echo =========================
 	echo 
 	wish list
 	echo
-			
+
+	opted="n"	
 	read -p "enter y to wish now : " opted
 	if [ $opted == "y" ]; then
 		wish email
 		t log add "wish friends happy birthday"	
 	fi
 	
+	
+	echo
 	read -p "do you want start work by blocking distractions : " opted
 	if [ $opted == "y" ]; then
 		# block time wasting websites
 		gsd work
-	else	
+	else
+		echo
 		read -p "do you want check mail : " opted
 		if [ $opted == "y" ]; then
+			thunderbird="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 			cygstart "$thunderbird"
 		fi			
 	fi
 	
+	echo
 	read -p "do you want open todo.txt gui app: " opted
 		if [ $opted == "y" ]; then
+			todoapp="C:\Program Files (x86)\QTodoTxt\qtodotxt.exe"
 			cygstart "$todoapp"
-	fi
+	fi	
 	
 	echo
-	echo "Daily Actions"
-	echo	
-	gtd run_actions_from_csv_file "$ACTION_FOR_DAY_FILE"
-	
-	echo
-	echo "commiting changes"
+	echo "# log file"
 	echo
 	# commit the changes
 	pushd "D:\Dropbox\action\20140310-do" > /dev/null 2>&1
-    git add log.txt
-	git	commit -m"add log entry"	
+    git add log.txt > /dev/null 2>&1
+	git	commit -m"add log entry" > /dev/null 2>&1
 	popd > /dev/null 2>&1
-	
-	clear
 	echo
+	echo "	[x] changes to $doLogPath commited"
+	echo	
+		
+	echo
+	echo "--------------------"
 	echo "Have a great day ..."
+	echo "--------------------"
 	echo
 }
 
