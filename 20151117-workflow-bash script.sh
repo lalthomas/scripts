@@ -32,16 +32,16 @@ startDay(){
     echo 
 	echo " here are list of things happening under this program"
 	echo 
-	echo "	- add computer checkin entry to $doLogPath"
-	echo "	- daily action list with context invocation"
-	echo "	- create a daily journal file with scheduled tasks"
-	echo "	- show a list to people having a special day on their life"
-	echo "	- prompt for wishing people"
-	echo "	- prompt for blocking distracting websites"
-	echo "	- prompt for opening mail"
-	echo "	- prompt for opening todo.txt gui app"	
-    echo "	- commit changes in log file"
-	echo "	- end of program"
+	echo "  - add computer checkin entry to $doLogPath"
+	echo "  - daily action list with context invocation"
+	echo "  - create a daily journal file with scheduled tasks"
+	echo "  - show a list to people having a special day on their life"
+	echo "  - prompt for wishing people"
+	echo "  - prompt for blocking distracting websites"
+	echo "  - prompt for opening mail"
+	echo "  - prompt for opening todo.txt gui app"	
+    echo "  - commit changes in log file"
+	echo "  - end of program"
     echo            
 	
 	echo
@@ -54,7 +54,7 @@ startDay(){
 	echo "# log file"
 	echo
 	t log add "check-in into personal computer"
-	echo "	[x] log entry added"
+	echo "  [x] log entry added"
 	echo
 	
 	# run action from csv file
@@ -65,7 +65,7 @@ startDay(){
 	echo
 	echo "# journal file"
 	echo
-	echo "	[x] journal file created and opened"	
+	echo "  [x] journal file created and opened"	
 	echo
 		
 	echo 
@@ -112,9 +112,7 @@ startDay(){
     git add log.txt > /dev/null 2>&1
 	git	commit -m"add log entry" > /dev/null 2>&1
 	popd > /dev/null 2>&1
-	echo
-	echo "	[x] changes to $doLogPath commited"
-	echo	
+		echo "  [x] changes to $doLogPath commited"	
 		
 	echo
 	echo "--------------------"
