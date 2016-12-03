@@ -180,10 +180,11 @@ endDay(){
 	git add log.txt
 	git commit -m"add log entry" 
 	popd > /dev/null 2>&1	
-	
-	clear
+		
 	echo
+	echo "---------------------------"
 	echo "See you again, take care..."
+	echo "---------------------------"
 	echo
 		
 }
@@ -228,13 +229,14 @@ startWeek(){
 	
 	# start actions for the week	
 	echo
-	echo "Open active projects for action"
+	echo "open active projects for action"
 	echo 
 	gtd open_active_projects
-		
-	clear	
+			
 	echo 
+	echo "--------------------------"
 	echo "Have a great week ahead..."
+	echo "--------------------------"
 	echo 
 	
 }
@@ -298,9 +300,10 @@ endWeek(){
 		# TODO: commit the changes
 	fi
 	
-	clear	
 	echo 
+	echo "---------------------------"
 	echo "See you again, take care..."
+	echo "---------------------------"
 	echo 
 
 }
@@ -324,6 +327,13 @@ startMonth(){
     # t plan month invalidate && \
     # t plan month && 
     # commitdo
+	
+	echo
+	echo "----------------------"
+	echo "Have a great month ..."
+	echo "----------------------"
+	echo
+	
 }
 
 endMonth(){
@@ -338,6 +348,12 @@ endMonth(){
 	if [ $opted == "y" ]; then
 		gtd run_actions_from_csv_file "$INBOX_FOLDER_LIST"
 	fi
+	
+	echo 
+	echo "---------------------------"
+	echo "See you again, take care..."
+	echo "---------------------------"
+	echo 
 	
 }
 
@@ -355,12 +371,21 @@ startYear(){
     t plan year && \
     commitdo
 	
+	echo
+	echo "----------------------"
+	echo "Have a great year ..."
+	echo "----------------------"
+	echo
 }
 
 endYear(){
-
- echo
-
+	
+	echo 
+	echo "---------------------------"
+	echo "See you again, take care..."
+	echo "---------------------------"
+	echo
+ 
 }
 
 _workflow_main_(){
