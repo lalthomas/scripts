@@ -134,17 +134,17 @@ _inbox_(){
 	
 	}
 	
-	
 	clean_feeds_folder(){
 	
 		echo
 		
 	}
-	
-	
+		
 	clean_film_folder(){
 	
-		echo
+		# change the folder
+		pushd film
+				
 	
 	}
 	
@@ -178,15 +178,13 @@ _inbox_(){
 	
 		echo
 	}
-	
-	
+		
 	clean_sound_folder(){
 		
 		echo
 		
 	}
-	
-	
+		
 	clean_tool_folder(){
 	
 		echo
