@@ -34,6 +34,8 @@ if /i %~x1 == .php ( goto PHP )
 if /i %~x1 == .sql ( goto SQL )
 if /i %~x1 == .py ( goto PYTHON )
 if /i %~x1 == .sh ( goto BASH )
+if /i %~x1 == .r ( goto R )
+
 
 goto END
 
@@ -133,11 +135,19 @@ goto END
 
 REM BASH
 :bash
+@echo OFF
 set path=%PATH%;%CD%
 call C:\cygwin64\bin\bash.exe -l -c "ags=\"$@\"; IFS=';' read -ra paths <<< \"$ags\"; cd \"${paths[0]}\"; \"./${paths[1]}\";  read -rsp $'Press any key to continue...\n' -n 1 key; " " " "%~dp1;%~nx1"
 REM call C:\cygwin64\bin\bash.exe %1 && pause
 exit
 
+
+REM R Language
+:R
+@echo OFF
+call "C:\Program Files\R\R-3.3.0\bin\Rscript.exe" %1
+pause
+exit
 
 :getParentFolderName
 REM thanks : http://stackoverflow.com/questions/2396003/get-parent-directory-name-for-a-particular-file-using-dos-batch-scripting
