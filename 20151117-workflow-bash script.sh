@@ -8,9 +8,22 @@ alias gsd='sh "$toolsRootPath/20161026-get-shit-done/get-shit-done.sh"'
 alias workflow=_workflow_main_
 
 scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-# read config file
-configfile=$(cygpath -u "$1")
+
+case "$OSTYPE" in
+
+	msys*)
+		configfile=$(echo "/$1" | sed -e 's/\\/\//g' -e 's/://')
+		;;
+		
+	cygwin*)
+		# read config file
+		configfile=$(cygpath -u "$1")
+		;;    		
+		
+esac
+
 CFG_FILE="$configfile"
+
 [ -r "$CFG_FILE" ] || echo "$1" "fatal error: cannot read configuration file $CFG_FILE"
 . "$CFG_FILE"
 # end of read config file
