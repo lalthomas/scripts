@@ -8,25 +8,38 @@ REM get the script folder path
 setlocal ENABLEDELAYEDEXPANSION
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
-%~d1
-cd %~dp1
-set filename=%1
-set commitmessage=%filename:"=\"%
+pushd "%CD%"
+set file=%1
+set filepath="%CD%\%1"
+
+echo %filepath%
+
+:main
+set commitmessage=%file:"=\"%
 set commitmessage="add %commitmessage% file"
 
-if exist %filename% ( 
-	"C:\Program Files (x86)\Notepad++\notepad++.exe" %filename%
+if exist %filepath% ( 
+	"C:\Program Files (x86)\Notepad++\notepad++.exe" %filepath%
 	exit
 )
-set /p _Opt="do you want to create file %filename% (y/n) :"	
+set /p _Opt="do you want to create file %filepath% (y/n) :"	
 IF /I "%_Opt%" == "y" ( 	
 REM create file
-copy nul %filename%
-"C:\Program Files (x86)\Notepad++\notepad++.exe" %filename%
-REM add to revision control
-git add %filename% "readme.md"
-git commit -m %commitmessage%
+copy nul %filepath%
+"C:\Program Files (x86)\Notepad++\notepad++.exe" %filepath%
+call :readme
+call :gitcommit
 )
-
 REM pause
+popd
+exit /b 0
+
+:readme
+echo %filepath% >> "readme.md"
+exit /b 0
+
+:gitcommit
+REM add to revision control
+git add "%file%" "readme.md"
+git commit -m %commitmessage%
 exit /b 0
