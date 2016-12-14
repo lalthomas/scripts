@@ -126,7 +126,14 @@ startDay(){
 	git	commit -m"add log entry" > /dev/null 2>&1
 	popd > /dev/null 2>&1
 		echo "  [x] changes to $doLogPath commited"	
-		
+	
+	# start actions for the week	
+	echo
+	echo "open active projects for action"
+	echo 
+	gtd open_active_projects
+	
+	
 	echo
 	echo "--------------------"
 	echo "Have a great day ..."
@@ -239,12 +246,6 @@ startWeek(){
 	echo "weekly actions"
 	echo
 	gtd run_actions_from_csv_file "$ACTION_FOR_WEEK_FILE"
-	
-	# start actions for the week	
-	echo
-	echo "open active projects for action"
-	echo 
-	gtd open_active_projects
 			
 	echo 
 	echo "--------------------------"
