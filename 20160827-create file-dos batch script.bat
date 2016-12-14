@@ -8,15 +8,21 @@ REM get the script folder path
 setlocal ENABLEDELAYEDEXPANSION
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
+
 pushd "%CD%"
+
 set file=%1
 set filepath="%CD%\%1"
-
-echo %filepath%
+REM remove extra quotes
+set filepath=%filepath:"=%
+REM add quotes around
+set filepath="%filepath%"
+REM echo %filepath%
+REM pause
 
 :main
 set commitmessage=%file:"=\"%
-set commitmessage="add %commitmessage% file"
+set commitmessage="add file %commitmessage%"
 
 if exist %filepath% ( 
 	"C:\Program Files (x86)\Notepad++\notepad++.exe" %filepath%
@@ -27,7 +33,7 @@ IF /I "%_Opt%" == "y" (
 REM create file
 copy nul %filepath%
 "C:\Program Files (x86)\Notepad++\notepad++.exe" %filepath%
-call :readme
+REM call :readme
 call :gitcommit
 )
 REM pause
