@@ -40,7 +40,7 @@ set commitmessage="add %commitmessage% file"
 SET /p _Opt= Press Y for confirmation or N for retype : 
 
 IF /I "%_Opt%" == "N" ( 
-	call :VERIFY 
+	call :verify 
 	goto :NAME
 ) ELSE (
 	goto :CONT 
@@ -60,24 +60,36 @@ if not exist %filename% (
 	echo ----------	------------------ >> %filename%
 	
 	REM lanuch
-	call :LAUNCH %filename%	
+	call :launch %filename%		
+	call :readme
+	call :gitcommit
 	
-	REM add to revision control
-	git add %filename%
-	REM git commit -m %commitmessage%
 )
 
 REM launch exisitng file
 call :LAUNCH %filename%
 exit
 
-:VERIFY
+:verify
 if [%1]==[] ( 
 set /p projectname="enter reference file name:" 
 )
 exit /b 0
 
-:LAUNCH
+:launch
 REM start the program
 start "notepad-pp" %1
 exit /b 0
+
+:readme
+echo %filename% >> "readme.md"
+exit /b 0
+
+:gitcommit
+REM add to revision control
+set commitmessage=%filename:"=\"%
+set commitmessage="add %commitmessage% file"
+git add %filename% "readme.md"
+git commit -m %commitmessage%
+exit /b 0
+
