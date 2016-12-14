@@ -4,7 +4,7 @@ REM Lal Thomas
 REM ‎2016-11-04 1252
 
 doskey +contact="D:\Dropbox\action\20131027-scripts project\20150710-create contact.bat" "D:\Dropbox\action\20150716-contacts" $*
-doskey +file="D:\Dropbox\action\20131027-scripts project\20160827-create file-dos batch script.bat" %CD%\$*
+doskey +file="D:\Dropbox\action\20131027-scripts project\20160827-create file-dos batch script.bat" $*
 doskey +inbox="D:\Dropbox\action\20131027-scripts project\20160401-add log entry to file-dos batch script.bat" "D:\Dropbox\action\20140310-do\inbox.txt" $*
 doskey +lesson="D:\Dropbox\action\20131027-scripts project\20160401-add log entry to file-dos batch script.bat" "D:\Dropbox\reference\20160312-life lessons doc-life gtd.md" $*
 doskey +log="D:\Dropbox\action\20131027-scripts project\20160401-add log entry to file-dos batch script.bat" "D:\Dropbox\action\20140310-do\log.txt" $*
