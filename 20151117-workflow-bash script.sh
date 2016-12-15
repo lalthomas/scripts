@@ -127,9 +127,11 @@ startDay(){
 	popd > /dev/null 2>&1
 		echo "  [x] changes to $doLogPath commited"	
 	
-	# start actions for the week	
+	# start actions for the week
 	echo
-	echo "open active projects for action"
+	echo "# computer/dropbox/lab"	
+	echo
+	echo " [x] open active projects for action"
 	echo 
 	gtd open_active_projects
 	
