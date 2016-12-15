@@ -142,10 +142,20 @@ _inbox_(){
 		
 	clean_film_folder(){
 	
-		# change the folder
-		pushd film
-				
-	
+		# change the folder				
+		# i tried a lot of way to get 
+		# it via a variable,bash simply won't allow that
+		# so direct push
+		
+		pushd "D:\Inbox\film" > /dev/null 2>&1
+		
+		# read only directories
+		for d in */ ; do
+			echo "$d"
+		done
+		
+		# remove from stack
+		popd > /dev/null 2>&1
 	}
 	
 	clean_help_folder(){
@@ -207,19 +217,21 @@ _inbox_(){
         echo 
         echo "Inbox OPTIONS"      
         echo " helper script to managing inbox folder"   
-		echo "clean_doc_calibre_periodical"
-		echo "clean_mail_chumma"
-        echo "clean_doc_docs_names"		
+		echo " clean_doc_calibre_periodical"
+		echo " clean_mail_chumma"
+        echo " clean_doc_docs_names"	
+		echo " clean_film_folder"
 	}
 			
 	ACTION=$1
-	shift
+	shift	
 	
 	case "$ACTION" in		
 		help|usage)	usage ;;
 		clean_doc_calibre_periodical) clean_doc_calibre_periodical;;		
 		clean_doc_docs_names) clean_doc_docs_names;;
 		clean_mail_chumma) clean_mail_chumma;;
+		clean_film_folder) clean_film_folder;;
 	esac
-
+	
 }
