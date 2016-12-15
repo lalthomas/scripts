@@ -45,7 +45,9 @@ if exist %filepath% (
 
 REM confirm
 echo.
-set /p _Opt="do you want to create file %filepath% (y/n) :"	
+echo %CD%
+echo.
+set /p _Opt="do you want to create file %file% (y/n) :"	
 
 IF /I "%_Opt%" == "y" ( 	
 	
@@ -60,9 +62,9 @@ IF /I "%_Opt%" == "y" (
 	git commit -m %commitmessage% >nul 2>nul
 	echo.
 	IF %ERRORLEVEL% EQU 0 ( 
-		echo SUCCESS : %file% successfully created and commited
+		echo SUCCESS : %file% successfully created and commited		
 	) ELSE (	
-		echo ERROR : %file%  is either not created or commited
+		echo ERROR : %file%  is either not created or commited		
 	)	
 )
 
