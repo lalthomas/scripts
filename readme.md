@@ -3,7 +3,6 @@ Support Files
 
 20161120-gtd helper config file.cfg
 20161130-workflow config file.cfg
-20161215-inbox folder config file.cfg
 
 Help
 ----
