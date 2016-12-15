@@ -13,6 +13,76 @@ alias inbox=_inbox_
 _inbox_(){	
 
 	
+	string_replace_underscore_with_space(){
+	
+		echo $1 | sed 's/_/ /g'
+		
+	}
+	
+	string_replace_dash_with_space(){
+	
+		echo $1 | sed 's/-/ /g'
+		
+	}
+	
+	string_replace_dot_with_space(){
+	
+		echo $1 | sed 's/\./ /g'
+		
+	}
+	
+	string_unify_multiple_spaces(){
+	
+		echo $1 | sed 's/ +/ /g'
+		
+	}
+	
+	string_unify_multiple_dash(){
+	
+		echo $1 | sed 's/--/-/g'
+		
+	}
+	
+	string_convert_to_lower(){
+	
+		# convert to lowercase
+		echo $1 | tr "[:upper:]" "[:lower:]"
+		
+	}
+			
+	string_get_file_name(){
+	
+		filename=$(basename "$1")
+		echo "${filename%.*}"
+		
+	}
+	
+	string_get_file_extension(){
+	
+		filename=$(basename "$1")
+		echo "${filename##*.}"
+	}
+	
+	
+	string_trim_whitespace(){
+	
+		name=$1
+		shopt -s extglob 	 # turn it on
+		name="${name##*( )}" # Trim leading whitespaces
+		name="${name%%*( )}" # trim trailing whitespaces		
+		shopt -u extglob  	 # turn it off
+		echo $name
+		
+	}
+
+	
+	file_get_created_date(){
+	
+		date_created=$(stat --format "%W" "$1")
+		echo $(date --date="@$date_created" +%Y%m%d-%H%M)
+		
+	}
+
 	clean_course_folder(){	
 		echo
 	}
@@ -25,7 +95,7 @@ _inbox_(){
 					if [[ -d $f ]]; then continue; fi # skip directories	
 					newname="$(echo $f | sed 's/_/ /g')" # substitute underscore with space
 					newname="$(echo $newname | sed 's/\[[0-9] Attachment\]//g')" 			
-					newname="$(echo $newname | sed 's/--/-/g')" # substitute underscore with space						
+					newname="$(echo $newname | sed 's/--/-/g')" # substitute double dash with single dash
 					newname="$(echo $newname | sed 's/ +/ /g')" # remove multiple spaces into one
 					newname="$(echo $newname | sed 's/-[0-9][0-9]-[a-z]*-[0-9][0-9][0-9][0-9]//g')"
 					newname="$(echo $newname | sed 's/Chumma ) //g')"			
@@ -127,7 +197,8 @@ _inbox_(){
 					newname="$(echo $name.$extension)" # join
 								
 					echo $f : $newname
-					mv "$f" "$newname"; # rename the files
+					# rename the files
+					mv "$f" "$newname";
 				done
 
 			}
@@ -148,10 +219,51 @@ _inbox_(){
 		# so direct push
 		
 		pushd "D:\Inbox\film" > /dev/null 2>&1
+		# pushd "Y:\Inbox\film" > /dev/null 2>&1
+		
 		
 		# read only directories
 		for d in */ ; do
+			
+			# change directory
+			cd "$d"			
 			echo "$d"
+			# loop through files
+			for f in *; do			
+				
+				# skip directories
+				if [[ -d $f ]]; then continue; fi 
+				# skip ini files
+				if [[ $f == *.ini ]]; then continue; fi 
+
+				# createdate=$(file_get_created_date "$f")
+			
+				# strip revalent details after year
+				newname="$(echo $f | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)/g')"
+								
+				# newname=$(string_convert_to_lower "$newname")
+				newname=$(string_replace_underscore_with_space "$newname")
+				newname=$(string_replace_dot_with_space "$newname")
+				newname=$(string_unify_multiple_spaces "$newname")
+				newname=$(string_unify_multiple_dash "$newname")
+							
+				filename=$(string_get_file_name "$newname")
+				extension=$(string_get_file_extension "$f")
+				folder=${d%/}				
+																				
+				newfilename=$(string_trim_whitespace "$filename")
+				newextension=$(string_trim_whitespace "$extension")
+							
+				newname="$(echo $newfilename $folder.$newextension)"
+										
+				echo "	$f : $newname"
+				# add a log file
+				echo "$f" >>"$newname.log"
+				mv "$f" "$newname";
+				
+			done
+			
+			cd ..						
 		done
 		
 		# remove from stack
