@@ -62,8 +62,7 @@ _inbox_(){
 		filename=$(basename "$1")
 		echo "${filename##*.}"
 	}
-	
-	
+		
 	string_trim_whitespace(){
 	
 		name=$1
@@ -75,7 +74,6 @@ _inbox_(){
 		
 	}
 
-	
 	file_get_created_date(){
 	
 		date_created=$(stat --format "%W" "$1")
