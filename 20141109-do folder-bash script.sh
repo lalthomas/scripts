@@ -264,6 +264,24 @@ _do_main_(){
 	
 	}
 	
+	view_project_todos(){
+	
+		get_all_projects_names | sort -u | while read PRJ; do		
+			
+			echo
+			echo $PRJ			
+			echo 
+			t -+ listall $PRJ
+			echo
+			read -n1 -r -p "Press any key to continue ..." key </dev/tty	
+			echo
+			clear
+			
+		done
+		
+	}
+	
+	
 	usage(){
 
         echo 
@@ -316,6 +334,7 @@ _do_main_(){
 		update_contexts_file) update_contexts_file ;;
 		update_inbox_file) update_inbox_file ;;		
 		update_projects_file) update_projects_file ;;
+		view_project_todos) view_project_todos ;;
 	esac
 	
 	popd > /dev/null 2>&1
