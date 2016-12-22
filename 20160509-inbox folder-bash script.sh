@@ -164,11 +164,11 @@ _inbox_(){
 						
 			# move and  rename folder 			
 			folderdate=$(file_get_created_date "$d")
-			newfoldername="$(echo $folderdate-$d)"									
-			mv -i "$d" "../../courses/$newfoldername"		
+			newfolder="$(echo $folderdate-$d)"									
+			mv -i "$d" "../../courses/$newfolder"		
 
 			# list the files in moved folder
-			cd "../../courses/$newfoldername"								
+			cd "../../courses/$newfolder"								
 			for f in *; do
 									
 				p=$(readlink -f "$f")				
@@ -178,7 +178,7 @@ _inbox_(){
 			done
 
 			# move the filelist to upper folder
-			mv "files.txt" "../${newfoldername%/}.txt"						
+			mv "files.txt" "../${newfolder%/}.txt"						
 			
 			popd  > /dev/null 2>&1
 						
