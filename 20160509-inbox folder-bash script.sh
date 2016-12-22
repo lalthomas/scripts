@@ -74,20 +74,126 @@ _inbox_(){
 		
 	}
 
-	file_get_created_date(){
+	file_get_created_datetime(){
 	
 		date_created=$(stat --format "%W" "$1")
 		echo $(date --date="@$date_created" +%Y%m%d-%H%M)
 		
 	}
 
+	file_get_created_date(){
+	
+		date_created=$(stat --format "%W" "$1")
+		echo $(date --date="@$date_created" +%Y%m%d)
+		
+	}
+
+	
 	clean_course_folder(){	
-		echo
+		
+		# change the folder				
+		# i tried a lot of way to get 
+		# it via a variable,bash simply won't allow that
+		# so direct push
+		
+			
+		# pushd "D:\Inbox\course" > /dev/null 2>&1
+		pushd "W:\Inbox\course" > /dev/null 2>&1
+		# pushd "X:\Inbox\course" > /dev/null 2>&1
+		# pushd "Y:\Inbox\course" > /dev/null 2>&1
+		# pushd "Z:\Inbox\film" > /dev/null 2>&1		
+		
+		# read only directories
+		for d in */ ; do
+			
+			pushd $PWD  > /dev/null 2>&1
+			
+			# ----------------
+			# rename files
+			# ----------------
+			
+			# change directory
+			cd "$d"			
+			echo "$d"			
+			# loop through files
+			for f in *; do			
+				
+				# skip directories
+				if [[ -d $f ]]; then continue; fi 
+				# skip ini files
+				if [[ $f == *.ini ]]; then continue; fi 
+
+				# createdate=$(file_get_created_date "$f")
+			
+				# strip revalent details after year
+				newname="$(echo $f | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)/g')"
+								
+				newname=$(string_replace_underscore_with_space "$newname")
+				newname=$(string_replace_dot_with_space "$newname")
+				newname=$(string_unify_multiple_spaces "$newname")
+				newname=$(string_unify_multiple_dash "$newname")
+							
+				filename=$(string_get_file_name "$newname")
+				extension=$(string_get_file_extension "$f")
+				folder=${d%/}				
+																				
+				newfilename=$(string_trim_whitespace "$filename")
+				newextension=$(string_trim_whitespace "$extension")
+							
+				newname="$(echo $newfilename $folder.$newextension)"
+				newname=$(string_convert_to_lower "$newname")
+				
+				# echo "	$f : $newname"
+				# add a log file
+				# echo "$f" >>"$newname.log"				
+				# mv "$f" "$newname";						
+
+			done
+			
+			# exit from folder
+			cd ..
+						
+			# --------------------
+			# end of rename files
+			# --------------------			
+			
+			
+			# --------------------
+			# move files and index
+			# --------------------
+						
+			# move and  rename folder 			
+			folderdate=$(file_get_created_date "$d")
+			newfoldername="$(echo $folderdate-$d)"									
+			mv -i "$d" "../../courses/$newfoldername"		
+
+			# list the files in moved folder
+			cd "../../courses/$newfoldername"								
+			for f in *; do
+									
+				p=$(readlink -f "$f")				
+				winp=$(cygpath -w "$p")
+				echo "$winp" >>"files.txt"
+								
+			done
+
+			# move the filelist to upper folder
+			mv "files.txt" "../${newfoldername%/}.txt"						
+			
+			popd  > /dev/null 2>&1
+						
+		done
+								
+		# remove from stack
+		popd > /dev/null 2>&1
+			
 	}
 	
 	clean_doc_folder(){
 				
 		clean_mail_chumma(){
+			
+				pushd "D:\Inbox\doc\cleanup thunderbird\chumma" > /dev/null 2>&1
 			
 				for f in *; do
 					if [[ -d $f ]]; then continue; fi # skip directories	
@@ -125,9 +231,12 @@ _inbox_(){
 					mv "$f" "$newname"; # rename the files
 				done
 					
+				popd
 			}
 		
 		clean_doc_docs_names(){
+		
+				pushd "D:\Inbox\doc\import folder doc" > /dev/null 2>&1
 		 
 				mkdir "clean-named" &>/dev/null
 				ls | grep -e"[0-9]\{8\}" | xargs -d"\n" mv -t "$PWD/clean-named" &>/dev/null		
@@ -151,9 +260,13 @@ _inbox_(){
 				done	
 				# delete empty folders
 				find . -empty -type d -delete
+				
+				popd
 			}
 
 		clean_doc_calibre_periodical(){
+			
+			pushd "D:\Inbox\doc\cleanup thunderbird\newstoday" > /dev/null 2>&1
 			
 			for f in *; do
 					if [[ -d $f ]]; then continue; fi # skip directories	
@@ -198,9 +311,15 @@ _inbox_(){
 					# rename the files
 					mv "$f" "$newname";
 				done
-
+				
+			popd
+			
 			}
 	
+		clean_mail_chumma
+		clean_doc_docs_names
+		clean_doc_calibre_periodical
+		
 	}
 	
 	clean_feeds_folder(){
@@ -342,6 +461,7 @@ _inbox_(){
 		clean_doc_docs_names) clean_doc_docs_names;;
 		clean_mail_chumma) clean_mail_chumma;;
 		clean_film_folder) clean_film_folder;;
+		clean_course_folder) clean_course_folder;;
 	esac
 	
 }
