@@ -123,36 +123,41 @@ _inbox_(){
 				# skip ini files
 				if [[ $f == *.ini ]]; then continue; fi 
 
-				# createdate=$(file_get_created_date "$f")
-			
-				# strip revalent details after year
-				newname="$(echo $f | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)/g')"
-								
-				newname=$(string_replace_underscore_with_space "$newname")
+										
+				filename=$(string_get_file_name "$f")
+				extension=$(string_get_file_extension "$f")	
+				createdate=$(file_get_created_date "$f")
+				
+				# remove folder name
+				folder=${d%/}				
+				newname=${filename#${folder}}
+				# end of remove folder name
+				
+				newname=$(string_replace_underscore_with_space "$newname")				
+				newname=$(string_replace_dash_with_space "$newname")				
 				newname=$(string_replace_dot_with_space "$newname")
 				newname=$(string_unify_multiple_spaces "$newname")
-				newname=$(string_unify_multiple_dash "$newname")
-							
-				filename=$(string_get_file_name "$newname")
-				extension=$(string_get_file_extension "$f")
-				folder=${d%/}				
-																				
-				newfilename=$(string_trim_whitespace "$filename")
+				newname=$(string_unify_multiple_dash "$newname")																																	
+				
+				newfilename=$(string_trim_whitespace "$newname")
 				newextension=$(string_trim_whitespace "$extension")
 							
-				newname="$(echo $newfilename $folder.$newextension)"
+				newname="$(echo $folder - $newfilename.$newextension)"
 				newname=$(string_convert_to_lower "$newname")
 				
-				# echo "	$f : $newname"
+				echo "	$f : $newname"
 				# add a log file
-				# echo "$f" >>"$newname.log"				
-				# mv "$f" "$newname";						
+				echo "$f" >>"$newname.log"				
+				# rename file
+				mv "$f" "$newname";						
 
 			done
 			
+			# continue	
+			
 			# exit from folder
 			cd ..
-						
+		
 			# --------------------
 			# end of rename files
 			# --------------------			
@@ -178,7 +183,12 @@ _inbox_(){
 			done
 
 			# move the filelist to upper folder
-			mv "files.txt" "../${newfolder%/}.txt"						
+			mv "files.txt" "../${newfolder%/}.txt"	
+			
+			# ---------------------------
+			# end of move files and index
+			# ---------------------------
+			
 			
 			popd  > /dev/null 2>&1
 						
