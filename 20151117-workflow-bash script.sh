@@ -71,7 +71,7 @@ startDay(){
 	echo
 	
 	# run action from csv file
-	gtd run_actions_from_csv_file "$ACTION_FOR_DAY_FILE"	
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_START_FILE"		
 
 	# create journal
 	t journal create "$docJournalFile"
@@ -79,22 +79,7 @@ startDay(){
 	echo "# journal file"
 	echo
 	echo "  [x] journal file created and opened"	
-	echo
-		
-	echo 
-	echo "List of People to wish"	
-	echo =========================
-	echo 
-	wish list
-	echo
-
-	opted="n"	
-	read -p "enter y to wish now : " opted
-	if [ $opted == "y" ]; then
-		wish email
-		t log add "wish friends happy birthday"	
-	fi
-	
+	echo		
 	
 	echo
 	read -p "do you want start work by blocking distractions : " opted
@@ -151,14 +136,8 @@ endDay(){
     echo "   - add check out time to $doLogPath file"
     echo "   - add done items from done.txt to journal file"
 	echo "   - TODO: daily backup"	
-    echo 
+    echo 	
 	
-	echo  
-	echo "List of People having birthday tomorrow"	
-	echo ========================================
-	echo 
-	wish list tomorrow
-	echo
 	
 	# unblock sites
 	echo
@@ -166,6 +145,7 @@ endDay(){
 	echo 
 	gsd play
 		
+	
 	# show a standup report
 	echo
 	echo "Done Report"
@@ -186,13 +166,44 @@ endDay(){
 		echo
 	fi
 	
+	
+	t log add "check-out from personal computer"
+	
+	echo 
+	echo "List of People to wish"	
+	echo =========================
+	echo 
+	wish list
+	echo
+	
+	opted="n"	
+	read -p "enter y to wish now : " opted
+	if [ $opted == "y" ]; then
+		wish email
+		t log add "wish friends happy birthday"	
+	fi	
+	
 	# review
 	echo
 	echo "Day Review"
 	echo
-	gtd run_actions_from_csv_file "$REVIEW_DAY_FILE"
 	
-	t log add "check-out from personal computer"
+	# log items to journal
+	t journal log today
+	
+	# open journal
+	t journal open "$docJournalFile"
+	
+	# run action from csv file
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"			
+	
+	echo  
+	echo "List of People having birthday tomorrow"	
+	echo ========================================
+	echo 
+	wish list tomorrow
+	echo
+	
 	
 	# commit the changes
 	echo
@@ -209,6 +220,7 @@ endDay(){
 	echo "---------------------------"
 	echo
 		
+	
 }
 
 startWeek(){
@@ -271,12 +283,33 @@ endWeek(){
 	echo "- reward yourself"
 	echo
 
-	read -p "do you want to weekly review [y|n] ? : " opted
+	read -p "do you want start weekly actions [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		# review file is read from config file
 		gtd run_actions_from_csv_file "$REVIEW_WEEK_FILE"
 	fi
-			
+	
+	
+	echo
+	read -p "do you want to review every todo project [y|n] ? : " opted
+	if [ $opted == "y" ]; then	
+		# TODO: create doc with prepopulated list of todo projects for adding review notes
+		echo
+		echo "# todo.txt project"	
+		echo
+		echo " [] copy todo item numbers of all done and invalid items"
+		echo " [] create and save a note of review points"
+		echo 
+		dofolder view_project_todos	
+		echo
+		echo "# todo.txt project"	
+		echo		
+		echo " [] mark the done and invalid todos"
+		echo		
+	fi
+	
+	
+	
 	echo
 	read -p "do you want to update todo files [y|n] ? : " opted
 	if [ $opted == "y" ]; then
