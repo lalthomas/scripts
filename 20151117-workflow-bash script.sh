@@ -47,9 +47,7 @@ startDay(){
 	echo 
 	echo "  - add computer checkin entry to $doLogPath"
 	echo "  - daily action list with context invocation"
-	echo "  - create a daily journal file with scheduled tasks"
-	echo "  - show a list to people having a special day on their life"
-	echo "  - prompt for wishing people"
+	echo "  - create a daily journal file with scheduled tasks"	
 	echo "  - prompt for blocking distracting websites"
 	echo "  - prompt for opening mail"
 	echo "  - prompt for opening todo.txt gui app"	
@@ -134,9 +132,11 @@ endDay(){
 	echo
 	echo "  workflow end day"
     echo 
-    echo "   - add check out time to $doLogPath file"
-    echo "   - add done items from done.txt to journal file"
-	echo "   - TODO: daily backup"	
+    echo "  - add check out time to $doLogPath file"
+    echo "  - add done items from done.txt to journal file"
+	echo "  - show a list to people having a special day on their life"
+	echo "  - prompt for wishing people"
+	echo "  - TODO: daily backup"	
     echo 	
 	
 	
@@ -158,6 +158,7 @@ endDay(){
 	read -p "do you want to add gratitude for the day [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		echo
+		# TODO: add gratitude functionality
 	fi
 
 	# add lessons
@@ -165,6 +166,7 @@ endDay(){
 	read -p "do you want to add lessons of the day [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		echo
+		# TODO : add lesson functionality
 	fi
 	
 	
