@@ -188,7 +188,8 @@ call pandoc %1 -s -o "%~n1.html"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownHTMLSuccess ) ELSE (goto MarkdownHTMLFailure)
 EXIT /b 0
 :MarkdownHTMLSuccess
-move "%~pd1\%~n1.html" "%~pd1\build" &&  START "" "%~pd1\build\%~n1.html"
+set FIREFOX="%ProgramW6432%\Mozilla Firefox\firefox.exe"
+move "%~pd1\%~n1.html" "%~pd1\build" &&  call %FIREFOX% "%~pd1\build\%~n1.html"
 EXIT /b 0
 :MarkdownHTMLFailure
 echo. 
