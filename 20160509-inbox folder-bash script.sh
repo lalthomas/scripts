@@ -346,6 +346,7 @@ _inbox_(){
 		# so direct push
 		
 		pushd "D:\Inbox\film" > /dev/null 2>&1
+		# pushd "W:\Inbox\film" > /dev/null 2>&1
 		# pushd "Y:\Inbox\film" > /dev/null 2>&1
 		
 		
