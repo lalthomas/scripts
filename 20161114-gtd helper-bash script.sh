@@ -206,7 +206,7 @@ _review_main_(){
 		
 		# open active project files
 		pgmpath="20150823-open folders from file list-dos script batch script.bat"		
-		cygstart "$scriptfolder/$(cygpath -u "${pgmpath}")" $ACTIVE_PROJECT_LIST
+		cygstart "$scriptfolder/$(cygpath -u "${pgmpath}")" $GTD_ACTIVE_PROJECT_LIST
 		
 	}
 		

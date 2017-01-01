@@ -145,8 +145,7 @@ endDay(){
 	echo "Unblocking Sites"
 	echo 
 	gsd play
-		
-	
+			
 	# show a standup report
 	echo
 	echo "Done Report"
@@ -198,7 +197,7 @@ endDay(){
 	t journal open "$docJournalFile"
 	
 	# run action from csv file
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"			
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"
 	
 	echo  
 	echo "List of People having birthday tomorrow"	
@@ -262,7 +261,7 @@ startWeek(){
 	echo
 	echo "weekly actions"
 	echo
-	gtd run_actions_from_csv_file "$ACTION_FOR_WEEK_FILE"
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_WEEK_START_FILE"
 			
 	echo 
 	echo "--------------------------"
@@ -289,7 +288,7 @@ endWeek(){
 	read -p "do you want start weekly actions [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		# review file is read from config file
-		gtd run_actions_from_csv_file "$REVIEW_WEEK_FILE"
+		gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_WEEK_END_FILE"
 	fi
 	
 	
@@ -380,6 +379,9 @@ startMonth(){
     # t plan month && 
     # commitdo
 	
+	# run action from csv file
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_MONTH_START_FILE"	
+	
 	echo
 	echo "----------------------"
 	echo "Have a great month ..."
@@ -396,10 +398,16 @@ endMonth(){
 	echo "- process inbox folders"
 	echo		 
 	echo
+	
+	# run action from csv file
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_MONTH_END_FILE"
+	
+	
 	read -p "do you want to process inbox folders [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		gtd run_actions_from_csv_file "$INBOX_FOLDER_LIST"
 	fi
+	
 	
 	echo 
 	echo "---------------------------"
@@ -418,7 +426,11 @@ startYear(){
     echo "   - schedule todo yearly tasks"  
     echo "   - commit do"
     echo        
-    #doarchive
+    
+	# run action from csv file
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_YEAR_START_FILE"
+	
+	#doarchive
     t plan year invalidate && \
     t plan year && \
     commitdo
@@ -431,6 +443,10 @@ startYear(){
 }
 
 endYear(){
+	
+	
+	# run action from csv file
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_YEAR_END_FILE"
 	
 	echo 
 	echo "---------------------------"
@@ -506,7 +522,7 @@ _workflow_main_(){
             ;;
         esac
     else
-        echo "workflow error: unrecognized option \"$option\"."
+        echo "workflow error: unrecognised option \"$option\"."
         echo "try \" view help\" to get more information."
     fi
 }
