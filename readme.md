@@ -50,6 +50,8 @@ Windows
 20160214-launch autohotkey scripts-autohotkey script.ahk
 20161020-empty recyclebin-dos batch script.bat
 20161102-aliases for lalthomas pc-dos script support file.cmd
+20161107-create windows explorer shortcut-dos batch script.bat
+20170102-create useful shortcuts of scripts in send to folder-dos batch script.bat
 
 Windows Explorer
 -----------------
