@@ -166,6 +166,7 @@ Dev
 20150715-git-bash script.sh
 20151226-git commit changes.bat
 20151227-combine git repositories from a filelist.sh
+20170102-add git repo as subdirectory.sh
 
 Images
 -------
