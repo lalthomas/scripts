@@ -18,28 +18,16 @@ esac
 
 ### todo file paths
 
-export doRootPath="$rootPath/action/20140310-do"
+export doRootPath="$rootPath/do"
+export referenceRootPath="$rootPath/do/reference"
+export supportRootPath="$rootPath/do/support"
+export toolsRootPath="$rootPath/tool"
+export docRootPath="$rootPath/doc"	
 export doPlannerFile="$doRootPath/planner.md"
-export doTodoFile="$doRootPath/todo.txt"
 export doInvalidFile="$doRootPath/invalid.txt"
+export doTodoFile="$doRootPath/todo.txt"
 export doJournalPath="$doRootPath/journal.md"
 export doLogPath="$doRootPath/log.txt"
-
-### tools
-
-export toolsRootPath="$rootPath/tools"
-
-### reference
-
-export referenceRootPath="$rootPath/reference"
-
-### support
-
-export supportRootPath="$rootPath/support"
-
-### docs
-
-export docRootPath="$rootPath/docs"	
 export docJournalFile="$docRootPath/$today-journal.md"
 export docYesterdayJournalFile="$docRootPath/$yesterday-journal.md"
 
