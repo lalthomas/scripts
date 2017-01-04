@@ -7,7 +7,7 @@
 # ---------
 #
 # - open git bash and drag the script file to the terminal from windows explorer
-# - add space and the drag the file containing paths to the terminal
+# - add space and the drag the file containing paths to the terminal, listing file should having unix line endings
 # - run the script by hitting enter
 # - enter unix path for repository as . (dot), this will give the current directory path
 # - combined repo will be generated in folder called parent
@@ -44,14 +44,26 @@ if [ -d "$path" ]; then
 	 folderName=${line//\//\\}	 	 
 	 # get the base name
 	 folderName=`basename  $folderName`
+	 echo $folderName
 	 folderNameDashed=${folderName// /-}	 	 	 
 	 # echo "text read from file: $line"		
 	 # folderPath=$( printf '%q' "$line" )			
+	 
+	 # add remote and fetch
 	 git remote add "$folderNameDashed" "$line"
 	 git fetch "$folderNameDashed"
+	 # ----
+	 
+	 # if repos are not similar then use this line
+	 # git merge -s ours --allow-unrelated-histories --no-commit "$folderNameDashed"/master
 	 git merge -s ours --no-commit "$folderNameDashed"/master
+	 # ----
+	 
+	 # git read-tree --prefix="subfolder/$folderName"/ -u "$folderNameDashed"/master	 
 	 git read-tree --prefix="$folderName"/ -u "$folderNameDashed"/master
+	 
 	 git commit -m "merging ""$folderName"" into subdirectory"
 	 git remote remove "$folderNameDashed"
+	 
  done < "$1"
 fi
