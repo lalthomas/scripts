@@ -101,7 +101,7 @@ _inbox_(){
 		pushd "W:\Inbox\course" > /dev/null 2>&1
 		# pushd "X:\Inbox\course" > /dev/null 2>&1
 		# pushd "Y:\Inbox\course" > /dev/null 2>&1
-		# pushd "Z:\Inbox\film" > /dev/null 2>&1		
+		# pushd "Z:\Inbox\course" > /dev/null 2>&1		
 		
 		# read only directories
 		for d in */ ; do
@@ -340,59 +340,92 @@ _inbox_(){
 		
 	clean_film_folder(){
 	
-		# change the folder				
-		# i tried a lot of way to get 
-		# it via a variable,bash simply won't allow that
-		# so direct push
+		# $1 contains the drive letter
+	
+		change_drive(){
 		
-		pushd "D:\Inbox\film" > /dev/null 2>&1
-		# pushd "W:\Inbox\film" > /dev/null 2>&1
-		# pushd "Y:\Inbox\film" > /dev/null 2>&1
+			# change the folder				
+			# i tried a lot of way to get 
+			# it via a variable,bash simply won't allow that
+			# so direct push
+			echo "drive : $1"
+			case $1 in
+				d|D) pushd "D:\Inbox\film" > /dev/null 2>&1;;
+				w|W) pushd "W:\Inbox\film" > /dev/null 2>&1;;		
+				x|X) pushd "X:\Inbox\film" > /dev/null 2>&1;;		
+				y|Y) pushd "Y:\Inbox\film" > /dev/null 2>&1;;
+				z|Z) pushd "Z:\Inbox\film" > /dev/null 2>&1;;
+				*) 
+					echo "unknown drive"; 
+					return;
+				;;
+			esac	
+			return
+		}
 		
+		rename_files(){
 		
-		# read only directories
-		for d in */ ; do
+			# What this function do
+			# - traverse through all directories
+			# - for each file
+			#	- extract name till the year part `name (year)`
+			#	- replace underscore with space in file name
+			#	- replace dot with space in file name
+			#	- replace multiple space with single space in file name
+			#	- replace multiple dashes with single dash in file name
+			#	- trim whitespace in filename
+			#	- trim whitespace in extension
+			#	- add folder name to file name
+			#	- rename files
 			
-			# change directory
-			cd "$d"			
-			echo "$d"
-			# loop through files
-			for f in *; do			
+			# read only directories
+			for d in */ ; do
 				
-				# skip directories
-				if [[ -d $f ]]; then continue; fi 
-				# skip ini files
-				if [[ $f == *.ini ]]; then continue; fi 
+				# change directory
+				cd "$d"			
+				echo "$d"
+				# loop through files
+				for f in *; do			
+					
+					# skip directories
+					if [[ -d $f ]]; then continue; fi 
+					# skip ini files
+					if [[ $f == *.ini ]]; then continue; fi 
 
-				# createdate=$(file_get_created_date "$f")
-			
-				# strip revalent details after year
-				newname="$(echo $f | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)/g')"
-								
-				# newname=$(string_convert_to_lower "$newname")
-				newname=$(string_replace_underscore_with_space "$newname")
-				newname=$(string_replace_dot_with_space "$newname")
-				newname=$(string_unify_multiple_spaces "$newname")
-				newname=$(string_unify_multiple_dash "$newname")
-							
-				filename=$(string_get_file_name "$newname")
-				extension=$(string_get_file_extension "$f")
-				folder=${d%/}				
-																				
-				newfilename=$(string_trim_whitespace "$filename")
-				newextension=$(string_trim_whitespace "$extension")
-							
-				newname="$(echo $newfilename $folder.$newextension)"
-										
-				echo "	$f : $newname"
-				# add a log file
-				echo "$f" >>"$newname.log"
-				mv "$f" "$newname";
+					# createdate=$(file_get_created_date "$f")
 				
+					# strip relevant details after year
+					newname="$(echo $f | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)/g')"
+									
+					# newname=$(string_convert_to_lower "$newname")
+					newname=$(string_replace_underscore_with_space "$newname")
+					newname=$(string_replace_dot_with_space "$newname")
+					newname=$(string_unify_multiple_spaces "$newname")
+					newname=$(string_unify_multiple_dash "$newname")
+								
+					filename=$(string_get_file_name "$newname")
+					extension=$(string_get_file_extension "$f")
+					folder=${d%/}				
+																					
+					newfilename=$(string_trim_whitespace "$filename")
+					newextension=$(string_trim_whitespace "$extension")
+								
+					newname="$(echo $newfilename $folder.$newextension)"
+											
+					echo "	$f : $newname"
+					# add a log file
+					echo "$f" >>"$newname.log"
+					mv "$f" "$newname";
+					
+				done
+				
+				cd ..						
 			done
 			
-			cd ..						
-		done
+		}
+		
+		change_drive $1
+		rename_files
 		
 		# remove from stack
 		popd > /dev/null 2>&1
@@ -457,17 +490,22 @@ _inbox_(){
         echo " clean_doc_docs_names"	
 		echo " clean_film_folder"
 	}
-			
+	
+	# set -x
 	ACTION=$1
 	shift	
 	
+	drive="d"
+	read -p "enter the drive you want to process( d | w |x | y | z) : "  opted		
+	[[ $opted =~ [d|w|x|y|z] ]] && { drive=$opted; } || { echo "ERROR : Unknown drive. Program now EXIT " ; return; }
+			
 	case "$ACTION" in		
 		help|usage)	usage ;;
-		clean_doc_calibre_periodical) clean_doc_calibre_periodical;;		
+		clean_doc_calibre_periodical) clean_doc_calibre_periodical ;;			
 		clean_doc_docs_names) clean_doc_docs_names;;
-		clean_mail_chumma) clean_mail_chumma;;
-		clean_film_folder) clean_film_folder;;
-		clean_course_folder) clean_course_folder;;
+		clean_mail_chumma) clean_mail_chumma;;	
+		clean_film_folder) clean_film_folder $drive;;		
+		clean_course_folder) clean_course_folder;;				
 	esac
 	
 }
