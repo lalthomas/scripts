@@ -1,7 +1,7 @@
 % 20141109-do folder-bash script readme.md 	
 % 2016-10-29 	
 % Lal Thomas 	
-% D:\Dropbox\action\20131027-scripts project\20141109-do folder-bash script.sh 	
+% D:\Dropbox\project\20131027-scripts project\20141109-do folder-bash script.sh 	
 	
 Procedures
 ----------

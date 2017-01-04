@@ -217,6 +217,8 @@ _do_main_(){
         
     }
 	
+	
+	# move the lines containing the term in all text file to a the filename	
 	aggregate_lines_with_term(){
 	
 		# expects 
@@ -247,6 +249,9 @@ _do_main_(){
 		
 	}
 	
+	
+	# search through all text files in current folder
+	# move the matched lines to the filename	
 	replace_lines_in_txt_files_having_term(){
 				
 		term=$1
@@ -315,7 +320,7 @@ _do_main_(){
 	# test the script
 	# echo $filename $ACTION
 
-	pushd "D:\Dropbox\action\20140310-do" > /dev/null 2>&1
+	pushd "D:\Dropbox\do" > /dev/null 2>&1
 		
 	case "$ACTION" in		
 		add_birdseye_report) add_birdseye_report ;;

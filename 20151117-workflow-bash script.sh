@@ -105,7 +105,7 @@ startDay(){
 	echo "# log file"
 	echo
 	# commit the changes
-	pushd "D:\Dropbox\action\20140310-do" > /dev/null 2>&1
+	pushd "D:\Dropbox\do" > /dev/null 2>&1
     git add log.txt > /dev/null 2>&1
 	git	commit -m"add log entry" > /dev/null 2>&1
 	popd > /dev/null 2>&1
@@ -167,9 +167,22 @@ endDay(){
 		echo
 		# TODO : add lesson functionality
 	fi
-	
-	
+		
 	t log add "check-out from personal computer"
+		
+	# review
+	echo
+	echo "Day Review"
+	echo
+	
+	# log items to journal
+	t journal log today
+	
+	# open journal
+	t journal open "$docJournalFile"
+	
+	# run action from csv file
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"
 	
 	echo 
 	echo "List of People to wish"	
@@ -185,20 +198,6 @@ endDay(){
 		t log add "wish friends happy birthday"	
 	fi	
 	
-	# review
-	echo
-	echo "Day Review"
-	echo
-	
-	# log items to journal
-	t journal log today
-	
-	# open journal
-	t journal open "$docJournalFile"
-	
-	# run action from csv file
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"
-	
 	echo  
 	echo "List of People having birthday tomorrow"	
 	echo ========================================
@@ -211,7 +210,7 @@ endDay(){
 	echo
 	echo "commiting changes"
 	echo	
-	pushd "D:\Dropbox\action\20140310-do" > /dev/null 2>&1
+	pushd "D:\Dropbox\do" > /dev/null 2>&1
 	git add log.txt
 	git commit -m"add log entry" 
 	popd > /dev/null 2>&1	
@@ -251,7 +250,7 @@ startWeek(){
 		echo
 		echo "commiting changes"
 		echo	
-		pushd "D:\Dropbox\action\20140310-do" > /dev/null 2>&1
+		pushd "D:\Dropbox\do" > /dev/null 2>&1
 		git add todo.txt
 		git commit -m"add weekly todos to todo.txt" 
 		popd > /dev/null 2>&1				
