@@ -9,21 +9,21 @@ setlocal ENABLEDELAYEDEXPANSION
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
-REM put the path on stack
-pushd "%CD%"
-
 if [%1]==[] (
 
+	REM put the path on stack
+	pushd "%CD%"
 	echo.
-	set /p filename="enter file name:" 
+	set /p file="enter file name:" 
+	set filepath="%CD%\%file%"
 	
 ) else (
 
-	set filename=%1
+	set filepath=%1
+	set file=%~nx1
+	
 )
 
-set file=%filename%
-set filepath="%CD%\%file%"
 REM remove extra quotes
 set filepath=%filepath:"=%
 REM add quotes around
@@ -66,16 +66,20 @@ IF /I "%_Opt%" == "y" (
 	) ELSE (	
 		echo ERROR : %file%  is either not created or commited		
 	)	
+	goto :end		
+) else (
+	exit /b 1
 )
 
 popd
 REM pause
 goto :end
 
+REM end of program
+:end
+exit /b 0
+
 REM add file to readme file index
 :readmelog
 echo %1 >> "readme.md"
 exit /b 0
-
-REM end of program
-:end
