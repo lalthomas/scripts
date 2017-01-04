@@ -445,12 +445,7 @@ _inbox_(){
 	
 		echo
 	}
-	
-	convert2lowercase(){
-	
-		echo "Converting filenames to lowercase"
 		
-	}		
 	
 	usage(){
 
