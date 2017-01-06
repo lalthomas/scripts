@@ -6,7 +6,7 @@
 # cd %APPDATA%\Microsoft\Windows\SendTo
 
 # get the sendto folder path
-$sendto = [System.Environment]::GetFolderPath('Desktop')
+$sendto = [System.Environment]::GetFolderPath('Sendto')
 $wshshell=(New-Object -COM WScript.Shell)
 $lnk = $wshshell.CreateShortcut($sendto+'\shortcuts.lnk')
 $lnk.TargetPath = "D:\temp"
