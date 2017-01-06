@@ -72,7 +72,7 @@ startDay(){
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_START_FILE"		
 
 	# create journal
-	t journal create "$docJournalFile"
+	t journal create
 	echo
 	echo "# journal file"
 	echo
@@ -157,7 +157,7 @@ endDay(){
 	read -p "do you want to add gratitude for the day [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		echo
-		# TODO: add gratitude functionality
+		t journal add gratitude
 	fi
 
 	# add lessons
@@ -176,10 +176,10 @@ endDay(){
 	echo
 	
 	# log items to journal
-	t journal log today
+	t journal add add_todo_done_items
 	
 	# open journal
-	t journal open "$docJournalFile"
+	t journal open
 	
 	# run action from csv file
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"
