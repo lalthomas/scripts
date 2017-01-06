@@ -1,6 +1,6 @@
 @echo off
 REM Author Lal Thomas <lal.thomas.mail@gmail.com>
-REM Date LONGDATE
+REM Date 2016-05-30
 %~d1
 cd %1
 
@@ -76,7 +76,7 @@ set /p projectname="enter reference file name:"
 )
 exit /b 0
 
-:launch
+:LAUNCH
 REM start the program
 start "notepad-pp" %1
 exit /b 0
