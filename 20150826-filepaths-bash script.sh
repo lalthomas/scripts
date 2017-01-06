@@ -26,10 +26,4 @@ export docRootPath="$rootPath/doc"
 export doPlannerFile="$doRootPath/planner.md"
 export doInvalidFile="$doRootPath/invalid.txt"
 export doTodoFile="$doRootPath/todo.txt"
-export doJournalPath="$doRootPath/journal.md"
 export doLogPath="$doRootPath/log.txt"
-export docJournalFile="$docRootPath/$today-journal.md"
-export docYesterdayJournalFile="$docRootPath/$yesterday-journal.md"
-
-
-
