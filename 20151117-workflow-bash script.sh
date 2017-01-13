@@ -109,7 +109,8 @@ startDay(){
 	read -p "do you want start work by blocking distractions : " opted
 	if [ $opted == "y" ]; then
 		# block time wasting websites
-		gsd work
+		echo
+		gsd work		
 	else
 		echo
 		read -p "do you want check mail : " opted
