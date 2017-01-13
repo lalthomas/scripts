@@ -19,7 +19,6 @@ set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
-
 REM Get all parameters but not first
 REM Thanks http://stackoverflow.com/a/761658/2182047
 shift
@@ -35,62 +34,74 @@ REM set project name from second argument
 set projectname=%params%
 call :VERIFY %projectname%
 
-set copyfilename="D:\Dropbox\do\support\20150619-home support template-todo project doc.md"
-
+REM clean project name
 set filename=%projectname:+=%
 set filename=%filename:\= %
 set filename=%filename:/= %
+
 REM dont change the below two lines order
 set todofile="%datestamp%-%filename%.txt"
 set filename="%datestamp%-%filename% readme.md"
-
+REM change folder based on project type
 call :PROJECTTYPE
 
 REM generate file from the template 
-type %copyfilename% >> %filename%
+set todoprojecttemplate="D:\Dropbox\do\support\20150619-home support template-todo project doc.md"
+type %todoprojecttemplate% >> %filename%
 
-REM template values
+REM replace template values
 set path="%scriptFolderPath%\tools\fart"
 fart -qC %filename% "PROJECTNAME" "%projectname%" 2> nul
 fart -qC %filename% "DATE" "%longdatestamp%" 2> nul
 start explorer %filename%
 REM pause
 endlocal
-exit
+goto :end
 
 :verify
 if [%1]==[] ( 
-set /p projectname="enter project name:"
+echo.
+set /p projectname="enter project name : "
 )
 exit /b 0
 
 
 :PROJECTTYPE
-
 REM upcoming type
-set /p upcoming="is this project upcoming (y/n)?"
-IF /I "%upcoming%" == "y" ( 				
-	cd upcoming
-	echo %projectname%>%todofile%	
-	exit /b 0
-) 
+echo.
+echo PROJECT TYPES
+echo.
+echo  current	[enter]
+echo  upcoming	[u]
+echo  hold 		[h]
+echo  archive	[a]
+echo.
+set /p type="choose the type : "
+if /i "%type%"=="u" ( goto upcoming )
+if /i "%type%"=="h" ( goto hold )
+if /i "%type%"=="a" ( goto archive )
+goto endprojecttype
 
-REM archive type
-set /p archived="is this project archived (y/n)?"	
-IF /I "%archived%" == "y" ( 
-	cd archive	
-	echo %projectname%>%todofile%
-	exit /b 0
-) 	
+:upcoming
+cd upcoming
+echo %projectname%>%todofile%
+goto :endprojecttype
 
-REM hold type
-set /p hold="is this project on hold (y/n)?"		
-IF /I "%hold%" == "y" ( 
-	cd hold
-	echo %projectname%>%todofile%
-	exit /b 0
-)	
+:hold
+cd hold
+echo %projectname%>%todofile%
+exit /b 0
 
+:archive
+cd archive	
+echo %projectname%>%todofile%
+exit /b 0
+goto :endprojecttype
+
+:endprojecttype
 exit /b 0
 
 
+REM -------- END ----------
+
+:end
