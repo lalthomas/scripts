@@ -57,9 +57,9 @@ IF /I "%_Opt%" == "y" (
 	REM	if no argument then add to readme
 	if [%1]==[] ( call :readmelog %filepath% )	
 	REM add to revision control
-	git add %filepath% >nul 2>nul
-	git add readme.md >nul 2>nul
-	git commit -m %commitmessage% >nul 2>nul
+	call git add %filepath% >nul 2>nul
+	call git add readme.md >nul 2>nul
+	call git commit -m %commitmessage% >nul 2>nul
 	echo.
 	IF %ERRORLEVEL% EQU 0 ( 
 		echo SUCCESS : %file% successfully created and commited		
