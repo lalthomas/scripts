@@ -48,8 +48,8 @@ IF %ERRORLEVEL% EQU 0 (
 	call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$URL01$" "%facebookurl%" >nul 2>nul
 		
 	REM add to revision control	
-	git add %fullfilepath% >nul 2>nul
-	git commit -m %commitmessage% >nul 2>nul	
+	call git add %fullfilepath% >nul 2>nul
+	call git commit -m %commitmessage% >nul 2>nul	
 	
 	IF %ERRORLEVEL% EQU 0 ( 
 		
