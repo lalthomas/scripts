@@ -54,6 +54,7 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%		
 )
 
+
 REM add to readme file without quotes
 echo %filename:"=% >>readme.md
 REM add to revision control
