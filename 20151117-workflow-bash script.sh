@@ -40,6 +40,32 @@ usage() {
 
 startDay(){     
     
+	git_commit(){
+	
+		# push path
+		pushd "D:\Dropbox\do" > /dev/null 2>&1
+		
+		# git commit log file
+		echo
+		echo "# log file"
+		echo		
+		git add log.txt > /dev/null 2>&1
+		git	commit -m"add log entry" > /dev/null 2>&1		
+		echo "  [x] changes to $doLogPath commited"							
+		
+		# git commit project list file
+		echo
+		echo "# project list file"
+		echo		
+		git add "reference\20161001-project list-dev gtd.txt" > /dev/null 2>&1
+		git	commit -m"update project list" > /dev/null 2>&1		
+		echo "  [x] changes to 20161001-project list-dev gtd.txt commited"
+						
+		# pop path
+		popd > /dev/null 2>&1
+		
+	}
+	
 	echo 
     echo "welcome to start day program"
     echo 
@@ -69,8 +95,8 @@ startDay(){
 	echo
 	
 	# run action from csv file
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_START_FILE"		
-
+	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_START_FILE"			
+	
 	# create journal
 	t journal create
 	echo
@@ -100,25 +126,19 @@ startDay(){
 			# todoapp="C:\Program Files (x86)\QTodoTxt\qtodotxt.exe"
 			cygstart "$todoapp"
 	fi	
-	
-	echo
-	echo "# log file"
-	echo
-	# commit the changes
-	pushd "D:\Dropbox\do" > /dev/null 2>&1
-    git add log.txt > /dev/null 2>&1
-	git	commit -m"add log entry" > /dev/null 2>&1
-	popd > /dev/null 2>&1
-		echo "  [x] changes to $doLogPath commited"	
-	
+		
 	# start actions for the week
 	echo
 	echo "# computer/dropbox/lab"	
 	echo
 	echo " [x] open active projects for action"
 	echo 
-	gtd open_active_projects
 	
+	# commit the changes
+	git_commit
+	
+	# open active projects
+	gtd open_active_projects	
 	
 	echo
 	echo "--------------------"
@@ -128,6 +148,44 @@ startDay(){
 }
 
 endDay(){
+	
+	git_commit(){
+	
+		pushd "D:\Dropbox\do" > /dev/null 2>&1
+	
+		# commit the changes
+		echo
+		echo "commiting changes"
+		echo	
+				
+		# git commit log file		
+		echo
+		echo "# log file"
+		echo
+		git add log.txt
+		git commit -m"add log entry" 
+		popd > /dev/null 2>&1	
+		
+		
+		# git commit lesson file
+		echo
+		echo "# lesson file"
+		echo		
+		git add "reference\20160312-life lessons doc-life gtd.md" > /dev/null 2>&1
+		git	commit -m"add lesson entry" > /dev/null 2>&1		
+		echo "  [x] changes to 20160312-life lessons doc-life gtd.md commited"
+		
+				
+		# git commit attendance file
+		echo
+		echo "# attendance file"
+		echo		
+		git add "reference\20170109-amrita mtech semester 04 attendance register.md" > /dev/null 2>&1
+		git	commit -m"add entry to attendance file" > /dev/null 2>&1		
+		echo "  [x] changes to 20170109-amrita mtech semester 04 attendance register commited"
+		
+	
+	}
 	
 	echo
 	echo "  workflow end day"
@@ -198,22 +256,16 @@ endDay(){
 		t log add "wish friends happy birthday"	
 	fi	
 	
+		
 	echo  
 	echo "List of People having birthday tomorrow"	
 	echo ========================================
 	echo 
 	wish list tomorrow
 	echo
-	
-	
-	# commit the changes
-	echo
-	echo "commiting changes"
-	echo	
-	pushd "D:\Dropbox\do" > /dev/null 2>&1
-	git add log.txt
-	git commit -m"add log entry" 
-	popd > /dev/null 2>&1	
+		
+	# commit changes
+	git_commit	
 		
 	echo
 	echo "---------------------------"
