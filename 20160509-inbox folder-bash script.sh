@@ -12,6 +12,7 @@ alias inbox=_inbox_
 
 _inbox_(){	
 
+	# generic routines
 	
 	string_replace_underscore_with_space(){
 	
@@ -88,6 +89,7 @@ _inbox_(){
 		
 	}
 
+	# folder routines
 	
 	clean_course_folder(){	
 		
@@ -200,9 +202,84 @@ _inbox_(){
 	}
 	
 	clean_doc_folder(){
-				
-		clean_mail_chumma(){
+
+
+		change_drive(){
+		
+			# change the folder				
+			# i tried a lot of way to get 
+			# it via a variable,bash simply won't allow that
+			# so direct push
+			echo "drive : $1"
+			case $1 in
+				d|D) pushd "D:\Inbox\doc" > /dev/null 2>&1;;
+				w|W) pushd "W:\Inbox\doc" > /dev/null 2>&1;;		
+				x|X) pushd "X:\Inbox\doc" > /dev/null 2>&1;;		
+				y|Y) pushd "Y:\Inbox\doc" > /dev/null 2>&1;;
+				z|Z) pushd "Z:\Inbox\doc" > /dev/null 2>&1;;
+				*) 
+					echo "unknown drive"; 
+					return;
+				;;
+			esac	
+			return
+		}
+		
+		clean_cleanup_thunderbird_folder(){
+		
+			clean_doc_cleanup_thunderbird_newstoday_folder(){
 			
+				pushd "D:\Inbox\doc\cleanup thunderbird\newstoday" > /dev/null 2>&1
+				
+				for f in *; do
+						if [[ -d $f ]]; then continue; fi # skip directories	
+						newname="$(echo $f | sed 's/_/ /g')" # substitute underscore with space
+						newname="$(echo $newname | sed 's/\[[0-9] Attachment//g')" 
+						newname="$(echo $newname | sed 's/NewsToday\]\s*//g')" 			
+						newname="$(echo $newname | sed 's/--/-/g')" # substitute underscore with space						
+						newname="$(echo $newname | sed 's/ +/ /g')" # remove multiple spaces into one
+						newname="$(echo $newname | sed 's/-[0-9][0-9]-[a-z]*-[0-9][0-9][0-9][0-9]//g')"
+						newname="$(echo $newname | sed 's/sMathrubhumi\ /Mathrubhumi/g')"
+						newname="$(echo $newname | sed 's/FWD-//g')"
+						newname="$(echo $newname | sed 's/[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]//g')"			
+						newname="$(echo $newname | sed 's/([0-9][0-9]-[0-9][0-9].-[0-9][0-9][0-9][0-9])//g')"	
+						newname="$(echo $newname | sed 's/([0-9][0-9]_[0-9][0-9]_[0-9][0-9][0-9][0-9])//g')" 			
+						newname="$(echo $newname | sed 's/([a-z][a-z][a-z])-([0-9][0-9])-([0-9][0-9][0-9][0-9])\s\(([a-z]*)\)//g')" 			
+						newname="$(echo $newname | sed 's/(\s*)$//g')" 			
+						newname="$(echo $newname | sed 's/sDeshabhimani/Deshabhimani/g')" 			
+						newname="$(echo $newname | sed 's/MB/Mathrubhumi/g')"
+						newname="$(echo $newname | sed 's/RD/Rashtra Deepika/g')"
+						newname="$(echo $newname | sed 's/KK F/Kerala Kaumudi Flash/g')"
+						newname="$(echo $newname | sed 's/KK/Kerala Kaumudi/g')"
+						newname="$(echo $newname | sed 's/-/ /g')" # substitute dash with space
+						newname="$(echo $newname | sed 's/\([0-9]\{8\}\) /\1-/g')" # append date string with dash			
+						newname="$(echo $newname | tr "[:upper:]" "[:lower:]")" # convert to lowercase			
+						
+						# thanks http://stackoverflow.com/a/965072/2182047
+						filename=$(basename "$newname")
+						extension="${filename##*.}" # extract extension
+						name="${filename%.*}" #extract name
+						
+						# trim whitespaces
+						# thanks : http://www.cyberciti.biz/faq/bash-remove-whitespace-from-string/
+						shopt -s extglob 	 # turn it on
+						name="${name##*( )}" # Trim leading whitespaces
+						name="${name%%*( )}" # trim trailing whitespaces
+						shopt -u extglob  	 # turn it off
+						# end of trim
+						
+						newname="$(echo $name.$extension)" # join
+									
+						echo $f : $newname
+						# rename the files
+						mv "$f" "$newname";
+					done					
+				popd
+			
+			}
+	
+			clean_doc_cleanup_thunderbird_chumma_folder(){
+					
 				pushd "D:\Inbox\doc\cleanup thunderbird\chumma" > /dev/null 2>&1
 			
 				for f in *; do
@@ -242,93 +319,72 @@ _inbox_(){
 				done
 					
 				popd
+					
 			}
+					
+		}
 		
-		clean_doc_docs_names(){
+		clean_cleanup_calibre_folder(){
+			:
+		}
 		
-				pushd "D:\Inbox\doc\import folder doc" > /dev/null 2>&1
-		 
-				mkdir "clean-named" &>/dev/null
-				ls | grep -e"[0-9]\{8\}" | xargs -d"\n" mv -t "$PWD/clean-named" &>/dev/null		
-				echo "Files with clean name moved ..."
-				echo "Processing remaining files ..."
-				echo .
-				shopt -u nullglob
-				shopt -u dotglob
-				for f in *; do 
-					if [[ -d $f ]]; then continue; fi # skip directories
-					if [[ $f == *.ini ]]; then continue; fi # skip ini files
-					date_created=$(stat --format "%W" "$f")
-					date_created_format=$(date --date="@$date_created" +%Y%m%d-%H%M)
-					newname="$(echo $f | tr "[:upper:]" "[:lower:]")" # convert to lowercase			
-					newname="$(echo $newname | sed 's/-/ /g')" # substitute dash with space
-					newname="$(echo $newname | sed 's/_/ /g')" # substitute underscore with space
-					newname="$(echo $newname | sed 's/ +/ /g')" # remove multiple spaces into one
-					newname="$date_created_format-$newname" # prepend created date			
-					echo $f : $newname
-					mv "$f" "$newname"; # rename the files
-				done	
-				# delete empty folders
-				find . -empty -type d -delete
-				
-				popd
-			}
-
-		clean_doc_calibre_periodical(){
+		clean_import_folder_doc(){		
 			
-			pushd "D:\Inbox\doc\cleanup thunderbird\newstoday" > /dev/null 2>&1
-			
-			for f in *; do
-					if [[ -d $f ]]; then continue; fi # skip directories	
-					newname="$(echo $f | sed 's/_/ /g')" # substitute underscore with space
-					newname="$(echo $newname | sed 's/\[[0-9] Attachment//g')" 
-					newname="$(echo $newname | sed 's/NewsToday\]\s*//g')" 			
-					newname="$(echo $newname | sed 's/--/-/g')" # substitute underscore with space						
-					newname="$(echo $newname | sed 's/ +/ /g')" # remove multiple spaces into one
-					newname="$(echo $newname | sed 's/-[0-9][0-9]-[a-z]*-[0-9][0-9][0-9][0-9]//g')"
-					newname="$(echo $newname | sed 's/sMathrubhumi\ /Mathrubhumi/g')"
-					newname="$(echo $newname | sed 's/FWD-//g')"
-					newname="$(echo $newname | sed 's/[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]//g')"			
-					newname="$(echo $newname | sed 's/([0-9][0-9]-[0-9][0-9].-[0-9][0-9][0-9][0-9])//g')"	
-					newname="$(echo $newname | sed 's/([0-9][0-9]_[0-9][0-9]_[0-9][0-9][0-9][0-9])//g')" 			
-					newname="$(echo $newname | sed 's/([a-z][a-z][a-z])-([0-9][0-9])-([0-9][0-9][0-9][0-9])\s\(([a-z]*)\)//g')" 			
-					newname="$(echo $newname | sed 's/(\s*)$//g')" 			
-					newname="$(echo $newname | sed 's/sDeshabhimani/Deshabhimani/g')" 			
-					newname="$(echo $newname | sed 's/MB/Mathrubhumi/g')"
-					newname="$(echo $newname | sed 's/RD/Rashtra Deepika/g')"
-					newname="$(echo $newname | sed 's/KK F/Kerala Kaumudi Flash/g')"
-					newname="$(echo $newname | sed 's/KK/Kerala Kaumudi/g')"
-					newname="$(echo $newname | sed 's/-/ /g')" # substitute dash with space
-					newname="$(echo $newname | sed 's/\([0-9]\{8\}\) /\1-/g')" # append date string with dash			
-					newname="$(echo $newname | tr "[:upper:]" "[:lower:]")" # convert to lowercase			
-					
-					# thanks http://stackoverflow.com/a/965072/2182047
-					filename=$(basename "$newname")
-					extension="${filename##*.}" # extract extension
-					name="${filename%.*}" #extract name
-					
-					# trim whitespaces
-					# thanks : http://www.cyberciti.biz/faq/bash-remove-whitespace-from-string/
-					shopt -s extglob 	 # turn it on
-					name="${name##*( )}" # Trim leading whitespaces
-					name="${name%%*( )}" # trim trailing whitespaces
-					shopt -u extglob  	 # turn it off
-					# end of trim
-					
-					newname="$(echo $name.$extension)" # join
-								
-					echo $f : $newname
-					# rename the files
-					mv "$f" "$newname";
-				done
-				
+			pushd "D:\Inbox\doc\import folder doc" > /dev/null 2>&1		 
+			mkdir "clean-named" &>/dev/null
+			ls | grep -e"[0-9]\{8\}" | xargs -d"\n" mv -t "$PWD/clean-named" &>/dev/null		
+			echo "Files with clean name moved ..."
+			echo "Processing remaining files ..."
+			echo .
+			shopt -u nullglob
+			shopt -u dotglob
+			for f in *; do 
+				if [[ -d $f ]]; then continue; fi # skip directories
+				if [[ $f == *.ini ]]; then continue; fi # skip ini files
+				date_created=$(stat --format "%W" "$f")
+				date_created_format=$(date --date="@$date_created" +%Y%m%d-%H%M)
+				newname="$(echo $f | tr "[:upper:]" "[:lower:]")" # convert to lowercase			
+				newname="$(echo $newname | sed 's/-/ /g')" # substitute dash with space
+				newname="$(echo $newname | sed 's/_/ /g')" # substitute underscore with space
+				newname="$(echo $newname | sed 's/ +/ /g')" # remove multiple spaces into one
+				newname="$date_created_format-$newname" # prepend created date			
+				echo $f : $newname
+				mv "$f" "$newname"; # rename the files
+			done	
+			# delete empty folders
+			find . -empty -type d -delete				
 			popd
 			
-			}
-	
-		clean_mail_chumma
-		clean_doc_docs_names
-		clean_doc_calibre_periodical
+		}
+		
+		clean_import_folder_evernote(){
+			
+			:
+		}
+		
+		clean_import_folder_mendely(){
+			
+			:
+		}
+		
+		clean_import_folder_reference(){
+			
+			:
+		}
+		
+		clean_import_folder_support(){
+		
+			:
+		}
+					
+		change_drive $1
+		clean_cleanup_thunderbird_folder
+		clean_cleanup_calibre_folder
+		clean_import_folder_doc
+		clean_import_folder_evernote
+		clean_import_folder_mendely
+		clean_import_folder_reference
+		clean_import_folder_support
 		
 	}
 	
