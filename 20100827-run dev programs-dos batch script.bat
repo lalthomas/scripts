@@ -35,6 +35,7 @@ if /i %~x1 == .sql ( goto SQL )
 if /i %~x1 == .py ( goto PYTHON )
 if /i %~x1 == .sh ( goto BASH )
 if /i %~x1 == .r ( goto R )
+if /i %~x1 == .ps1 ( goto POWERSHELL )
 
 
 goto END
@@ -148,6 +149,14 @@ REM R Language
 call "C:\Program Files\R\R-3.3.0\bin\Rscript.exe" %1
 pause
 exit
+
+:POWERSHELL
+@echo OFF
+set path=%PATH%;%CD%
+powershell -executionpolicy bypass -File ".\%~nx1"
+pause
+exit
+
 
 :getParentFolderName
 REM thanks : http://stackoverflow.com/questions/2396003/get-parent-directory-name-for-a-particular-file-using-dos-batch-scripting
