@@ -243,20 +243,24 @@ endDay(){
 	# run action from csv file
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"
 	
-	echo 
-	echo "List of People to wish"	
-	echo =========================
-	echo 
-	wish list
-	echo
-	
-	opted="n"	
-	read -p "enter y to wish now : " opted
-	if [ $opted == "y" ]; then
-		wish email
-		t log add "wish friends happy birthday"	
-	fi	
-	
+	opted="n"
+	read -p "have you wished your friends ? : " opted
+	if [ $opted == "n" ]; then	
+		echo 
+		echo "List of People to wish"	
+		echo =========================
+		echo 
+		wish list
+		echo		
+		opted="n"	
+		read -p "enter y to wish now : " opted
+		if [ $opted == "y" ]; then
+			wish email
+			t log add "wish friends happy birthday"	
+		fi	
+	else		
+		t log add "wish friends happy birthday"			
+	fi
 		
 	echo  
 	echo "List of People having birthday tomorrow"	
