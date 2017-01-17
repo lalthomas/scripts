@@ -50,8 +50,8 @@ Windows
 20160214-launch autohotkey scripts-autohotkey script.ahk
 20161020-empty recyclebin-dos batch script.bat
 20161102-aliases for lalthomas pc-dos script support file.cmd
-20161107-create windows explorer shortcut-dos batch script.bat
-20170102-create shortcut in sendto folder-powershell script.ps1-powershell script run.bat 
+20170102-create shortcut in sendto folder-powershell script.ps1
+20170117-create shortcut of useful scripts in sendto folder-dos batch file.bat
 
 
 Windows Explorer
@@ -247,4 +247,3 @@ Mac
 20140707-restore homebrew packages-bash script.sh
 
 
-20170102-create shortcut in sendto folder-powershell script run.bat 
