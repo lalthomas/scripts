@@ -51,7 +51,7 @@ Windows
 20161020-empty recyclebin-dos batch script.bat
 20161102-aliases for lalthomas pc-dos script support file.cmd
 20161107-create windows explorer shortcut-dos batch script.bat
-20170102-create shortcut in sendto folder-powershell script.ps1
+20170102-create shortcut in sendto folder-powershell script.ps1-powershell script run.bat 
 
 
 Windows Explorer
@@ -246,6 +246,5 @@ Mac
 20140707-backup homebrew package forumulas-bash script.sh
 20140707-restore homebrew packages-bash script.sh
 
-20170102-create useful shortcuts of scripts in send to folder-powershell script run.bat 
-20170102-create useful shortcuts of scripts in send to folder-powershell script run.bat 
-20170102-create shortcut in sendto folder-powershell script.ps1-powershell script run.bat 
+
+20170102-create shortcut in sendto folder-powershell script run.bat 
