@@ -153,7 +153,14 @@ exit
 :POWERSHELL
 @echo OFF
 set path=%PATH%;%CD%
-powershell -executionpolicy bypass -File ".\%~nx1"
+REM For running options see [.net - Could you explain STA and MTA? - Stack Overflow](http://stackoverflow.com/questions/127188/could-you-explain-sta-and-mta)
+
+REM Mutlithreaded
+REM powershell -MTA -executionpolicy bypass -File ".\%~nx1"
+
+REM Single Threaded
+powershell -STA -executionpolicy bypass -File ".\%~nx1"
+
 pause
 exit
 
