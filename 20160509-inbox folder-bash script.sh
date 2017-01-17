@@ -98,107 +98,127 @@ _inbox_(){
 		# it via a variable,bash simply won't allow that
 		# so direct push
 		
-			
-		# pushd "D:\Inbox\course" > /dev/null 2>&1
-		pushd "W:\Inbox\course" > /dev/null 2>&1
-		# pushd "X:\Inbox\course" > /dev/null 2>&1
-		# pushd "Y:\Inbox\course" > /dev/null 2>&1
-		# pushd "Z:\Inbox\course" > /dev/null 2>&1		
+		change_drive(){
 		
-		# read only directories
-		for d in */ ; do
+			# change the folder				
+			# i tried a lot of way to get 
+			# it via a variable,bash simply won't allow that
+			# so direct push
+			echo "drive : $1"
+			case $1 in
+				d|D) pushd "D:\Inbox\course" > /dev/null 2>&1;;
+				w|W) pushd "W:\Inbox\course" > /dev/null 2>&1;;		
+				x|X) pushd "X:\Inbox\course" > /dev/null 2>&1;;		
+				y|Y) pushd "Y:\Inbox\course" > /dev/null 2>&1;;
+				z|Z) pushd "Z:\Inbox\course" > /dev/null 2>&1;;
+				*) 
+					echo "unknown drive"; 
+					return;
+				;;
+			esac	
+			return
+		}			
+		
+		rename_files(){
 			
-			pushd $PWD  > /dev/null 2>&1
-			
-			# ----------------
-			# rename files
-			# ----------------
-			
-			# change directory
-			cd "$d"			
-			echo "$d"			
-			# loop through files
-			for f in *; do			
+			# read only directories
+			for d in */ ; do
 				
-				# skip directories
-				if [[ -d $f ]]; then continue; fi 
-				# skip ini files
-				if [[ $f == *.ini ]]; then continue; fi 
+				pushd $PWD  > /dev/null 2>&1
+				
+				# ----------------
+				# rename files
+				# ----------------
+				
+				# change directory
+				cd "$d"			
+				echo "$d"			
+				# loop through files
+				for f in *; do			
+					
+					# skip directories
+					if [[ -d $f ]]; then continue; fi 
+					# skip ini files
+					if [[ $f == *.ini ]]; then continue; fi 
 
-										
-				filename=$(string_get_file_name "$f")
-				extension=$(string_get_file_extension "$f")	
-				createdate=$(file_get_created_date "$f")
+											
+					filename=$(string_get_file_name "$f")
+					extension=$(string_get_file_extension "$f")	
+					createdate=$(file_get_created_date "$f")
+					
+					# remove folder name
+					folder=${d%/}				
+					newname=${filename#${folder}}
+					# end of remove folder name
+					
+					newname=$(string_replace_underscore_with_space "$newname")				
+					newname=$(string_replace_dash_with_space "$newname")				
+					newname=$(string_replace_dot_with_space "$newname")
+					newname=$(string_unify_multiple_spaces "$newname")
+					newname=$(string_unify_multiple_dash "$newname")																																	
+					
+					newfilename=$(string_trim_whitespace "$newname")
+					newextension=$(string_trim_whitespace "$extension")
+								
+					newname="$(echo $folder - $newfilename.$newextension)"
+					newname=$(string_convert_to_lower "$newname")
+					
+					echo "	$f : $newname"
+					# add a log file
+					echo "$f" >>"$newname.log"				
+					# rename file
+					mv "$f" "$newname";						
+
+				done
 				
-				# remove folder name
-				folder=${d%/}				
-				newname=${filename#${folder}}
-				# end of remove folder name
+				# continue	
 				
-				newname=$(string_replace_underscore_with_space "$newname")				
-				newname=$(string_replace_dash_with_space "$newname")				
-				newname=$(string_replace_dot_with_space "$newname")
-				newname=$(string_unify_multiple_spaces "$newname")
-				newname=$(string_unify_multiple_dash "$newname")																																	
+				# exit from folder
+				cd ..
+			
+				# --------------------
+				# end of rename files
+				# --------------------			
 				
-				newfilename=$(string_trim_whitespace "$newname")
-				newextension=$(string_trim_whitespace "$extension")
+				
+				# --------------------
+				# move files and index
+				# --------------------
 							
-				newname="$(echo $folder - $newfilename.$newextension)"
-				newname=$(string_convert_to_lower "$newname")
-				
-				echo "	$f : $newname"
-				# add a log file
-				echo "$f" >>"$newname.log"				
-				# rename file
-				mv "$f" "$newname";						
+				# move and  rename folder 			
+				folderdate=$(file_get_created_date "$d")
+				newfolder="$(echo $folderdate-$d)"									
+				mv -i "$d" "../../courses/$newfolder"		
 
-			done
-			
-			# continue	
-			
-			# exit from folder
-			cd ..
-		
-			# --------------------
-			# end of rename files
-			# --------------------			
-			
-			
-			# --------------------
-			# move files and index
-			# --------------------
-						
-			# move and  rename folder 			
-			folderdate=$(file_get_created_date "$d")
-			newfolder="$(echo $folderdate-$d)"									
-			mv -i "$d" "../../courses/$newfolder"		
-
-			# list the files in moved folder
-			cd "../../courses/$newfolder"								
-			for f in *; do
+				# list the files in moved folder
+				cd "../../courses/$newfolder"								
+				for f in *; do
+										
+					p=$(readlink -f "$f")				
+					winp=$(cygpath -w "$p")
+					echo "$winp" >>"files.txt"
 									
-				p=$(readlink -f "$f")				
-				winp=$(cygpath -w "$p")
-				echo "$winp" >>"files.txt"
-								
-			done
+				done
 
-			# move the filelist to upper folder
-			mv "files.txt" "../${newfolder%/}.txt"	
-			
-			# ---------------------------
-			# end of move files and index
-			# ---------------------------
-			
-			
-			popd  > /dev/null 2>&1
-						
-		done
-								
+				# move the filelist to upper folder
+				mv "files.txt" "../${newfolder%/}.txt"	
+				
+				# ---------------------------
+				# end of move files and index
+				# ---------------------------
+				
+				
+				popd  > /dev/null 2>&1
+							
+			done
+										
+		}
+		
+		change_drive $1
+		rename_files
+		
 		# remove from stack
 		popd > /dev/null 2>&1
-			
 	}
 	
 	clean_doc_folder(){
@@ -539,29 +559,38 @@ _inbox_(){
 	usage(){
 
         echo 
-        echo "Inbox OPTIONS"      
-        echo " helper script to managing inbox folder"   
-		echo " clean_doc_calibre_periodical"
-		echo " clean_mail_chumma"
-        echo " clean_doc_docs_names"	
-		echo " clean_film_folder"
+        echo "inbox [OPTIONS]"     
+		echo		
+        echo " helper script to manage inbox folders"   
+		echo
+		echo " OPTIONS"
+		echo " ......."
+		echo 
+		# echo " clean_doc_calibre_periodical"
+		# echo " clean_mail_chumma"
+        # echo " clean_doc_docs_names"	
+		echo "  clean_film_folder"
+		echo "  clean_course_folder"		
+	}
+	
+	drive="d"
+	
+	get_drive(){			
+		read -p "enter the drive you want to process( d | w |x | y | z) : "  opted		
+		[[ $opted =~ [d|w|x|y|z] ]] && { drive=$opted; } || { echo "ERROR : Unknown drive. Program now EXIT " ; return; }			
 	}
 	
 	# set -x
 	ACTION=$1
 	shift	
-	
-	drive="d"
-	read -p "enter the drive you want to process( d | w |x | y | z) : "  opted		
-	[[ $opted =~ [d|w|x|y|z] ]] && { drive=$opted; } || { echo "ERROR : Unknown drive. Program now EXIT " ; return; }
-			
+				
 	case "$ACTION" in		
 		help|usage)	usage ;;
-		clean_doc_calibre_periodical) clean_doc_calibre_periodical ;;			
-		clean_doc_docs_names) clean_doc_docs_names;;
-		clean_mail_chumma) clean_mail_chumma;;	
-		clean_film_folder) clean_film_folder $drive;;		
-		clean_course_folder) clean_course_folder;;				
+		# clean_doc_calibre_periodical) clean_doc_calibre_periodical ;;			
+		# clean_doc_docs_names) clean_doc_docs_names;;
+		# clean_mail_chumma) clean_mail_chumma;;	
+		clean_film_folder) get_drive && clean_film_folder $drive;;		
+		clean_course_folder) get_drive && clean_course_folder $drive;;				
 	esac
 	
 }
