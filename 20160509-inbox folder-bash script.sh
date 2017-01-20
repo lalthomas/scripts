@@ -426,11 +426,26 @@ _inbox_(){
 			# so direct push
 			echo "drive : $1"
 			case $1 in
-				d|D) pushd "D:\Inbox\film" > /dev/null 2>&1;;
-				w|W) pushd "W:\Inbox\film" > /dev/null 2>&1;;		
-				x|X) pushd "X:\Inbox\film" > /dev/null 2>&1;;		
-				y|Y) pushd "Y:\Inbox\film" > /dev/null 2>&1;;
-				z|Z) pushd "Z:\Inbox\film" > /dev/null 2>&1;;
+				d|D)
+					pushd "D:\Inbox\film" > /dev/null 2>&1
+					playlist="D:\Dropbox\do\reference\20150319-d-film.m3u"
+				;;
+				w|W)
+					pushd "W:\Inbox\film" > /dev/null 2>&1
+					playlist="D:\Dropbox\do\reference\20160422-w-film.m3u"
+					;;		
+				x|X) 
+					pushd "X:\Inbox\film" > /dev/null 2>&1
+					playlist="D:\Dropbox\do\reference\20160601-x-film.m3u"
+					;;		
+				y|Y) 
+					pushd "Y:\Inbox\film" > /dev/null 2>&1
+					playlist="D:\Dropbox\do\reference\20150319-y-film.m3u"
+					;;
+				z|Z)
+					pushd "Z:\Inbox\film" > /dev/null 2>&1
+					playlist="D:\Dropbox\do\reference\20170120-z-film.m3u"
+					;;
 				*) 
 					echo "unknown drive"; 
 					return;
@@ -491,13 +506,18 @@ _inbox_(){
 					echo "	$f : $newname"
 					# add a log file
 					echo "$f" >>"$newname.log"
-					mv "$f" "$newname";
-					
-				done
-				
+					cygstart "$newname.log"
+					cygstart "."
+
+					# rename, move and index					
+					mv "$f" "../../../film/$newname";
+					p=$(readlink -f "../../../film/$newname")
+					winp=$(cygpath -w "$p")
+					echo "$winp" >>$playlist
+										
+				done				
 				cd ..						
-			done
-			
+			done			
 		}
 		
 		change_drive $1
