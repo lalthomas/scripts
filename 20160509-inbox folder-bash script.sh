@@ -20,6 +20,12 @@ _inbox_(){
 		
 	}
 	
+	string_replace_brackets_with_space(){
+		
+		echo $1 | sed 's/[({})]/ /g' | sed -r 's/(\[|\])/ /g'		
+		
+	}
+	
 	string_replace_dash_with_space(){
 	
 		echo $1 | sed 's/-/ /g'
@@ -41,6 +47,12 @@ _inbox_(){
 	string_unify_multiple_dash(){
 	
 		echo $1 | sed 's/--/-/g'
+		
+	}
+	
+	string_replace_url(){
+			
+		echo $1 | sed 's/www.[^ ]*//g'
 		
 	}
 	
@@ -106,11 +118,11 @@ _inbox_(){
 			# so direct push
 			echo "drive : $1"
 			case $1 in
-				d|D) pushd "D:\Inbox\course" > /dev/null 2>&1;;
-				w|W) pushd "W:\Inbox\course" > /dev/null 2>&1;;		
-				x|X) pushd "X:\Inbox\course" > /dev/null 2>&1;;		
-				y|Y) pushd "Y:\Inbox\course" > /dev/null 2>&1;;
-				z|Z) pushd "Z:\Inbox\course" > /dev/null 2>&1;;
+				d|D) pushd "D:\Inbox\courses" > /dev/null 2>&1;;
+				w|W) pushd "W:\Inbox\courses" > /dev/null 2>&1;;		
+				x|X) pushd "X:\Inbox\courses" > /dev/null 2>&1;;		
+				y|Y) pushd "Y:\Inbox\courses" > /dev/null 2>&1;;
+				z|Z) pushd "Z:\Inbox\courses" > /dev/null 2>&1;;
 				*) 
 					echo "unknown drive"; 
 					return;
@@ -165,7 +177,7 @@ _inbox_(){
 					
 					echo "	$f : $newname"
 					# add a log file
-					echo "$f" >>"$newname.log"				
+					echo "$newname : $f" >>"log.txt"				
 					# rename file
 					mv "$f" "$newname";						
 
@@ -184,14 +196,16 @@ _inbox_(){
 				# --------------------
 				# move files and index
 				# --------------------
-							
-				# move and  rename folder 			
+											
+				# get the date of the directory
 				folderdate=$(file_get_created_date "$d")
-				newfolder="$(echo $folderdate-$d)"									
+				# path simplied	
+				newfolder="$(echo $folderdate-$d)"													
 				mv -i "$d" "../../courses/$newfolder"		
 
 				# list the files in moved folder
 				cd "../../courses/$newfolder"								
+				
 				for f in *; do
 										
 					p=$(readlink -f "$f")				
@@ -199,9 +213,19 @@ _inbox_(){
 					echo "$winp" >>"files.txt"
 									
 				done
-
-				# move the filelist to upper folder
-				mv "files.txt" "../${newfolder%/}.txt"	
+												
+				# get the drive and path and escape the path
+				fp=$(echo $(cygpath -w "../../courses") | xargs echo | sed 's\:\-\g' )				
+				playlistname="$(echo $folderdate-$fp-$d | tr '[:upper:]' '[:lower:]')"
+				
+				# move the filelist to upper folder	
+				# mv "files.txt" "../${playlistname%/}.m3u"
+				
+				# move the filelist to reference
+				refpath=$(cygpath -u "D:\Dropbox\do\reference")
+				mv "files.txt" "$refpath/${playlistname%/}.m3u"
+				echo "${playlistname%/}.m3u" >> "$refpath/readme.md"
+				
 				
 				# ---------------------------
 				# end of move files and index
@@ -210,7 +234,7 @@ _inbox_(){
 				
 				popd  > /dev/null 2>&1
 							
-			done
+			done								
 										
 		}
 		
@@ -490,6 +514,9 @@ _inbox_(){
 									
 					# newname=$(string_convert_to_lower "$newname")
 					newname=$(string_replace_underscore_with_space "$newname")
+					newname=$(string_replace_brackets_with_space "$newname")										
+					newname=$(string_replace_url "$newname")
+					newname=$(string_replace_dash_with_space "$newname")
 					newname=$(string_replace_dot_with_space "$newname")
 					newname=$(string_unify_multiple_spaces "$newname")
 					newname=$(string_unify_multiple_dash "$newname")
@@ -502,20 +529,26 @@ _inbox_(){
 					newextension=$(string_trim_whitespace "$extension")
 								
 					newname="$(echo $newfilename $folder.$newextension)"
-											
-					echo "	$f : $newname"
-					# add a log file
-					echo "$f" >>"$newname.log"
-					cygstart "$newname.log"
-					cygstart "."
-
+															
 					# rename, move and index					
 					mv "$f" "../../../film/$newname";
+										
 					p=$(readlink -f "../../../film/$newname")
 					winp=$(cygpath -w "$p")
-					echo "$winp" >>$playlist
+					
+					extension="${newname##*.}"					
+					# skip the subtitle file
+					echo $extension
+					[[ ! $extension =~ .srt|.sub ]]  &&  echo "$winp" >>$playlist					
+					
+					# write to log
+					echo "	$f : $newname"
+					# add a log file					
+					echo "$winp : $f" >>"log.txt"					
 										
-				done				
+				done
+					# open the log file
+					cygstart "log.txt"				
 				cd ..						
 			done			
 		}
@@ -596,7 +629,7 @@ _inbox_(){
 	drive="d"
 	
 	get_drive(){			
-		read -p "enter the drive you want to process( d | w |x | y | z) : "  opted		
+		read -p "enter the drive you want to process( d | w | x | y | z) : "  opted		
 		[[ $opted =~ [d|w|x|y|z] ]] && { drive=$opted; } || { echo "ERROR : Unknown drive. Program now EXIT " ; return; }			
 	}
 	
