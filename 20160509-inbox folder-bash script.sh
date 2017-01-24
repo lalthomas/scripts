@@ -619,11 +619,8 @@ _inbox_(){
 		echo " OPTIONS"
 		echo " ......."
 		echo 
-		# echo " clean_doc_calibre_periodical"
-		# echo " clean_mail_chumma"
-        # echo " clean_doc_docs_names"	
-		echo "  clean_film_folder"
-		echo "  clean_course_folder"		
+		echo "  clean [course]|[film] "
+		echo "  help "        		
 	}
 	
 	drive="d"
@@ -636,14 +633,37 @@ _inbox_(){
 	# set -x
 	ACTION=$1
 	shift	
-				
-	case "$ACTION" in		
-		help|usage)	usage ;;
-		# clean_doc_calibre_periodical) clean_doc_calibre_periodical ;;			
-		# clean_doc_docs_names) clean_doc_docs_names;;
-		# clean_mail_chumma) clean_mail_chumma;;	
-		clean_film_folder) get_drive && clean_film_folder $drive;;		
-		clean_course_folder) get_drive && clean_course_folder $drive;;				
-	esac
+
+	# Get option
+    option=$1;  
+    shift
+
+    # Get rest of them
+    term="$@"
+		
+	# Validate the input options
+    re="^(clean|help)$"
+    if [[ "$ACTION"=~$re ]]; then
+        case $ACTION in
+        'help')
+            usage
+            ;;
+        'clean') 			
+            if [[ -z "$option" ]]; then			
+               echo "inbox error : few arguments"
+			   return			                  
+            else     
+			   get_drive
+               case "$option" in
+                    film) clean_film_folder $drive;;                        
+                    course) clean_course_folder $drive;;	                                                              
+               esac
+            fi              
+            ;;       
+        esac
+    else
+        echo "workflow error: unrecognised option \"$option\"."
+        echo "try \" view help\" to get more information."
+    fi
 	
 }
