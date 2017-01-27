@@ -247,3 +247,4 @@ Mac
 20140707-restore homebrew packages-bash script.sh
 
 
+20161029-generate folder with icon-dos batch script run.bat 
