@@ -448,7 +448,7 @@ _inbox_(){
 			# i tried a lot of way to get 
 			# it via a variable,bash simply won't allow that
 			# so direct push
-			echo "drive : $1"
+			echo " drive : $1"
 			case $1 in
 				d|D)
 					pushd "D:\Inbox\film" > /dev/null 2>&1
@@ -494,11 +494,17 @@ _inbox_(){
 			#	- rename files
 			
 			# read only directories
+			
+			
 			for d in */ ; do
 				
 				# change directory
 				cd "$d"			
-				echo "$d"
+				echo "  $d"
+				
+				# remove current log file
+				rm log.txt > /dev/null 2>&1
+				
 				# loop through files
 				for f in *; do			
 					
@@ -507,20 +513,23 @@ _inbox_(){
 					# skip ini files
 					if [[ $f == *.ini ]]; then continue; fi 
 
-					# createdate=$(file_get_created_date "$f")
-				
+					# createdate=$(file_get_created_date "$f")					
+					
 					# strip relevant details after year
-					newname="$(echo $f | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)/g')"
+					newname="$(echo $f | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\2/g')"
 									
 					# newname=$(string_convert_to_lower "$newname")
 					newname=$(string_replace_underscore_with_space "$newname")
-					newname=$(string_replace_brackets_with_space "$newname")										
+					newname=$(string_replace_brackets_with_space "$newname")									
 					newname=$(string_replace_url "$newname")
 					newname=$(string_replace_dash_with_space "$newname")
 					newname=$(string_replace_dot_with_space "$newname")
 					newname=$(string_unify_multiple_spaces "$newname")
 					newname=$(string_unify_multiple_dash "$newname")
-								
+					
+					# add the brackets back to year
+					newname="$(echo $newname | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)\3/g')"
+					
 					filename=$(string_get_file_name "$newname")
 					extension=$(string_get_file_extension "$f")
 					folder=${d%/}				
@@ -537,8 +546,7 @@ _inbox_(){
 					winp=$(cygpath -w "$p")
 					
 					extension="${newname##*.}"					
-					# skip the subtitle file
-					echo $extension
+					# skip the subtitle file					
 					[[ ! $extension =~ .srt|.sub ]]  &&  echo "$winp" >>$playlist					
 					
 					# write to log
@@ -548,7 +556,9 @@ _inbox_(){
 										
 				done
 					# open the log file
-					cygstart "log.txt"				
+					if [ -f "log.txt" ];then
+						cygstart "log.txt"				
+					fi						
 				cd ..						
 			done			
 		}
