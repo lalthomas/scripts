@@ -1,5 +1,6 @@
 @echo OFF
 setlocal
+REM RUN File : 20161029-generate folder with icon-dos batch script run.bat
 REM argument one - destination folder
 REM argument two - name list
 if [%1]==[] (
@@ -43,9 +44,13 @@ for /f "delims=" %%a in ('type %2') do (
 exit /b 1
 
 :createIconFolder
-md "%~1"
-ATTRIB +s %~1
+
+REM enable recursive creation of directories if not exists
+setlocal enableextensions
+md %1
+ATTRIB +s %1
 cd %1
+
 REM prepare desktop config file
 (
 echo ^[.ShellClassInfo^]
@@ -71,3 +76,4 @@ REM reverse to prev code page
 chcp 65001>NUL
 
 exit /b 1
+
