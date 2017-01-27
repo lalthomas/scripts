@@ -1,17 +1,51 @@
 @echo OFF
+setlocal
+REM argument one - destination folder
+REM argument two - name list
+if [%1]==[] (
+
+	echo.
+	echo Script Error
+	echo Please pass arguments
+	echo Format
+	echo.
+	echo  ^<scriptname^> ^<destination-folder^> ^<namelist-filename^>
+	exit /b 1
+) 
+
+if [%2]==[] (
+
+	echo.
+	echo Script Error
+	echo Please pass arguments
+	echo Format
+	echo.
+	echo ^<scriptname^> ^<destination-folder^> ^<namelist-filename^>
+	exit /b 1
+
+)
+
+%~d1
+cd %~dp1
 REM to echo unicode character
 chcp 65001>NUL
-call :createInboxFolder "Checked"
-call :createInboxFolder "末 "
-call :createInboxFolder "Ω"
+REM Sample calls
+REM call :createIconFolder "末 "
+REM call :createIconFolder "Ω"
+
+echo.
+echo %~dpnx1
+echo.
+for /f "delims=" %%a in ('type %2') do (	
+	call :createIconFolder "%%a"
+	echo  SUCCESS: folder %%a  created
+)
 exit /b 1
 
-:createInboxFolder
-md %1
-ATTRIB +s %1
-REM path push
-pushd %1
-
+:createIconFolder
+md "%~1"
+ATTRIB +s %~1
+cd %1
 REM prepare desktop config file
 (
 echo ^[.ShellClassInfo^]
@@ -30,8 +64,8 @@ CMD.EXE /D /U /C TYPE desktop.txt >> desktop.ini
 DEL /F /Q desktop.txt
 ATTRIB +S +H desktop.ini
 
-REM path pop 
-popd
+REM path exit 
+cd ..
 
 REM reverse to prev code page
 chcp 65001>NUL
