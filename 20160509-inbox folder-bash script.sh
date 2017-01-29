@@ -544,7 +544,8 @@ _inbox_(){
 					
 					extension="${newname##*.}"					
 					# skip the subtitle file					
-					[[ ! $extension =~ .srt|.sub ]]  &&  echo "$winp" >>$playlist					
+					echo $extension
+					[[ ! $extension =~ srt|sub|idx|jpg ]]  &&  echo "$winp" >>$playlist
 					
 					# write to log
 					echo "	$f : $newname"
