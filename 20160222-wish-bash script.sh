@@ -75,7 +75,11 @@ _wish_main_(){
 	# cat --number "$filename"			
 	
 	email(){		
-		OPTION=$1		
+		OPTION=$1	
+		
+		pgmpath="20161125-remove readonly attriubute from thunderbird portable folder-dos batch script.bat"		
+		"$scriptfolder/$(cygpath -u "${pgmpath}")"		
+				
 		case "$OPTION" in					
 			yesterday)
 				itemsMatchPattern $yesterday_match_pattern "yes"

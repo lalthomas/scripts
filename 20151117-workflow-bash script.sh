@@ -7,8 +7,6 @@
 alias gsd='sh "$toolsRootPath/20161026-get-shit-done/get-shit-done.sh"'
 alias workflow=_workflow_main_
 
-scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 case "$OSTYPE" in
 
 	msys*)

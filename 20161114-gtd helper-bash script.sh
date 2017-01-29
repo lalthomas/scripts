@@ -3,7 +3,6 @@
 # Copyright (c) Lal Thomas, http://lalamboori.blogspot.in
 # License: GPL3, http://www.gnu.org/copyleft/gpl.html
 
-scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # read config file
 # configfile=$1
 configfile=$(cygpath -u "$1")

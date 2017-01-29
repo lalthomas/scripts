@@ -5,12 +5,7 @@
 # Date : 2016-11-08
 # © Lal Thomas (lal.thomas.mail@gmail.com)
 
-# initialize global variables
-
-currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 alias action=_action_main_
-
 
 _action_main_(){
 
