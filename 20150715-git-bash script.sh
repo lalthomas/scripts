@@ -8,62 +8,64 @@
 
 alias g=_git_main_ # git helper functions
 
-createRepo(){ 
-
- git init "$1"
- commitRepoChanges "$1" 'init repo' 
- 
-}
-
-commitRepoChanges(){
-	
-	if [ $# -eq 2 ]; 
-	then	
-		commitMessage=$2		
-	else		
-		commitMessage="commit changes"
-	fi
-	
-	cd "$1"	
-	git add -A 
-	git commit -m "$commitMessage"
-	echo $1 "folder changes committed" 
-	
-}
-
-
-# thanks https://www.gitignore.io/docs
-# run creategitignore xcode >.gitignore
-
-creategitignore() { 
-
-curl -L -s "https://www.gitignore.io/api/$@"
-
-}
-
-alias creategitignore=creategitignore
-
-usage(){
- 
- echo "help"
- echo "===="
- echo 
- echo "g help"
- echo "g repo create <path>"
- echo "g repo commit <path> <message>"
- 
-}
-
 _git_main_(){
     
+	usage(){
+		
+		echo "help"
+		echo "===="
+		echo 
+		echo "g help"
+		echo "g repo create <path>"
+		echo "g repo commit <path> <message>"
+		echo "g repo add gitignore"
+	 
+	}
+	
+	commitRepoChanges(){
+	
+		if [ $# -eq 1 ]; 
+		then	
+			commitMessage=$1
+		else		
+			commitMessage="commit changes"
+		fi
+				
+		git add -A 
+		git commit -m "$commitMessage"		
+		
+	}
+	
+	createRepo(){ 
+	
+		 git init
+		 commitRepoChanges 'init repo' 
+		 
+	}
+	
+	gitignore() { 
+		
+		# thanks https://www.gitignore.io/docs		
+		
+		echo
+		echo creating gitignore for $1 type...		
+		echo 
+		
+		# 2017-01-29 not working now
+		# curl -L -s "https://www.gitignore.io/api/$@" >>".gitignore"
+
+		# refer readme file for the script to get the full listing
+		curl -o .gitignore https://raw.githubusercontent.com/github/gitignore/master/$1.gitignore >/dev/null
+		
+	}
+
 	# Get action
 	action=$1
 	shift
 
 	# Get option
-	option=$1;	
+	option=$1
 	shift
-
 	
 	re="^(help|repo)$"
 	
@@ -78,20 +80,23 @@ _git_main_(){
 			else			  	
 			   case "$option" in
 					create)
-						if [[ -z $1 ]]; then 
-							"g error : few arguments"
-						else	
-							path=$@
-							createRepo $path						
-						fi
+						createRepo						
 						;;										
-					commit)
+					commit)							
+						message=$1
+						commitRepoChanges $path $message						
+						;;
+					add)
 						if [[ -z $2 ]]; then 
 							"g error : few arguments"
-						else	
-							path=$1
-							message=$2
-							commitRepoChanges $path $message
+						else
+							option2=$1
+							shift
+							case "$option2" in
+								gitignore)
+								type=$1
+								gitignore $type
+							esac													
 						fi
 						;;						
 				esac
