@@ -81,7 +81,6 @@ Windows Explorer
 20140317-rename file-wsh script.js
 20140420-open notepad plus plus application-autohotkey script.ahk
 20140525-rename filename with sha checksum-powershell script.ps1
-20150715-organize-bash script.sh
 20150720-create docs folder structure-dos batch script.bat
 20150823-open folders from file list-dos script batch script.bat
 20150906-append filename to filecontent.bat
