@@ -13,6 +13,7 @@ _bookmark_main(){
 	mailtopocket() {
 		echo "$1" | mail -s "$1" "add@getpocket.com"
 	}
+	
 	alias mailtopocket=mailtopocket
 
 	dieWithHelp(){
