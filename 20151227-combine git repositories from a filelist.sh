@@ -7,7 +7,10 @@
 # ---------
 #
 # - open git bash and drag the script file to the terminal from windows explorer
-# - add space and the drag the file containing paths to the terminal, listing file should having unix line endings
+# - add space
+# - the drag the file containing paths to the terminal
+#		- listing file should having unix line endings
+# 		- if folder name have space it will not work
 # - run the script by hitting enter
 # - enter unix path for repository as . (dot), this will give the current directory path
 # - combined repo will be generated in folder called parent
@@ -20,6 +23,8 @@
 # d:\repo 2\
 # 
 #
+
+
 
 # input for output repo path is unix style i.e. /d/folder1/folder2
 read -p "enter unix path for combined repo : " path
@@ -55,8 +60,8 @@ if [ -d "$path" ]; then
 	 # ----
 	 
 	 # if repos are not similar then use this line
-	 # git merge -s ours --allow-unrelated-histories --no-commit "$folderNameDashed"/master
-	 git merge -s ours --no-commit "$folderNameDashed"/master
+	 git merge -s ours --allow-unrelated-histories --no-commit "$folderNameDashed"/master
+	 # git merge -s ours --no-commit "$folderNameDashed"/master
 	 # ----
 	 
 	 # git read-tree --prefix="subfolder/$folderName"/ -u "$folderNameDashed"/master	 
