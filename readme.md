@@ -80,7 +80,6 @@ Windows Explorer
 20140222-copy files from filelist to a destination folder-bash script.sh
 20140317-rename file-wsh script.js
 20140420-open notepad plus plus application-autohotkey script.ahk
-20140516-make directorty templates-bash script.sh
 20140525-rename filename with sha checksum-powershell script.ps1
 20150715-organize-bash script.sh
 20150720-create docs folder structure-dos batch script.bat
@@ -165,7 +164,6 @@ Dev
 20131217-generate changelogs with git log-bash script.sh
 20131217-git log to changelog-python script.py
 20140914-commit git changes on folder-bash script.sh
-20150611-git commit changes.sh
 20150715-git-bash script.sh
 20151226-git commit changes.bat
 20151227-combine git repositories from a filelist.sh
