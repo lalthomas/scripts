@@ -1,7 +1,7 @@
 @echo OFF
 setlocal
 set path=%PATH%;%CD%
-set vitualdubpath=D:\PortableApps.com\PortableApps\VirtualDubPortable\VirtualDubPortable.exe
+set vitualdubpath=C:\PortableApps.com\PortableApps\VirtualDubPortable\VirtualDubPortable.exe
 set file=%1
 set savedirectory=%~dp1%~n1
 set file=%file:\=\\%

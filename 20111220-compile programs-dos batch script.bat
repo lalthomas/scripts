@@ -147,7 +147,7 @@ IF %ERRORLEVEL% EQU 0 (goto LatexSuccess ) ELSE (goto LatexFailure)
 pause
 EXIT /b 0
 :LatexSuccess
-start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
+start "SumatraPDF" "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 
 
@@ -164,7 +164,7 @@ REM call pandoc %1 -o "%~n1.pdf"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownPDFSuccess ) ELSE (goto MarkdownPDFFailure)
 EXIT /b 0
 :MarkdownPDFSuccess
-move "%~pd1\%~n1.pdf" "%~pd1\build" && start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
+move "%~pd1\%~n1.pdf" "%~pd1\build" && start "SumatraPDF" "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 :MarkdownPDFFailure
 echo. 

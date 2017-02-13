@@ -8,4 +8,4 @@ This will start explorer with a folder
 `start explorer "D:\Dropbox\do\reference"`
 
 This will start explorer++ with a list of folders
-`"D:\PortableApps.com\PortableApps\Explorer++Portable\Explorer++Portable.exe" "D:\Dropbox\do\reference" "D:\Dropbox\do\reference"`
+`"C:\PortableApps.com\PortableApps\Explorer++Portable\Explorer++Portable.exe" "D:\Dropbox\do\reference" "D:\Dropbox\do\reference"`

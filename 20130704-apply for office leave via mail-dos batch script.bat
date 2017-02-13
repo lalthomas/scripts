@@ -1,6 +1,6 @@
 @echo OFF
 
-set "THUNDERBIRD=D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
+set "THUNDERBIRD=C:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 
 REM find script folder 
 set scriptFolderPathFull=%~dp0%

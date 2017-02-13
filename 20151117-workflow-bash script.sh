@@ -113,7 +113,7 @@ startDay(){
 		echo
 		read -p "do you want check mail : " opted
 		if [ $opted == "y" ]; then
-			thunderbird="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
+			thunderbird="C:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 			cygstart "$thunderbird"
 		fi			
 	fi

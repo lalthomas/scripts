@@ -1,6 +1,6 @@
 # Author : Lal Thomas 
 # Date : 2016-02-22
-# © Lal Thomas (lal.thomas.mail@gmail.com)
+# ï¿½ Lal Thomas (lal.thomas.mail@gmail.com)
 
 # get the file to process
 filename=$1
@@ -48,7 +48,7 @@ _wish_main_(){
 			
 			pattern="$1"
 			email="$2"
-			emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"				
+			emailClient="C:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"				
 
 			
 			if [ -z "$email" ]; then
