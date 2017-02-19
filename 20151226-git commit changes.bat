@@ -3,6 +3,8 @@ REM DOS Batch script to commit changes in folders and files
 REM Lal Thomas
 REM 2015-12-26
 
+REM This script may give weird error messages if you are working with file with no extensions
+
 setlocal enabledelayedexpansion
 set gitPath="C:\Program Files\Git\bin\sh.exe"
 REM echo all: %*
