@@ -161,8 +161,8 @@ endDay(){
 		echo
 		echo "# log file"
 		echo
-		git add log.txt
-		git commit -m"add log entry" 
+		git add log.txt > /dev/null 2>&1
+		git commit -m"add log entry" > /dev/null 2>&1
 		popd > /dev/null 2>&1	
 		
 		
