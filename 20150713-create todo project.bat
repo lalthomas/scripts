@@ -53,7 +53,7 @@ REM replace template values
 set path="%scriptFolderPath%\tools\fart"
 fart -qC %filename% "PROJECTNAME" "%projectname%" 2> nul
 fart -qC %filename% "DATE" "%longdatestamp%" 2> nul
-start explorer %filename%
+start explorer "%filename%"
 REM pause
 endlocal
 goto :end
