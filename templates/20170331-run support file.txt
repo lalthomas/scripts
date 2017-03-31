@@ -1,0 +1,23 @@
+
+IF [%1] == [] GOTO :SETFILE
+set file=%1
+GOTO :EXECUTE
+
+:SETFILE
+set file=$FULLPATH$
+GOTO :EXECUTE
+
+REM Section
+:EXECUTE
+call :COMPILE %file%
+call :OUTPUT %file%
+exit
+
+REM Sub Routine
+:COMPILE
+
+exit /b 0
+
+:OUTPUT
+explorer "build\%~nx1"
+exit /b 0

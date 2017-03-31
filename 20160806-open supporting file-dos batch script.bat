@@ -1,5 +1,10 @@
 @echo OFF
 setlocal
+
+REM find script folder 
+set scriptFolderPathFull=%~dp0%
+set scriptFolderPath=%scriptFolderPathFull:~0,-1%
+
 REM The following two line are Npp Hack for not changing the current path
 %~d1
 cd %~p1
@@ -34,8 +39,12 @@ endlocal
 exit /b 0
 
 :NEWFILE
-setlocal
+Setlocal EnableDelayedExpansion
 set "SUBJECT=%~1"
+set "runTemplateFilePath=\templates\20170331-run support file.txt"	
+
+@echo OFF
+
 if /I "%supportfiletype%" == "readme.md" (				
 	echo %% %SUBJECT% >>%filename% ^
 	&& echo %% %longdatestamp% >>%filename% ^
@@ -45,13 +54,16 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%	
 	
 ) else if /I "%supportfiletype%" == "run.bat" (
+	
 	echo ^@echo OFF >>%filename% ^
 	&& echo ^REM File : %SUBJECT% >>%filename% ^
 	&& echo ^REM Creation Date : %longdatestamp% >>%filename% ^
 	&& echo ^REM Author : Lal Thomas >>%filename% ^
 	&& echo ^REM Original File : %originalpath% >>%filename% ^
-	&& echo.>>%filename% ^
-	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%		
+	&& echo.>>%filename%	
+	type "%scriptFolderPath%%runTemplateFilePath%" >>%filename%
+	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "\"%originalpath%\"" >nul 2>nul
+	"C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%	
 )
 
 
