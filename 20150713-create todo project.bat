@@ -53,7 +53,10 @@ REM replace template values
 set path="%scriptFolderPath%\tools\fart"
 fart -qC %filename% "PROJECTNAME" "%projectname%" 2> nul
 fart -qC %filename% "DATE" "%longdatestamp%" 2> nul
-start explorer "%filename%"
+
+REM add to gtd project list
+call :addtolist %filename%
+start explorer %filename%
 REM pause
 endlocal
 goto :end
@@ -97,6 +100,10 @@ cd archive
 echo %projectname%>%todofile%
 exit /b 0
 goto :endprojecttype
+
+:addtolist
+echo %~1 >> "D:\Dropbox\do\reference\20161001-project list-dev gtd.txt"
+exit /b 0
 
 :endprojecttype
 exit /b 0
