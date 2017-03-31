@@ -1,6 +1,6 @@
 @echo OFF
 setlocal
-REM argument one - filelist
+REM argument one - filename of file list, name shouldn't contain space
 REM argument two - destinaton folder
 set dst_folder=%2
 REM  Loop through the filelist
