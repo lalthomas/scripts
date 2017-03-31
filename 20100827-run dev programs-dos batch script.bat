@@ -36,8 +36,16 @@ if /i %~x1 == .py ( goto PYTHON )
 if /i %~x1 == .sh ( goto BASH )
 if /i %~x1 == .r ( goto R )
 if /i %~x1 == .ps1 ( goto POWERSHELL )
+if /i %~x1 == .c ( goto C)
+if /i %~x1 == .cpp ( goto C)
+
+goto END
 
 
+:C
+set path=%PATH%;%CD%
+start cmd /k "%~n1.exe"
+REM pause
 goto END
 
 REM HTML
