@@ -40,7 +40,7 @@ set filename=%filename:\= %
 set filename=%filename:/= %
 
 REM dont change the below two lines order
-set todofile="%datestamp%-%filename%.txt"
+set todofile="%datestamp%-%filename%.todo"
 set filename="%datestamp%-%filename% readme.md"
 REM change folder based on project type
 call :PROJECTTYPE
