@@ -52,24 +52,24 @@ _wish_main_(){
 
 			
 			if [ -z "$email" ]; then
-				echo "No | Occasion             | Name(s)                                | Comment             "
-				echo "---| -------------------- | -------------------------------------- | --------------------"
+				printf "%-7s %-45s %-60s %-30s\n" "No" "Occasion" "Name(s)" "Comment"
+				printf "%-7s %-45s %-60s %-30s\n" "---" "----------------------------------------" "-------------------------------------------------------" "--------------------"
 			fi
 			
-			counter=1
-			formatstyle="\n %s %s %50s %10s\n"
+			counter=1			
 			grep -e $pattern "$filename" | while read -r  line ;
 			do      				
 				name=$(echo $line | awk -F, '{print $2}'| tr -d '"')
 				occasion=$(echo $line | awk -F, '{print $3}' | tr -d '"')
 				comment=$(echo $line | awk -F, '{print $4}' | tr -d '"')
-				if [ -z "$email" ]; then
-					echo $counter " | " $occasion " | " $name  " | " $comment
+				if [ -z "$email" ]; then					
+					# OUTPUT="$OUTPUT\n $counter $occasion $name $comment\n"
+					printf "%-7s %-45s %-60s %-30s\n" "$counter" "$occasion" "$name" "$comment"
 				elif [ "$email" = "yes" ]; then									
 					cygstart $emailClient -compose "to='"$name"',subject="$occasion										
 				fi						
 				counter=$((counter + 1))  
-			done									
+			done				
 		}	
 			
 	# cat --number "$filename"			
