@@ -201,3 +201,10 @@ case "$ACTION" in
 		;;	
 esac    
 }
+
+
+if [ $# -gt 0 ]
+  then  	
+   _wish_main_ ${@}
+fi
+
