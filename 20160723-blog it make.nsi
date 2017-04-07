@@ -15,13 +15,13 @@
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "Setup.ico"
+!define MUI_ICON "20160723-blog it icon.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "License.txt"
+!insertmacro MUI_PAGE_LICENSE "20160723-blog it license.txt"
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
@@ -36,21 +36,59 @@
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Setup.exe"
+OutFile "setup.exe"
 InstallDir "$PROGRAMFILES\Blogit"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
 Section "MainSection" SEC01
-  SetOutPath "$INSTDIR"
+  
+  SetOutPath "$INSTDIR\templates"
   SetOverwrite ifnewer
   File "src\*.*" 
-  SetOutPath "$INSTDIR\Tools"
-  File "src\Tools\*.*"  
+  File "20160723-blog it.bat" 
+  File "20160723-blog it.bat" 
+  File "templates\20151224-blog header include template.sql"
+  File "templates\20151224-blog header include template.txt"
+  File "templates\20151224-blog header include template.vb"
+  File "templates\20151224-blog header include template.xml"
+  File "templates\20151224-blog header style.txt"
+  File "templates\20151224-blog html head.txt"
+  File "templates\20151224-blog html meta.txt"
+  File "templates\20151224-blog info template.txt"
+  File "templates\20151224-blog remarks.txt"
+  File "templates\20151224-blog body div closing 02.txt"
+  File "templates\20151224-blog body div closing.txt"
+  File "templates\20151224-blog body program section.txt"
+  File "templates\20151224-blog body start.txt"
+  File "templates\20151224-blog body template 01.txt"
+  File "templates\20151224-blog body template 02.txt"
+  File "templates\20151224-blog body template 03.txt"
+  File "templates\20151224-blog body template 04.txt"
+  File "templates\20151224-blog body template 05.txt"
+  File "templates\20151224-blog header include template.c"
+  File "templates\20151224-blog header include template.cpp"
+  File "templates\20151224-blog header include template.cs"
+  File "templates\20151224-blog header include template.css"
+  File "templates\20151224-blog header include template.java"
+  File "templates\20151224-blog header include template.js"
+  File "templates\20151224-blog header include template.php"
+  File "templates\20151224-blog header include template.py"
+  File "templates\20151224-blog readme.md"
+  
+  SetOutPath "$INSTDIR\tools"  
+  File "tools\csplit\csplit.exe"  
+  File "tools\csplit\libiconv2.dll"  
+  File "tools\csplit\libintl3.dll"  
+  File "tools\fart\fart.exe" 
+  File "tools\htb\htb.exe" 
+  File "tools\rxfind\rxfind.exe" 
+  
   SetOutPath "$DESKTOP"  
-  CreateDirectory "$SMPROGRAMS\Devel Mind"
-  CreateShortCut "$SMPROGRAMS\Devel Mind\Readme.lnk" "$INSTDIR\Readme.txt"
+  CreateDirectory "$SMPROGRAMS\develmind"
+  CreateShortCut "$SMPROGRAMS\develmind\readme.lnk" "$INSTDIR\templates\20151224-blog readme.md"
+  
 SectionEnd
 
 Section -Post
@@ -79,10 +117,11 @@ FunctionEnd
 
 Section Uninstall
   Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\Tools\*.*"
+  Delete "$INSTDIR\templates\*.*"
   Delete "$INSTDIR\*.*"  
-  RMDir "$INSTDIR\Tools"
-  RMDir "$INSTDIR\Blogit"
+  RMDir "$INSTDIR\tools"
+  RMDir "$INSTDIR\templates"
+  RMDir "$INSTDIR\blogit"
   RMDir "$INSTDIR"  
   Delete "$SMPROGRAMS\Devel Mind\Readme.lnk"
   RMDir "$SMPROGRAMS\Devel Mind"

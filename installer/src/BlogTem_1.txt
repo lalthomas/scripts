@@ -1,5 +1,0 @@
-<DIV id="sect1"> 
-<DIV class="secthead"> 
-<H4>OBJECTIVE :</H4> 
-</DIV>
-<DIV class="sectbody"> 
