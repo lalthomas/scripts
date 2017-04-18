@@ -10,7 +10,7 @@ for %%f in (%*) do (
 
 endlocal
 REM pause
-EXIT /b 0
+goto :END
 
 :RENAME
 	setlocal
@@ -40,3 +40,4 @@ EXIT /b 0
 	endlocal
 EXIT /b 0
 
+:END
