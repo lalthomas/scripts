@@ -95,7 +95,9 @@ _project_main_(){
 		echo "create [name]"		
 		echo 
 		echo "e.g. project create Python . python workouts"
-		echo		
+		echo
+		echo " Use only Migw Bash "
+		echo 
 		
 	}
 	
