@@ -1,4 +1,4 @@
-@echo OFF
+@echo ON
 
 set "THUNDERBIRD=C:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 
@@ -56,7 +56,6 @@ echo. >>temp2.tmp
 :SKIP_START_DATE
 
 REM Creating Documents...
-set path=%path%;C:\Users\Administrator\AppData\Local\Pandoc
 pandoc -S "%scriptFolderPath%%leaveTemplate%" -o "temp.html"
 
 REM Update indiviadual tickets in Assembla
