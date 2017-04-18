@@ -93,6 +93,7 @@ startDay(){
 	echo
 	
 	# run action from csv file
+	# D:\Dropbox\do\reference\20161120-life gtd day start action support file.csv
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_START_FILE"			
 	
 	# create journal
@@ -170,9 +171,9 @@ endDay(){
 		echo
 		echo "# lesson file"
 		echo		
-		git add "reference\20160312-life lessons doc-life gtd.md" > /dev/null 2>&1
+		git add lessons.txt > /dev/null 2>&1
 		git	commit -m"add lesson entry" > /dev/null 2>&1		
-		echo "  [x] changes to 20160312-life lessons doc-life gtd.md commited"
+		echo "  [x] changes to lessons file commited"
 		
 				
 		# git commit attendance file
@@ -221,8 +222,7 @@ endDay(){
 	echo
 	read -p "do you want to add lessons of the day [y|n] ? : " opted
 	if [ $opted == "y" ]; then
-		echo
-		# TODO : add lesson functionality
+		t lesson 		
 	fi
 		
 	t log add "check-out from personal computer"
@@ -239,6 +239,7 @@ endDay(){
 	t journal open
 	
 	# run action from csv file
+	# D:\Dropbox\do\reference\20161120-life gtd day end action support file.csv
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"
 	
 	opted="n"
@@ -281,6 +282,17 @@ endDay(){
 
 startWeek(){
     
+	# [ ] check the weather prediction for building prior knowledge
+	# [ ] check the 3 days newspaper
+	# [ ] read through dont.txt todo items
+	# [ ] read through dream.txt todo items
+	# [ ] add next actions for todo items in outline.txt
+	# [ ] move todo from waiting.txt if ok 
+	# [ ] schedule todo from open projects to todo.txt
+	# [ ] add tasks for the week to todo.txt from calendar.txt
+	# [ ] take sticky todo from gtd file and add to plan paper
+	# [ ] prioritize important tasks
+	
 	echo 
     echo "  workflow start week"
     echo 
@@ -315,6 +327,7 @@ startWeek(){
 	echo
 	echo "weekly actions"
 	echo
+	# D:\Dropbox\do\reference\20161130-life gtd week action support file.csv
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_WEEK_START_FILE"
 			
 	echo 
@@ -342,6 +355,7 @@ endWeek(){
 	read -p "do you want start weekly actions [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		# review file is read from config file
+		# D:\Dropbox\do\reference\20161114-life gtd week review support file.csv
 		gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_WEEK_END_FILE"
 	fi
 	
@@ -423,6 +437,18 @@ startMonth(){
     echo "   - commit do"       
     echo 
 	
+	# [ ] check todos that can be scheduled 
+	# [ ] prepare the list of recurring tasks for the month to calendar.txt
+	# [ ] move todo from calendar.txt to todo.txt
+	# [ ] move todo related to current month from tickler.txt to todo.txt 
+	# [ ] brainstorm for open todo projects
+	# [ ] prepare next actions for unclear tasks 
+	# [ ] review projects
+	# [ ] review waiting
+	# [ ] clean todo.txt
+	# [ ] update contexts.md
+	# [ ] update projects.md
+	
 	t file open "$doRootPath/inbox.md"
 	t file open "$doRootPath/outline.md"
 	t file open "$doRootPath/calendar.txt"
@@ -434,6 +460,7 @@ startMonth(){
     # commitdo
 	
 	# run action from csv file
+	# D:\Dropbox\do\reference\20170101-life gtd month action support file.csv
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_MONTH_START_FILE"	
 	
 	echo
@@ -456,6 +483,12 @@ endMonth(){
 	# run action from csv file
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_MONTH_END_FILE"
 	
+	# [ ] move done.txt todo items to project files
+	# [ ] move invalid.txt todo items to project files
+	# [ ] update the status of main projects
+	# [ ] commit changes to do folder
+	# [ ] add birdseye report for todo items
+	# [ ] go through journal notes of the month
 	
 	read -p "do you want to process inbox folders [y|n] ? : " opted
 	if [ $opted == "y" ]; then
@@ -482,6 +515,7 @@ startYear(){
     echo        
     
 	# run action from csv file
+	# D:\Dropbox\do\reference\20170101-life gtd year action support file.csv
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_YEAR_START_FILE"
 	
 	#doarchive
@@ -500,6 +534,7 @@ endYear(){
 	
 	
 	# run action from csv file
+	# D:\Dropbox\do\reference\20170101-life gtd year review support file.csv
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_YEAR_END_FILE"
 	
 	echo 
