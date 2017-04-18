@@ -20,7 +20,13 @@ REM loop through the filelist
 REM	remove quotes
 
 for /f "delims=" %%a in ( %filelist:"=% ) do (
-	move "%%a" "%destination%"
+	
+	REM move files
+	REM move "%%a" "%destination%"
+	
+	REM move all associated files	
+	move "%%~dpna.*" "%destination%"
+	
 	IF %ERRORLEVEL% EQU 0 ( echo %destination%\%%~nxa>>%listmoved% )	
 )
 
