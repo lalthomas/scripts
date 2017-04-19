@@ -11,6 +11,22 @@ _inbox_(){
 
 	# generic routines
 	
+	array_contains() { 
+		# thanks: http://stackoverflow.com/a/14367368/2182047
+		# array name
+		local array="$1[@]"
+		# seeking string
+		local seeking=$2
+		local in=1
+		for element in "${!array}"; do
+			if [[ $element == $seeking ]]; then
+				in=0
+				break
+			fi
+		done
+		return $in
+	}	
+	
 	string_replace_underscore_with_space(){
 	
 		echo $1 | sed 's/_/ /g'
@@ -590,8 +606,139 @@ _inbox_(){
 	
 	clean_picture_folder(){
 	
-		echo
+		# $1 contains the drive letter
+	
+		change_drive(){
 		
+			# change the folder				
+			# i tried a lot of way to get 
+			# it via a variable,bash simply won't allow that
+			# so direct push
+			echo " drive : $1"
+			case $1 in
+				d|D)
+					pushd "D:\Inbox\picture" > /dev/null 2>&1					
+					;;
+				w|W)
+					pushd "W:\Inbox\picture" > /dev/null 2>&1					
+					;;		
+				x|X) 
+					pushd "X:\Inbox\picture" > /dev/null 2>&1					
+					;;		
+				y|Y) 
+					pushd "Y:\Inbox\picture" > /dev/null 2>&1					
+					;;
+				z|Z)
+					pushd "Z:\Inbox\picture" > /dev/null 2>&1					
+					;;
+				*) 
+					echo "unknown drive"; 
+					return;
+				;;
+			esac	
+			return
+		}
+		
+		process(){	
+
+		local pgmpath="D:\Portable App\siren\siren.exe"		
+		
+		for d in */ ; do			
+			# change directory
+			cd "$d"			
+			echo "  $d"
+			# echo "  ${d%/}"			
+			# folders list			
+			camera_roll_list=("lenovo camera roll" "lumia camera roll" "mipad camera roll" "sony cybershot camera roll")
+			
+			array_contains camera_roll_list "${d%/}" && {			
+															
+				# open siren commandline and rename files							
+				# rename with image with format <date taken>-<timetaken> <model name> camera roll image.<extension>
+				
+				# rename
+				cygstart --wait \
+						  "$(cygpath -u "${pgmpath}")" \
+						  "--dir \"$(cygpath -w "${PWD}")\" \
+						  --filter \"*.jpg\" \	
+						  --select \"*.*\" \
+						  --expression %Xdod-%Xdot\" \"%lXmo\" \"camera\" \"roll\" \"image.%le \
+						  --rename \
+						  --quit"							
+				# move and index
+				mkdir '../../../Pictures/camera roll' > /dev/null 2>&1
+				find . -type f -name '*.jpg' -exec mv {} '../../../Pictures/camera roll' \;				
+				
+				# for f in *.jpg; do					
+					# echo "$f"					
+				# done
+			}
+			
+			saved_pictures_list=("computer saved pictures" "lumia saved pictures" "mipad saved pictures")
+			
+			array_contains saved_pictures_list "${d%/}" && {
+			
+				# open siren commandline and rename files
+				
+				# rename as date-<sha1>.<ext>
+				cygstart --wait \
+						  "$(cygpath -u "${pgmpath}")" \
+						  "--dir \"$(cygpath -w "${PWD}")\" \
+						  --filter \"*.jpg;*.png;*.gif\" \	
+						  --select \"*.*\" \
+						  --expression %dcd-%cs.%le \
+						  --rename \
+						  --quit"							
+				# move and index
+				mkdir '../../../Pictures/saved pictures' > /dev/null 2>&1
+				find . -type f -name '*.jpg' -exec mv {} '../../../Pictures/saved pictures' \;
+				find . -type f -name '*.png' -exec mv {} '../../../Pictures/saved pictures' \;
+				find . -type f -name '*.gif' -exec mv {} '../../../Pictures/saved pictures' \;
+			}
+			
+			
+			saved_photos_list=("computer saved photos" "mipad saved photos")
+			
+			array_contains saved_photos_list "${d%/}" && {
+			
+				# open siren commandline and rename files
+				
+				# rename as date-<sha1>.<ext>
+				cygstart --wait \
+						  "$(cygpath -u "${pgmpath}")" \
+						  "--dir \"$(cygpath -w "${PWD}")\" \
+						  --filter \"*.jpg;*.png;*.gif\" \	
+						  --select \"*.*\" \
+						  --expression %dcd-%cs.%le \
+						  --rename \
+						  --quit"				
+				# move and index
+				mkdir '../../../Pictures/saved photos' > /dev/null 2>&1
+				find . -type f -name '*.jpg' -exec mv {} '../../../Pictures/saved photos' \;
+				find . -type f -name '*.png' -exec mv {} '../../../Pictures/saved photos' \;
+				find . -type f -name '*.gif' -exec mv {} '../../../Pictures/saved photos' \;
+			}
+			
+			cd ..			
+		done		
+				
+		# newfile=$(openssl sha1 $file)
+		
+		# process also following folders
+		# 
+		# 	albums
+		#	hp scanner images
+		#	import evernote
+		#	lenovo screenshots
+		#	lumia camera roll scans
+		#	mipad camera roll scans
+		#	wallpaper
+
+		}
+		
+		change_drive $1
+		process 
+				
 	}
 	
 	clean_resource_folder(){
@@ -627,7 +774,7 @@ _inbox_(){
 		echo " OPTIONS"
 		echo " ......."
 		echo 
-		echo "  clean [course]|[film] "
+		echo "  clean [course]|[film]|[picture] "
 		echo "  help "        		
 	}
 	
@@ -664,7 +811,8 @@ _inbox_(){
 			   get_drive
                case "$option" in
                     film) clean_film_folder $drive;;                        
-                    course) clean_course_folder $drive;;	                                                              
+                    course) clean_course_folder $drive;;
+					picture) clean_picture_folder $drive;;
                esac
             fi              
             ;;       
