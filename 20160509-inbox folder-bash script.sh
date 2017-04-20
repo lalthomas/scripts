@@ -641,11 +641,11 @@ _inbox_(){
 		
 		process(){	
 
-		local pgmpath="D:\Portable App\siren\siren.exe"		
+		local sirenpath="D:\Portable App\siren\siren.exe"	
 		
-		for d in */ ; do			
+		for d in */ ; do
 			# change directory
-			cd "$d"			
+			cd "$d"
 			echo "  $d"
 			# echo "  ${d%/}"			
 			# folders list			
@@ -658,7 +658,7 @@ _inbox_(){
 				
 				# rename
 				cygstart --wait \
-						  "$(cygpath -u "${pgmpath}")" \
+						  "$(cygpath -u "${sirenpath}")" \
 						  "--dir \"$(cygpath -w "${PWD}")\" \
 						  --filter \"*.jpg\" \	
 						  --select \"*.*\" \
@@ -682,7 +682,7 @@ _inbox_(){
 				
 				# rename as date-<sha1>.<ext>
 				cygstart --wait \
-						  "$(cygpath -u "${pgmpath}")" \
+						  "$(cygpath -u "${sirenpath}")" \
 						  "--dir \"$(cygpath -w "${PWD}")\" \
 						  --filter \"*.jpg;*.png;*.gif\" \	
 						  --select \"*.*\" \
@@ -705,7 +705,7 @@ _inbox_(){
 				
 				# rename as date-<sha1>.<ext>
 				cygstart --wait \
-						  "$(cygpath -u "${pgmpath}")" \
+						  "$(cygpath -u "${sirenpath}")" \
 						  "--dir \"$(cygpath -w "${PWD}")\" \
 						  --filter \"*.jpg;*.png;*.gif\" \	
 						  --select \"*.*\" \
@@ -719,7 +719,71 @@ _inbox_(){
 				find . -type f -name '*.gif' -exec mv {} '../../../Pictures/saved photos' \;
 			}
 			
-			cd ..			
+			
+			# wallpaper
+			
+			if [  "${d%/}" == "wallpapers" ]; then
+								
+			    # check whether there is subfolders
+				subdircount=`find $PWD -maxdepth 1 -type d | wc -l`				
+				if [ $subdircount -gt 1 ]
+				then
+					echo "Processing tag folders"
+					# for each sub folder create tag on image
+					for w in */ ; do
+						# change directory
+						cd "$w"
+						echo "   $w"					
+						# set the folder name as tag name
+						local pgmpath="20160216-set folder name as tag for image-dos batch script.bat"		
+						cygstart --wait "$scriptfolder/$(cygpath -u "${pgmpath}")" \"$(cygpath -w "${PWD}")\"
+						# fix the tag name of image
+						local fixtagscriptpath="20160217-fix the tag name of image-dos batch script.bat"		
+						cygstart --wait "$scriptfolder/$(cygpath -u "${fixtagscriptpath}")" \"$(cygpath -w "${PWD}")\"
+						# add caption for image
+						local captionscriptpath="20160526-add caption for image-dos batch script.bat"				
+						cygstart --wait "$scriptfolder/$(cygpath -u "${captionscriptpath}")" \"$(cygpath -w "${PWD}")\"				
+						# move all files parent folder
+						mv * .[^.]* .. > /dev/null 2>&1															
+						# pop path
+						cd ..
+					done															
+				fi
+												
+				# remove empty folders
+				# find . -empty -type d -delete				
+				
+				# rename the file using <sha1>.<ext>				
+				cygstart --wait \
+						  "$(cygpath -u "${sirenpath}")" \
+						  "--dir \"$(cygpath -w "${PWD}")\" \
+						  --filter \"*.jpg;*.png;*.gif\" \	
+						  --select \"*.*\" \
+						  --expression %cs.%e \
+						  --rename \
+						  --quit"
+				# move the file to wallpaper folder
+				mkdir -p '../../../Wallpapers'  > /dev/null 2>&1
+				find . -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) -exec mv {} '../../../Wallpapers' \;
+				
+				# organize wallpapers based on year
+				pushd "../../../Wallpapers" > /dev/null 2>&1	
+				find . -maxdepth 1 -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) | 
+				while IFS= read -r file; do
+					## Get the file's modification year
+					year="$(date -d "$(stat -c %y "$file")" +%Y)"
+					## Create the directories if they don't exist. The -p flag
+					## makes 'mkdir' create the parent directories as needed so
+					## you don't need to create $year explicitly.
+					[[ ! -d "$year" ]] && mkdir -p "$year"; 
+					## Move the file
+					mv "$file" "$year"
+				done
+				popd > /dev/null 2>&1	
+
+			fi
+			
+			cd ..
 		done		
 				
 		# newfile=$(openssl sha1 $file)
