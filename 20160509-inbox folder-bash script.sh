@@ -719,6 +719,48 @@ _inbox_(){
 				find . -type f -name '*.gif' -exec mv {} '../../../Pictures/saved photos' \;
 			}
 			
+						
+			scanned_images_list=("hp scanner images" "lumia camera roll scans" "mipad camera roll scans")
+			
+			array_contains scanned_images_list "${d%/}" && {
+			
+				# add filename as caption for hp scanner images
+				if [  "${d%/}" == "hp scanner images" ]; then				
+					local captionscriptpath="20160526-add caption for image-dos batch script.bat"				
+					cygstart --wait "$scriptfolder/$(cygpath -u "${captionscriptpath}")" \"$(cygpath -w "${PWD}")\"
+				fi
+				
+				# open siren commandline and rename files
+				# rename as <date>-<sha1>.<ext>
+				cygstart --wait \
+						  "$(cygpath -u "${sirenpath}")" \
+						  "--dir \"$(cygpath -w "${PWD}")\" \
+						  --filter \"*.jpg;*.png;*.gif\" \	
+						  --select \"*.*\" \
+						  --expression %dcd-%cs.%le \
+						  --rename \
+						  --quit"				
+				
+				# move and index
+				mkdir '../../../Pictures/scanned images' > /dev/null 2>&1
+				find . -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) -exec mv {} '../../../Pictures/scanned images' \;
+				
+				# organize based on date
+				pushd "../../../Pictures/scanned images" > /dev/null 2>&1	
+				find . -maxdepth 1 -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) | 
+				while IFS= read -r file; do
+					## Get the file's modification year					
+					fdate="$(date -d "$(stat -c %y "$file")" +%Y%m%d)"
+					## Create the directories if they don't exist. The -p flag
+					## makes 'mkdir' create the parent directories as needed so
+					## you don't need to create $fdate explicitly.
+					[[ ! -d "$fdate" ]] && mkdir -p "$fdate"; 
+					## Move the file
+					mv "$file" "$fdate"
+				done
+				popd > /dev/null 2>&1	
+
+			}
 			
 			# wallpaper
 			
