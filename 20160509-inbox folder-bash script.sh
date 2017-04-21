@@ -733,7 +733,7 @@ _inbox_(){
 						  "--dir \"$(cygpath -w "${PWD}")\" \
 						  --filter \"*.jpg;*.png;*.gif\" \	
 						  --select \"*.*\" \
-						  --expression %dcd-%cs.%le \
+						  --expression %dcd-%dct-%cs.%le \
 						  --rename \
 						  --quit"				
 				
