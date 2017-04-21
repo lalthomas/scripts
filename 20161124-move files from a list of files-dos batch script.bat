@@ -1,7 +1,7 @@
 @echo OFF
 setlocal
-REM argument one - filelist
-REM argument two - destinaton folder
+REM argument one - file-list
+REM argument two - destination folder
 
 REM TODO: add clipboard support for file list
 REM TODO: add file selection support for file path output
@@ -11,15 +11,16 @@ cd %~dp1
 
 set filelist=%1
 set destination=%2
-IF [%1] == [] ( SET /p filelist="Enter filelist path: " )
+IF [%1] == [] ( SET /p filelist="enter filelist path : " )
 set listmoved=""
 call :movedfile %filelist%
-IF [%2] == [] ( SET /p destination="Enter destinaton path : " )
+IF [%2] == [] ( SET /p destination="enter destinaton path : " )
 
 REM loop through the filelist
 REM	remove quotes
+REM http://stackoverflow.com/a/5006393/2182047
 
-for /f "delims=" %%a in ( %filelist:"=% ) do (
+for /f "usebackq delims=" %%a in ( %filelist% ) do (
 	
 	REM move files
 	REM move "%%a" "%destination%"
@@ -31,7 +32,7 @@ for /f "delims=" %%a in ( %filelist:"=% ) do (
 )
 
 REM pause if needed
-REM pause
+pause
 
 REM exit
 exit /b 0
