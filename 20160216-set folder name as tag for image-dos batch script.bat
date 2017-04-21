@@ -18,7 +18,7 @@ for %%f in (%*) do (
  )
 )
 endlocal
-pause
+REM pause
 EXIT /b 0
 
 :MAP
