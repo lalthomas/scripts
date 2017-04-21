@@ -17,8 +17,8 @@ for %%f in (%*) do (
  )
 )
 REM done with a bell
-echo Done  !!!
-pause
+REM echo Done  !!!
+REM pause
 EXIT /b 0
 
 :MAP
