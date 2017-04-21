@@ -691,9 +691,7 @@ _inbox_(){
 						  --quit"							
 				# move and index
 				mkdir '../../../Pictures/saved pictures' > /dev/null 2>&1
-				find . -type f -name '*.jpg' -exec mv {} '../../../Pictures/saved pictures' \;
-				find . -type f -name '*.png' -exec mv {} '../../../Pictures/saved pictures' \;
-				find . -type f -name '*.gif' -exec mv {} '../../../Pictures/saved pictures' \;
+				find . -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) -exec mv {} '../../../Pictures/saved pictures' \;
 			}
 			
 			
@@ -714,9 +712,7 @@ _inbox_(){
 						  --quit"				
 				# move and index
 				mkdir '../../../Pictures/saved photos' > /dev/null 2>&1
-				find . -type f -name '*.jpg' -exec mv {} '../../../Pictures/saved photos' \;
-				find . -type f -name '*.png' -exec mv {} '../../../Pictures/saved photos' \;
-				find . -type f -name '*.gif' -exec mv {} '../../../Pictures/saved photos' \;
+				find . -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) -exec mv {} '../../../Pictures/saved photos' \;
 			}
 			
 						
