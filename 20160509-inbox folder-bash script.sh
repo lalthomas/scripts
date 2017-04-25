@@ -1011,10 +1011,26 @@ _inbox_(){
 			# remove current log file
 			rm log.txt > /dev/null 2>&1
 			# loop through files
-						
+			
+				
+			if [  "${d%/}" == "saved video" ]; then												
+				dirpath='../../../Video/saved'					
+				playlist=$savedplaylist							
+			fi
+			
+			if [  "${d%/}" == "liked video" ]; then												
+				dirpath='../../../Video/liked'					
+				playlist=$likedplaylist					
+			fi
+		
+			if [  "${d%/}" == "developer video" ]; then
+				dirpath='../../../Video/developer'					
+				playlist=$developerplaylist					
+			fi
+			
 			liked_list=("short film" "audio video" "malayalam documentary")
-			array_contains song_list "${d%/}" && {		
-				dirpath='../../../video/liked'												
+			array_contains liked_list "${d%/}" && {		
+				dirpath='../../../Video/liked'												
 				playlist=$likedplaylist										
 			}
 			
@@ -1023,21 +1039,6 @@ _inbox_(){
 				dirpath='../../../Video/song'									
 				playlist=$songplaylist									
 			}
-			
-			if [  "${d%/}" == "liked video" ]; then												
-				dirpath='../../../Video/liked'					
-				playlist=$likedplaylist					
-			fi
-		
-			if [  "${d%/}" == "saved video" ]; then												
-				dirpath='../../../Video/saved'					
-				playlist=$savedplaylist							
-			fi
-		
-			if [  "${d%/}" == "developer video" ]; then
-				dirpath='../../../Video/developer'					
-				playlist=$developerplaylist					
-			fi
 			
 			mkdir $dirpath > /dev/null 2>&1
 			loop_files "$folder" "$dirpath"
