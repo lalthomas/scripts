@@ -11,6 +11,8 @@ _inbox_(){
 
 	# generic routines
 	
+	sirenpath="D:\Portable App\siren\siren.exe"
+	
 	array_contains() { 
 		# thanks: http://stackoverflow.com/a/14367368/2182047
 		# array name
@@ -181,6 +183,7 @@ _inbox_(){
 					newname=$(string_replace_dot_with_space "$newname")
 					newname=$(string_unify_multiple_spaces "$newname")
 					newname=$(string_unify_multiple_dash "$newname")																																	
+					newname=$(string_convert_to_lower "$newname")
 					
 					newfilename=$(string_trim_whitespace "$newname")
 					newextension=$(string_trim_whitespace "$extension")
@@ -538,7 +541,7 @@ _inbox_(){
 					newname=$(string_replace_dash_with_space "$newname")
 					newname=$(string_replace_dot_with_space "$newname")
 					newname=$(string_unify_multiple_spaces "$newname")
-					newname=$(string_unify_multiple_dash "$newname")
+					newname=$(string_unify_multiple_dash "$newname")					
 					
 					# add the brackets back to year
 					newname="$(echo $newname | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)\3/g')"
@@ -639,9 +642,7 @@ _inbox_(){
 			return
 		}
 		
-		process(){	
-
-		local sirenpath="D:\Portable App\siren\siren.exe"	
+		process(){			
 		
 		for d in */ ; do
 			# change directory
@@ -862,8 +863,191 @@ _inbox_(){
 	
 	clean_video_folder(){
 	
-		echo
+		# $1 contains the drive letter
+	
+		change_drive(){
+		
+			# change the folder				
+			# i tried a lot of way to get 
+			# it via a variable,bash simply won't allow that
+			# so direct push
+			echo " drive : $1"
+			case $1 in
+				d|D)
+					pushd "D:\Inbox\video" > /dev/null 2>&1
+					savedplaylist="D:\Dropbox\do\reference\20150319-d-videos-saved.m3u"
+					camerarollplaylist="D:\Dropbox\do\reference\20170425-d-videos-cameraroll.m3u"
+					developerplaylist="D:\Dropbox\do\reference\20170425-d-videos-developer.m3u"
+					songplaylist="D:\Dropbox\do\reference\20170425-d-videos-song.m3u"					
+					tvplaylist="D:\Dropbox\do\reference\20150411-d-video-tv.m3u"
+					likedplaylist="D:\Dropbox\do\reference\20150411-d-video-liked.m3u"
+					;;
+				w|W)
+					pushd "W:\Inbox\video" > /dev/null 2>&1
+					savedplaylist="D:\Dropbox\do\reference\20160503-w-videos-saved.m3u"
+					camerarollplaylist="D:\Dropbox\do\reference\20170425-w-videos-cameraroll.m3u"
+					developerplaylist="D:\Dropbox\do\reference\20170425-w-videos-developer.m3u"
+					songplaylist="D:\Dropbox\do\reference\20170425-w-videos-song.m3u"
+					tvplaylist="D:\Dropbox\do\reference\20150411-w-video-tv.m3u"
+					likedplaylist="D:\Dropbox\do\reference\20150411-w-video-liked.m3u"
+					;;		
+				x|X) 
+					pushd "X:\Inbox\video" > /dev/null 2>&1
+					savedplaylist="D:\Dropbox\do\reference\20150319-x-video-saved videos.m3u"
+					camerarollplaylist="D:\Dropbox\do\reference\20170425-x-videos-cameraroll.m3u"
+					developerplaylist="D:\Dropbox\do\reference\20150411-x-video-developer.m3u"
+					songplaylist="D:\Dropbox\do\reference\20150319-x-video-songs.m3u"
+					tvplaylist="D:\Dropbox\do\reference\20150411-x-video-tv.m3u"
+					likedplaylist="D:\Dropbox\do\reference\20150411-x-video-liked.m3u"
+					;;		
+				y|Y) 
+					pushd "Y:\Inbox\video" > /dev/null 2>&1					
+					savedplaylist="D:\Dropbox\do\reference\20150319-y-video-saved.m3u"
+					camerarollplaylist="D:\Dropbox\do\reference\20170425-y-videos-cameraroll.m3u"
+					developerplaylist="D:\Dropbox\do\reference\20170425-y-video-developer.m3u"
+					songplaylist="D:\Dropbox\do\reference\20150319-y-video-songs.m3u"
+					tvplaylist="D:\Dropbox\do\reference\20150319-y-video-tv.m3u"
+					likedplaylist="D:\Dropbox\do\reference\20150411-y-video-liked.m3u"
+
+					;;
+				z|Z)
+					pushd "Z:\Inbox\video" > /dev/null 2>&1	
+					savedplaylist="D:\Dropbox\do\reference\20150319-z-video-saved.m3u"
+					camerarollplaylist="D:\Dropbox\do\reference\20170425-z-videos-cameraroll.m3u"
+					developerplaylist="D:\Dropbox\do\reference\20170425-z-video-developer.m3u"
+					songplaylist="D:\Dropbox\do\reference\20150319-z-video-songs.m3u"
+					tvplaylist="D:\Dropbox\do\reference\20150319-z-video-tv.m3u"
+					likedplaylist="D:\Dropbox\do\reference\20150411-z-video-liked.m3u"
+					;;
+				*) 
+					echo "unknown drive"; 
+					return;
+				;;
+			esac	
+			return
+		}
+		process(){
+		loop_files(){
+					
+			folder=$1
+			movepath=$2
+			# echo $folder
+			# echo $movepath				
+			
+			# count the number of files
+			shopt -s nullglob
+			numfiles=(*)
+			numfiles=${#numfiles[@]}								
+			if [[ $numfiles -eq 0 ]]; then return; fi
+			
+			# loop through all files in the current folder
+			for f in *; do			
+			
+				# skip directories
+				if [[ -d $f ]]; then continue; fi 
+				# skip ini files
+				if [[ $f == *.ini ]]; then continue; fi 
+				# skip log files
+				if [[ $f == log.txt ]]; then continue; fi 
+				
+				createdate=$(file_get_created_date "$f")				
+				
+				# strip relevant details after year
+				filename=$(string_get_file_name "$f")
+				extension=$(string_get_file_extension "$f")
+				
+				# remove folder name
+				folder=${folder%/}				
+				newname=${filename#${folder}}
+				# end of remove folder name
+				
+				newname=$(string_replace_underscore_with_space "$newname")
+				newname=$(string_replace_brackets_with_space "$newname")									
+				newname=$(string_replace_url "$newname")
+				newname=$(string_replace_dash_with_space "$newname")
+				newname=$(string_replace_dot_with_space "$newname")
+				newname=$(string_unify_multiple_spaces "$newname")
+				newname=$(string_unify_multiple_dash "$newname")
+				newfilename=$(string_trim_whitespace "$newname")
+				newextension=$(string_trim_whitespace "$extension")
+				
+				newname="$(echo $createdate-$newfilename $folder.$newextension)"											
+				
+				if [  "${folder}" == "liked video" ]; then
+					newname="$(echo $createdate-$newfilename.$newextension)"
+				fi
+
+				if [  "${folder}" == "saved video" ]; then
+					newname="$(echo $createdate-$newfilename.$newextension)"
+				fi
+
+				newname=$(string_convert_to_lower "$newname")
+				
+				# rename, move and index					
+				mv "$f" "$movepath/$newname";						
+				p=$(readlink -f "$movepath/$newname")
+				winp=$(cygpath -w "$p")
+				
+				extension="${newname##*.}"
+				# skip the subtitle file					
+				# echo $extension
+				[[ ! $extension =~ srt|sub|idx|jpg ]]  &&  echo "$winp" >>$playlist
+				
+				# write to log
+				echo "	$f : $newname"
+				# add a log file					
+				# echo "$winp : $f" >>"log.txt"									
+			done
+		}					
+		
+		for d in */ ; do
+			# change directory
+			cd "$d"
+			echo "  $d"
+			folder=${d%/}
+			# echo "  ${d%/}"			
+			# folders list
+			
+			# remove current log file
+			rm log.txt > /dev/null 2>&1
+			# loop through files
+						
+			liked_list=("short film" "audio video" "malayalam documentary")
+			array_contains song_list "${d%/}" && {		
+				dirpath='../../../video/liked'												
+				playlist=$likedplaylist										
+			}
+			
+			song_list=("english song" "hindi song" "tamil song" "malayalam song" "film trailer" )			
+			array_contains song_list "${d%/}" && {																	
+				dirpath='../../../Video/song'									
+				playlist=$songplaylist									
+			}
+			
+			if [  "${d%/}" == "liked video" ]; then												
+				dirpath='../../../Video/liked'					
+				playlist=$likedplaylist					
+			fi
+		
+			if [  "${d%/}" == "saved video" ]; then												
+				dirpath='../../../Video/saved'					
+				playlist=$savedplaylist							
+			fi
+		
+			if [  "${d%/}" == "developer video" ]; then
+				dirpath='../../../Video/developer'					
+				playlist=$developerplaylist					
+			fi
+			
+			mkdir $dirpath > /dev/null 2>&1
+			loop_files "$folder" "$dirpath"
+		cd ..
+		done	
 	}
+	change_drive $1
+	process 
+		
+}
 		
 	
 	usage(){
@@ -876,7 +1060,7 @@ _inbox_(){
 		echo " OPTIONS"
 		echo " ......."
 		echo 
-		echo "  clean [course]|[film]|[picture] "
+		echo "  clean [course]|[film]|[picture]|[video] "
 		echo "  help "        		
 	}
 	
@@ -915,6 +1099,7 @@ _inbox_(){
                     film) clean_film_folder $drive;;                        
                     course) clean_course_folder $drive;;
 					picture) clean_picture_folder $drive;;
+					video) clean_video_folder $drive;;
                esac
             fi              
             ;;       
