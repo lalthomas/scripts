@@ -512,11 +512,18 @@ _inbox_(){
 			# read only directories
 			
 			
+			
 			for d in */ ; do
 				
 				# change directory
 				cd "$d"			
 				echo "  $d"
+				
+				# count the number of files
+				shopt -s nullglob
+				numfiles=(*)
+				numfiles=${#numfiles[@]}								
+				if [[ $numfiles -eq 0 ]]; then return; fi
 				
 				# remove current log file
 				rm log.txt > /dev/null 2>&1
@@ -857,7 +864,137 @@ _inbox_(){
 		
 	clean_tool_folder(){
 	
-		echo
+		change_drive(){
+		
+			# change the folder				
+			# i tried a lot of way to get 
+			# it via a variable,bash simply won't allow that
+			# so direct push
+			echo " drive : $1"
+			case $1 in
+				d|D)
+					pushd "D:\Inbox\tool" > /dev/null 2>&1					
+				;;
+				w|W)
+					pushd "W:\Inbox\tool" > /dev/null 2>&1					
+					;;		
+				x|X) 
+					pushd "X:\Inbox\tool" > /dev/null 2>&1					
+					;;		
+				y|Y) 
+					pushd "Y:\Inbox\tool" > /dev/null 2>&1					
+					;;
+				z|Z)
+					pushd "Z:\Inbox\tool" > /dev/null 2>&1				
+					;;
+				*) 
+					echo "unknown drive"; 
+					return;
+				;;
+			esac
+			
+			return
+		}
+		rename_files(){
+		
+			# What this function do
+			# - traverse through all directories
+			# - for each file
+			#	- extract name till the year part `name (year)`
+			#	- replace underscore with space in file name
+			#	- replace dot with space in file name
+			#	- replace multiple space with single space in file name
+			#	- replace multiple dashes with single dash in file name
+			#	- trim whitespace in filename
+			#	- trim whitespace in extension
+			#	- add folder name to file name
+			#	- rename files
+			
+			# read only directories
+			
+			
+			for d in */ ; do
+				
+				# change directory
+				cd "$d"			
+				echo "  $d"
+				
+				
+				# count the number of files
+				shopt -s nullglob
+				numfiles=(*)
+				numfiles=${#numfiles[@]}								
+				if [[ $numfiles -eq 0 ]]; then return; fi
+				
+				# remove current log file
+				rm log.txt > /dev/null 2>&1
+				
+				# remove current log file
+				rm log.txt > /dev/null 2>&1
+				
+				# get folder name
+				folder=${d%/}
+				
+				# loop through files
+				for f in *; do			
+					
+					# skip directories
+					if [[ -d $f ]]; then continue; fi 
+					# skip ini files
+					if [[ $f == *.ini ]]; then continue; fi 
+
+					createdate=$(file_get_created_date "$f")				
+				
+					# strip relevant details after year
+					filename=$(string_get_file_name "$f")
+					extension=$(string_get_file_extension "$f")
+				
+					
+					newname=${filename#${folder}}
+					# end of remove folder name
+				
+					newname=$(string_replace_underscore_with_space "$newname")
+					newname=$(string_replace_brackets_with_space "$newname")									
+					newname=$(string_replace_url "$newname")
+					newname=$(string_replace_dash_with_space "$newname")					
+					newname=$(string_unify_multiple_spaces "$newname")
+					newname=$(string_unify_multiple_dash "$newname")
+					newname=$(string_convert_to_lower "$newname")
+					newfilename=$(string_trim_whitespace "$newname")
+					newextension=$(string_trim_whitespace "$extension")					
+					newname="$(echo $createdate-$newfilename.$newextension)"											
+				
+															
+					# rename, move and index					
+					mv "$f" "../../../Tools/$newname";
+										
+					p=$(readlink -f "../../../Tools/$newname")
+					winp=$(cygpath -w "$p")
+					
+					extension="${newname##*.}"					
+					# skip the subtitle file					
+					# echo $extension
+					toolindexfile="D:\Dropbox\do\reference\20160126-software tools-dev index.csv"
+					[[ ! $extension =~ srt|sub|idx|jpg ]]  &&  echo "\"${folder}\",\"${winp}\"" >>"${toolindexfile}"
+					
+					# write to log
+					echo "	$f : $newname"
+					# add a log file					
+					echo "$winp : $f" >>"log.txt"					
+										
+				done
+					# open the log file
+					if [ -f "log.txt" ];then
+						cygstart "log.txt"				
+					fi						
+				cd ..						
+			done			
+		}
+		change_drive $1
+		rename_files
+		
+		# remove from stack
+		popd > /dev/null 2>&1
 	
 	}
 	
@@ -1014,29 +1151,29 @@ _inbox_(){
 			
 				
 			if [  "${d%/}" == "saved video" ]; then												
-				dirpath='../../../Video/saved'					
+				dirpath='../../../Videos/saved'					
 				playlist=$savedplaylist							
 			fi
 			
 			if [  "${d%/}" == "liked video" ]; then												
-				dirpath='../../../Video/liked'					
+				dirpath='../../../Videos/liked'					
 				playlist=$likedplaylist					
 			fi
 		
 			if [  "${d%/}" == "developer video" ]; then
-				dirpath='../../../Video/developer'					
+				dirpath='../../../Videos/developer'					
 				playlist=$developerplaylist					
 			fi
 			
-			liked_list=("short film" "audio video" "malayalam documentary")
+			liked_list=("short film" "audio video" "english documentary" "malayalam documentary")
 			array_contains liked_list "${d%/}" && {		
-				dirpath='../../../Video/liked'												
-				playlist=$likedplaylist										
+				dirpath='../../../Videos/liked'												
+				playlist=$tvplaylist										
 			}
 			
 			song_list=("english song" "hindi song" "tamil song" "malayalam song" "film trailer" )			
 			array_contains song_list "${d%/}" && {																	
-				dirpath='../../../Video/song'									
+				dirpath='../../../Videos/song'									
 				playlist=$songplaylist									
 			}
 			
@@ -1045,7 +1182,9 @@ _inbox_(){
 		cd ..
 		done	
 	}
+		
 	change_drive $1
+	mkdir "../../../Videos/" > /dev/null 2>&1
 	process 
 		
 }
@@ -1061,7 +1200,7 @@ _inbox_(){
 		echo " OPTIONS"
 		echo " ......."
 		echo 
-		echo "  clean [course]|[film]|[picture]|[video] "
+		echo "  clean [course]|[film]|[picture]|[video][tool] "
 		echo "  help "        		
 	}
 	
@@ -1101,6 +1240,7 @@ _inbox_(){
                     course) clean_course_folder $drive;;
 					picture) clean_picture_folder $drive;;
 					video) clean_video_folder $drive;;
+					tool) clean_tool_folder $drive;;
                esac
             fi              
             ;;       
