@@ -517,20 +517,22 @@ _inbox_(){
 				
 				# change directory
 				cd "$d"			
-				echo "  $d"
-				
-				# count the number of files
-				shopt -s nullglob
-				numfiles=(*)
-				numfiles=${#numfiles[@]}								
-				if [[ $numfiles -eq 0 ]]; then return; fi
+				echo "  $d"				
 				
 				# remove current log file
 				rm log.txt > /dev/null 2>&1
 				
+				# count the number of files
+				shopt -s nullglob
+				numfiles=(*)
+				numfiles=${#numfiles[@]}
+				shopt -u nullglob				
+				if [[ $numfiles -eq 0 ]]; then continue; fi
+				
+				
 				# loop through files
 				for f in *; do			
-					
+									
 					# skip directories
 					if [[ -d $f ]]; then continue; fi 
 					# skip ini files
@@ -548,7 +550,7 @@ _inbox_(){
 					newname=$(string_replace_dash_with_space "$newname")
 					newname=$(string_replace_dot_with_space "$newname")
 					newname=$(string_unify_multiple_spaces "$newname")
-					newname=$(string_unify_multiple_dash "$newname")					
+					newname=$(string_unify_multiple_dash "$newname")
 					
 					# add the brackets back to year
 					newname="$(echo $newname | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)\3/g')"
