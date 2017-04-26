@@ -52,6 +52,7 @@ Windows
 20161102-aliases for lalthomas pc-dos script support file.cmd
 20170102-create shortcut in sendto folder-powershell script.ps1
 20170117-create shortcut of useful scripts in sendto folder-dos batch file.bat
+20170426-append filename to list-dos batch file.bat
 
 
 Windows Explorer
@@ -244,8 +245,10 @@ Mac
 20140707-restore homebrew packages-bash script.sh
 
 
+INBOX
+-----
+
 20161029-generate folder with icon-dos batch script run.bat 
 20150715-git-bash script readme.md 
 20151227-combine git repositories from a filelist run.bat 
-20160806-open supporting file-dos batch script run.bat 
 20160806-open supporting file-dos batch script run.bat 
