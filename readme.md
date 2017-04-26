@@ -52,7 +52,7 @@ Windows
 20161102-aliases for lalthomas pc-dos script support file.cmd
 20170102-create shortcut in sendto folder-powershell script.ps1
 20170117-create shortcut of useful scripts in sendto folder-dos batch file.bat
-20170426-append filename to list-dos batch file.bat
+20161029-generate folder with icon-dos batch script run.bat 
 
 
 Windows Explorer
@@ -94,6 +94,7 @@ Windows Explorer
 20161029-generate folder with icon-dos batch script.bat
 20161107-find search term over a list of files.py
 20161124-move files from a list of files-dos batch script.bat
+20170426-append filename to list-dos batch file.bat
 
 
 ### mail
@@ -169,6 +170,11 @@ Dev
 20151227-combine git repositories from a filelist.sh
 20170102-add git repo as subdirectory.sh
 
+**Support Files**
+
+20151227-combine git repositories from a filelist run.bat 
+20150715-git-bash script readme.md 
+
 Images
 -------
 
@@ -225,6 +231,9 @@ GTD
 20160806-open supporting file-dos batch script.bat
 20161108-action folder-bash script.sh
 
+**Support Files**
+
+20160806-open supporting file-dos batch script run.bat
 
 Work
 ----
@@ -248,7 +257,7 @@ Mac
 INBOX
 -----
 
-20161029-generate folder with icon-dos batch script run.bat 
-20150715-git-bash script readme.md 
-20151227-combine git repositories from a filelist run.bat 
-20160806-open supporting file-dos batch script run.bat 
+
+
+
+
