@@ -27,10 +27,16 @@ call :createShortCut "D:\Dropbox\project\20131027-scripts project\20090411-set i
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20160216-set folder name as tag for image-dos batch script.bat" "# image - set folder name as tag for image.lnk"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20120909-make snapshots from videos-dos batch script.bat" "# video - make snapshots from videos.lnk"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20160513-print filenames in zip file-dos batch script.bat" "# zip - print filenames in zip file.lnk"
+call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# add music to fav.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite music playlist.m3u"
+
 endlocal
 exit /b 0
 
 :createShortCut
 set scriptfile=".\20170102-create shortcut in sendto folder-powershell script.ps1"
-powershell -STA -executionpolicy bypass -File %scriptfile% -filename %1 -linkname %2
+IF [%3] == [] (
+	powershell -STA -executionpolicy bypass -File %scriptfile% -filename %1 -linkname %2 
+) ELSE (
+	powershell -STA -executionpolicy bypass -File %scriptfile% -filename %1 -linkname %2 -switch %3
+)
 exit /b 0
