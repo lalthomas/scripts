@@ -912,81 +912,81 @@ _inbox_(){
 			
 			# read only directories
 			
-			
 			for d in */ ; do
 				
 				# change directory
 				cd "$d"			
 				echo "  $d"
 				
-				
 				# count the number of files
 				shopt -s nullglob
 				numfiles=(*)
-				numfiles=${#numfiles[@]}								
-				if [[ $numfiles -eq 0 ]]; then return; fi
+				numfiles=${#numfiles[@]}
 				
-				# remove current log file
-				rm log.txt > /dev/null 2>&1
+				if [[ $numfiles -gt 1 ]]; then 
 				
-				# remove current log file
-				rm log.txt > /dev/null 2>&1
-				
-				# get folder name
-				folder=${d%/}
-				
-				# loop through files
-				for f in *; do			
+					# remove current log file
+					rm log.txt > /dev/null 2>&1
 					
-					# skip directories
-					if [[ -d $f ]]; then continue; fi 
-					# skip ini files
-					if [[ $f == *.ini ]]; then continue; fi 
+					# remove current log file
+					rm log.txt > /dev/null 2>&1
+					
+					# get folder name
+					folder=${d%/}
+					
+					# loop through files
+					for f in *; do			
+							
+							# skip directories
+							if [[ -d $f ]]; then continue; fi 
+							# skip ini files
+							if [[ $f == *.ini ]]; then continue; fi 
 
-					createdate=$(file_get_created_date "$f")				
-				
-					# strip relevant details after year
-					filename=$(string_get_file_name "$f")
-					extension=$(string_get_file_extension "$f")
-				
-					
-					newname=${filename#${folder}}
-					# end of remove folder name
-				
-					newname=$(string_replace_underscore_with_space "$newname")
-					newname=$(string_replace_brackets_with_space "$newname")									
-					newname=$(string_replace_url "$newname")
-					newname=$(string_replace_dash_with_space "$newname")					
-					newname=$(string_unify_multiple_spaces "$newname")
-					newname=$(string_unify_multiple_dash "$newname")
-					newname=$(string_convert_to_lower "$newname")
-					newfilename=$(string_trim_whitespace "$newname")
-					newextension=$(string_trim_whitespace "$extension")					
-					newname="$(echo $createdate-$newfilename.$newextension)"											
-				
-															
-					# rename, move and index					
-					mv "$f" "../../../Tools/$newname";
-										
-					p=$(readlink -f "../../../Tools/$newname")
-					winp=$(cygpath -w "$p")
-					
-					extension="${newname##*.}"					
-					# skip the subtitle file					
-					# echo $extension
-					toolindexfile="D:\Dropbox\do\reference\20160126-software tools-dev index.csv"
-					[[ ! $extension =~ srt|sub|idx|jpg ]]  &&  echo "\"${folder}\",\"${winp}\"" >>"${toolindexfile}"
-					
-					# write to log
-					echo "	$f : $newname"
-					# add a log file					
-					echo "$winp : $f" >>"log.txt"					
-										
-				done
-					# open the log file
-					if [ -f "log.txt" ];then
-						cygstart "log.txt"				
-					fi						
+							createdate=$(file_get_created_date "$f")				
+						
+							# strip relevant details after year
+							filename=$(string_get_file_name "$f")
+							extension=$(string_get_file_extension "$f")
+						
+							
+							newname=${filename#${folder}}
+							# end of remove folder name
+						
+							newname=$(string_replace_underscore_with_space "$newname")
+							newname=$(string_replace_brackets_with_space "$newname")									
+							newname=$(string_replace_url "$newname")
+							newname=$(string_replace_dash_with_space "$newname")					
+							newname=$(string_unify_multiple_spaces "$newname")
+							newname=$(string_unify_multiple_dash "$newname")
+							newname=$(string_convert_to_lower "$newname")
+							newfilename=$(string_trim_whitespace "$newname")
+							newextension=$(string_trim_whitespace "$extension")					
+							newname="$(echo $createdate-$newfilename.$newextension)"											
+						
+																	
+							# rename, move and index					
+							mv "$f" "../../../Tools/$newname";
+												
+							p=$(readlink -f "../../../Tools/$newname")
+							winp=$(cygpath -w "$p")
+							
+							extension="${newname##*.}"					
+							# skip the subtitle file					
+							# echo $extension
+							toolindexfile="D:\Dropbox\do\reference\20160126-software tools-dev index.csv"
+							[[ ! $extension =~ srt|sub|idx|jpg ]]  &&  echo "\"${folder}\",\"${winp}\"" >>"${toolindexfile}"
+							
+							# write to log
+							echo "	$f : $newname"
+							# add a log file					
+							echo "$winp : $f" >>"log.txt"					
+												
+						done
+						# open the log file
+						if [ -f "log.txt" ];then
+							cygstart "log.txt"				
+						fi	
+					fi					
 				cd ..						
 			done			
 		}
