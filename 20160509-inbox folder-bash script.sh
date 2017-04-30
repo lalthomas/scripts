@@ -263,34 +263,33 @@ _inbox_(){
 	
 	clean_doc_folder(){
 
-
-		change_drive(){
+	
+		move_files_to_year_month_folder(){
 		
-			# change the folder				
-			# i tried a lot of way to get 
-			# it via a variable,bash simply won't allow that
-			# so direct push
-			echo "drive : $1"
-			case $1 in
-				d|D) pushd "D:\Inbox\doc" > /dev/null 2>&1;;
-				w|W) pushd "W:\Inbox\doc" > /dev/null 2>&1;;		
-				x|X) pushd "X:\Inbox\doc" > /dev/null 2>&1;;		
-				y|Y) pushd "Y:\Inbox\doc" > /dev/null 2>&1;;
-				z|Z) pushd "Z:\Inbox\doc" > /dev/null 2>&1;;
-				*) 
-					echo "unknown drive"; 
-					return;
-				;;
-			esac	
-			return
+			find . -maxdepth 1 -type f -name "*.*"  | 
+				while IFS= read -r file; do
+					## Get the file's modification year
+					yearmonth="$(date -d "$(stat -c %y "$file")" +%Y%m)"
+					## Create the directories if they don't exist. The -p flag
+					## makes 'mkdir' create the parent directories as needed so
+					## you don't need to create $year explicitly.
+					[[ ! -d "$yearmonth" ]] && mkdir -p "$yearmonth"; 
+					## Move the file
+					mv "$file" "$yearmonth"
+				done
+				
 		}
 		
 		clean_cleanup_thunderbird_folder(){
+						
+			:
+					
+		}
 		
-			clean_doc_cleanup_thunderbird_newstoday_folder(){
-			
-				pushd "D:\Inbox\doc\cleanup thunderbird\newstoday" > /dev/null 2>&1
-				
+		clean_doc_thunderbird_newstoday_mail_folder(){
+					
+				mkdir '../import folder calibre/newstoday' > /dev/null 2>&1
+					
 				for f in *; do
 						if [[ -d $f ]]; then continue; fi # skip directories	
 						newname="$(echo $f | sed 's/_/ /g')" # substitute underscore with space
@@ -310,7 +309,8 @@ _inbox_(){
 						newname="$(echo $newname | sed 's/MB/Mathrubhumi/g')"
 						newname="$(echo $newname | sed 's/RD/Rashtra Deepika/g')"
 						newname="$(echo $newname | sed 's/KK F/Kerala Kaumudi Flash/g')"
-						newname="$(echo $newname | sed 's/KK/Kerala Kaumudi/g')"
+						newname="$(echo $newname | sed 's/KK/Kerala Kaumudi/g')"						
+						newname="$(echo $newname | sed 's/Today'\''s//g')"
 						newname="$(echo $newname | sed 's/-/ /g')" # substitute dash with space
 						newname="$(echo $newname | sed 's/\([0-9]\{8\}\) /\1-/g')" # append date string with dash			
 						newname="$(echo $newname | tr "[:upper:]" "[:lower:]")" # convert to lowercase			
@@ -332,16 +332,12 @@ _inbox_(){
 									
 						echo $f : $newname
 						# rename the files
-						mv "$f" "$newname";
-					done					
-				popd
-			
+						mv "$f" "../import folder calibre/newstoday/$newname";
+					done													
 			}
-	
-			clean_doc_cleanup_thunderbird_chumma_folder(){
-					
-				pushd "D:\Inbox\doc\cleanup thunderbird\chumma" > /dev/null 2>&1
 			
+		clean_doc_thunderbird_chumma_mail_folder(){
+												
 				for f in *; do
 					if [[ -d $f ]]; then continue; fi # skip directories	
 					newname="$(echo $f | sed 's/_/ /g')" # substitute underscore with space
@@ -375,26 +371,24 @@ _inbox_(){
 					newname="$(echo $name.$extension)" # join
 								
 					echo $f : $newname
-					mv "$f" "$newname"; # rename the files
-				done
+					mv "$f" "$newname"; # rename the files													
 					
-				popd
-					
+				done					
+			
+				move_files_to_year_month_folder
 			}
-					
-		}
 		
 		clean_cleanup_calibre_folder(){
 			:
 		}
 		
-		clean_import_folder_doc(){		
+		clean_import_folder_docs(){		
+						
+			# mkdir "clean-named" &>/dev/null
+			# ls | grep -e"[0-9]\{8\}" | xargs -d"\n" mv -t "$PWD/clean-named" &>/dev/null		
+			# echo "Files with clean name moved ..."
+			# echo "Processing remaining files ..."
 			
-			pushd "D:\Inbox\doc\import folder doc" > /dev/null 2>&1		 
-			mkdir "clean-named" &>/dev/null
-			ls | grep -e"[0-9]\{8\}" | xargs -d"\n" mv -t "$PWD/clean-named" &>/dev/null		
-			echo "Files with clean name moved ..."
-			echo "Processing remaining files ..."
 			echo .
 			shopt -u nullglob
 			shopt -u dotglob
@@ -412,8 +406,9 @@ _inbox_(){
 				mv "$f" "$newname"; # rename the files
 			done	
 			# delete empty folders
-			find . -empty -type d -delete				
-			popd
+			find . -empty -type d -delete	
+
+			move_files_to_year_month_folder			
 			
 		}
 		
@@ -425,26 +420,69 @@ _inbox_(){
 		clean_import_folder_mendely(){
 			
 			:
-		}
-		
-		clean_import_folder_reference(){
+		}		
 			
-			:
+		change_drive(){
+		
+			# change the folder				
+			# i tried a lot of way to get 
+			# it via a variable,bash simply won't allow that
+			# so direct push
+			echo "drive : $1"
+			case $1 in
+				d|D) pushd "D:\Inbox\doc" > /dev/null 2>&1;;
+				w|W) pushd "W:\Inbox\doc" > /dev/null 2>&1;;		
+				x|X) pushd "X:\Inbox\doc" > /dev/null 2>&1;;		
+				y|Y) pushd "Y:\Inbox\doc" > /dev/null 2>&1;;
+				z|Z) pushd "Z:\Inbox\doc" > /dev/null 2>&1;;
+				*) 
+					echo "unknown drive"; 
+					return;
+				;;
+			esac	
+			return
 		}
 		
-		clean_import_folder_support(){
-		
-			:
+		rename_files(){
+						
+			for d in */ ; do
+				
+				# change directory
+				cd "$d"			
+				echo "  $d"							
+			
+				# count the number of files
+				shopt -s nullglob
+				numfiles=(*)
+				numfiles=${#numfiles[@]}
+				shopt -u nullglob
+			
+				if [[ $numfiles -eq 0 ]]; then 
+					cd ..
+					continue
+				fi		
+						
+				if [  "${d%/}" == "thunderbird newstoday mail" ]; then				
+					clean_doc_thunderbird_newstoday_mail_folder
+				fi
+				
+				if [  "${d%/}" == "thunderbird chumma mail" ]; then				
+					clean_doc_thunderbird_chumma_mail_folder
+				fi
+				
+				docs_list=("import folder reference" "import folder support" "import folder doc")			
+				
+				array_contains docs_list "${d%/}" && { 
+					clean_import_folder_docs
+				}				
+				
+				cd ..					
+			done
+			
 		}
-					
+		
 		change_drive $1
-		clean_cleanup_thunderbird_folder
-		clean_cleanup_calibre_folder
-		clean_import_folder_doc
-		clean_import_folder_evernote
-		clean_import_folder_mendely
-		clean_import_folder_reference
-		clean_import_folder_support
+		rename_files		
 		
 	}
 	
@@ -1202,7 +1240,7 @@ _inbox_(){
 		echo " OPTIONS"
 		echo " ......."
 		echo 
-		echo "  clean [course]|[film]|[picture]|[video][tool] "
+		echo "  clean [course]|[film]|[picture]|[video]|[tool]|[doc] "
 		echo "  help "        		
 	}
 	
@@ -1210,7 +1248,7 @@ _inbox_(){
 	
 	get_drive(){			
 		read -p "enter the drive you want to process( d | w | x | y | z) : "  opted		
-		[[ $opted =~ [d|w|x|y|z] ]] && { drive=$opted; } || { echo "ERROR : Unknown drive. Program now EXIT " ; return; }			
+		[[ $opted =~ [d|w|x|y|z] ]] && { drive=$opted; } || { echo "ERROR : Unknown drive. Program now EXIT " ; return 1; }			
 	}
 	
 	# set -x
@@ -1236,14 +1274,19 @@ _inbox_(){
                echo "inbox error : few arguments"
 			   return			                  
             else     
-			   get_drive
-               case "$option" in
-                    film) clean_film_folder $drive;;                        
-                    course) clean_course_folder $drive;;
-					picture) clean_picture_folder $drive;;
-					video) clean_video_folder $drive;;
-					tool) clean_tool_folder $drive;;
-               esac
+			   get_drive			   
+			   if [ $? -eq 0 ]
+				then
+					# Valid Drive
+					case "$option" in
+						film) clean_film_folder $drive;;                        
+						course) clean_course_folder $drive;;
+						picture) clean_picture_folder $drive;;
+						video) clean_video_folder $drive;;
+						tool) clean_tool_folder $drive;;
+						doc) clean_doc_folder $drive;;
+					esac					
+				fi			   
             fi              
             ;;       
         esac
