@@ -379,7 +379,82 @@ _inbox_(){
 			}
 		
 		clean_cleanup_calibre_folder(){
+		
 			:
+				
+		}
+		
+		clean_import_folder_calibre(){
+			
+			fileTitleScriptPath=$(cygpath -w "$scriptfolder/20170501-get title of pdf file-python script.py")
+			
+			# rename semi automated renaming of files
+			
+			# reset the metadata file
+			touch "metadata.txt"
+			
+			find . -maxdepth 1 -type f -name "*.pdf" | sed 's|./||' | while IFS= read -r file; do		
+				
+				local filepath=""
+				local title=""
+				local author=""
+				local subject=""
+				local keywords=""
+
+				
+				filepath="$(cygpath -w "$PWD/$file")"
+				newtitle="$(/cygdrive/c/Python27/python.exe "$fileTitleScriptPath" $file)"	
+				# TODO clean filename	
+				
+				newtitle=$(string_replace_underscore_with_space "$newtitle")				
+				newtitle=$(string_replace_dash_with_space "$newtitle")				
+				newtitle=$(string_replace_dot_with_space "$newtitle")
+				newtitle=$(string_unify_multiple_spaces "$newtitle")
+				newtitle=$(string_unify_multiple_dash "$newtitle")																																	
+				newtitle=$(string_convert_to_lower "$newtitle")
+				newtitle=$(string_trim_whitespace "$newtitle")
+							 				
+				read -p "   [ ${file} - ${newtitle} ] # title OK (y|n) ? : " opted </dev/tty
+
+				# rename the file
+				[[ $opted =~ [y|n] ]] && { option=$opted; } || { echo "   ERROR : Unknown option " ;  continue; }				
+							
+				if [[ $option == "y" ]]; 				
+				then 						
+					title="$newtitle"
+				else	
+									
+					# echo $winfilepath </dev/tty
+					cygstart --wait "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe"  "\"$winfilepath\""
+					read -p "   # enter title for opened file (enter for escape) : " userfilename </dev/tty	
+					
+					if [[ $userfilename = "" ]]; then 
+						# pressed enter
+						title="$file"
+						continue
+					else
+						title="$userfilename"
+					fi
+				
+				fi
+				
+				
+				echo "\"$filepath\"	\"$title\"	\"$author\"	\"$subject\"	\"$keywords\"">> "metadata.txt"
+										
+				# TODO open the file if no
+				# TODO get the filename from user and rename it 
+				
+			
+			done
+			
+			echo "   Open AutoMetadata windows utility and import the metadata.txt file and apply changes"
+			read -n1 -r -p "   Press any key to continue ..." key		
+		
+			
+			# import to calibre inbox library
+			
+			
+		
 		}
 		
 		clean_import_folder_docs(){		
@@ -461,7 +536,11 @@ _inbox_(){
 					cd ..
 					continue
 				fi		
-						
+				
+				if [  "${d%/}" == "import folder calibre" ]; then				
+					clean_import_folder_calibre
+				fi				
+					
 				if [  "${d%/}" == "thunderbird newstoday mail" ]; then				
 					clean_doc_thunderbird_newstoday_mail_folder
 				fi
@@ -470,11 +549,15 @@ _inbox_(){
 					clean_doc_thunderbird_chumma_mail_folder
 				fi
 				
+				
+				
 				docs_list=("import folder reference" "import folder support" "import folder doc")			
 				
 				array_contains docs_list "${d%/}" && { 
 					clean_import_folder_docs
 				}				
+				
+				
 				
 				cd ..					
 			done
@@ -482,7 +565,9 @@ _inbox_(){
 		}
 		
 		change_drive $1
-		rename_files		
+		rename_files
+		# remove folder from stack
+		popd > /dev/null 2>&1		
 		
 	}
 	
@@ -888,6 +973,8 @@ _inbox_(){
 		
 		change_drive $1
 		process 
+		# remove folder from stack
+		popd > /dev/null 2>&1
 				
 	}
 	
@@ -1226,10 +1313,10 @@ _inbox_(){
 	change_drive $1
 	mkdir "../../../Videos/" > /dev/null 2>&1
 	process 
-		
+	# remove folder from stack
+	popd > /dev/null 2>&1	
 }
 		
-	
 	usage(){
 
         echo 
