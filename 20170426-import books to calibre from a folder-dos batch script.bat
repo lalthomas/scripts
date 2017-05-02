@@ -1,11 +1,11 @@
 @echo OFF
 setlocal
 
-REM TODO loop over all files in folder passed as arguement to the script
+REM [x] loop over all files in folder passed as arguement to the script
 REM TODO move the files to recycle bin after successful import 
-REM create a catalogue of files with inbox field set to FALSE 
-REM move the files to main library after processing
-REM update the catalogue
+REM [ ] create a catalogue of files with inbox field set to FALSE 
+REM [ ] move the files to main library after processing
+REM [ ] update the catalogue
 
 set library="%~2"
 
