@@ -27,10 +27,12 @@ call :createShortCut "D:\Dropbox\project\20131027-scripts project\20160513-print
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20160526-add caption for image-dos batch script.bat" "# image - add caption.lnk"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20160723-blog it.bat" "# blog it.lnk"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20160919-remove all metadata for image-dos batch script.bat" "# image - remove all metadata.lnk"
-call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f book.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite books.txt"
+call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f book.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite book list.txt"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f film.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite films playlist.m3u"
-call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f image.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite images.txt"
+call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f image.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite image list.txt"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f music.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite music playlist.m3u"
+call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f video songs.lnk" "D:\Dropbox\do\reference\20170430-lalthomas favourite video songs playlist.m3u"
+call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f people.lnk" "D:\Dropbox\do\reference\20170501-lalthomas favourite people list.txt"
 
 endlocal
 exit /b 0
