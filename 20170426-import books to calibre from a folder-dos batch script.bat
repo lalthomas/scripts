@@ -1,4 +1,4 @@
-@echo ON
+@echo OFF
 setlocal
 
 REM TODO loop over all files in folder passed as arguement to the script
@@ -14,7 +14,8 @@ IF [%~x1] == [] (
 IF EXIST %1 ( CALL:FOLDER %1 )
 ) 
 REM premature exit to define functions beneath
-EXIT /B %ERRORLEVEL%
+pause
+EXIT %ERRORLEVEL%
 
 :FOLDER
 REM SYNTAX calibre [options] [path_to_ebook]
@@ -24,18 +25,24 @@ endlocal
 pause
 
 :addbooks
-calibredb add --library-path %library% --title "%~n1"  "%~1"
-REM get the bookid
-for /f "delims=" %%A in ('calibredb search --library-path "D:\temp\20170426" --limit "1" "%~n1"') do set "bookid=%%A"
+
+REM calibredb add --library-path %library% --title "%~n1" "%~1"
+calibredb add --library-path %library% "%~1"
 
 REM -------------------
 REM Update the metadata
 REM -------------------
-REM SYNTAX calibredb set_metadata [options] id [/path/to/metadata.opf]
-calibredb set_metadata --library-path %library% --field "authors:Lal" %bookid%
+
+REM get the bookid
+REM here we are taking the assumption that the filename is used as the title of the book
+for /f "delims=" %%A in ('calibredb search --library-path %library% --limit "1" "%~n1"') do set "bookid=%%A"
+
+REM add metadata
+REM calibredb set_metadata --library-path %library% --field "authors:Lal" %bookid%
 calibredb set_custom --library-path %library% inbox %bookid% 1
 calibredb set_custom --library-path %library% read %bookid% 0
-pause
+
 exit /b 0
+
 REM END OF PROGRAM
 :END

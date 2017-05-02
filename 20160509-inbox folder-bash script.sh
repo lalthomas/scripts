@@ -388,10 +388,8 @@ _inbox_(){
 			
 			fileTitleScriptPath=$(cygpath -w "$scriptfolder/20170501-get title of pdf file-python script.py")
 			
-			# rename semi automated renaming of files
-			
 			# reset the metadata file
-			touch "metadata.txt"
+			rm "metadata.txt"  > /dev/null 2>&1
 			
 			find . -maxdepth 1 -type f -name "*.pdf" | sed 's|./||' | while IFS= read -r file; do		
 				
@@ -400,10 +398,8 @@ _inbox_(){
 				local author=""
 				local subject=""
 				local keywords=""
-
-				
-				filepath="$(cygpath -w "$PWD/$file")"
-				newtitle="$(/cygdrive/c/Python27/python.exe "$fileTitleScriptPath" $file)"	
+							
+				local newtitle="$(/cygdrive/c/Python27/python.exe "$fileTitleScriptPath" $file)"	
 				# TODO clean filename	
 				
 				newtitle=$(string_replace_underscore_with_space "$newtitle")				
@@ -424,8 +420,8 @@ _inbox_(){
 					title="$newtitle"
 				else	
 									
-					# echo $winfilepath </dev/tty
-					cygstart --wait "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe"  "\"$winfilepath\""
+					# echo $filepath </dev/tty
+					cygstart --wait "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe"  "\"$file\""
 					read -p "   # enter title for opened file (enter for escape) : " userfilename </dev/tty	
 					
 					if [[ $userfilename = "" ]]; then 
@@ -437,7 +433,13 @@ _inbox_(){
 					fi
 				
 				fi
+								
+				# rename file using title
+				local filename="$title.pdf"
+				mv "$file" "$filename"
 				
+				# get the new file path
+				local filepath="$(cygpath -w "$PWD/$filename")"
 				
 				echo "\"$filepath\"	\"$title\"	\"$author\"	\"$subject\"	\"$keywords\"">> "metadata.txt"
 										
@@ -447,15 +449,21 @@ _inbox_(){
 			
 			done
 			
-			echo "   Open AutoMetadata windows utility and import the metadata.txt file and apply changes"
+			# open AutoMetadata applications
+			cygstart "C:\Users\admin\AppData\Local\Apps\2.0\JXXRRPHL.3RW\GZ0EXJMO.N3B\auto..tion_75b171bbd3e4df1f_0001.0000_341873e73ed59a56\AutoMetadata.exe"
+			echo "   Open metadata.txt file AutoMetadata applications and apply changes"
 			read -n1 -r -p "   Press any key to continue ..." key		
-		
-			
+					
 			# TODO import to calibre inbox library
 			# TODO add files list imported to main library to reference readme
-			
-			
-		
+					
+			local folderpath="$(cygpath -w "$PWD")"
+			local librarypath="D:\temp\20170426"
+			local calibrescriptpath="20170426-import books to calibre from a folder-dos batch script.bat"
+						
+			cygstart --wait "$scriptfolder/$(cygpath -u "${calibrescriptpath}")" "\"$folderpath\"" "\"$librarypath\""			
+			cygstart "C:\Program Files\Calibre2\calibre.exe"
+			 
 		}
 		
 		clean_import_folder_docs(){		
