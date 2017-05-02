@@ -451,7 +451,8 @@ _inbox_(){
 			read -n1 -r -p "   Press any key to continue ..." key		
 		
 			
-			# import to calibre inbox library
+			# TODO import to calibre inbox library
+			# TODO add files list imported to main library to reference readme
 			
 			
 		
