@@ -333,8 +333,8 @@ _gtd_main_(){
 	re="^(help|review|action)$"
 	if [[ "$action"=~$re ]]; then
 		case $action in
-		action) action $term
-		review) review $term
+		action) action $term;;
+		review) review $term;;
 		analyse_todo_projects) analyse_todo_projects;;		
 		generate_and_view_reports) generate_and_view_reports;;
 		pritorize_todo_projects) pritorize_todo_projects;;
