@@ -1,11 +1,11 @@
 @echo OFF
 setlocal
 
-REM [x] loop over all files in folder passed as arguement to the script
-REM TODO move the files to recycle bin after successful import 
-REM [ ] create a catalogue of files with inbox field set to FALSE 
-REM [ ] move the files to main library after processing
-REM [ ] update the catalogue
+REM TODO: [x] loop over all files in folder passed as arguement to the script
+REM TODO: [ ] move the files to recycle bin after successful import 
+REM TODO: [ ] create a catalogue of files with inbox field set to FALSE 
+REM TODO: [ ] move the files to main library after processing
+REM TODO: [ ] update the catalogue
 
 set library="%~2"
 
@@ -39,6 +39,9 @@ for /f "delims=" %%A in ('calibredb search --library-path %library% --limit "1" 
 
 REM add metadata
 REM calibredb set_metadata --library-path %library% --field "authors:Lal" %bookid%
+
+REM calibredb list
+
 calibredb set_custom --library-path %library% inbox %bookid% 1
 calibredb set_custom --library-path %library% read %bookid% 0
 
