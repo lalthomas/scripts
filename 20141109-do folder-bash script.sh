@@ -30,7 +30,7 @@ _do_main_(){
         openFile "$doRootPath/report.txt"
     }
     
-    update_inbox_file(){
+    update_inboxtxt_file(){
 
 		update_projects_file
 		update_contexts_file
@@ -304,7 +304,7 @@ _do_main_(){
 		echo "start_markdown_server"
 		echo "start_server"
 		echo "update_contexts_file"
-		echo "update_inbox_file"
+		echo "update_inboxtxt_file"
 		echo "update_projects_file"
 		echo "usage"  		
 		
@@ -333,7 +333,7 @@ _do_main_(){
 		start_markdown_server) start_markdown_server ;;
 		start_server) start_server ;;
 		update_contexts_file) update_contexts_file ;;
-		update_inbox_file) update_inbox_file ;;		
+		update_inboxtxt_file) update_inboxtxt_file ;;		
 		update_projects_file) update_projects_file ;;
 		view_project_todos) view_project_todos ;;
 	esac

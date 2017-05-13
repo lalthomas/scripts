@@ -454,7 +454,7 @@ endWeek(){
 	if [ $opted == "y" ]; then
 		# update do files
 		dofolder clean_todo_files
-		dofolder update_inbox_file
+		dofolder update_inboxtxt_file
 	fi
 	
 	echo
