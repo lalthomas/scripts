@@ -175,16 +175,6 @@ endDay(){
 		git	commit -m"add lesson entry" > /dev/null 2>&1		
 		echo "  [x] changes to lessons file commited"
 		
-				
-		# git commit attendance file
-		echo
-		echo "# attendance file"
-		echo		
-		git add "reference\20170109-amrita mtech semester 04 attendance register.md" > /dev/null 2>&1
-		git	commit -m"add entry to attendance file" > /dev/null 2>&1		
-		echo "  [x] changes to 20170109-amrita mtech semester 04 attendance register commited"
-		
-	
 	}
 	
 	echo
