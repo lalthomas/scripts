@@ -22,6 +22,7 @@ doskey recyclebin-clean="D:\Dropbox\project\20131027-scripts project\20161020-em
 doskey tablet-copy="D:\Dropbox\project\20131027-scripts project\20140222-copy files from a list of files-dos batch script.bat" "D:\Dropbox\do\reference\20160115-tablet-video-sync-list.m3u" "D:\temp"
 doskey wallpaper-default="D:\Dropbox\project\20131027-scripts project\20090411-set image as wallpaper-dos batch script.bat" "C:\Windows\Web\Wallpaper\Windows\img0.jpg"
 doskey jupyter-notebook=jupyter notebook --notebook-dir="%CD%"
+doskey download-video="D:\Dropbox\project\20131027-scripts project\20170507-download video of url in clipboard.bat"
 
 set NLM=^
 
@@ -42,13 +43,14 @@ echo +reference
 echo +timer
 echo +todoproject
 echo copy-filelist
+echo download-videos
 echo gtd-action-files
 echo hh
+echo jupyter-notebook
 echo log-meditate
 echo log-workout
 echo make-email-summary
 echo recyclebin-clean
 echo tablet-copy
 echo wallpaper-default
-echo jupyter-notebook
 echo %NL%---END----
