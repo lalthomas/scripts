@@ -22,16 +22,12 @@ _review_main_(){
 		echo "		  "
 		echo 
         echo "OPTIONS are..."
-        echo 					
-		echo "update_do_files"
-		echo "add_gratitude"		
-		echo "analyse_todo_projects"
-		echo "commit_changes"
+        echo 							
+		echo "analyse_todo_projects"		
 		echo "generate_and_view_reports"
 		echo "pritorize_todo_projects"
 		echo "reward_yourself"
-		echo "process_inbox_folders"
-		echo "take_action"
+		echo "process_inbox_folders"		
 	}
 	
 	
@@ -169,8 +165,7 @@ _review_main_(){
 		analyse_todo_projects) analyse_todo_projects;;		
 		generate_and_view_reports) generate_and_view_reports;;
 		pritorize_todo_projects) pritorize_todo_projects;;
-		reward_yourself) reward_yourself;;
-		process_inbox_folders) process_inbox_folders;;
+		reward_yourself) reward_yourself;;		
 		open_active_projects) open_active_projects;;				
 		*)
 		echo "invalid option"

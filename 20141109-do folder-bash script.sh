@@ -217,7 +217,6 @@ _do_main_(){
         
     }
 	
-	
 	# move the lines containing the term in all text file to a the filename	
 	aggregate_lines_with_term(){
 	
@@ -248,10 +247,8 @@ _do_main_(){
 		replace_lines_in_txt_files_having_term $term $filename
 		
 	}
-	
-	
-	# search through all text files in current folder
-	# move the matched lines to the filename	
+		
+	# search through all text files in current folder and move the matched lines to the filename	
 	replace_lines_in_txt_files_having_term(){
 				
 		term=$1
@@ -285,7 +282,6 @@ _do_main_(){
 		done
 		
 	}
-	
 	
 	usage(){
 
