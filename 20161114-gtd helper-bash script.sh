@@ -22,8 +22,7 @@ _review_main_(){
 		echo "		  "
 		echo 
         echo "OPTIONS are..."
-        echo 			
-		echo "run_actions_from_csv_file"
+        echo 					
 		echo "update_do_files"
 		echo "add_gratitude"		
 		echo "analyse_todo_projects"
@@ -35,67 +34,7 @@ _review_main_(){
 		echo "take_action"
 	}
 	
-	run_actions_from_csv_file(){
-				
-		csvfile=$(cygpath -u "$1")		
-		# a csv file with first column having the filename
-		# and second column having with actions, is 
-		# used here. File is displayed along with the actions
-		# 
-		pattern="."		
-		counter=1		
-		while read -r  line;
-		do      							
-			FILENAMES[$counter]=$(echo $line | awk -F, '{print $1}'| tr -d '"')
-			counter=$((counter + 1))			
-		done < "$csvfile" 
-				
-		# select unique elements 
-		# IFS is set to accept new lines
-		IFS=$'\n'
-		files_unique=($(printf "%s\n" "${FILENAMES[@]}" | sort -u))
-		unset IFS
-				
-		# echo number of results ${#files_unique[@]}				
-		# for filename in "${files_unique[@]}"
-		# do
-		#	echo $filename
-		# done				
-		
-		echo
-		# for filename in "${files_unique[@]}"	
-		for ((i = 0; i < ${#files_unique[@]}; i++))	
-		do						
-			# to disable run use `# ` in front of initial string
-			if [[ ${files_unique[i]} = \#* ]]; then			
-				# todo heading, remove #				
-				echo ${files_unique[i]}							
-			else
-				## file path							
-				echo "# ${files_unique[i]}"
-				cygstart "${files_unique[i]}"				
-			fi
-			
-			safe_replacement=$(printf '%s\n' "${files_unique[i]}" | sed 's/[\&/]/\\&/g')        			
-						
-			# loop through
-			# innner process run first						
-			grep -e "$safe_replacement" "$csvfile" | ( counter=1; while read -r line;
-			do				
-				TODOS[$counter]=$(echo $line | awk -F, '{print $2}' | tr -d '"')				
-				counter=$((counter + 1))			
-			done && for ((i = 0; i <= ${#TODOS[@]}; i++))	
-			do	
-				# file todos
-				echo "  ${TODOS[i]}"
-			done )		
-			
-			# pause			
-			read -n1 -r -p "" key				
-			# clear
-		done	
 	
-	}
 				
 	analyse_todo_projects(){
 		
@@ -226,8 +165,7 @@ _review_main_(){
 	# Validate the input options
 	re="^(help|review|action)$"
 	if [[ "$action"=~$re ]]; then
-		case $action in				
-		run_actions_from_csv_file) run_actions_from_csv_file "$option" ;;		
+		case $action in						
 		analyse_todo_projects) analyse_todo_projects;;		
 		generate_and_view_reports) generate_and_view_reports;;
 		pritorize_todo_projects) pritorize_todo_projects;;

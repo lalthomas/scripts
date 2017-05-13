@@ -36,6 +36,70 @@ usage() {
     echo "    end day|week|month|year"      
 }
 
+# generic routine
+
+run_actions_from_csv_file(){
+				
+	csvfile=$(cygpath -u "$1")		
+	# a csv file with first column having the filename
+	# and second column having with actions, is 
+	# used here. File is displayed along with the actions
+	# 
+	pattern="."		
+	counter=1		
+	while read -r  line;
+	do      							
+		FILENAMES[$counter]=$(echo $line | awk -F, '{print $1}'| tr -d '"')
+		counter=$((counter + 1))			
+	done < "$csvfile" 
+			
+	# select unique elements 
+	# IFS is set to accept new lines
+	IFS=$'\n'
+	files_unique=($(printf "%s\n" "${FILENAMES[@]}" | sort -u))
+	unset IFS
+			
+	# echo number of results ${#files_unique[@]}				
+	# for filename in "${files_unique[@]}"
+	# do
+	#	echo $filename
+	# done				
+	
+	echo
+	# for filename in "${files_unique[@]}"	
+	for ((i = 0; i < ${#files_unique[@]}; i++))	
+	do						
+		# to disable run use `# ` in front of initial string
+		if [[ ${files_unique[i]} = \#* ]]; then			
+			# todo heading, remove #				
+			echo ${files_unique[i]}							
+		else
+			## file path							
+			echo "# ${files_unique[i]}"
+			cygstart "${files_unique[i]}"				
+		fi
+		
+		safe_replacement=$(printf '%s\n' "${files_unique[i]}" | sed 's/[\&/]/\\&/g')        			
+					
+		# loop through
+		# innner process run first						
+		grep -e "$safe_replacement" "$csvfile" | ( counter=1; while read -r line;
+		do				
+			TODOS[$counter]=$(echo $line | awk -F, '{print $2}' | tr -d '"')				
+			counter=$((counter + 1))			
+		done && for ((i = 0; i <= ${#TODOS[@]}; i++))	
+		do	
+			# file todos
+			echo "  ${TODOS[i]}"
+		done )		
+		
+		# pause			
+		read -n1 -r -p "" key				
+		# clear
+	done	
+
+}
+
 startDay(){     
     
 	git_commit(){
@@ -94,7 +158,7 @@ startDay(){
 	
 	# run action from csv file
 	# D:\Dropbox\do\reference\20161120-life gtd day start action support file.csv
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_START_FILE"			
+	run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_START_FILE"			
 	
 	# create journal
 	t journal create
@@ -232,7 +296,7 @@ endDay(){
 	
 	# run action from csv file
 	# D:\Dropbox\do\reference\20161120-life gtd day end action support file.csv
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"
+	run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"
 	
 	
 	# add day plan
@@ -333,7 +397,7 @@ startWeek(){
 	echo "weekly actions"
 	echo
 	# D:\Dropbox\do\reference\20161130-life gtd week action support file.csv
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_WEEK_START_FILE"
+	run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_WEEK_START_FILE"
 			
 	echo 
 	echo "--------------------------"
@@ -361,7 +425,7 @@ endWeek(){
 	if [ $opted == "y" ]; then
 		# review file is read from config file
 		# D:\Dropbox\do\reference\20161114-life gtd week review support file.csv
-		gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_WEEK_END_FILE"
+		run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_WEEK_END_FILE"
 	fi
 	
 	
@@ -476,7 +540,7 @@ startMonth(){
 	
 	# run action from csv file
 	# D:\Dropbox\do\reference\20170101-life gtd month action support file.csv
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_MONTH_START_FILE"	
+	run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_MONTH_START_FILE"	
 	
 	echo
 	echo "----------------------"
@@ -496,7 +560,7 @@ endMonth(){
 	echo
 	
 	# run action from csv file
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_MONTH_END_FILE"
+	run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_MONTH_END_FILE"
 	
 	# [ ] move done.txt todo items to project files
 	# [ ] move invalid.txt todo items to project files
@@ -507,7 +571,7 @@ endMonth(){
 	
 	read -p "do you want to process inbox folders [y|n] ? : " opted
 	if [ $opted == "y" ]; then
-		gtd run_actions_from_csv_file "$INBOX_FOLDER_LIST"
+		run_actions_from_csv_file "$INBOX_FOLDER_LIST"
 	fi
 	
 	
@@ -531,7 +595,7 @@ startYear(){
     
 	# run action from csv file
 	# D:\Dropbox\do\reference\20170101-life gtd year action support file.csv
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_YEAR_START_FILE"
+	run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_YEAR_START_FILE"
 	
 	#doarchive
     t plan year invalidate && \
@@ -550,7 +614,7 @@ endYear(){
 	
 	# run action from csv file
 	# D:\Dropbox\do\reference\20170101-life gtd year review support file.csv
-	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_YEAR_END_FILE"
+	run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_YEAR_END_FILE"
 	
 	echo 
 	echo "---------------------------"
