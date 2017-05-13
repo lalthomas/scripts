@@ -157,7 +157,10 @@ endDay(){
 		echo
 		echo "commiting changes"
 		echo	
-				
+
+		# TODO: commit the calendar.txt file
+		# TODO: commit the todo.txt file
+		
 		# git commit log file		
 		echo
 		echo "# log file"
@@ -214,9 +217,8 @@ endDay(){
 	if [ $opted == "y" ]; then
 		t lesson 		
 	fi
-		
-	t log add "check-out from personal computer"
-		
+	
+	
 	# review
 	echo
 	echo "Day Review"
@@ -231,6 +233,16 @@ endDay(){
 	# run action from csv file
 	# D:\Dropbox\do\reference\20161120-life gtd day end action support file.csv
 	gtd run_actions_from_csv_file "$WORKFLOW_ACTION_FOR_DAY_END_FILE"
+	
+	
+	# add day plan
+	opted="n"
+	echo	
+	read -p "do you want to add day plan for tomorrow to todo.txt [y|n] ? : " opted
+	if [ $opted == "y" ]; then
+		t plan pick tomorrow
+	fi
+	
 	
 	opted="n"
 	read -p "have you wished your friends ? : " opted
@@ -257,7 +269,10 @@ endDay(){
 	echo 
 	wish list tomorrow
 	echo
-		
+	
+	# add checkout log entry to log
+	t log add "check-out from personal computer"
+	
 	# commit changes
 	git_commit	
 		
@@ -429,7 +444,17 @@ startMonth(){
 	
 	# [ ] check todos that can be scheduled 
 	# [ ] prepare the list of recurring tasks for the month to calendar.txt
-	# [ ] move todo from calendar.txt to todo.txt
+	
+	# add recurring todos to calendar.txt	
+	
+	opted="n"
+	echo	
+	read -p "do you want to add todos for the month [y|n] ? : " opted
+	if [ $opted == "y" ]; then
+		t plan day month
+	fi
+	
+	
 	# [ ] move todo related to current month from tickler.txt to todo.txt 
 	# [ ] brainstorm for open todo projects
 	# [ ] prepare next actions for unclear tasks 
