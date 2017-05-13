@@ -116,6 +116,22 @@ _inbox_(){
 		
 	}
 
+	folder_move_files_to_year_month_folder(){
+		
+		find . -maxdepth 1 -type f -name "*.*"  | 
+			while IFS= read -r file; do
+				## Get the file's modification year
+				yearmonth="$(date -d "$(stat -c %y "$file")" +%Y%m)"
+				## Create the directories if they don't exist. The -p flag
+				## makes 'mkdir' create the parent directories as needed so
+				## you don't need to create $year explicitly.
+				[[ ! -d "$yearmonth" ]] && mkdir -p "$yearmonth"; 
+				## Move the file
+				mv "$file" "$yearmonth"
+			done
+				
+	}
+	
 	# folder routines
 	
 	clean_course_folder(){	
@@ -264,22 +280,6 @@ _inbox_(){
 	clean_doc_folder(){
 
 	
-		move_files_to_year_month_folder(){
-		
-			find . -maxdepth 1 -type f -name "*.*"  | 
-				while IFS= read -r file; do
-					## Get the file's modification year
-					yearmonth="$(date -d "$(stat -c %y "$file")" +%Y%m)"
-					## Create the directories if they don't exist. The -p flag
-					## makes 'mkdir' create the parent directories as needed so
-					## you don't need to create $year explicitly.
-					[[ ! -d "$yearmonth" ]] && mkdir -p "$yearmonth"; 
-					## Move the file
-					mv "$file" "$yearmonth"
-				done
-				
-		}
-		
 		clean_cleanup_thunderbird_folder(){
 						
 			:
@@ -375,7 +375,7 @@ _inbox_(){
 					
 				done					
 			
-				move_files_to_year_month_folder
+				folder_move_files_to_year_month_folder
 			}
 		
 		clean_cleanup_calibre_folder(){
@@ -386,6 +386,21 @@ _inbox_(){
 		
 		clean_import_folder_calibre(){
 			
+			
+			clean_title(){
+			
+				local title="$@"				
+				title=$(string_replace_underscore_with_space "$title")				
+				title=$(string_replace_dash_with_space "$title")				
+				title=$(string_replace_dot_with_space "$title")
+				title=$(string_unify_multiple_spaces "$title")
+				title=$(string_unify_multiple_dash "$title")																																	
+				title=$(string_convert_to_lower "$title")
+				title=$(string_trim_whitespace "$title")
+				echo -e "$title"
+				
+			}
+			
 			fileTitleScriptPath=$(cygpath -w "$scriptfolder/20170501-get title of pdf file-python script.py")
 			
 			# reset the metadata file
@@ -393,75 +408,73 @@ _inbox_(){
 			
 			find . -maxdepth 1 -type f -name "*.pdf" | sed 's|./||' | while IFS= read -r file; do		
 				
-				local filepath=""
+				local filepath="$(cygpath -w "$PWD/$file")"
 				local title=""
 				local author=""
 				local subject=""
 				local keywords=""
 							
-				local newtitle="$(/cygdrive/c/Python27/python.exe "$fileTitleScriptPath" $file)"	
-				# TODO clean filename	
-				
-				newtitle=$(string_replace_underscore_with_space "$newtitle")				
-				newtitle=$(string_replace_dash_with_space "$newtitle")				
-				newtitle=$(string_replace_dot_with_space "$newtitle")
-				newtitle=$(string_unify_multiple_spaces "$newtitle")
-				newtitle=$(string_unify_multiple_dash "$newtitle")																																	
-				newtitle=$(string_convert_to_lower "$newtitle")
-				newtitle=$(string_trim_whitespace "$newtitle")
-							 				
-				read -p "   [ ${file} - ${newtitle} ] # title OK (y|n) ? : " opted </dev/tty
+				# get the title				
+				local newtitle="$(/cygdrive/c/Python27/python.exe "$fileTitleScriptPath" $file)"				
+				newtitle="$(clean_title $newtitle)"				
+				read -p "   [ ${file%.*} - ${newtitle} ] # title OK ? ( y|n|enter for file name ) : " opted </dev/tty
 
 				# rename the file
-				[[ $opted =~ [y|n] ]] && { option=$opted; } || { echo "   ERROR : Unknown option " ;  continue; }				
+				[[ $opted =~ [y|n|""] ]] && { option=$opted; } || { echo "   ERROR : Unknown option " ;  continue; }				
 							
 				if [[ $option == "y" ]]; 				
-				then 						
-					title="$newtitle"
-				else	
-									
-					# echo $filepath </dev/tty
+					then 						
+					title="$newtitle"									
+				elif [[ $option = "" ]];
+					then 
+					# pressed enter set filename as title						
+					title="${file%.*}"						
+				else				
+					# TODO: [x] open the file if no
+					# TODO: [x] get the filename from user and rename it 									
+					# echo $filepath </dev/tty					
 					cygstart --wait "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe"  "\"$file\""
 					read -p "   # enter title for opened file (enter for escape) : " userfilename </dev/tty	
-					
-					if [[ $userfilename = "" ]]; then 
-						# pressed enter
-						title="$file"
-						continue
-					else
-						title="$userfilename"
-					fi
+					userfilename="$(clean_title $userfilename)"					
+					title="$userfilename"														
+				fi				
+				# end of get title
 				
-				fi
-								
-				# rename file using title
-				local filename="$title.pdf"
-				mv "$file" "$filename"
-				
-				# get the new file path
-				local filepath="$(cygpath -w "$PWD/$filename")"
-				
+				# add the info to AutoMetadata support file
 				echo "\"$filepath\"	\"$title\"	\"$author\"	\"$subject\"	\"$keywords\"">> "metadata.txt"
-										
-				# TODO open the file if no
-				# TODO get the filename from user and rename it 
-				
 			
 			done
 			
 			# open AutoMetadata applications
-			cygstart "C:\Users\admin\AppData\Local\Apps\2.0\JXXRRPHL.3RW\GZ0EXJMO.N3B\auto..tion_75b171bbd3e4df1f_0001.0000_341873e73ed59a56\AutoMetadata.exe"
-			echo "   Open metadata.txt file AutoMetadata applications and apply changes"
-			read -n1 -r -p "   Press any key to continue ..." key		
+			cygstart "C:\Users\admin\AppData\Local\Apps\2.0\JXXRRPHL.3RW\GZ0EXJMO.N3B\auto..tion_75b171bbd3e4df1f_0001.0000_341873e73ed59a56\AutoMetadata.exe"			
+			read -n1 -r -p "   Import metadata.txt file on AutoMetadata App , make necessary changes and press any key to continue ..." key		
 					
-			# TODO import to calibre inbox library
-			# TODO add files list imported to main library to reference readme
-					
+			# TODO [x] import to calibre inbox library
+			# TODO [ ] add files list imported to main library to reference readme
+							
 			local folderpath="$(cygpath -w "$PWD")"
 			local librarypath="D:\temp\20170426"
 			local calibrescriptpath="20170426-import books to calibre from a folder-dos batch script.bat"
 						
-			cygstart --wait "$scriptfolder/$(cygpath -u "${calibrescriptpath}")" "\"$folderpath\"" "\"$librarypath\""			
+			find . -maxdepth 1 -type f -name "*.pdf" | sed 's|./||' | while IFS= read -r file; do				
+				calibredb add --library-path "$librarypath" "$file"							
+			done
+						
+			# calibredb search --library-path $librarypath --limit "1" "%~n1"							
+			calibredb list | {
+				read
+				while read -r id title authors ; do
+					# printf "%b" "${id} ${title} ${authors} \n"					
+					if [[ "${id}" == "" ]]; then
+						echo "   Not a valid book ID"
+						continue
+					fi					
+					calibredb set_custom inbox "${id}" 1
+					calibredb set_custom read "${id}" 0
+				done
+			}
+			
+			# cygstart --wait "$scriptfolder/$(cygpath -u "${calibrescriptpath}")" "\"$folderpath\"" "\"$librarypath\""			
 			cygstart "C:\Program Files\Calibre2\calibre.exe"
 			 
 		}
@@ -492,7 +505,7 @@ _inbox_(){
 			# delete empty folders
 			find . -empty -type d -delete	
 
-			move_files_to_year_month_folder			
+			folder_move_files_to_year_month_folder			
 			
 		}
 		
@@ -752,6 +765,16 @@ _inbox_(){
 	
 		# $1 contains the drive letter
 	
+		gather_files(){
+				
+			case $1 in
+				d|D)
+				pushd "D:\Pictures\WallpapersWide.com"
+				mv *.jpg "D:\Inbox\picture\wallpapers"
+				popd
+			esac	
+			return
+		}
 		change_drive(){
 		
 			# change the folder				
@@ -980,7 +1003,8 @@ _inbox_(){
 
 		}
 		
-		change_drive $1
+		gather_files $1
+		change_drive $1		
 		process 
 		# remove folder from stack
 		popd > /dev/null 2>&1
