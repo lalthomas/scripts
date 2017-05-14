@@ -18,8 +18,8 @@ REM add tail text
 echo ^) ^<br^/^> >>"%~n1.tmp"
 REM remove newlines
 set path="%scriptFolderPath%\tools\fart";%PATH%
-fart -qC --remove "%~dpn1.tmp" "\r" >new.txt
-fart -qC --remove "%~dpn1.tmp" "\n" >new.txt
+fart -qC --remove "%~dpn1.tmp" "\r" 2> nul
+fart -qC --remove "%~dpn1.tmp" "\n" 2> nul
 REM end of remove newlines
 
 REM copy to clipboard
