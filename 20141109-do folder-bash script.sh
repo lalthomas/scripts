@@ -6,13 +6,108 @@
 # © Lal Thomas (lal.thomas.mail@gmail.com)
 
 # initialize global variables 
-# do scripts variables
 
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
-alias dofolder=_do_main_
+alias df=_do_main_
 
+## utility functions ##
+# ------------------
+
+# start markdown server
+start_markdown_server_one(){
+
+	python "$rootpath/scripts/project/20150106-brainerd markdown server/brainerd.py"
+	
+}
+
+# start markdown server
+start_markdown_server_two(){
+
+	local serverRootPath=$2
+	cd "$serverRootPath"    
+	python "$rootpath/scripts/source/20140607-start simple http server with markdown support-python script.py"  
+	
+}
+
+# search through all text files in current folder and move the matched lines to the filename	
+replace_lines_in_txt_files_having_term(){
+			
+	term=$1
+	shift
+	filename=$*
+	
+	for file in *.txt 
+	do
+		 grep "$term" "$file">>"$filename"
+		 # thanks http://stackoverflow.com/a/10467453/2182047
+		 # sed escape before replace 
+		 sed -i'' "/$(echo $term | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/d" "$file"
+	done
+	sort "$filename" | uniq | sort -o "$filename"
+
+}
+
+# move the lines containing the term in all text file to a the filename	
+aggregate_lines_with_term(){
+
+	# expects 
+	# first argument - term ( e.g. +dev )
+	# second argument - file name ( e.g. dev project.txt)
+	
+	 if [ -z $0 ];
+	then 
+		echo "TODO: no enough arguments"
+		return
+	fi
+
+	term=$1		
+	
+	if [ $# -gt 1 ]; 
+	then
+		shift
+		filename=$*
+	else    
+		#replace plus symbol
+		fileNamePrefix=${term//+/}
+		# replace backslash in variable
+		fileNamePrefix=${fileNamePrefix//\// }
+		filename="$today-$fileNamePrefix.txt"
+	fi  
+	
+	replace_lines_in_txt_files_having_term $term $filename
+	
+}
+	
+
+## main ##
+
+# main entities are 
+#	/archive
+#	/hold
+#	/reference
+#	/support
+#	/upcoming
+#	calendar.txt
+#	context.md
+#	done.txt
+#	dont.txt
+#	dreams.md
+#	goals.md
+#	project files
+#	project-list.csv
+#	projects.md
+#	purpose.md
+#	readmd.md
+#	report.txt
+#	spark.md
+#	tickler.md
+#	todo.txt
+#	waiting.txt
+#	wishlist.md
+
+	
 _do_main_(){   
 
     clean_todo_files(){
@@ -140,19 +235,6 @@ _do_main_(){
     # remove console colors using sed
     # sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g"
 
-    start_server(){
-    
-        local serverRootPath=$2
-        cd "$serverRootPath"    
-        python "$rootpath/scripts/source/20140607-start simple http server with markdown support-python script.py"  
-        
-    }
-
-    start_markdown_server(){
-    
-        python "$rootpath/scripts/project/20150106-brainerd markdown server/brainerd.py"
-        
-    }
 
     get_all_projects_names(){
 
@@ -217,54 +299,6 @@ _do_main_(){
         
     }
 	
-	# move the lines containing the term in all text file to a the filename	
-	aggregate_lines_with_term(){
-	
-		# expects 
-        # first argument - term ( e.g. +dev )
-        # second argument - file name ( e.g. dev project.txt)
-		
-		 if [ -z $0 ];
-        then 
-            echo "TODO: no enough arguments"
-            return
-        fi
-
-        term=$1		
-		
-        if [ $# -gt 1 ]; 
-        then
-			shift
-            filename=$*
-        else    
-            #replace plus symbol
-            fileNamePrefix=${term//+/}
-            # replace backslash in variable
-            fileNamePrefix=${fileNamePrefix//\// }
-            filename="$today-$fileNamePrefix.txt"
-        fi  
-		
-		replace_lines_in_txt_files_having_term $term $filename
-		
-	}
-		
-	# search through all text files in current folder and move the matched lines to the filename	
-	replace_lines_in_txt_files_having_term(){
-				
-		term=$1
-		shift
-		filename=$*
-		
-        for file in *.txt 
-        do
-             grep "$term" "$file">>"$filename"
-             # thanks http://stackoverflow.com/a/10467453/2182047
-             # sed escape before replace 
-             sed -i'' "/$(echo $term | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/d" "$file"
-        done
-        sort "$filename" | uniq | sort -o "$filename"
-	
-	}
 	
 	view_project_todos(){
 	
@@ -286,14 +320,13 @@ _do_main_(){
 	usage(){
 
         echo 
-        echo "dofolder OPTIONS"      
+        echo "df OPTIONS"      
         echo " helper script to managing do folder"   
         echo 
         echo "OPTIONS are..."
         echo 		
 		echo "add_birdseye_report"
-		echo "add_todo_report"
-		echo "aggregate_lines_with_term"
+		echo "add_todo_report"		
 		echo "clean_todo_files"
 		echo "create_tickler_files"
 		echo "get_all_contexts_names"
@@ -321,8 +354,7 @@ _do_main_(){
 	case "$ACTION" in		
 		add_birdseye_report) add_birdseye_report ;;
 		add_todo_report) add_todo_report ;;
-		move_project_matches_to_file) move_project_matches_to_file $1 $2 ;;
-		aggregate_lines_with_term) aggregate_lines_with_term $1 $2 ;;
+		move_project_matches_to_file) move_project_matches_to_file $1 $2 ;;		
 		clean_todo_files) clean_todo_files ;;
 		create_tickler_files) create_tickler_files ;;
 		get_all_contexts_names) get_all_contexts_names ;;
