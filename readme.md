@@ -1,9 +1,3 @@
-Support Files
--------------
-
-20161120-gtd helper config file.cfg
-20161130-workflow config file.cfg
-
 Help
 ----
 
@@ -185,6 +179,12 @@ Images
 20160217-fix the tag name of image-dos batch script.bat
 20160526-add caption for image-dos batch script.bat
 20160919-remove all metadata for image-dos batch script.bat
+20170514-copy base64 encoding of image file to clipboard.bat
+20170507-download video of url in clipboard.bat\
+
+**Support Files**
+
+20170507-download video of url in clipboard readme.md
 
 Video
 -----
@@ -220,6 +220,7 @@ GTD
 20160401-add log entry to file-dos batch script.bat
 20161114-gtd helper-bash script.sh
 
+
 ### folder helper
 
 20141109-do folder-bash script.sh
@@ -254,11 +255,6 @@ Mac
 20140707-restore homebrew packages-bash script.sh
 
 
-INBOX
+Inbox
 -----
 
-
-
-
-
-20170507-download video of url in clipboard readme.md 
