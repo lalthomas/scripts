@@ -6,10 +6,25 @@
 # © Lal Thomas (lal.thomas.mail@gmail.com)
 
 # initialize global variables 
-# do scripts variables
-
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 alias referencefolder=_reference_main_
+
+## main ##
+
+# main entities are 
+#	/archive
+#	
+#	checklist
+#	manual notes
+#	procedure
+#	doc
+#	dump file
+#	index files
+#	playlist
+#	favourites
+#	contact files
+#	list
+
 
 _reference_main_(){
 	
