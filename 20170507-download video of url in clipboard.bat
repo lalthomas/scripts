@@ -1,5 +1,6 @@
 @echo OFF
 setlocal
+REM Download the video file from popular websites. This script have no argument; the video URL is perceived from the windows clipboard
 REM Author Lal Thomas
 REM Date : 2017-05-07
 set scriptFolderPathFull=%~dp0%
