@@ -370,7 +370,7 @@ endWeek(){
 		echo " [] copy todo item numbers of all done and invalid items"
 		echo " [] create and save a note of review points"
 		echo 
-		dofolder view_project_todos	
+		df view_project_todos	
 		echo
 		echo "# todo.txt project"	
 		echo		
@@ -384,8 +384,8 @@ endWeek(){
 	read -p "do you want to update todo files [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		# update do files
-		dofolder clean_todo_files
-		dofolder update_inboxtxt_file
+		df clean_todo_files
+		df update_inboxtxt_file
 	fi
 	
 	echo

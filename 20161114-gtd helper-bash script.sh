@@ -298,8 +298,8 @@ _gtd_main_(){
 	
 	generate_and_view_reports(){
 		
-		dofolder add_todo_report
-		dofolder add_birdseye_report
+		df add_todo_report
+		df add_birdseye_report
 		
 	}
 	
