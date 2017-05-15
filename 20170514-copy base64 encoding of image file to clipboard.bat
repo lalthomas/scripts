@@ -6,6 +6,7 @@ REM Date : 2017-05-14
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 set filename=%1
+REM echo %filename%
 
 REM change the path to argument folder
 %~d1
