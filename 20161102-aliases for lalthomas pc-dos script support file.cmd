@@ -23,6 +23,7 @@ doskey tablet-copy="D:\Dropbox\project\20131027-scripts project\20140222-copy fi
 doskey wallpaper-default="D:\Dropbox\project\20131027-scripts project\20090411-set image as wallpaper-dos batch script.bat" "C:\Windows\Web\Wallpaper\Windows\img0.jpg"
 doskey jupyter-notebook=jupyter notebook --notebook-dir="%CD%"
 doskey download-video="D:\Dropbox\project\20131027-scripts project\20170507-download video of url in clipboard.bat"
+doskey encode-image="D:\Dropbox\project\20131027-scripts project\20170514-copy base64 encoding of image file to clipboard.bat"
 
 set NLM=^
 
@@ -44,6 +45,7 @@ echo +timer
 echo +todoproject
 echo copy-filelist
 echo download-videos
+echo encode-image
 echo gtd-action-files
 echo hh
 echo jupyter-notebook
