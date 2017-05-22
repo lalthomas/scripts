@@ -70,7 +70,6 @@ exit /b 0
 
 
 :PROJECTTYPE
-REM upcoming type
 echo.
 echo PROJECT TYPES
 echo.
@@ -93,22 +92,22 @@ goto :endprojecttype
 :hold
 cd hold
 echo %projectname%>%todofile%
-exit /b 0
+goto :endprojecttype
 
 :archive
 cd archive	
 echo %projectname%>%todofile%
-exit /b 0
 goto :endprojecttype
-
-:addtolist
-echo %~1 >> "D:\Dropbox\do\reference\20161001-project list-dev gtd.txt"
-exit /b 0
 
 :endprojecttype
 exit /b 0
 
+REM -------- END ----------
 
+REM Routine Start
+:addtolist
+echo %~1 >> "D:\Dropbox\do\reference\20161001-gtd project list.txt"
+exit /b 0
 REM -------- END ----------
 
 :end
