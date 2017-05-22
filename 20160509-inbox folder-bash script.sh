@@ -1270,30 +1270,24 @@ _inbox_(){
 				
 				newname="$(echo $createdate-$newfilename $folder.$newextension)"											
 				
-				if [  "${folder}" == "liked video" ]; then
-					newname="$(echo $createdate-$newfilename.$newextension)"
-				fi
-
-				if [  "${folder}" == "saved video" ]; then
-					newname="$(echo $createdate-$newfilename.$newextension)"
-				fi
+				# add exceptions
+				no_folder_append_list=("saved video" "liked video" "ohm" )			
+				array_contains no_folder_append_list "${folder}" && {																	
+					newname="$(echo $createdate-$newfilename.$newextension)"									
+				}
 
 				newname=$(string_convert_to_lower "$newname")
-				
-				# rename, move and index					
-				mv "$f" "$movepath/$newname";						
-				p=$(readlink -f "$movepath/$newname")
-				winp=$(cygpath -w "$p")
-				
 				extension="${newname##*.}"
-				# skip the subtitle file					
-				# echo $extension
-				[[ ! $extension =~ srt|sub|idx|jpg ]]  &&  echo "$winp" >>$playlist
+				
+				# rename, move and index				
+				mv "$f" "$movepath/$newname";
+				p=$(readlink -f "$movepath/$newname")
+				winpath=$(cygpath -w "$p")				
+				# skip the subtitle file										
+				[[ ! $extension =~ srt|sub|idx|jpg ]]  &&  echo "$winpath" >>$playlist					
 				
 				# write to log
 				echo "	$f : $newname"
-				# add a log file					
-				# echo "$winp : $f" >>"log.txt"									
 			done
 		}					
 		
@@ -1301,7 +1295,7 @@ _inbox_(){
 			# change directory
 			cd "$d"
 			echo "  $d"
-			folder=${d%/}
+			folder=${d%/}			
 			# echo "  ${d%/}"			
 			# folders list
 			
@@ -1318,6 +1312,11 @@ _inbox_(){
 			if [  "${d%/}" == "liked video" ]; then												
 				dirpath='../../../Videos/liked'					
 				playlist=$likedplaylist					
+			fi
+		
+			if [  "${d%/}" == "ohm" ]; then	
+				dirpath='done'											
+				playlist="$PWD/$dirpath/ohm.m3u"						
 			fi
 		
 			if [  "${d%/}" == "developer video" ]; then
@@ -1337,8 +1336,15 @@ _inbox_(){
 				playlist=$songplaylist									
 			}
 			
-			mkdir $dirpath > /dev/null 2>&1
+			
+			# create the playlist
+			echo >>"$playlist" > /dev/null 2>&1
+			# create the folder
+			mkdir "$dirpath" > /dev/null 2>&1
+			
+			# loop through files
 			loop_files "$folder" "$dirpath"
+			
 		cd ..
 		done	
 	}
