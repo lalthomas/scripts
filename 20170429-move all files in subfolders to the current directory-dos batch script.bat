@@ -1,5 +1,12 @@
 @echo OFF
 setlocal
+
+REM Thanks : http://stackoverflow.com/a/21246994/2182047
+
+REM you can run the below one liner also
+REM for /f "tokens=*" %f in ('dir /a:-D /s /b') do move "%f" . && for /f "tokens=*" %f in ('dir /a:D /s /b') do rd "%f"
+
+REM Start of Script
 REM run only if folder is given as argument
 IF [%~x1] == [] ( call :RUN %1 ) ELSE ( goto :END )
 endlocal
