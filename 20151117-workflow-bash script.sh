@@ -239,7 +239,7 @@ endDay(){
 	t journal open
 	
 	# gtd action
-	gtd action day end
+	gtd action end day
 	
 	# add day plan
 	opted="n"
@@ -338,7 +338,7 @@ startWeek(){
 	echo
 	echo "weekly actions"
 	echo
-	gtd action week start
+	gtd action start week
 			
 	echo 
 	echo "--------------------------"
@@ -365,7 +365,7 @@ endWeek(){
 	# gtd action
 	read -p "do you want start weekly actions [y|n] ? : " opted
 	if [ $opted == "y" ]; then
-		gtd action week end
+		gtd action end week
 	fi
 	
 	
@@ -479,7 +479,7 @@ startMonth(){
     # commitdo
 	
 	# gtd action
-	gtd action month start
+	gtd action start month
 	
 	echo
 	echo "----------------------"
@@ -499,7 +499,7 @@ endMonth(){
 	echo
 	
 	# gtd action
-	gtd action month end
+	gtd action end month
 	
 	# [ ] move done.txt todo items to project files
 	# [ ] move invalid.txt todo items to project files
@@ -534,7 +534,7 @@ startYear(){
     echo        
 
 	# gtd actions
-	gtd year start
+	gtd action start year
 	
 	#doarchive
     t plan year invalidate && \
@@ -551,7 +551,7 @@ startYear(){
 endYear(){
 	
 	# gtd actions
-	gtd action year end
+	gtd action end year 
 	
 	echo 
 	echo "---------------------------"

@@ -127,73 +127,85 @@ _gtd_main_(){
 	
 	action(){
 	
+		echo $@
+		
 		# Get action
-		occasion=$1
+		action=$1
 		shift
 
 		# Get option
-		detail=$1;  
+		occasion=$1;  
 		shift
 		
-		if [[ -z "$detail" ]]; then
+		if [[ -z "$action" ]]; then
 			echo "workflow error : few arguments"
-			exit
+			return
+		fi
+		
+		if [[ -z "$occasion" ]]; then
+			echo "workflow error : few arguments"
+			return
+		fi
+		
+		# Validate the input option
+		re="^(start|end)$"
+		if [[ ! "$action"=~$re ]]; then		
+			echo "error: unrecognised option \"$action\"."			
+			return
 		fi
 		
 		# Validate the input options
 		re="^(day|week|month|year)$"
-		
-		if [[ "$occasion"=~$re ]]; then
-			case $action in
-			'start')        								                  
-				case "$detail" in
-					day)						
-						# D:\Dropbox\do\reference\20161120-life gtd day start action support file.csv
-						run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_START_FILE"
-					;;
-					week)
-						# D:\Dropbox\do\reference\20161130-life gtd week action support file.csv
-						run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_START_FILE"
-					;;                  
-					month)
-						# D:\Dropbox\do\reference\20170101-life gtd month action support file.csv
-						run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_START_FILE"	
-					;;
-					year)
-						# D:\Dropbox\do\reference\20170101-life gtd year action support file.csv
-						run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_START_FILE"
-	
-					;;
-				esac
-				;;
-			'end')
-				case "$detail" in
-					day)
-						# D:\Dropbox\do\reference\20161120-life gtd day end action support file.csv
-						run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_END_FILE"
-						;;
-					week)
-						# D:\Dropbox\do\reference\20161114-life gtd week review support file.csv
-						run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_END_FILE"
-
-						;;                  
-					month)
-						# D:\Dropbox\do\reference\20170101-life gtd month review support file.csv
-						run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_END_FILE"
-	
-						;;
-					year)						
-						# D:\Dropbox\do\reference\20170101-life gtd year review support file.csv
-						run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_END_FILE"
-						;;
-				esac
-				;;
-			esac
-		else
-			echo "error: unrecognised option \"$option\"."
-			
+		if [[ ! "$occasion"=~$re ]]; then		
+			echo "error: unrecognised option \"$occasion\"."			
+			return
 		fi
 		
+		case $action in
+		'start')        								                  
+			case "$occasion" in
+				day)						
+					# D:\Dropbox\do\reference\20161120-life gtd day start action support file.csv
+					run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_START_FILE"
+				;;
+				week)
+					# D:\Dropbox\do\reference\20161130-life gtd week action support file.csv
+					run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_START_FILE"
+				;;                  
+				month)
+					# D:\Dropbox\do\reference\20170101-life gtd month action support file.csv
+					run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_START_FILE"	
+				;;
+				year)
+					# D:\Dropbox\do\reference\20170101-life gtd year action support file.csv
+					run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_START_FILE"
+
+				;;
+			esac
+			;;
+		'end')
+			case "$occasion" in
+				day)
+					# D:\Dropbox\do\reference\20161120-life gtd day end action support file.csv
+					run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_END_FILE"
+					;;
+				week)
+					# D:\Dropbox\do\reference\20161114-life gtd week review support file.csv
+					run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_END_FILE"
+
+					;;                  
+				month)
+					# D:\Dropbox\do\reference\20170101-life gtd month review support file.csv
+					run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_END_FILE"
+
+					;;
+				year)						
+					# D:\Dropbox\do\reference\20170101-life gtd year review support file.csv
+					run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_END_FILE"
+					;;
+			esac
+			;;
+		esac				
 	}
 	
 	project(){
@@ -321,11 +333,9 @@ _gtd_main_(){
 	shift
 
 	# Get option
-	option=$1;  
+	options="$@";  
 	shift
 
-	# Get rest of them
-	term="$@"
 
 	# echo action: $action option: $option term: $term
 
@@ -333,13 +343,14 @@ _gtd_main_(){
 	re="^(help|review|action)$"
 	if [[ "$action"=~$re ]]; then
 		case $action in
-		action) action $term;;
-		review) review $term;;
+		action) action $options;;
+		# review) review $options;;
 		analyse_todo_projects) analyse_todo_projects;;		
 		generate_and_view_reports) generate_and_view_reports;;
 		pritorize_todo_projects) pritorize_todo_projects;;
 		reward_yourself) reward_yourself;;		
 		open_active_projects) open_active_projects;;				
+		usage) usage;;
 		*)
 		echo "invalid option"
 		;;						    
