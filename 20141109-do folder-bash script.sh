@@ -235,13 +235,14 @@ _do_main_(){
     # remove console colors using sed
     # sed -E "s/"$'\E'"\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g"
 
-
+	
+	# TODO: [ ] add support for csv delimited project list file
     get_all_projects_names(){
 
         for file in *.txt *.md
         do			
 			# skip resources file and goals file
-			[ "$file" == "resources.md" ] && [ "$file" == "goals.md" ] && continue
+			[ "$file" == "goals.md" ] && continue
 			# get the projects from "$file"
 			grep -o '[^  ]*+[^  ]\+'  "$file" | grep '^+' | sort -u			
 			
@@ -249,6 +250,7 @@ _do_main_(){
 
     }
 
+	# TODO: [ ] add support for csv delimited project list file
     get_all_contexts_names(){
 
         for file in *.txt *.md
