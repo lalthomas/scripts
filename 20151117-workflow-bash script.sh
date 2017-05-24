@@ -95,8 +95,17 @@ startDay(){
 	# gtd action
 	gtd action start day
 	
+	opted="n"
+	echo
+	
+	read -p "do you want to wish your friends (y|n) ? : " opted
+	if [ $opted == "y" ]; then
+		wish list && wish email && t log add "wish friends happy birthday"			
+	fi	
+
 	# create journal
 	t journal create
+	
 	echo
 	echo "# journal file"
 	echo
