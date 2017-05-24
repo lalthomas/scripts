@@ -116,6 +116,16 @@ _inbox_(){
 		
 	}
 
+	folder_no_of_files(){
+	
+		# count the number of files
+		shopt -s nullglob
+		numfiles=(*)
+		numfiles=${#numfiles[@]}
+		shopt -u nullglob			
+		echo $numfiles
+	}
+	
 	folder_move_files_to_year_month_folder(){
 		
 		find . -maxdepth 1 -type f -name "*.*"  | 
@@ -548,16 +558,8 @@ _inbox_(){
 				cd "$d"			
 				echo "  $d"							
 			
-				# count the number of files
-				shopt -s nullglob
-				numfiles=(*)
-				numfiles=${#numfiles[@]}
-				shopt -u nullglob
-			
-				if [[ $numfiles -eq 0 ]]; then 
-					cd ..
-					continue
-				fi		
+				# escape the empty folders
+				if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi					
 				
 				if [  "${d%/}" == "import folder calibre" ]; then				
 					clean_import_folder_calibre
@@ -570,16 +572,13 @@ _inbox_(){
 				if [  "${d%/}" == "thunderbird chumma mail" ]; then				
 					clean_doc_thunderbird_chumma_mail_folder
 				fi
-				
-				
+								
 				
 				docs_list=("import folder reference" "import folder support" "import folder doc")			
 				
 				array_contains docs_list "${d%/}" && { 
 					clean_import_folder_docs
 				}				
-				
-				
 				
 				cd ..					
 			done
@@ -667,12 +666,8 @@ _inbox_(){
 				# remove current log file
 				rm log.txt > /dev/null 2>&1
 				
-				# count the number of files
-				shopt -s nullglob
-				numfiles=(*)
-				numfiles=${#numfiles[@]}
-				shopt -u nullglob				
-				if [[ $numfiles -eq 0 ]]; then continue; fi
+				# escape the empty folders
+				if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi
 				
 				
 				# loop through files
@@ -769,9 +764,10 @@ _inbox_(){
 				
 			case $1 in
 				d|D)
-				pushd "D:\Pictures\WallpapersWide.com"
-				mv *.jpg "D:\Inbox\picture\wallpapers"
-				popd
+				pushd "D:\Pictures\WallpapersWide.com" > /dev/null 2>&1
+				mv *.jpg "D:\Inbox\picture\wallpapers" > /dev/null 2>&1
+				popd > /dev/null 2>&1
+				echo "  files gathered"
 			esac	
 			return
 		}
@@ -813,7 +809,88 @@ _inbox_(){
 			cd "$d"
 			echo "  $d"
 			# echo "  ${d%/}"			
-			# folders list			
+			# folders list	
+
+			# wallpaper
+			
+			if [  "${d%/}" == "wallpapers" ]; then
+								
+			    # check whether there is subfolders
+				subdircount=`find $PWD -maxdepth 1 -type d | wc -l`				
+				if [ $subdircount -gt 1 ]
+				then
+					echo "   Processing tag folders"
+					# for each sub folder create tag on image
+					for w in */ ; do
+						# change directory
+						cd "$w"
+						echo "   $w"					
+						
+						# escape the empty folders
+						if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi	
+						
+						# # remove all metadata
+						# local pgmpath="20160919-remove all metadata for image-dos batch script.bat"
+						# cygstart --wait "$scriptfolder/$(cygpath -u "${pgmpath}")" \"$(cygpath -w "${PWD}")\"
+						
+						# set the folder name as tag name
+						local pgmpath="20160216-set folder name as tag for image-dos batch script.bat"		
+						cygstart --wait "$scriptfolder/$(cygpath -u "${pgmpath}")" \"$(cygpath -w "${PWD}")\"
+						
+						# fix the tag name of image
+						local fixtagscriptpath="20160217-fix the tag name of image-dos batch script.bat"		
+						cygstart --wait "$scriptfolder/$(cygpath -u "${fixtagscriptpath}")" \"$(cygpath -w "${PWD}")\"
+						
+						# move all files parent folder
+						mv * .[^.]* .. > /dev/null 2>&1															
+						# pop path
+						cd ..
+					done															
+				fi
+												
+				# remove empty folders
+				# find . -empty -type d -delete	
+
+				# add caption for image
+				local captionscriptpath="20160526-add caption for image-dos batch script.bat"				
+				cygstart --wait "$scriptfolder/$(cygpath -u "${captionscriptpath}")" \"$(cygpath -w "${PWD}")\"				
+				
+				# rename the file using <sha1>.<ext>				
+				cygstart --wait \
+						  "$(cygpath -u "${sirenpath}")" \
+						  "--dir \"$(cygpath -w "${PWD}")\" \
+						  --filter \"*.jpg;*.png;*.gif\" \	
+						  --select \"*.*\" \
+						  --expression %cs.%e \
+						  --rename \
+						  --quit"
+				# move the file to wallpaper folder
+				mkdir -p '../../../Wallpapers'  > /dev/null 2>&1
+				find . -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) -exec mv {} '../../../Wallpapers' \;
+				
+				# organize wallpapers based on year
+				pushd "../../../Wallpapers" > /dev/null 2>&1	
+				find . -maxdepth 1 -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) | 
+				while IFS= read -r file; do
+					## Get the file's modification year
+					year="$(date -d "$(stat -c %y "$file")" +%Y)"
+					## Create the directories if they don't exist. The -p flag
+					## makes 'mkdir' create the parent directories as needed so
+					## you don't need to create $year explicitly.
+					[[ ! -d "$year" ]] && mkdir -p "$year"; 
+					## Move the file
+					mv "$file" "$year"
+				done
+				popd > /dev/null 2>&1	
+
+			fi
+			
+			
+			# except for wallpaper all other folder need to be processed only if there are more than one files
+						
+			if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi
+
+			
 			camera_roll_list=("lenovo camera roll" "lumia camera roll" "mipad camera roll" "sony cybershot camera roll")
 			
 			array_contains camera_roll_list "${d%/}" && {			
@@ -922,78 +999,7 @@ _inbox_(){
 				popd > /dev/null 2>&1	
 
 			}
-			
-			# wallpaper
-			
-			if [  "${d%/}" == "wallpapers" ]; then
-								
-			    # check whether there is subfolders
-				subdircount=`find $PWD -maxdepth 1 -type d | wc -l`				
-				if [ $subdircount -gt 1 ]
-				then
-					echo "   Processing tag folders"
-					# for each sub folder create tag on image
-					for w in */ ; do
-						# change directory
-						cd "$w"
-						echo "   $w"					
 						
-						# # remove all metadata
-						# local pgmpath="20160919-remove all metadata for image-dos batch script.bat"
-						# cygstart --wait "$scriptfolder/$(cygpath -u "${pgmpath}")" \"$(cygpath -w "${PWD}")\"
-						
-						# set the folder name as tag name
-						local pgmpath="20160216-set folder name as tag for image-dos batch script.bat"		
-						cygstart --wait "$scriptfolder/$(cygpath -u "${pgmpath}")" \"$(cygpath -w "${PWD}")\"
-						
-						# fix the tag name of image
-						local fixtagscriptpath="20160217-fix the tag name of image-dos batch script.bat"		
-						cygstart --wait "$scriptfolder/$(cygpath -u "${fixtagscriptpath}")" \"$(cygpath -w "${PWD}")\"
-						
-						# move all files parent folder
-						mv * .[^.]* .. > /dev/null 2>&1															
-						# pop path
-						cd ..
-					done															
-				fi
-												
-				# remove empty folders
-				# find . -empty -type d -delete	
-
-				# add caption for image
-				local captionscriptpath="20160526-add caption for image-dos batch script.bat"				
-				cygstart --wait "$scriptfolder/$(cygpath -u "${captionscriptpath}")" \"$(cygpath -w "${PWD}")\"				
-				
-				# rename the file using <sha1>.<ext>				
-				cygstart --wait \
-						  "$(cygpath -u "${sirenpath}")" \
-						  "--dir \"$(cygpath -w "${PWD}")\" \
-						  --filter \"*.jpg;*.png;*.gif\" \	
-						  --select \"*.*\" \
-						  --expression %cs.%e \
-						  --rename \
-						  --quit"
-				# move the file to wallpaper folder
-				mkdir -p '../../../Wallpapers'  > /dev/null 2>&1
-				find . -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) -exec mv {} '../../../Wallpapers' \;
-				
-				# organize wallpapers based on year
-				pushd "../../../Wallpapers" > /dev/null 2>&1	
-				find . -maxdepth 1 -type f \( -name "*.jpg" -or -name "*.png" -or -name "*.gif" \) | 
-				while IFS= read -r file; do
-					## Get the file's modification year
-					year="$(date -d "$(stat -c %y "$file")" +%Y)"
-					## Create the directories if they don't exist. The -p flag
-					## makes 'mkdir' create the parent directories as needed so
-					## you don't need to create $year explicitly.
-					[[ ! -d "$year" ]] && mkdir -p "$year"; 
-					## Move the file
-					mv "$file" "$year"
-				done
-				popd > /dev/null 2>&1	
-
-			fi
-			
 			cd ..
 		done		
 				
@@ -1237,13 +1243,7 @@ _inbox_(){
 			folder=$1
 			movepath=$2
 			# echo $folder
-			# echo $movepath				
-			
-			# count the number of files
-			shopt -s nullglob
-			numfiles=(*)
-			numfiles=${#numfiles[@]}								
-			if [[ $numfiles -eq 0 ]]; then return; fi
+			# echo $movepath										
 			
 			# loop through all files in the current folder
 			for f in *; do			
@@ -1306,12 +1306,14 @@ _inbox_(){
 			folder=${d%/}			
 			# echo "  ${d%/}"			
 			# folders list
-			
+
 			# remove current log file
 			rm log.txt > /dev/null 2>&1
 			# loop through files
 			
-				
+			# escape the empty folders
+			if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi	
+			
 			if [  "${d%/}" == "saved video" ]; then												
 				dirpath='../../../Videos/saved'					
 				playlist=$savedplaylist							
