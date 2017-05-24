@@ -106,7 +106,7 @@ REM -------- END ----------
 
 REM Routine Start
 :addtolist
-echo %~1 >> "D:\Dropbox\do\reference\20161001-gtd project list.txt"
+echo %CD%\%~1 >> "D:\Dropbox\do\reference\20161001-gtd project list.txt"
 exit /b 0
 REM -------- END ----------
 
