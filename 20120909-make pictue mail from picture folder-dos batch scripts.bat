@@ -64,13 +64,13 @@ for %%f in (%*) do (
   REM echo %1
   echo --------------090109080102010402080505 >>%fileName%
   echo Content-Type: image/jpeg; >>%fileName%
-  echo  name=^"%%f^" >>%fileName%
+  echo  name=^"%%~nxf^" >>%fileName%
   echo Content-Transfer-Encoding: base64 >>%fileName%
   REM Must use !s! for delayed expansion
   echo Content-ID: ^<part!s!.01030501.02050408@gmail.com^> >>%fileName%
   set /a s=s+1
   echo Content-Disposition: inline; >>%fileName%
-  echo  filename=^"%%f^" >>%fileName%
+  echo  filename=^"%%~nxf^" >>%fileName%
   echo.>>%fileName% >>%fileName%
   
   REM Encodes the image to Base64 encoding
