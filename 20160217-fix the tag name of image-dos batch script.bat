@@ -63,7 +63,7 @@ REM ----------------------------
 for %%a in ( %data% ) do (	
 	set elem[%%a]=X
 )
-set "noDupData=#"
+set "noDupData= "
 
 
 for /F "tokens=2 delims=[]" %%a in ( 'set elem[' ) do (
