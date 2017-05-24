@@ -937,15 +937,19 @@ _inbox_(){
 						# change directory
 						cd "$w"
 						echo "   $w"					
+						
+						# # remove all metadata
+						# local pgmpath="20160919-remove all metadata for image-dos batch script.bat"
+						# cygstart --wait "$scriptfolder/$(cygpath -u "${pgmpath}")" \"$(cygpath -w "${PWD}")\"
+						
 						# set the folder name as tag name
 						local pgmpath="20160216-set folder name as tag for image-dos batch script.bat"		
 						cygstart --wait "$scriptfolder/$(cygpath -u "${pgmpath}")" \"$(cygpath -w "${PWD}")\"
+						
 						# fix the tag name of image
 						local fixtagscriptpath="20160217-fix the tag name of image-dos batch script.bat"		
 						cygstart --wait "$scriptfolder/$(cygpath -u "${fixtagscriptpath}")" \"$(cygpath -w "${PWD}")\"
-						# add caption for image
-						local captionscriptpath="20160526-add caption for image-dos batch script.bat"				
-						cygstart --wait "$scriptfolder/$(cygpath -u "${captionscriptpath}")" \"$(cygpath -w "${PWD}")\"				
+						
 						# move all files parent folder
 						mv * .[^.]* .. > /dev/null 2>&1															
 						# pop path
@@ -954,7 +958,11 @@ _inbox_(){
 				fi
 												
 				# remove empty folders
-				# find . -empty -type d -delete				
+				# find . -empty -type d -delete	
+
+				# add caption for image
+				local captionscriptpath="20160526-add caption for image-dos batch script.bat"				
+				cygstart --wait "$scriptfolder/$(cygpath -u "${captionscriptpath}")" \"$(cygpath -w "${PWD}")\"				
 				
 				# rename the file using <sha1>.<ext>				
 				cygstart --wait \
