@@ -931,7 +931,7 @@ _inbox_(){
 				subdircount=`find $PWD -maxdepth 1 -type d | wc -l`				
 				if [ $subdircount -gt 1 ]
 				then
-					echo "Processing tag folders"
+					echo "   Processing tag folders"
 					# for each sub folder create tag on image
 					for w in */ ; do
 						# change directory
