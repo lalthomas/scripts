@@ -309,8 +309,7 @@ _do_main_(){
 			echo
 			echo $PRJ			
 			echo 
-			t -+ listall $PRJ
-			echo
+			/usr/bin/mintty.exe -i /Cygwin-Terminal.ico  /usr/bin/bash.exe -l -c "sh \"d:/Dropbox/do/todo.sh\" -a -N -f -+ list $PRJ$ && read -n1 -r -p \"Press any key to continue ...\" key;"			
 			read -n1 -r -p "Press any key to continue ..." key </dev/tty	
 			echo
 			clear
