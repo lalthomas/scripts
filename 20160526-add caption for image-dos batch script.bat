@@ -56,6 +56,7 @@ set caption=%caption:#=%
 set caption=%caption:(=%
 set caption=%caption:)=%
 set caption=%caption:_= %
+set caption=%caption:-= %
 
 
 if /i %~x1 == .jpg (
