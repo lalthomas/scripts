@@ -53,7 +53,7 @@ REM ------------------------
  
 echo ^</div^> >>%fileName%
 echo ^</body^>^</html^> >>%fileName%
-call "%scriptFolderPath%\tools\fart\fart.exe" %fileName% "<p style='text-align:left;'>Caption-Abstract                : " "<p style='text-align:left;'>"
+call "%scriptFolderPath%\tools\fart\fart.exe" %fileName% "<p style='text-align:left;'>Caption-Abstract                : " "<p style='text-align:left;'>" >nul 2>nul
 
 REM Loop through all images in the folder
 set /a s=1
@@ -105,7 +105,7 @@ REM ------------------------------
 
 ren %fileName% "%ParentDir%.eml"
 del %fileName%
-call "%scriptFolderPath%\tools\fart\fart.exe" "%ParentDir%.eml" "$SUBJECT$" "%ParentDir%"
+call "%scriptFolderPath%\tools\fart\fart.exe" "%ParentDir%.eml" "$SUBJECT$" "%ParentDir%"  >nul 2>nul
 
 goto :EOF
 
