@@ -30,45 +30,6 @@ _project_main_(){
 				
 		}
 		
-		makerepo(){
-		
-								
-			# get inside the repo
-			cd "$location"
-			mkdir -p "$projectfolder" && cd "$projectfolder"
-			
-			# add readme		
-			t markdown add H1 "ReadMe" "readme.md"
-		
-			# add gitignore
-			g repo add gitignore windows > /dev/null 2>&1
-			g repo add gitignore $projecttype > /dev/null 2>&1
-		
-			# intialize repo
-			g repo create "$PWD" > /dev/null 2>&1
-			echo 
-			echo "SUCCESS : Project repo created successfully"
-			
-			# add to inbox
-			addtoInbox
-			
-			# get out of repo
-			
-			# TODO: ask and open a new terminal on folder
-			# TODO: ask and open explorer on folder
-			
-			cd ..
-		
-		}
-		
-		addtoInbox(){
-	
-			# add to inbox list
-			local projectfolderpath=$(cygpath -d "$PWD")		
-			echo $projectfolderpath>>"$(cygpath -u "D:\Dropbox\do\inbox.txt")"
-			start "" "D:\Dropbox\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\Dropbox\do\inbox.txt"  > /dev/null 2>&1	
-		}
-	
 		argsno=$#				
 		# echo "#argument  : $argsno"
 		
@@ -99,9 +60,42 @@ _project_main_(){
 		printf "\n%s" "type     : $projecttype"		
 		printf "\n%s" "folder   : $projectfolder"
 		echo 
+				
 		
-		makerepo
+		# return
+			
+		##################
+		# repo creation
+		##################
 		
+		# get inside the repo		
+		mkdir -p "$projectfolder" && cd "$projectfolder"
+		
+		# add readme		
+		t markdown add H1 "ReadMe" "readme.md"
+	
+		# add gitignore
+		g repo add gitignore windows > /dev/null 2>&1
+		g repo add gitignore $projecttype > /dev/null 2>&1
+	
+		# intialize repo
+		g repo create "$PWD" > /dev/null 2>&1
+		echo 
+		echo "SUCCESS : Project repo created successfully"
+		
+		# add to inbox.txt
+		local projectfolderpath=$(cygpath -d "$PWD")		
+		echo $projectfolderpath>>"$(cygpath -u "D:\Dropbox\do\inbox.txt")"
+		start "" "D:\Dropbox\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\Dropbox\do\inbox.txt"  > /dev/null 2>&1	
+
+		
+		# get out of repo
+		
+		# TODO: ask and open a new terminal on folder
+		# TODO: ask and open explorer on folder
+		
+		cd ..
+				
 	}
 
 	usage(){
