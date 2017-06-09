@@ -55,7 +55,7 @@ startDay(){
 		echo
 		echo "# project list file"
 		echo		
-		git add "reference/20161001-project list-dev gtd.txt" > /dev/null 2>&1
+		git add "reference/20161001-gtd project list.txt" > /dev/null 2>&1
 		git	commit -m"update project list" > /dev/null 2>&1		
 		echo "  [x] changes to 20161001-project list-dev gtd.txt commited"
 						
