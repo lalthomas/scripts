@@ -372,7 +372,7 @@ endWeek(){
 	echo
 	read -p "do you want to review every todo project [y|n] ? : " opted
 	if [ $opted == "y" ]; then	
-		# TODO: create doc with prepopulated list of todo projects for adding review notes
+		# TODO: create doc with pre populated list of todo projects for adding review notes
 		echo
 		echo "# todo.txt project"	
 		echo
@@ -404,7 +404,7 @@ endWeek(){
 	fi
 		
 	echo
-	read -p "do you want to pritorize todo projects [y|n] ? : " opted
+	read -p "do you want to prioritize todo projects [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		gtd pritorize_todo_projects
 	fi
