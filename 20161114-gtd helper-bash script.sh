@@ -17,6 +17,8 @@ alias gtd=_gtd_main_
 
 # helper functions
 
+
+# TODO add ordering of todos
 # run action from csv file
 run_actions_from_csv_file(){
 				
@@ -305,7 +307,10 @@ _gtd_main_(){
 	}	
 		
 	pritorize_todo_projects(){
+		
+		# TODO: 
 		echo
+		
 	}
 	
 	generate_and_view_reports(){
@@ -316,7 +321,10 @@ _gtd_main_(){
 	}
 	
 	reward_yourself(){
+		
+		# TODO: 
 		echo
+		
 	}	
 					
 	open_active_projects(){
