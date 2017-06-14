@@ -32,6 +32,11 @@ start_markdown_server_two(){
 }
 
 # find the text in folders
+# thank you 
+# https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux
+# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
+# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
+# 
 search(){
 
 	echo "Searching for $@ ..."
