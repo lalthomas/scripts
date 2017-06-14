@@ -31,6 +31,24 @@ start_markdown_server_two(){
 	
 }
 
+# find the text in folders
+search(){
+
+	echo "Searching for $@ ..."
+	export DF_SEARCH_TERM=$@
+	# search all file recursively and find the matches and display it
+	grep --exclude-dir=".git*" -Rnw $PWD -e $@ |  awk '{printf "%s %s\n",++i,$0}'
+		
+}
+
+open(){
+
+	resultCount=$1
+	cygstart "$(grep --exclude-dir=".git*" -Rnwl $PWD -e $DF_SEARCH_TERM | sed -n "${resultCount}p")"
+	
+}
+
+
 # search through all text files in current folder and move the matched lines to the filename	
 replace_lines_in_txt_files_having_term(){
 			
@@ -340,6 +358,8 @@ _do_main_(){
 		echo "update_contexts_file"
 		echo "update_inboxtxt_file"
 		echo "update_projects_file"
+		echo "search <term>"
+		echo "open <search result count>"
 		echo "usage"  		
 		
     }
@@ -369,6 +389,8 @@ _do_main_(){
 		update_inboxtxt_file) update_inboxtxt_file ;;		
 		update_projects_file) update_projects_file ;;
 		view_project_todos) view_project_todos ;;
+		search) search $@;;
+		open) open $@;;
 	esac
 	
 	popd > /dev/null 2>&1
