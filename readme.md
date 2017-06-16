@@ -1,3 +1,9 @@
+ReadMe
+======
+
+This script folder contains useful batch, bash, autohotkey, python scripts.
+
+
 Help
 ----
 
@@ -179,8 +185,9 @@ Images
 20160217-fix the tag name of image-dos batch script.bat
 20160526-add caption for image-dos batch script.bat
 20160919-remove all metadata for image-dos batch script.bat
+20170507-download video of url in clipboard.bat
 20170514-copy base64 encoding of image file to clipboard.bat
-20170507-download video of url in clipboard.bat\
+20170515-replace image file path references with encoded images.sh
 
 **Support Files**
 
