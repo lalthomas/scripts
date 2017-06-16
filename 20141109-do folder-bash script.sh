@@ -39,10 +39,16 @@ start_markdown_server_two(){
 # 
 search(){
 
-	echo "Searching for $@ ..."
+	OPTION=$1
+	shift
+	
 	export DF_SEARCH_TERM=$@
+	
 	# search all file recursively and find the matches and display it
-	grep --exclude-dir=".git*" -Rnw $PWD -e $@ |  awk '{printf "%s %s\n",++i,$0}'
+	case "$OPTION" in
+		text) grep --exclude-dir=".git*" -Rnw $PWD -e $@ |  awk '{printf "%s\t%s\n",++i,$0}'	;;		
+		file) grep --exclude-dir=".git*" -Rnwl $PWD -e $@ |  awk '{printf "%s\t%s\n",++i,$0}'	;;
+	esac
 		
 }
 
