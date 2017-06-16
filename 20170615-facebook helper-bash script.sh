@@ -1,51 +1,122 @@
+#!/bin/bash -x
 
-datafile="data.json"
-picfile="pic.json"
-token="EAACEdEose0cBAIXxgk1wFQgJGkuMsTL0vJ7tVcVUn4twGsZCbvxsbhTZB9xDFZC6uYvthZBAtUFAZAJ4DlIIgn1ISLaQGls7IV97ID5ZBM0H1DqGy20kR7bVUXYZCk0fyIjxGqcPjsBbtmA4rFf1XsFeM6jVFeNUYyoRerQgBhXlJfUPLHiqSpN4bgKvRtJKZAAZD"
+# Filename : 20170615-facebook helper-bash script.sh
+# Author : Lal Thomas 
+# Date : 2017-06-15
+# © Lal Thomas (lal.thomas.mail@gmail.com)
 
-getfacebookwebdata(){
+# initialize global variables 
+currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-	local facebookID=$1
-	curl -X GET  "https://graph.facebook.com/v2.9/$facebookID?fields=id%2Cname%2Cgender%2Clink%2Cpicture&access_token=$token" >"$datafile"
+alias facebook=_facebook_main_
+
+jsonvalue(){
+
+	local datafile=$1
+	local key=$2
+	cat "$datafile" |  python -c "import json,sys;obj=json.load(sys.stdin);print obj['$key'];"	
 	
 }
 
+_facebook_main_(){
 
-getfacebookPic(){
-
-	local facebookID=$1	
-	curl -X GET "https://graph.facebook.com/$facebookID/picture?type=large&redirect=false" >"$picfile"		
-	URL=$(cat "$picfile" |./jq -r '.data.url')	
-	# thanks https://stackoverflow.com/a/35019553/2182047
-	URL=${URL%$'\r'}
-	echo $URL
-	curl -X GET $URL >"$facebookID.jpg"
-		
-}
-
-
-getfacebookBigPic(){
-	
+	# Facebook_ID
+	# www.facebook.com/zuck : 4	
 	local facebookID=$1		
-	curl -L -X GET "https://graph.facebook.com/$facebookID/picture?type=large&width=500&height=500"  >"$facebookID.jpg"
 	
-}
-
-value(){
-
-	local type=$1
-	cat "$datafile" |  python -c "import json,sys;obj=json.load(sys.stdin);print obj['$type'];"	
+	# Token generation https://developers.facebook.com/tools/explorer/
+	local token="292485384124303|cUw30J5iOcJFrs9bAJ8Jgq6a-H4"
 	
+	get(){
+			
+		local OPTION=$1
+		shift
+	
+		graphData(){
+			
+			local datafile="$facebookID-data.json"
+			local KEY=$1
+			shift
+			
+			if [ ! -f "$datafile" ]; then				
+				# data file not found 
+				curl -X GET  "https://graph.facebook.com/v2.9/$facebookID?fields=id%2Cname%2Cgender%2Clink%2Cpicture&access_token=$token" >"$datafile"
+			fi
+			
+			if [ -e "$datafile" ]
+			then		
+				jsonvalue "$datafile" "$KEY"
+			else
+				echo "Couldn't download data. Existing"
+				return
+			fi
+
+			rm "$datafile"
+		
+		}
+
+		profilepic(){
+		
+			local picfile="$facebookID-pic.json"
+			curl -X GET "https://graph.facebook.com/$facebookID/picture?type=large&redirect=false" >"$picfile"		
+			# http://www.compciv.org/recipes/cli/jq-for-parsing-json/
+			URL=$(cat "$picfile" | "$currentScriptFolder/tools/jq/jq.exe" -r '.data.url')	
+			# thanks https://stackoverflow.com/a/35019553/2182047
+			URL=${URL%$'\r'}
+			echo $URL
+			curl -X GET $URL >"$facebookID.jpg"
+			rm $picfile
+		}
+
+		profilebigpic(){
+				
+			curl -L -X GET "https://graph.facebook.com/$facebookID/picture?type=large&width=500&height=500"  >"$facebookID.jpg"
+		
+		}
+		
+		
+		case "$OPTION" in
+			id|name|link) graphData $OPTION ;;
+			profile-pic) profilepic;;
+			profile-pic-big) profilebigpic;;
+		esac
+		
+		
+	}
+	
+	usage(){
+		
+		echo 
+        echo "facebook OPTIONS"      
+        echo " helper script to managing facebook.com"   
+        echo 
+        echo "OPTIONS are..."
+        echo 		
+		echo "get <id> id "
+		echo "get <id> name"
+		echo "get <id> link"
+		echo "get <id> profile-pic"
+		echo "get <id> profile-pic-big"
+		echo "usage"
+		
+	}
+	
+
+	ACTION=$1
+	shift
+
+	# test the script
+	# echo $filename $ACTION
+	case "$ACTION" in		
+		help|usage)		
+			usage 
+		;;
+		get) 			
+			facebookID=$1
+			shift
+			[[ $facebookID =~ ^[0-9]+$ ]] && get $@
+		;;					
+	esac
+
+
 }
-
-
-# getfacebookPic 100002463983373
-# getfacebookBigPic 100002463983373
-# getfacebookBigPic 100002616246102
-getfacebookBigPic 100000255382519
-
-
-# getfacebookwebdata 100002463983373
-# value "id"
-# value "name"
-# value "link"
