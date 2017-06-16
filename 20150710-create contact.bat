@@ -76,7 +76,7 @@ echo %longdatestamp% %fullfilepath% >>"D:\Dropbox\do\inbox.txt"
 
 REM add to contact list
 REM "Filename","Circle","Relation","Inbox","Home Town","Work Town","Mobile","Email"
-echo \"%fullfilepath%\",\"%circle%\",\"\",\"\",\"\",\"\">>"D:\Dropbox\do\reference\20161217-lalthomas contact list.csv"
+echo %fullfilepath%,"%circle%","","","","">>"D:\Dropbox\do\reference\20161217-lalthomas contact list.csv"
 
 exit /b 0
 endlocal
