@@ -64,6 +64,8 @@ startDay(){
 		
 	}
 	
+	
+	
 	echo 
     echo "welcome to start day program"
     echo 
@@ -100,6 +102,7 @@ startDay(){
 	
 	read -p "do you want to wish your friends (y|n) ? : " opted
 	if [ $opted == "y" ]; then
+		cygstart "$thunderbird"		
 		wish list && wish email && t log add "wish friends happy birthday"			
 	fi	
 
@@ -121,8 +124,7 @@ startDay(){
 	else
 		echo
 		read -p "do you want check mail : " opted
-		if [ $opted == "y" ]; then
-			thunderbird="C:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
+		if [ $opted == "y" ]; then			
 			cygstart "$thunderbird"
 		fi			
 	fi
@@ -562,6 +564,9 @@ endYear(){
 }
 
 _workflow_main_(){
+
+	# common variables
+	thunderbird="C:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 
     # Get action
     action=$1
