@@ -26,7 +26,7 @@ set /p circle="enter the circle : "
 set /p birthday="enter birthday (YYYY-MM-DD) : "
 set /p homephonenumber="enter home phone number : "
 set /p email="enter email : "
-set /p facebookurl="enter facebook url : "
+set /p facebookid="enter facebook ID : "
 
 
 set commitmessage="update the contact details of %namelower%"
@@ -47,7 +47,7 @@ IF %ERRORLEVEL% EQU 0 (
 	call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$BIRTHDAY$" "%birthday%" >nul 2>nul
 	call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$NUMBER01$" "%homephonenumber%" >nul 2>nul
 	call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$EMAIL$" "%email%" >nul 2>nul
-	call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$URL01$" "%facebookurl%" >nul 2>nul
+	call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$FB_ID$" "%facebookid%" >nul 2>nul
 	call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$CIRCLE$" "%circle%" >nul 2>nul
 	
 	REM add to revision control	
