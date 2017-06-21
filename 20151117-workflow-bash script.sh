@@ -29,11 +29,15 @@ CFG_FILE="$configfile"
 usage() {   
 	
 	echo
-	echo "workflow"
-	echo "========"
-    echo "    routines actions"
-    echo "    start day|week|month|year"
-    echo "    end day|week|month|year"      
+	echo "workflow									"
+	echo "========									"
+	echo "											"
+    echo "  help to manage routine actions			"
+	echo "											"
+	echo " usage									"
+	echo "											"
+    echo "    start day|week|month|year				"
+    echo "    end day|week|month|year				"      
 }
 
 startDay(){     
