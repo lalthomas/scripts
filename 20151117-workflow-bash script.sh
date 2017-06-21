@@ -257,6 +257,7 @@ endDay(){
 	
 	
 	opted="n"
+	echo
 	read -p "have you wished your friends ? : " opted
 	if [ $opted == "n" ]; then	
 		echo 
