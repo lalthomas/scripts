@@ -40,6 +40,13 @@ replacetextinfile(){
 	
 }
 
+string_convert_to_lower(){
+	
+		# convert to lowercase
+		echo $1 | tr "[:upper:]" "[:lower:]"
+		
+}
+
 _reference_main_(){
 	
 	commit(){
@@ -58,55 +65,55 @@ _reference_main_(){
 		}
 		
 		create(){
+				
 		
 			args=$@
 									
-			# Args : <name> or <facebook ID>
-			
-			if [[ "$args"=~"^[0-9]*$" ]]; then
-				
+			# args : <name> or <facebook ID>			
+			if [[ "$args"=~"^[0-9]*$" ]]; then				
 				# it is a facebook ID
-				facebookId=$args				
-								
+				facebookId=$args												
 				id=$(facebook get $facebookId id)
 				name=$(facebook get $facebookId name)
 				link=$(facebook get $facebookId link)								
 				pic=$(facebook get $facebookId profile-pic)
 				pic_big=$(facebook get $facebookId profile-pic-big)
 				
-				# echo "$id"
-				# echo "$name"
-				# echo "$link"
-				# echo "$pic"
-				# echo "$pic_big"
-				
-									
 			elif [[ "$args" =~ "^[a-z]" ]]; then
 				# it is name
-				name="$args"
-								
-			fi
+				name="$args"							
+			fi			
 			
+			# convert the name to lower
+			local lowername=$(string_convert_to_lower "$name")
 			
 			# copy template to new file
-			local contacttemplatefile="D:\Dropbox\do\support\20140618-home support template-contact card.md"
-			local contactfile="$today $name contact file.md"
-			  
-			cat "$contacttemplatefile" >>"$contactfile"
+			local contacttemplatefile="D:\Dropbox\do\support\20140618-home support template-contact card.md"			
+			local contactfile="$today-$lowername contact file.md"			  
+			cat "$contacttemplatefile" >"$contactfile"
 			
 			# replace place holders
 			replacetextinfile "%NAME%" "$name" "$contactfile"
 			replacetextinfile "%LONGDATE%" "$longdate" "$contactfile"
 			
-			# add encoded image
-			echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic_big}"))" >"$pic_big.tmp"
-			# printf '%s\n' "/<!-- %IMAGE% -->/r $pic_big.tmp" 1 "/<!-- %IMAGE% -->/d" w | ed "$PWD/$contactfile"	> /dev/null 2>&1
-			printf '%s\n' "/<!-- %IMAGE% -->/r $pic_big.tmp" w | ed "$PWD/$contactfile"	> /dev/null 2>&1
-			rm "$pic_big.tmp"
+			# add small image			
+			echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic}"))" >"$pic.tmp"						
+			printf '%s\n' "/<!-- %IMAGE% -->/-1r $pic.tmp" w | ed "$PWD/$contactfile"	> /dev/null 2>&1
 			
+			# add big image 
+			echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic_big}"))" >"$pic_big.tmp"						
+			printf '%s\n' "/<!-- %IMAGE% -->/-1r $pic_big.tmp" w | ed "$PWD/$contactfile"	> /dev/null 2>&1
+			
+			
+			# Clean Up Files
+			# -----------------
+			
+			# remove temporary files
+			rm "$pic.tmp"
+			rm "$pic_big.tmp"						
 			
 			# cleanup of temporary files
-			# facebook get $facebookId cleanup
+			facebook get $facebookId cleanup
 			
 		}
 		
