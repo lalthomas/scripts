@@ -21,25 +21,27 @@ jsonvalue(){
 _facebook_main_(){
 
 	# Facebook_ID
-	# www.facebook.com/zuck : 4	
-	local facebookID=$1		
+	# www.facebook.com/zuck : 4			
 	
 	# Token generation https://developers.facebook.com/tools/explorer/
 	local token="292485384124303|cUw30J5iOcJFrs9bAJ8Jgq6a-H4"
 	
 	get(){
+		
+		local datafile="$facebookID-data.json"
+		local picfile="$facebookID-pic.json"
 			
 		local OPTION=$1
 		shift
 	
 		graphData(){
 			
-			local datafile="$facebookID-data.json"
+			
 			local KEY=$1
 			shift
 			
-			if [ ! -f "$datafile" ]; then				
-				# data file not found 
+			if [ ! -f "$PWD/$datafile" ]; then				
+				# echo "data file not found"
 				curl -X GET  "https://graph.facebook.com/v2.9/$facebookID?fields=id%2Cname%2Cgender%2Clink%2Cpicture&access_token=$token" >"$datafile"
 			fi
 			
@@ -47,31 +49,40 @@ _facebook_main_(){
 			then		
 				jsonvalue "$datafile" "$KEY"
 			else
-				echo "Couldn't download data. Existing"
+				echo "Couldn't download data. Exiting"
 				return
 			fi
-
-			rm "$datafile"
+			
 		
 		}
 
 		profilepic(){
-		
-			local picfile="$facebookID-pic.json"
+					
 			curl -X GET "https://graph.facebook.com/$facebookID/picture?type=large&redirect=false" >"$picfile"		
 			# http://www.compciv.org/recipes/cli/jq-for-parsing-json/
 			URL=$(cat "$picfile" | "$currentScriptFolder/tools/jq/jq.exe" -r '.data.url')	
 			# thanks https://stackoverflow.com/a/35019553/2182047
-			URL=${URL%$'\r'}
-			echo $URL
-			curl -X GET $URL >"$facebookID.jpg"
-			rm $picfile
+			URL=${URL%$'\r'}			
+			curl -X GET $URL >"$facebookID-small.jpg"
+			echo "$facebookID-small.jpg"
+			
 		}
 
 		profilebigpic(){
 				
-			curl -L -X GET "https://graph.facebook.com/$facebookID/picture?type=large&width=500&height=500"  >"$facebookID.jpg"
+			curl -L -X GET "https://graph.facebook.com/$facebookID/picture?type=large&width=500&height=500"  >"$facebookID-big.jpg"
+			echo "$facebookID-big.jpg"
 		
+		}
+				
+		
+		cleanup(){
+			
+			rm "$datafile"
+			rm "$picfile"
+			rm "$facebookID-small.jpg"
+			rm "$facebookID-big.jpg"
+			
 		}
 		
 		
@@ -79,10 +90,12 @@ _facebook_main_(){
 			id|name|link) graphData $OPTION ;;
 			profile-pic) profilepic;;
 			profile-pic-big) profilebigpic;;
+			cleanup) cleanup;;
 		esac
 		
 		
 	}
+	
 	
 	usage(){
 		
@@ -97,6 +110,7 @@ _facebook_main_(){
 		echo "get <id> link"
 		echo "get <id> profile-pic"
 		echo "get <id> profile-pic-big"
+		echo "clean <id>"
 		echo "usage"
 		
 	}
@@ -115,7 +129,7 @@ _facebook_main_(){
 			facebookID=$1
 			shift
 			[[ $facebookID =~ ^[0-9]+$ ]] && get $@
-		;;					
+		;;	
 	esac
 
 
