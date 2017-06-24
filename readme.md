@@ -1,5 +1,6 @@
-ReadMe
-======
+% ReadMe
+% 2016-10-22
+% Lal Thomas
 
 This script folder contains useful batch, bash, autohotkey, python scripts.
 
