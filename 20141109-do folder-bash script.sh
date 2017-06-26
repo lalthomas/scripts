@@ -369,7 +369,8 @@ _do_main_(){
 		echo "update_contexts_file"
 		echo "update_inboxtxt_file"
 		echo "update_projects_file"
-		echo "search <term>"
+		echo "search text <term>"
+		echo "search file <term>"
 		echo "open <search result count>"
 		echo "usage"  		
 		
