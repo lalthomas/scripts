@@ -12,105 +12,6 @@ alias t='sh "$doRootPath/todo.sh" -a -N -f'
 alias todo='t list'
 alias df=_do_main_
 
-## utility functions ##
-# ------------------
-
-# start markdown server
-start_markdown_server_one(){
-
-	python "$rootpath/scripts/project/20150106-brainerd markdown server/brainerd.py"
-	
-}
-
-# start markdown server
-start_markdown_server_two(){
-
-	local serverRootPath=$2
-	cd "$serverRootPath"    
-	python "$rootpath/scripts/source/20140607-start simple http server with markdown support-python script.py"  
-	
-}
-
-# find the text in folders
-# thank you 
-# https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux
-# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
-# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
-# 
-search(){
-
-	OPTION=$1
-	shift
-	
-	export DF_SEARCH_TERM=$@
-	
-	# search all file recursively and find the matches and display it
-	case "$OPTION" in
-		text) grep --exclude-dir=".git*" -Rnw $PWD -e $@ |  awk '{printf "%s\t%s\n",++i,$0}'	;;		
-		file) grep --exclude-dir=".git*" -Rnwl $PWD -e $@ |  awk '{printf "%s\t%s\n",++i,$0}'	;;
-	esac
-		
-}
-
-open(){
-
-	resultCount=$1
-	cygstart "$(grep --exclude-dir=".git*" -Rnwl $PWD -e $DF_SEARCH_TERM | sed -n "${resultCount}p")"
-	
-}
-
-
-# search through all text files in current folder and move the matched lines to the filename	
-replace_lines_in_txt_files_having_term(){
-			
-	term=$1
-	shift
-	filename=$*
-	
-	for file in *.txt 
-	do
-		 grep "$term" "$file">>"$filename"
-		 # thanks http://stackoverflow.com/a/10467453/2182047
-		 # sed escape before replace 
-		 sed -i'' "/$(echo $term | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/d" "$file"
-	done
-	sort "$filename" | uniq | sort -o "$filename"
-
-}
-
-# move the lines containing the term in all text file to a the filename	
-aggregate_lines_with_term(){
-
-	# expects 
-	# first argument - term ( e.g. +dev )
-	# second argument - file name ( e.g. dev project.txt)
-	
-	 if [ -z $0 ];
-	then 
-		echo "TODO: no enough arguments"
-		return
-	fi
-
-	term=$1		
-	
-	if [ $# -gt 1 ]; 
-	then
-		shift
-		filename=$*
-	else    
-		#replace plus symbol
-		fileNamePrefix=${term//+/}
-		# replace backslash in variable
-		fileNamePrefix=${fileNamePrefix//\// }
-		filename="$today-$fileNamePrefix.txt"
-	fi  
-	
-	replace_lines_in_txt_files_having_term $term $filename
-	
-}
-	
-
-## main ##
 
 # main entities are 
 #	/archive
@@ -324,7 +225,7 @@ _do_main_(){
 		# echo project name : $projectname
 		# echo filename : $archiveFilename		
 
-		replace_lines_in_txt_files_having_term $projectname $archiveFilename
+		b replace_lines_in_txt_files_having_term $projectname $archiveFilename
 		
         echo "TODO: project '$projectname' archived to '$archiveFilename'"
         
@@ -368,10 +269,7 @@ _do_main_(){
 		echo "start_server"
 		echo "update_contexts_file"
 		echo "update_inboxtxt_file"
-		echo "update_projects_file"
-		echo "search text <term>"
-		echo "search file <term>"
-		echo "open <search result count>"
+		echo "update_projects_file"		
 		echo "usage"  		
 		
     }
@@ -401,8 +299,6 @@ _do_main_(){
 		update_inboxtxt_file) update_inboxtxt_file ;;		
 		update_projects_file) update_projects_file ;;
 		view_project_todos) view_project_todos ;;
-		search) search $@;;
-		open) open $@;;
 	esac
 	
 	popd > /dev/null 2>&1
