@@ -142,7 +142,7 @@ _inbox_(){
 				
 	}
 	
-	# folder routines
+	# inbox folder cleanup routines
 	
 	clean_course_folder(){	
 		
