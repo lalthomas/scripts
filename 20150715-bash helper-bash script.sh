@@ -166,6 +166,31 @@ _bash_(){
 			echo $lines
 		}
 		
+					
+		result(){
+				
+			IFS=","
+			userinputs=($B_FILE_PICK_LIST)			
+			unset IFS
+						
+			for i in ${userinputs[@]}
+			do 								
+				resultCount=$i				
+				echo "$(grep --exclude-dir=".git*" -Riw $FILEPATH -e "${B_FILE_SEARCH_TERM}" | sed -n "${resultCount}p")"
+			done
+			
+		}
+		
+		pick(){
+		
+			export B_FILE_PICK_LIST="$@"			
+			echo
+			echo "You have picked"
+			echo 
+			result $B_FILE_PICK_LIST
+			
+		}
+		
 		search(){
 			
 			# find the text in files
@@ -174,44 +199,42 @@ _bash_(){
 			# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
 			# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
 					
-			export B_FILE_SEARCH_TERM="$@"	
-			echo $B_FILE_SEARCH_TERM
-			
-			# # count of digits of total lines
-			# lines=$(total_number_of_lines)			
-			# # count the lenth of the string
-			# padding=$((${#lines}))
-									
+			B_FILE_SEARCH_TERM="$@"					
 			grep --exclude-dir=".git*" -Riw $FILEPATH -e "${B_FILE_SEARCH_TERM}" |  awk '{printf "%d\t%s\n",++i,$0}'
 			
-		}
-		
-		# open file from search result
-		result(){
-			
-			IFS=","
-			userinputs=($@)			
-			unset IFS
-			
-			for i in ${userinputs[@]}
-			do 								
-				resultCount=$i				
-				echo "$(grep --exclude-dir=".git*" -Riw $FILEPATH -e "${B_FILE_SEARCH_TERM}" | sed -n "${resultCount}p")"
-			done
 			
 		}
 				
-		pick(){
-		
-			prompt="$@"
-			read -p "$prompt" input
-			export B_PICK_RESULT=$(result $input)
-			echo "$B_PICK_RESULT"
+		prompt(){
+			
+			# B_PICK_RESULT contains the user picked items
+						
+			message="$@"
+			choice="$"
+			
+			until [[ $choice =~ ^[0-9|,]+$ ]] ; do
+				
+				read -p "$message" input			
+				search "$input"
+				echo
+				read -p "enter comma separated value(s) [0 to end] : " choice				
+				
+				# echo $CHOICE
+				if [[ $choice =~ "0" ]]; then
+					return
+				fi
+				
+			done
+			
+			if [[ $choice =~ ^[0-9|,]+$ ]]; then
+				pick "$choice"
+			fi
 		}
 	
 		show(){
 			
-			search "*"
+			search ""
+			
 		}
 
 		FILEPATH=$1
@@ -220,10 +243,14 @@ _bash_(){
 		OPTION=$1
 		shift
 		
+		export B_FILE_SEARCH_TERM=""
+		
 		case $OPTION in
+			pick) pick "@";;
+			prompt) prompt "$@";;			
 			search) search "$@";;
+			result) result;;
 			show) show;;
-			pick) pick "$@" ;;
 		esac
 		
     }
