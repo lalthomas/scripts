@@ -101,10 +101,17 @@ _bash_(){
 	
 	# open file from search result
 	open(){
-
-		resultCount=$1
-		cygstart "$(grep --exclude-dir=".git*" -Rnwl $PWD -e "${B_SEARCH_TERM}" | sed -n "${resultCount}p")"
 	
+		IFS=","
+		userinputs=($1)			
+		unset IFS
+						
+		for i in ${userinputs[@]}
+		do 								
+			resultCount=$i				
+			cygstart "$(grep --exclude-dir=".git*" -Rnwl $PWD -e "${B_SEARCH_TERM}" | sed -n "${resultCount}p")"
+		done
+		
 	}
 
 	# search through all text files in current folder and move the matched lines to the filename	
