@@ -1,7 +1,7 @@
 @echo OFF
 
-
-
+set scriptFolderPathFull=%~dp0%
+set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
 REM get the current time and add 10 minutes
 call :addTime %time% 2
@@ -13,13 +13,7 @@ echo "[%tStartTime%] - [%tEndTime%]"
 
 REM create windows scheduler task with start time and end time
 call :createWinSchduleTask "Lock1" "%tStartTime%" "%tEndTime%"
-pause
-
-REM edit the line to make it windows 8.1 compatible
-
-call 
-
-exit
+goto :END
 
 REM 
 :addTime
@@ -48,29 +42,48 @@ exit /b 0
 :createWinSchduleTask
 
 REM set the parameters
-set name=%1
-set startTime=%2
-set endTime=%3
+set name=%~1
+set startTime=%~2
+set endTime=%~3
 
 REM call task scheduler
 SchTasks ^
-	/Create /SC once ^
+	/Create ^
+		/SC once ^
 		/RL HIGHEST ^
 		/TN "%name%" ^
 		/TR "C:\Windows\System32\rundll32.exe user32.dll,LockWorkStation" ^
-		/ST %startTime% ^
-		/ET %endTime% ^
+		/ST "%startTime%" ^
+		/ET "%endTime%" ^
 		/RI 0 ^
 		/K ^
-		/Z ^		
+		/Z
+
+REM copy the file
+robocopy "C:\windows\system32\Tasks" "D:\temp" %name%
+pushd "D:\temp"
+REM change the code page to utf-8
+chcp 65001>NUL
+type "%name%" > "%name%.xml"
+popd
+
+REM edit the file
+REM edit the line to make it windows 8.1 compatible
+call "%scriptFolderPath%\tools\fart\fart.exe" "d:\temp\%name%.xml" "<DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries>" "<DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>" >nul 2>nul
+
+REM delete the task 
+SCHTASKS ^
+	/Delete ^
+        /TN "%name%" ^
+		/F
+		
+REM import the file
+SchTasks ^
+	/CREATE ^
+		/XML "D:\temp\%name%.xml" ^
+		/TN "%name%" ^
+		/F
+	
 exit /b 0
 
-
-:editLine
-
-taskname=%1
-
-REM c:\windows\system32\tasks
-REM replace "<DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>" "<DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries>"
-
-exit /b 0
+:END
