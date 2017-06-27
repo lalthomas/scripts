@@ -228,6 +228,7 @@ GTD
 20160401-add log entry to file-dos batch script.bat
 20160923-create junction links for todotxt addon.bat
 20161114-gtd helper-bash script.sh
+20170627-invoke user lock screen after pomo with windows scheduler-dos batch script.bat
 
 
 ### folder helper
