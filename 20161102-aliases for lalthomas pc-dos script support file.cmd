@@ -34,6 +34,7 @@ REM don't touch above blank lines
 set NL=^^^%NLM%%NLM%^%NLM%%NLM%
 cls
 call :help
+%*
 exit /b 0
 
 :help
