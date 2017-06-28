@@ -54,6 +54,7 @@ Windows
 20170102-create shortcut in sendto folder-powershell script.ps1
 20170117-create shortcut of useful scripts in sendto folder-dos batch file.bat
 20161029-generate folder with icon-dos batch script run.bat 
+20170628-open regedit key directly-dos batch script.bat
 
 
 Windows Explorer
