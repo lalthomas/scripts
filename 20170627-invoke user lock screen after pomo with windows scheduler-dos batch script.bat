@@ -38,16 +38,22 @@ if '%errorlevel%' NEQ '0' (
 REM --------------------------------------
 
 
+
+
 REM get the current time and add 10 minutes
-call :addTime %time% 2
+call :addTime %time% 5
 set tStartTime=%nTime%
+
 REM add 1 minute to task start time
-call :addTime %tStartTime% 30
+call :addTime %tStartTime% 3
 set tEndTime=%nTime%
+
 echo "[%tStartTime%] - [%tEndTime%]"
 
 REM create windows scheduler task with start time and end time
-call :createWinSchduleTask "Lock1" "%tStartTime%" "%tEndTime%"
+call :createWinSchduleTask "Pomo Lock" "C:\Windows\System32\rundll32.exe user32.dll,LockWorkStation" "%tStartTime%" "%tEndTime%"
+
+
 goto :END
 
 REM 
@@ -78,8 +84,9 @@ exit /b 0
 
 REM set the parameters
 set name=%~1
-set startTime=%~2
-set endTime=%~3
+set task=%~2
+set startTime=%~3
+set endTime=%~4
 
 REM call task scheduler
 SchTasks ^
@@ -87,7 +94,7 @@ SchTasks ^
 		/SC once ^
 		/RL HIGHEST ^
 		/TN "%name%" ^
-		/TR "C:\Windows\System32\rundll32.exe user32.dll,LockWorkStation" ^
+		/TR "%task%" ^
 		/ST "%startTime%" ^
 		/ET "%endTime%" ^
 		/RI 0 ^
@@ -95,7 +102,7 @@ SchTasks ^
 		/Z
 
 REM copy the file
-robocopy "C:\windows\system32\Tasks" "D:\temp" %name%
+robocopy "C:\windows\system32\Tasks" "D:\temp" "%name%"
 pushd "D:\temp"
 REM change the code page to utf-8
 chcp 65001>NUL
