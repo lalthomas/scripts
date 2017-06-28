@@ -19,6 +19,7 @@ _git_main_(){
 		echo "g repo create <path>"
 		echo "g repo commit <path> <message>"
 		echo "g repo add gitignore"
+		echo "g detect"
 	 
 	}
 	
@@ -58,6 +59,18 @@ _git_main_(){
 		curl -o .gitignore https://raw.githubusercontent.com/github/gitignore/master/$1.gitignore >/dev/null
 		
 	}
+	
+	detect(){
+	
+		# thanks : https://stackoverflow.com/a/25149786/2182047
+				
+		if [[ `git status --porcelain` ]]; then			
+			echo "changes present"			
+		else			
+			echo "no change"
+		fi
+		
+	}
 
 	# Get action
 	action=$1
@@ -73,6 +86,9 @@ _git_main_(){
 		case $action in
 		'help')
 			usage
+			;;
+		'detect')
+			detect
 			;;
 		'repo')        
 			if [[ -z "$option" ]]; then
