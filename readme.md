@@ -5,34 +5,12 @@
 This script folder contains useful batch, bash, autohotkey, python scripts.
 
 
-Help
-----
-
-20100422-move file to a folder with same name-batch script readme.md
-20111220-compile programs-dos batch script readme.md
-20130317-convert file to mp4-dos batch script readme.md
-20131027-dev-beautify source code-dos batch script readme.md
-20140504-insert blank in batch program-guide.md
-20141109-do folder-bash script readme.md
-20150715-create email-autohotkey script readme.md
-20150715-hide and show vlc player-autohotkey script readme.md
-20150720-make thunderbirdportable default mail client-windows registry entry readme.md
-20150823-open folders from file list-dos script batch script readme.md
-20150825-do folder test-bash script script readme.md
-20160222-wish-bash script readme.md
-20160723-blog it readme.md
-20160821-print all python packages-python script readme.md
-
 Run
 ---
 
 20161102-aliases for lalthomas pc-dos script support file run.bat
 20161107-find search term over a list of files run.bat
 
-Test
-----
-
-20150825-do folder test-bash script script.sh
 
 SVC
 ---
@@ -56,6 +34,9 @@ Windows
 20161029-generate folder with icon-dos batch script run.bat 
 20170628-open regedit key directly-dos batch script.bat
 
+**Support Files**
+
+20150715-hide and show vlc player-autohotkey script readme.md
 
 Windows Explorer
 -----------------
@@ -98,11 +79,20 @@ Windows Explorer
 20161124-move files from a list of files-dos batch script.bat
 20170426-append filename to list-dos batch file.bat
 
+**Support Files**
+
+20100422-move file to a folder with same name-batch script readme.md
+20150823-open folders from file list-dos script batch script readme.md
 
 ### mail
 
 20150715-create email-autohotkey script.ahk
 20150720-make thunderbirdportable default mail client-windows registry entry.reg
+
+**Support Files**
+
+20150715-create email-autohotkey script readme.md
+20150720-make thunderbirdportable default mail client-windows registry entry readme.md
 
 
 ### zip
@@ -160,6 +150,12 @@ Dev
 20160821-print all python packages-python script.py
 20160411-create android project on ubuntu computer-dev bash script.sh
 
+**Support Files**
+
+20111220-compile programs-dos batch script readme.md
+20131027-dev-beautify source code-dos batch script readme.md
+20160821-print all python packages-python script readme.md
+
 ### git
 
 20121127-make git init for every folder-dos batch script.bat
@@ -203,6 +199,10 @@ Video
 20130317-convert file to mp4-dos batch script.bat
 20130317-make mp4 file from image and audio-dos batch script.bat
 
+**Support Files**
+
+20130317-convert file to mp4-dos batch script readme.md
+
 Blog
 ----
 
@@ -212,6 +212,10 @@ Blog
 20151224-blog screen shot-dos batch script.bat
 20151224-run for blog-dos batch script.bat
 20160723-blog it.bat
+
+**Support Files**
+
+20160723-blog it readme.md
 
 GTD
 ----
@@ -231,10 +235,14 @@ GTD
 20161114-gtd helper-bash script.sh
 20170627-invoke user lock screen after pomo with windows scheduler-dos batch script.bat
 
+**Support Files**
+
+20160222-wish-bash script readme.md
 
 ### folder helper
 
 20141109-do folder-bash script.sh
+20150825-do folder test-bash script script.sh
 20160225-reference folder-bash script.sh
 20160225-support folder-bash script.sh
 20160419-contact folder-bash script.sh
@@ -245,7 +253,9 @@ GTD
 
 **Support Files**
 
+20150825-do folder test-bash script script readme.md
 20160806-open supporting file-dos batch script run.bat
+20141109-do folder-bash script readme.md
 
 Work
 ----
