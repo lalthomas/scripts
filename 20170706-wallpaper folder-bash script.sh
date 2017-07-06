@@ -34,10 +34,8 @@ _wallpaper_main_(){
 	option=$1
 	shift
 	
-	# test the script
-	# echo $filename $option
-		
 	pushd "$drive:\Dropbox\project" > /dev/null 2>&1
+	echo $PWD
 	case "$option" in				
 		help|usage)	usage ;;
 	esac	
