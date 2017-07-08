@@ -40,6 +40,19 @@ exit /b 0
 :help
 echo Help%NL%
 echo ====%NL%
+
+echo  #download-video
+echo  #encode-image
+echo  #gtd-action-files
+echo  #hh
+echo  #jupyter-notebook
+echo  #log-meditate
+echo  #log-workout
+echo  #make-email-summary
+echo  #move-filelist
+echo  #recyclebin-clean
+echo  #tablet-copy
+echo  #wallpaper-default
 echo  +contact
 echo  +file
 echo  +inbox
@@ -49,17 +62,6 @@ echo  +pomo
 echo  +reference
 echo  +timer
 echo  +todoproject
-echo  #copy-filelist
-echo  #download-video
-echo  #encode-image
-echo  #gtd-action-files
-echo  #hh
-echo  #jupyter-notebook
-echo  #log-meditate
-echo  #log-workout
-echo  #make-email-summary
-echo  #recyclebin-clean
-echo  #tablet-copy
-echo  #wallpaper-default
+
 echo %NL%---END----
 exit /b 0
