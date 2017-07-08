@@ -68,7 +68,6 @@ Windows Explorer
 20150720-create docs folder structure-dos batch script.bat
 20150823-open folders from file list-dos script batch script.bat
 20150906-append filename to filecontent.bat
-20151109-copy files from a list of files-dos batch script.bat
 20160214-open commandline prompt on folder-autohotkey script.ahk
 20160218-move files to random directory-dos batch program.bat
 20160307-delete file and associated files-dos batch script.bat
