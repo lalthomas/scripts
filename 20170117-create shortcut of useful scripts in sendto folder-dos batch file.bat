@@ -5,6 +5,7 @@ REM Author : Lal Thomas
 setlocal
 %~d0
 cd %~p0
+
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20090411-set image as wallpaper-dos batch script.bat" "# image - set as wallpaper.lnk"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20100606-make index of image files-dos batch program.bat" "# image - make index of image file.lnk"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20100827-run dev programs-dos batch script.bat" "# dev - run.lnk"
@@ -31,8 +32,9 @@ call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-appen
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f film.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite films playlist.m3u"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f image.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite image list.txt"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f music.lnk" "D:\Dropbox\do\reference\20170426-lalthomas favourite music playlist.m3u"
-call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f video songs.lnk" "D:\Dropbox\do\reference\20170430-lalthomas favourite video songs playlist.m3u"
 call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f people.lnk" "D:\Dropbox\do\reference\20170501-lalthomas favourite people list.txt"
+call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170426-append filename to list-dos batch file.bat" "# +f video songs.lnk" "D:\Dropbox\do\reference\20170430-lalthomas favourite video songs playlist.m3u"
+call :createShortCut "D:\Dropbox\project\20131027-scripts project\20170707-show image slideshow from a filelist-dos batch script.bat" "# image - start slideshow.lnk"
 
 endlocal
 exit /b 0
