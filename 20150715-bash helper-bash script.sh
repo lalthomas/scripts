@@ -164,7 +164,7 @@ _bash_(){
 	}
 
 	
-	_file(){
+	file(){
 		
 		total_number_of_lines(){
 		
@@ -262,6 +262,25 @@ _bash_(){
 		
     }
 	
+	path(){
+		
+		full(){
+			
+			FILEPATH="$@"			
+			export B_FILE_FULL_PATH="$PWD/$(basename $FILEPATH)"
+									
+		}
+		
+		OPTION=$1
+		shift
+		
+		case $OPTION in
+			full) full "$@";;
+		esac
+				
+	 }
+		
+	
 	# Get action
 	action=$1
 	shift
@@ -271,6 +290,7 @@ _bash_(){
 	hist) hist $@;;       				
 	search) search $@;;
 	open) open $@;;
+	path) path $@;;
 	replace_lines_in_txt_files_having_term) replace_lines_in_txt_files_having_term $@;;
 	aggregate_lines_with_term) aggregate_lines_with_term $@;;
 	file) _file $@;;
