@@ -41,11 +41,11 @@ REM --------------------------------------
 
 
 REM get the current time and add 10 minutes
-call :addTime %time% 5
+call :addTime %time% 25
 set tStartTime=%nTime%
 
 REM add 1 minute to task start time
-call :addTime %tStartTime% 3
+call :addTime %tStartTime% 2
 set tEndTime=%nTime%
 
 echo "[%tStartTime%] - [%tEndTime%]"
