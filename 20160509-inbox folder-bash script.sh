@@ -1376,27 +1376,33 @@ _inbox_(){
 		echo " OPTIONS"
 		echo " ......."
 		echo 
-		echo "  clean [course]|[film]|[picture]|[video]|[tool]|[doc] "
+		echo "  <drive> clean [course]|[film]|[picture]|[video]|[tool]|[doc] "
 		echo "  help "        		
 	}
 	
-	drive="d"
+	arg=$1	
+	shift
 	
-	get_drive(){			
-		read -p "enter the drive you want to process( d | w | x | y | z) : "  opted		
-		[[ $opted =~ [d|w|x|y|z] ]] && { drive=$opted; } || { echo "ERROR : Unknown drive. Program now EXIT " ; return 1; }			
-	}
 	
+	case "$arg" in						
+		usage|help) 
+			usage
+			return 0;
+		;;
+	esac 
+		
+	[[ $arg =~ [d|w|x|y|z] ]] && { drive=$arg; } || { echo "ERROR : Unknown drive. Program now EXIT " ; return 1; }	
+		
 	# set -x
-	ACTION=$1
-	shift	
+	ACTION=$1	
+	shift
 
 	# Get option
-    option=$1;  
+    option=$1;  	
     shift
 
     # Get rest of them
-    term="$@"
+    term="$@"	
 		
 	# Validate the input options
     re="^(clean|help)$"
@@ -1409,20 +1415,16 @@ _inbox_(){
             if [[ -z "$option" ]]; then			
                echo "inbox error : few arguments"
 			   return			                  
-            else     
-			   get_drive			   
-			   if [ $? -eq 0 ]
-				then
-					# Valid Drive
-					case "$option" in
-						film) clean_film_folder $drive;;                        
-						course) clean_course_folder $drive;;
-						picture) clean_picture_folder $drive;;
-						video) clean_video_folder $drive;;
-						tool) clean_tool_folder $drive;;
-						doc) clean_doc_folder $drive;;
-					esac					
-				fi			   
+            else     			   			   
+				# Valid Drive
+				case "$option" in
+					film) clean_film_folder $drive;;                        
+					course) clean_course_folder $drive;;
+					picture) clean_picture_folder $drive;;
+					video) clean_video_folder $drive;;
+					tool) clean_tool_folder $drive;;
+					doc) clean_doc_folder $drive;;
+				esac											  
             fi              
             ;;       
         esac
