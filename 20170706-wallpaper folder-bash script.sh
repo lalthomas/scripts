@@ -58,6 +58,9 @@ _wallpaper_main_(){
 		local tempfile=$RANDOM.tmp
 		printf "%s\n" "${STDIN_INPUT[@]}" >$tempfile
 		view $tempfile
+		
+		# TODO: delete or make use of the temporary file without affecting functionality
+		
 		# rm $tempfile
 		
 		
