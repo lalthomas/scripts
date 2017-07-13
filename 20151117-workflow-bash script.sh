@@ -362,7 +362,7 @@ endWeek(){
 	echo "GTD Weekly Review Walk Through"
 	echo						
 	echo "- analyse todo projects"
-	echo "- pritorize todo projects"				
+	echo "- prioritize todo projects"				
 	echo "- generate and view reports"
 	echo "- commit changes"
 	echo "- add lessons"
