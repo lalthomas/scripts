@@ -104,10 +104,25 @@ _gtd_main_(){
 		echo "process_inbox_folders"		
 		
 	}
-	
-	inbox(){
-	
-		echo
+		
+	gtd_inbox(){
+		
+		clean(){
+			:			
+		}
+		
+		: 
+		
+		# cygwin","[] run inbox cleanup script for course"
+		# cygwin","[] run inbox cleanup script for doc"
+		# cygwin","[] run inbox cleanup script for film"
+		# cygwin","[] run inbox cleanup script for lab"
+		# cygwin","[] run inbox cleanup script for music"
+		# cygwin","[] run inbox cleanup script for picture"
+		# cygwin","[] run inbox cleanup script for resource"
+		# cygwin","[] run inbox cleanup script for tool"
+		# cygwin","[] run inbox cleanup script for torrent"
+		# cygwin","[] run inbox cleanup script for video"
 		
 	}
 	
