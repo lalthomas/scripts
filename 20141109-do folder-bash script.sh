@@ -40,6 +40,19 @@ alias df=_do_main_
 	
 _do_main_(){   
 
+	auto_commit(){
+		
+		git add *.m3u
+		git commit -m "update playlist files"
+		
+		git add *manual\ notes*
+		git commit -m "update manual notes"
+		
+		git add *contact\ file*
+		git commit -m "update contact files"
+		
+	}
+
     clean_todo_files(){
         
         # move done and invalid items to done.txt and invalid.txt respectively
@@ -270,6 +283,7 @@ _do_main_(){
 		echo "update_contexts_file"
 		echo "update_inboxtxt_file"
 		echo "update_projects_file"		
+		echo "auto_commit"
 		echo "usage"  		
 		
     }
@@ -299,6 +313,7 @@ _do_main_(){
 		update_inboxtxt_file) update_inboxtxt_file ;;		
 		update_projects_file) update_projects_file ;;
 		view_project_todos) view_project_todos ;;
+		commit) auto_commit ;;
 	esac
 	
 	popd > /dev/null 2>&1
