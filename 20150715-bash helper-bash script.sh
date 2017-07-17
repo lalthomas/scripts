@@ -153,26 +153,30 @@ _bash_(){
 				
 		path(){
 		
-			_set_(){
+			init(){
 
+				export B_FILE_FULL_PATH=""
+				
 				filepath="$@"
-				export B_FILEPATH="$(cygpath -u "${filepath}")"
-								
-				if [ "$(dirname "$B_FILEPATH")" == "." ]
+				B_FILEPATH="$(cygpath -u "${filepath}")"
+				B_FILE_FULL_PATH=${B_FILEPATH}
+
+				if [ "$(dirname "${B_FILEPATH}")" == "." ]
 				then
-					export B_FILE_FULL_PATH="$PWD/$(basename "$B_FILEPATH")"
-				else
-					export B_FILE_FULL_PATH="$B_FILEPATH"
+					export B_FILE_FULL_PATH='$PWD/$(basename "${B_FILEPATH}")'
 				fi
 				
-				# echo "$B_FILE_FULL_PATH"
+				# echo "file :${filepath}"
+				# echo "file :${B_FILEPATH}"
+				# echo "file :${B_FILE_FULL_PATH}"
+				
 			}
 						
 			OPTION=$1
 			shift
 			
 			case $OPTION in				
-				set) _set_ "$@";;
+				init) init "$@";;
 			esac
 					
 		}
@@ -183,7 +187,22 @@ _bash_(){
 			lines=${lines% ${B_FILE_FULL_PATH}}			
 			echo $lines
 		}
-						
+								
+		_search_(){
+			
+			# find the text in files
+			# thank you 
+			# https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux
+			# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
+			# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
+					
+			export B_FILE_SEARCH_TERM=""
+			B_FILE_SEARCH_TERM="$@"			
+			grep --exclude-dir=".git*" -Riw "$B_FILE_FULL_PATH" -e "${B_FILE_SEARCH_TERM}" |  awk '{printf "%d\t%s\n",++i,$0}'
+			
+			
+		}
+		
 		result(){
 					
 			if [ $# -eq 0 ]
@@ -201,28 +220,13 @@ _bash_(){
 				
 			else	
 			
-				export B_FILE_PICK_LIST="$@"
-				echo $B_FILE_PICK_LIST
+				export B_FILE_PICK_LIST=""
+				B_FILE_PICK_LIST="$@"
 				
 			fi
 			
 		}
-				
 		
-		_search_(){
-			
-			# find the text in files
-			# thank you 
-			# https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux
-			# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
-			# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
-					
-			export B_FILE_SEARCH_TERM="$@"
-			grep --exclude-dir=".git*" -Riw "$B_FILE_FULL_PATH" -e "${B_FILE_SEARCH_TERM}" |  awk '{printf "%d\t%s\n",++i,$0}'
-			
-			
-		}
-				
 		prompt(){
 			
 			# B_PICK_RESULT contains the user picked items					
@@ -251,12 +255,13 @@ _bash_(){
 			fi
 		}
 	
+	
 		show(){
 			
 			search ""
 			
 		}
-
+		
 		OPTION=$1
 		shift							 
 		
@@ -281,7 +286,7 @@ _bash_(){
 		echo "search text <term>"
 		echo "search file <term>"
 		echo "open <search result count>"		
-		echo "file path set <path>"
+		echo "file path init <path>"
 		echo "file search <query>"
 		echo "file prompt <prompt message>"		
 		echo "file result"
