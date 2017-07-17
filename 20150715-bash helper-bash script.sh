@@ -9,21 +9,6 @@ alias b=_bash_ # bash helper function
 
 _bash_(){
 
-	usage(){
-	 
-		echo "b <options>		"
-		echo "					"
-		echo "options			"
-		echo "					"
-		echo "hist clear	"
-		echo "hist save		"
-		echo "hist frequent	"
-		echo "search text <term>"
-		echo "search file <term>"
-		echo "open <search result count>"
-
-	}
-
 	hist(){
 		
 		# Get option
@@ -164,41 +149,67 @@ _bash_(){
 	}
 
 	
-	file(){
+	_file_(){
+				
+		path(){
 		
+			_set_(){
+
+				filepath="$@"
+				export B_FILEPATH="$(cygpath -u "${filepath}")"
+								
+				if [ "$(dirname "$B_FILEPATH")" == "." ]
+				then
+					export B_FILE_FULL_PATH="$PWD/$(basename "$B_FILEPATH")"
+				else
+					export B_FILE_FULL_PATH="$B_FILEPATH"
+				fi
+				
+				# echo "$B_FILE_FULL_PATH"
+			}
+						
+			OPTION=$1
+			shift
+			
+			case $OPTION in				
+				set) _set_ "$@";;
+			esac
+					
+		}
+	
 		total_number_of_lines(){
 		
-			lines=$(wc -l "$FILEPATH")					
-			lines=${lines% ${FILEPATH}}			
+			lines=$(wc -l "$B_FILE_FULL_PATH")					
+			lines=${lines% ${B_FILE_FULL_PATH}}			
 			echo $lines
 		}
-		
-					
-		result(){
-				
-			IFS=","
-			userinputs=($B_FILE_PICK_LIST)			
-			unset IFS
 						
-			for i in ${userinputs[@]}
-			do 								
-				resultCount=$i				
-				echo "$(grep --exclude-dir=".git*" -Riw $FILEPATH -e "${B_FILE_SEARCH_TERM}" | sed -n "${resultCount}p")"
-			done
+		result(){
+					
+			if [ $# -eq 0 ]
+				then
+				
+				IFS=","
+				userinputs=($B_FILE_PICK_LIST)
+				unset IFS
+						
+				for i in ${userinputs[@]}
+				do 								
+					resultCount=$i				
+					echo "$(grep --exclude-dir=".git*" -Riw "$B_FILE_FULL_PATH" -e "${B_FILE_SEARCH_TERM}" | sed -n "${resultCount}p")"
+				done
+				
+			else	
+			
+				export B_FILE_PICK_LIST="$@"
+				echo $B_FILE_PICK_LIST
+				
+			fi
 			
 		}
+				
 		
-		pick(){
-		
-			export B_FILE_PICK_LIST="$@"			
-			echo
-			echo "You have picked"
-			echo 
-			result $B_FILE_PICK_LIST
-			
-		}
-		
-		search(){
+		_search_(){
 			
 			# find the text in files
 			# thank you 
@@ -206,24 +217,26 @@ _bash_(){
 			# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
 			# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
 					
-			B_FILE_SEARCH_TERM="$@"					
-			grep --exclude-dir=".git*" -Riw $FILEPATH -e "${B_FILE_SEARCH_TERM}" |  awk '{printf "%d\t%s\n",++i,$0}'
+			export B_FILE_SEARCH_TERM="$@"
+			grep --exclude-dir=".git*" -Riw "$B_FILE_FULL_PATH" -e "${B_FILE_SEARCH_TERM}" |  awk '{printf "%d\t%s\n",++i,$0}'
 			
 			
 		}
 				
 		prompt(){
 			
-			# B_PICK_RESULT contains the user picked items
-						
+			# B_PICK_RESULT contains the user picked items					
 			message="$@"
+			
+			# initialize with invalid choice
 			choice="$"
 			
 			until [[ $choice =~ ^[0-9|,]+$ ]] ; do
 				
 				read -p "$message" input			
-				search "$input"
+				_search_ "$input"
 				echo
+				
 				read -p "enter comma separated value(s) [0 to end] : " choice				
 				
 				# echo $CHOICE
@@ -234,7 +247,7 @@ _bash_(){
 			done
 			
 			if [[ $choice =~ ^[0-9|,]+$ ]]; then
-				pick "$choice"
+				result "$choice"				
 			fi
 		}
 	
@@ -244,42 +257,38 @@ _bash_(){
 			
 		}
 
-		FILEPATH=$1
-		shift
-		
 		OPTION=$1
-		shift
+		shift							 
 		
-		export B_FILE_SEARCH_TERM=""
-		
-		case $OPTION in
-			pick) pick "@";;
-			prompt) prompt "$@";;			
-			search) search "$@";;
+		case $OPTION in				
+			path ) path "$@";;
+			prompt) prompt "$@";;						
 			result) result;;
-			show) show;;
+			show) show;;			
 		esac
 		
     }
+		
+	usage(){
+	 
+		echo "b <options>		"
+		echo "					"
+		echo "options			"
+		echo "					"
+		echo "hist clear	"
+		echo "hist save		"
+		echo "hist frequent	"
+		echo "search text <term>"
+		echo "search file <term>"
+		echo "open <search result count>"		
+		echo "file path set <path>"
+		echo "file search <query>"
+		echo "file prompt <prompt message>"		
+		echo "file result"
+		echo "file show"
+
+	}
 	
-	path(){
-		
-		full(){
-			
-			FILEPATH="$@"			
-			export B_FILE_FULL_PATH="$PWD/$(basename $FILEPATH)"
-									
-		}
-		
-		OPTION=$1
-		shift
-		
-		case $OPTION in
-			full) full "$@";;
-		esac
-				
-	 }
-		
 	
 	# Get action
 	action=$1
@@ -293,7 +302,7 @@ _bash_(){
 	path) path $@;;
 	replace_lines_in_txt_files_having_term) replace_lines_in_txt_files_having_term $@;;
 	aggregate_lines_with_term) aggregate_lines_with_term $@;;
-	file) _file $@;;
+	file) _file_ $@;;
 	esac
 		
 
