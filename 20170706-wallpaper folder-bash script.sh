@@ -34,7 +34,7 @@ _wallpaper_main_(){
 	
 		filelistpath="$@"		
 		irfanviewpath="C:\PortableApps.com\PortableApps\IrfanViewPortable\IrfanViewPortable.exe"
-		b path full $filelistpath				
+		b path set $filelistpath
 		cygstart --wait $irfanviewpath /slideshow=$(cygpath -w "$B_FILE_FULL_PATH") /closeslideshow
 		
 	}
