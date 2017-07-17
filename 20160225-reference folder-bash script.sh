@@ -81,7 +81,8 @@ _reference_main_(){
 				
 			elif [[ "$args" =~ "^[a-z]" ]]; then
 				# it is name
-				name="$args"							
+				name="$args"
+								
 			fi			
 			
 			# convert the name to lower
@@ -97,8 +98,8 @@ _reference_main_(){
 			replacetextinfile "%LONGDATE%" "$longdate" "$contactfile"
 			
 			# add small image			
-			echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic}"))" >"$pic.tmp"						
-			printf '%s\n' "/<!-- %IMAGE% -->/-1r $pic.tmp" w | ed "$PWD/$contactfile"	> /dev/null 2>&1
+			# echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic}"))" >"$pic.tmp"						
+			# printf '%s\n' "/<!-- %IMAGE% -->/-1r $pic.tmp" w | ed "$PWD/$contactfile"	> /dev/null 2>&1
 			
 			# add big image 
 			echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic_big}"))" >"$pic_big.tmp"						
@@ -109,11 +110,25 @@ _reference_main_(){
 			# -----------------
 			
 			# remove temporary files
-			rm "$pic.tmp"
-			rm "$pic_big.tmp"						
+			# rm "$pic.tmp"
+			rm "$pic_big.tmp"			
 			
 			# cleanup of temporary files
 			facebook get $facebookId cleanup
+			
+			
+			# add circle info
+							
+			b file path init "D:\Dropbox\do\reference\20150721-contact circles.txt"
+			b file prompt "enter keyword for circle : "
+			circle="$(b file result)"
+			echo $circle
+			replacetextinfile "%CIRCLE%" "${circle}" "$contactfile"
+			
+			
+			# add birthday info
+			
+
 			
 		}
 		
