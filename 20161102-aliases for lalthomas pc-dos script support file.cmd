@@ -50,6 +50,7 @@ echo  #log-meditate
 echo  #log-workout
 echo  #make-email-summary
 echo  #move-filelist
+echo  #open-reg-key
 echo  #recyclebin-clean
 echo  #tablet-copy
 echo  #wallpaper-default
