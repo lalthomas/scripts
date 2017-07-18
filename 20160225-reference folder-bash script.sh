@@ -25,7 +25,6 @@ alias rf=_reference_main_
 #	contact files
 #	list
 
-
 replacetextinfile(){
 
 	findtext=$1
@@ -76,7 +75,8 @@ _reference_main_(){
 			# args : <name> or <facebook ID>			
 			if [[ "$args"=~"^[0-9]*$" ]]; then				
 				# it is a facebook ID
-				facebookId=$args												
+				facebookId=$args
+				echo "fetching data from facebook.com..."
 				id=$(facebook get $facebookId id)
 				name=$(facebook get $facebookId name)
 				link=$(facebook get $facebookId link)								
@@ -124,12 +124,9 @@ _reference_main_(){
 			# add circle info
 							
 			b file path init "D:\Dropbox\do\reference\20150721-contact circles.txt"
+			echo 
 			b file prompt "enter keyword for circle : "
 			circle="$(b file result)"
-			echo
-			echo "you have chosen :"
-			echo "${circle}"			
-			echo
 			replacetextinfile "%CIRCLE%" "${circle}" "$contactfile"
 			
 			
@@ -139,7 +136,6 @@ _reference_main_(){
 			replacetextinfile "%BIRTHDAY%" "${isobirthday}" "$contactfile"
 			
 			
-
 			
 		}
 		
