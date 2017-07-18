@@ -76,6 +76,7 @@ _reference_main_(){
 			if [[ "$args"=~"^[0-9]*$" ]]; then				
 				# it is a facebook ID
 				facebookId=$args
+				echo
 				echo "fetching data from facebook.com..."
 				id=$(facebook get $facebookId id)
 				name=$(facebook get $facebookId name)
@@ -130,10 +131,25 @@ _reference_main_(){
 			replacetextinfile "%CIRCLE%" "${circle}" "$contactfile"
 			
 			
-			# add birthday info
+			# add birthday info			
 			read -p "enter birthday : " birthday;
 			isobirthday=$(date -d"$birthday" +%Y-%m-%d)			
 			replacetextinfile "%BIRTHDAY%" "${isobirthday}" "$contactfile"
+			
+			
+			# add gender info
+			read -p "enter gender (M/F) : " gender;			
+			if [[ $gender =~ [mf] ]]; then 				
+				if [ $gender == "m" ]; then 
+					gender="Male" 
+				else
+					gender="Female"
+				fi				
+				replacetextinfile "%GENDER%" "${gender}" "$contactfile"				
+			else
+				echo "unknown choice"			 
+			fi
+			
 			
 			
 			
