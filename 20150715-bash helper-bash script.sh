@@ -237,7 +237,8 @@ _bash_(){
 			
 			until [[ $choice =~ ^[0-9|,]+$ ]] ; do
 				
-				read -p "$message" input			
+				read -p "$message" input
+				echo				
 				_search_ "$input"
 				echo
 				
