@@ -134,6 +134,10 @@ _reference_main_(){
 			
 			
 			# add birthday info
+			read -p "enter birthday : " birthday;
+			isobirthday=$(date -d"$birthday" +%Y-%m-%d)			
+			replacetextinfile "%BIRTHDAY%" "${isobirthday}" "$contactfile"
+			
 			
 
 			
