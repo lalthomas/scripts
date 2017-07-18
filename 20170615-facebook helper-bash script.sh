@@ -42,7 +42,7 @@ _facebook_main_(){
 			
 			if [ ! -f "$PWD/$datafile" ]; then				
 				# echo "data file not found"
-				curl -X GET  "https://graph.facebook.com/v2.9/$facebookID?fields=id%2Cname%2Cgender%2Clink%2Cpicture&access_token=$token" >"$datafile"
+				curl --silent -X GET  "https://graph.facebook.com/v2.9/$facebookID?fields=id%2Cname%2Cgender%2Clink%2Cpicture&access_token=$token" >"$datafile"
 			fi
 			
 			if [ -e "$datafile" ]
@@ -58,19 +58,19 @@ _facebook_main_(){
 
 		profilepic(){
 					
-			curl -X GET "https://graph.facebook.com/$facebookID/picture?type=large&redirect=false" >"$picfile"		
+			curl --silent -X GET "https://graph.facebook.com/$facebookID/picture?type=large&redirect=false" >"$picfile"
 			# http://www.compciv.org/recipes/cli/jq-for-parsing-json/
 			URL=$(cat "$picfile" | "$currentScriptFolder/tools/jq/jq.exe" -r '.data.url')	
 			# thanks https://stackoverflow.com/a/35019553/2182047
 			URL=${URL%$'\r'}			
-			curl -X GET $URL >"$facebookID-small.jpg"
+			curl --silent -X GET $URL >"$facebookID-small.jpg"
 			echo "$facebookID-small.jpg"
 			
 		}
 
 		profilebigpic(){
 				
-			curl -L -X GET "https://graph.facebook.com/$facebookID/picture?type=large&width=500&height=500"  >"$facebookID-big.jpg"
+			curl --silent -L -X GET "https://graph.facebook.com/$facebookID/picture?type=large&width=500&height=500"  >"$facebookID-big.jpg"
 			echo "$facebookID-big.jpg"
 		
 		}
