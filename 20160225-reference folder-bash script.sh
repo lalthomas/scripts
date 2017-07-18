@@ -36,7 +36,11 @@ replacetextinfile(){
 	# echo $replacetext
 	# echo $file
 	
-	sed -i'' "s/$(echo $findtext | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$replacetext/" "$file"
+	# regular expression search
+	# sed -i'' "s/$(echo $findtext | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$replacetext/" "$file"
+	
+	# non regular expression search
+	sed -i'' "s|$findtext|$replacetext|g" "$file"
 	
 }
 
@@ -122,7 +126,10 @@ _reference_main_(){
 			b file path init "D:\Dropbox\do\reference\20150721-contact circles.txt"
 			b file prompt "enter keyword for circle : "
 			circle="$(b file result)"
-			echo $circle
+			echo
+			echo "you have chosen :"
+			echo "${circle}"			
+			echo
 			replacetextinfile "%CIRCLE%" "${circle}" "$contactfile"
 			
 			
