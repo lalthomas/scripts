@@ -110,14 +110,12 @@ _reference_main_(){
 			
 			# remove temporary files
 			# rm "$pic.tmp"
-			rm "$pic_big.tmp"			
-			
+			rm "$pic_big.tmp"						
 			# cleanup of temporary files
 			facebook get $facebookId cleanup
 			
 			
-			# add circle info
-							
+			# add circle info							
 			b file path init "D:\Dropbox\do\reference\20150721-contact circles.txt"
 			echo 
 			b file prompt "enter keyword for circle : "
