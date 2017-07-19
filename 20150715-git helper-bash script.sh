@@ -100,7 +100,7 @@ _git_main_(){
 						;;										
 					commit)							
 						message=$1
-						commitRepoChanges $path $message						
+						commitRepoChanges $message						
 						;;
 					add)
 						if [[ -z $2 ]]; then 
