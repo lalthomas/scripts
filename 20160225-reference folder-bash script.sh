@@ -52,12 +52,6 @@ string_convert_to_lower(){
 
 _reference_main_(){
 	
-	commit(){
-
-		g repo commit '$referenceRootPath' "update files"
-	
-	}
-
 	contact(){
 	
 		view(){
@@ -307,8 +301,7 @@ _reference_main_(){
 	
 	pushd "D:\Dropbox\do\reference" > /dev/null 2>&1
 	
-	case $OPTION in 
-		commit) commit;;
+	case $OPTION in 	
 		contact) contact $@;;
 		manual) manual $@;;		
 		usage|help) usage;;
