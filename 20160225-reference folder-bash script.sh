@@ -150,8 +150,13 @@ _reference_main_(){
 				echo "unknown choice"			 
 			fi
 			
-			
-			
+			# add religion info
+			b file path init "D:\Dropbox\do\reference\20170718-contact religions.txt"
+			echo 
+			echo "choose any one of the following religion : "
+			b file choose
+			religion="$(b file result)"
+			replacetextinfile "%RELIGION%" "${religion}" "$contactfile"
 			
 		}
 		
