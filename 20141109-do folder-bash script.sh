@@ -42,14 +42,14 @@ _do_main_(){
 
 	auto_commit(){
 		
-		git add *.m3u
-		git commit -m "update playlist files"
+		git add *.m3u > /dev/null 2>&1
+		git commit -m "update playlist files" > /dev/null 2>&1
 		
-		git add *manual\ notes*
-		git commit -m "update manual notes"
+		git add *manual\ notes* > /dev/null 2>&1
+		git commit -m "update manual notes" > /dev/null 2>&1
 		
-		git add *contact\ file*
-		git commit -m "update contact files"
+		git add *contact\ file* > /dev/null 2>&1
+		git commit -m "update contact files" > /dev/null 2>&1
 		
 	}
 
