@@ -250,8 +250,7 @@ _bash_(){
 			fi
 			
 		}
-	
-	
+		
 		choose(){
 				
 			# initialize with invalid choice
