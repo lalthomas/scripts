@@ -59,7 +59,7 @@ open_file(){
 _reference_main_(){
 	
 	contact(){
-			
+		
 		view(){
 			
 			# Args : [<property1: <filter1>] [<property12: <filter2>]
@@ -81,13 +81,26 @@ _reference_main_(){
 			local homeaddress=""
 			local workaddress=""
 			
+			
+			_commit_(){
+			
+				read -p "Do you want to commit changes (y|n) ? " opt;
+				
+				if [ $opt == "y" ]; then  
+					git add "$contactfile" > /dev/null 2>&1
+					git commit -m "create contact file for $name" > /dev/null 2>&1
+				fi
+				
+			}
+			
 			verify_existing_records(){
 		
 				search_query=$@
 				echo
-				echo "Searching existing records ..."
+				echo "searching existing records ..."
 				if [ -z "$(b search file $search_query)" ]; then
-					echo "No records found."
+					echo
+					echo "no records found."
 					return 0
 				else
 					echo
@@ -100,7 +113,7 @@ _reference_main_(){
 				fi								
 				
 			}
-
+			
 			addlog(){
 			
 				:
@@ -196,6 +209,7 @@ _reference_main_(){
 								
 				# add birthday info			
 				if [ -z ${birthday} ]; then
+					echo
 					read -p "enter birthday : " birthday;
 					local isobirthday=$(date -d"$birthday" +%Y-%m-%d)	
 				fi
@@ -228,12 +242,14 @@ _reference_main_(){
 				
 				# add email info			
 				if [ -z ${email} ]; then
+					echo
 					read -p "enter email : " email;			
 				fi
 				replacetextinfile "%EMAIL%" "${email}" "$contactfile"				
 				
 				# add facebook ID details				
 				if [ -z ${id} ]; then
+					echo
 					read -p "enter facebook ID : " id;	
 				fi
 				replacetextinfile "%FB_ID%" "${id}" "$contactfile"
@@ -270,7 +286,8 @@ _reference_main_(){
 			
 			fill_template
 			open_file "$contactfile"
-			
+			echo "Contact successfully created..."
+						
 		}
 		
 		find(){
@@ -353,7 +370,7 @@ _reference_main_(){
 		
 		}
 		
-		export(){
+		_export_(){
 			
 			# Args : <type> [<property>:<filter>]
 			:
