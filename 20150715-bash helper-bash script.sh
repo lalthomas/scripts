@@ -73,8 +73,8 @@ _bash_(){
 		OPTION=$1
 		shift
 				
-		export B_SEARCH_TERM="$@"
-		# echo $B_SEARCH_TERM
+		export B_SEARCH_TERM=""
+		B_SEARCH_TERM="$@"
 		
 		# search all file recursively and find the matches and display it
 		case "$OPTION" in
