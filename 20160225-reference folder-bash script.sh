@@ -83,14 +83,9 @@ _reference_main_(){
 			
 			
 			_commit_(){
-			
-				read -p "Do you want to commit changes (y|n) ? " opt;
-				
-				if [ $opt == "y" ]; then  
-					git add "$contactfile" > /dev/null 2>&1
-					git commit -m "create contact file for $name" > /dev/null 2>&1
-				fi
-				
+							
+				git add "$contactfile" > /dev/null 2>&1
+				git commit -m "create contact file for $name" > /dev/null 2>&1						
 			}
 			
 			verify_existing_records(){
@@ -286,8 +281,17 @@ _reference_main_(){
 			
 			fill_template
 			open_file "$contactfile"
-			echo "Contact successfully created..."
-						
+			
+			# commit changes
+			echo
+			read -p "Do you want to commit changes (y|n) ? " opt;
+			if [ $opt == "y" ]; then  
+				_commit_
+			fi
+			
+			echo
+			echo "contact file for '$name' created successfully :) "
+			
 		}
 		
 		find(){
