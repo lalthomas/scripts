@@ -12,9 +12,9 @@ alias facebook=_facebook_main_
 
 jsonvalue(){
 
-	local datafile=$1
-	local key=$2
-	cat "$datafile" |  python -c "import json,sys;obj=json.load(sys.stdin);print obj['$key'];"	
+	local KEY=$1
+	local DATAFILE=$2
+	cat "$DATAFILE" |  python -c "import json,sys;obj=json.load(sys.stdin);print obj['$KEY'];"	
 	
 }
 
@@ -25,29 +25,31 @@ _facebook_main_(){
 	
 	# Token generation https://developers.facebook.com/tools/explorer/
 	local token="292485384124303|cUw30J5iOcJFrs9bAJ8Jgq6a-H4"
+
 	
 	get(){
-		
-		local datafile="$facebookID-data.json"
-		local picfile="$facebookID-pic.json"
-			
+				
 		local OPTION=$1
+		local facebookdata="$facebookID-data.json"
+		local picfile="$facebookID-pic.json"
+		local genderdata="$facebookID-gender.json"
 		shift
 	
 		graphData(){
 			
 			
 			local KEY=$1
+			local DATAFILE=$2
 			shift
 			
-			if [ ! -f "$PWD/$datafile" ]; then				
+			if [ ! -f "$PWD/$DATAFILE" ]; then				
 				# echo "data file not found"
-				curl --silent -X GET  "https://graph.facebook.com/v2.9/$facebookID?fields=id%2Cname%2Cgender%2Clink%2Cpicture&access_token=$token" >"$datafile"
+				curl --silent -X GET  "https://graph.facebook.com/v2.9/$facebookID?fields=id%2Cname%2Clink%2Cpicture&access_token=$token" >"$facebookdata"
 			fi
 			
-			if [ -e "$datafile" ]
+			if [ -e "$DATAFILE" ]
 			then		
-				jsonvalue "$datafile" "$KEY"
+				jsonvalue "$KEY" "$DATAFILE"
 			else
 				echo "Couldn't download data. Exiting"
 				return
@@ -74,11 +76,38 @@ _facebook_main_(){
 			echo "$facebookID-big.jpg"
 		
 		}
+		
+		genderData(){
 				
+			local KEY=$1
+			local DATAFILE=$2
+			
+			local name="$(facebook get $facebookID name)"							
+			# thanks : https://unix.stackexchange.com/a/53315/106566
+			firstname="$( cut -d ' ' -f 1 <<< "$name" )";
+					
+			# download data from genderize.io
+			if [ ! -f "$PWD/$DATAFILE" ]; then				
+				# echo "data file not found"
+				curl --silent -X GET  "https://api.genderize.io/?name=$firstname" >"$DATAFILE"
+			fi
+			
+			# check for the download
+			if [ -e "$DATAFILE" ]
+			then		
+				jsonvalue "$KEY" "$DATAFILE"
+			else
+				echo "Couldn't download data. Exiting"
+				return
+			fi
+
+			
+		}
 		
 		cleanup(){
 			
-			rm "$datafile"
+			rm "$facebookdata"
+			rm "$genderdata"
 			rm "$picfile"
 			rm "$facebookID-small.jpg"
 			rm "$facebookID-big.jpg"
@@ -87,7 +116,8 @@ _facebook_main_(){
 		
 		
 		case "$OPTION" in
-			id|name|link) graphData $OPTION ;;
+			id|name|link) graphData $OPTION $facebookdata ;;
+			gender) genderData "gender" $genderdata ;;
 			profile-pic) profilepic;;
 			profile-pic-big) profilebigpic;;
 			cleanup) cleanup;;
@@ -108,6 +138,7 @@ _facebook_main_(){
 		echo "get <id> id "
 		echo "get <id> name"
 		echo "get <id> link"
+		echo "get <id> gender"
 		echo "get <id> profile-pic"
 		echo "get <id> profile-pic-big"
 		echo "clean <id>"
