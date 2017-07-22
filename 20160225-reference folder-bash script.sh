@@ -51,9 +51,16 @@ string_convert_to_lower(){
 }
 
 open_file(){
-				
-	cygstart "C:/Program Files (x86)/Notepad++/notepad++.exe" "$1"
-				
+	
+	local filepath=$(cygpath -d "$1")	
+	cygstart "C:/Program Files (x86)/Notepad++/notepad++.exe" "$filepath"				
+}
+
+add_to_inbox(){
+		
+	# add to inbox.txt	
+	local filepath=$(cygpath -d "$1")
+	echo "$longdate add \"$filepath\" to project file" >>"$(cygpath -u "D:\Dropbox\do\inbox.txt")"
 }
 
 _reference_main_(){
@@ -287,11 +294,12 @@ _reference_main_(){
 			read -p "Do you want to commit changes (y|n) ? " opt;
 			if [ $opt == "y" ]; then  
 				_commit_
+				add_to_inbox "$contactfile"
 			fi
 			
 			echo
 			echo "contact file for '$name' created successfully :) "
-			
+						
 		}
 		
 		find(){
@@ -410,9 +418,8 @@ _reference_main_(){
 			echo "Date		Note" >>"$filename"
 			echo "----------	-----------">>"$filename"
 			
-			# add to inbox.txt
-			local filepath=$(cygpath -d "$PWD/$filename")
-			echo "$longdate add \"$filepath\" to project file" >>"$(cygpath -u "D:\Dropbox\do\inbox.txt")"
+			
+			add_to_inbox "$PWD/$filepath"
 			
 			# start inbox.txt
 			start "" "D:\Dropbox\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\Dropbox\do\inbox.txt"  > /dev/null 2>&1	
