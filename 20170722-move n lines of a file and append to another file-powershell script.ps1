@@ -4,8 +4,9 @@ param (
 	[Parameter(Mandatory = $true)][Decimal]$limit
 )
 
-echo "s : $sourcefile"
-echo "d : $destinationfile"
+# echo "source : $sourcefile"
+# echo "destination : $destinationfile"
+# echo "limit : $limit"
 
 # add new line to destination file
 echo '' >>$destinationfile
