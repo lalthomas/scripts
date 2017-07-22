@@ -79,7 +79,6 @@ Windows Explorer
 20170426-append filename to list-dos batch file.bat
 20170722-move contends of a file to another file-dos batch script.bat
 20170722-move n lines of a file and append to another file-powershell script.ps1
-20170722-move n lines of a file and append to another file-dos batch script.bat
 
 **Support Files**
 
@@ -151,6 +150,7 @@ Dev
 20160409-create android studio project using commanline-bash script.sh
 20160821-print all python packages-python script.py
 20160411-create android project on ubuntu computer-dev bash script.sh
+20170722-run powershell file-dos batch script.bat
 
 **Support Files**
 
@@ -291,3 +291,4 @@ Inbox
 
 
 20161114-gtd helper-bash script readme.md 
+20170722-move n lines of a file and append to another file-powershell script run.bat 
