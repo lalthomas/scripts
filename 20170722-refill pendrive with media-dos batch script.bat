@@ -32,6 +32,8 @@ REM select the playlist to sync with
 set choosedpath=""
 call :SELECTPLAYLIST 
 
+IF [%5] == [] ( set /p filecount="Enter number of file you want to copy : " )
+
 REM move listings from the chosen file
 REM copy the files to pendrive location
 REM move contends of sync playlist to drive playlist
@@ -39,11 +41,12 @@ call "%scriptFolderPath%\20170722-move n lines of a file and append to another f
 && call "%scriptFolderPath%\20140222-copy files from a list of files-dos batch script.bat" %playlistsyncfile% %targetpath% ^
 && call "%scriptFolderPath%\20170722-move contends of a file to another file-dos batch script.bat" %playlistsyncfile% %playlistfile% ^
 && del %playlistsyncfile%
+call :commit
 
 REM TODO commit files
 
-echo refill complete ...
-pause
+echo Refill complete ...
+REM pause
 endlocal
 exit /b 0
 
@@ -84,9 +87,11 @@ echo.
 
 :input
 REM Retrieve User input
-set /p select="please select a file : "
-echo you chose : !choice[%select%]!
-SET /p _Opt=please confirm (y/n) : 
+set /p select="Please select a file : "
+echo.
+echo	%select%	!choice[%select%]!
+echo.
+SET /p _Opt=Confirm (Y/N) : 
 IF "%_Opt%" == "n" ( goto :input )
 
 REM remove unnecessary quotes
@@ -96,3 +101,14 @@ REM remove from stack
 popd
 exit /b 0
 
+REM commit changes to playlist repo
+:commit
+set commitmessage="pendrive refill"
+pushd %playlistfolder%
+call git add %playlistfile% >nul 2>nul
+call git add %watchedplaylistfile% >nul 2>nul
+call git add %choosedpath% >nul 2>nul
+call git commit -m %commitmessage% >nul 2>nul
+popd
+echo Changes committed to git repo...
+exit /b 0
