@@ -77,6 +77,7 @@ Windows Explorer
 20161107-find search term over a list of files.py
 20161124-move files from a list of files-dos batch script.bat
 20170426-append filename to list-dos batch file.bat
+20170722-move contends of a file to another file-dos batch script.bat
 
 **Support Files**
 
@@ -269,7 +270,7 @@ Work
 20141025-start office day-bash script.sh
 
 Mac
------
+----
 
 20140124-remove dead tracks from itunes-wsh script.js
 20140508-brewfile of mac installed programs-brew
