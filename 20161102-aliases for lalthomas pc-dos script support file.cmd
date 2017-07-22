@@ -15,7 +15,7 @@ doskey #move-filelist="D:\Dropbox\project\20131027-scripts project\20161124-move
 doskey #open-reg-key="D:\Dropbox\project\20131027-scripts project\20170628-open regedit key directly-dos batch script.bat" $*
 doskey #recyclebin-clean="D:\Dropbox\project\20131027-scripts project\20161020-empty recyclebin-dos batch script.bat"
 doskey #tablet-copy="D:\Dropbox\project\20131027-scripts project\20140222-copy files from a list of files-dos batch script.bat" "D:\Dropbox\do\reference\20160115-tablet-video-sync-list.m3u" "D:\temp"
-doskey #pendrive-copy="D:\Dropbox\project\20131027-scripts project\20170722-refill pendrive with media-dos batch script.bat" "D:\Dropbox\do\reference\20170722-pendrive.m3u" "D:\Dropbox\do\reference\20150319-watched.txt"  "B:\" "courses"
+doskey #pendrive-copy="D:\Dropbox\project\20131027-scripts project\20170722-refill pendrive with media-dos batch script.bat" "D:\Dropbox\do\reference\20170722-pendrive.m3u" "D:\Dropbox\do\reference\20150319-watched.txt" "B:\" "courses"
 doskey #wallpaper-default="D:\Dropbox\project\20131027-scripts project\20090411-set image as wallpaper-dos batch script.bat" "C:\Windows\Web\Wallpaper\Windows\img0.jpg"
 doskey +contact="D:\Dropbox\project\20131027-scripts project\20150710-create contact.bat" "D:\Dropbox\do\reference" $*
 doskey +file="D:\Dropbox\project\20131027-scripts project\20160827-create file-dos batch script.bat" $*
@@ -55,6 +55,7 @@ echo  #open-reg-key
 echo  #recyclebin-clean
 echo  #tablet-copy
 echo  #wallpaper-default
+echo  #pendrive-copy
 echo  +contact
 echo  +file
 echo  +inbox
