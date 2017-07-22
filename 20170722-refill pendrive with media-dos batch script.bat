@@ -11,6 +11,7 @@ set playlistsyncfile="%~dpn1-sync-list%~x1"
 set watchedplaylistfile="%~2"
 set targetpath="%~3"
 set excludepattern=%~4
+set filecount=%~5
 
 REM find script folder 
 set scriptFolderPathFull=%~dp0%
@@ -31,15 +32,17 @@ REM select the playlist to sync with
 set choosedpath=""
 call :SELECTPLAYLIST 
 
-REM move 100 listings from the chosen file
+REM move listings from the chosen file
 REM copy the files to pendrive location
 REM move contends of sync playlist to drive playlist
-call "%scriptFolderPath%\20170722-move n lines of a file and append to another file-powershell script run.bat" %choosedpath% %playlistsyncfile% "5" ^
+call "%scriptFolderPath%\20170722-move n lines of a file and append to another file-powershell script run.bat" %choosedpath% %playlistsyncfile% %filecount% ^
 && call "%scriptFolderPath%\20140222-copy files from a list of files-dos batch script.bat" %playlistsyncfile% %targetpath% ^
 && call "%scriptFolderPath%\20170722-move contends of a file to another file-dos batch script.bat" %playlistsyncfile% %playlistfile% ^
 && del %playlistsyncfile%
 
-echo "Refill complete ..."
+REM TODO commit files
+
+echo refill complete ...
 pause
 endlocal
 exit /b 0
@@ -47,6 +50,10 @@ exit /b 0
 :MOVEWACTCHED
 REM thanks : https://stackoverflow.com/a/5006393/2182047
 REM append comment character and date string to each line
+REM TODO: ask for confirmation
+SET /p _Opt="Do you to mark the current files in %targetpath% as watched (y/n) : " 
+IF "%_Opt%" == "n" ( exit /b 0 )
+
 for /f "usebackq  tokens=* delims= " %%a in (%playlistfile%) do (	
 	echo # %longdatestamp% %%a >>%watchedplaylistfile%
 )
@@ -67,17 +74,21 @@ for /f "usebackq tokens=* delims=" %%x in (`%dircmd%`) do (
 	set choice[!count!]=%%~x
 )
 echo.
-echo Select one:
+echo Playlist Files ( excluding %excludepattern% )
 echo.
 REM Print list of files
 for /l %%x in (1,1,!count!) do (
    echo %%x	!choice[%%x]!
 )
 echo.
+
+:input
 REM Retrieve User input
 set /p select="please select a file : "
-echo.
-echo You chose:  !choice[%select%]!
+echo you chose : !choice[%select%]!
+SET /p _Opt=please confirm (y/n) : 
+IF "%_Opt%" == "n" ( goto :input )
+
 REM remove unnecessary quotes
 set choosedpath="%playlistfolder%!choice[%select%]!"
 set choosedpath="%choosedpath:"=%"
