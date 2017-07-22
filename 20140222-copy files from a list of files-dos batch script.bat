@@ -7,7 +7,7 @@ REM  Loop through the filelist
 %~d1
 cd %~dp1
 
-echo copying files ...
+echo Copying files ...
 for /f "usebackq tokens=* delims=" %%a in ( `type %1` ) do (
 	xcopy "%%~dpna.*" %dst_folder% >nul 2>nul
 )
