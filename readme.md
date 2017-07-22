@@ -79,6 +79,7 @@ Windows Explorer
 20170426-append filename to list-dos batch file.bat
 20170722-move contends of a file to another file-dos batch script.bat
 20170722-move n lines of a file and append to another file-powershell script.ps1
+20170722-move n lines of a file and append to another file-dos batch script.bat
 
 **Support Files**
 
