@@ -130,10 +130,7 @@ _reference_main_(){
 			
 			
 				# it is a facebook ID
-				facebookId=$1
-				echo
-				echo "fetching data from facebook.com..."
-				
+				facebookId=$1			
 				# fetch data from facebook				
 				id=$(facebook get $facebookId id)
 				name=$(facebook get $facebookId name)
@@ -166,7 +163,7 @@ _reference_main_(){
 			get_data_from_user(){
 			
 				# add name
-				name="$1"			
+				name="$@"				
 				
 			}
 			
@@ -261,27 +258,35 @@ _reference_main_(){
 			
 			
 			args=$@	
-
+			# echo "$args"	
 			# check for records and decide to create contact file
 			verify_existing_records $args						
 			if [ $? -eq 1 ]; then
 				return
 			fi
 			
+			# set -x
 			# parse the argument
 			# args : <name> or <facebook ID>			
-			if [[ "$args"=~"^[0-9]*$" ]]; then								
+			
+			if [[ "$args" =~ ^[0-9]+ ]]; then								
 				
+				echo
+				echo "fetching data from facebook.com..."
+				echo
 				pull_data_from_facebook $args
 				create_file_from_template
 				add_image_from_facebook
 				# clean up of temporary files
 				facebook get $facebookId cleanup
 				
-			elif [[ "$args" =~ "^[a-z]" ]]; then								
+			elif [[ "$args" =~ ^[a-z]+ ]]; then								
 				
 				# it is name
-				get_data_from_user $args
+				echo				
+				echo "fill data manually..."
+				echo
+				get_data_from_user $args				
 				create_file_from_template			
 				
 			fi			
