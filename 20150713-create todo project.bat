@@ -79,25 +79,10 @@ echo  hold 		[h]
 echo  archive	[a]
 echo.
 set /p type="choose the type : "
-if /i "%type%"=="u" ( goto upcoming )
-if /i "%type%"=="h" ( goto hold )
-if /i "%type%"=="a" ( goto archive )
+if /i "%type%"=="u" ( cd upcoming )
+if /i "%type%"=="h" ( cd hold )
+if /i "%type%"=="a" ( cd archive )
 goto endprojecttype
-
-:upcoming
-cd upcoming
-echo %projectname%>%todofile%
-goto :endprojecttype
-
-:hold
-cd hold
-echo %projectname%>%todofile%
-goto :endprojecttype
-
-:archive
-cd archive	
-echo %projectname%>%todofile%
-goto :endprojecttype
 
 :endprojecttype
 exit /b 0
