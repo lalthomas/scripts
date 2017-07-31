@@ -20,6 +20,8 @@ SVC
 Windows
 -------
 
+```
+
 20090411-set image as wallpaper-dos batch script.bat
 20090619-set image as windows wallpaper-dos batch script.bat
 20100214-delete virus from pen drive-dos batch script.bat
@@ -34,12 +36,19 @@ Windows
 20161029-generate folder with icon-dos batch script run.bat 
 20170628-open regedit key directly-dos batch script.bat
 
+```
+
 **Support Files**
+
+```
 
 20150715-hide and show vlc player-autohotkey script readme.md
 
+```
 Windows Explorer
 -----------------
+
+```
 
 20100422-move file to a folder with same name-batch script.bat
 20110524-change modified date of file-dos batch script.bat
@@ -80,30 +89,50 @@ Windows Explorer
 20170722-move contends of a file to another file-dos batch script.bat
 20170722-move n lines of a file and append to another file-powershell script.ps1
 
+```
+
 **Support Files**
+
+```
 
 20100422-move file to a folder with same name-batch script readme.md
 20150823-open folders from file list-dos script batch script readme.md
 
+```
+
 ### mail
+
+```
 
 20150715-create email-autohotkey script.ahk
 20150720-make thunderbirdportable default mail client-windows registry entry.reg
 
+```
+
 **Support Files**
+
+```
 
 20150715-create email-autohotkey script readme.md
 20150720-make thunderbirdportable default mail client-windows registry entry readme.md
 
+```
+
 
 ### zip
+
+```
 
 20121119-zip each folder-dos batch script.bat
 20160513-append project name to zip files-bash script.sh
 20160513-print filenames in zip file-dos batch script.bat
 
+```
+
 Text
 ----
+
+```
 
 20130601-display and verify a file-dos batch script.bat
 20130821-export to evernote-dos batch script.bat
@@ -115,15 +144,23 @@ Text
 20160524-remove null character from text file-bash script.sh
 20160728-sort selected text-authotkey script.ahk
 
+```
+
 ### Date
+
+```
 
 20130701-record current time-dos batch script.bat
 20140501-insert date stamp-autohotkey script.ahk
 20150715-iso datetime-bash script.sh
 20160616-parse any date format to iso format-autohotkey script.ahk
 
+```
+
 Dev
 ---
+
+```
 
 20090501-expand java jar file-dos batch  script.bat
 20100616-convert code listing with books to usable source files-dos script.bat
@@ -152,13 +189,21 @@ Dev
 20160411-create android project on ubuntu computer-dev bash script.sh
 20170722-run powershell file-dos batch script.bat
 
+```
+
 **Support Files**
+
+```
 
 20111220-compile programs-dos batch script readme.md
 20131027-dev-beautify source code-dos batch script readme.md
 20160821-print all python packages-python script readme.md
 
+```
+
 ### git
+
+```
 
 20121127-make git init for every folder-dos batch script.bat
 20121129-make git commit for every repo-dos batch script.bat
@@ -170,13 +215,21 @@ Dev
 20151227-combine git repositories from a filelist.sh
 20170102-add git repo as subdirectory.sh
 
+```
+
 **Support Files**
+
+```
 
 20151227-combine git repositories from a filelist run.bat 
 20150715-git-bash script readme.md 
 
+```
+
 Images
 -------
+
+```
 
 20100606-make index of image files-dos batch program.bat
 20110414-convert image to avi-dos batch script.bat
@@ -189,24 +242,40 @@ Images
 20170515-replace image file path references with encoded images.sh
 20170707-show image slideshow from a filelist-dos batch script.bat
 
+```
+
 **Support Files**
+
+```
 
 20170507-download video of url in clipboard readme.md
 
+```
+
 Video
 -----
+
+```
 
 20120908-convert files in a folder to mp4-dos batch script.bat
 20120909-make snapshots from videos-dos batch script.bat
 20130317-convert file to mp4-dos batch script.bat
 20130317-make mp4 file from image and audio-dos batch script.bat
 
+```
+
 **Support Files**
+
+```
 
 20130317-convert file to mp4-dos batch script readme.md
 
+```
+
 Blog
 ----
+
+```
 
 20130509-build blog post for review and publish-dos batch script.bat
 20130509-send blog post file for review.bat
@@ -215,12 +284,20 @@ Blog
 20151224-run for blog-dos batch script.bat
 20160723-blog it.bat
 
+```
+
 **Support Files**
+
+```
 
 20160723-blog it readme.md
 
+```
+
 GTD
 ----
+
+```
 
 20140914-create journal file-batch script.bat
 20140914-create journal file-dos batch script.bat
@@ -237,11 +314,19 @@ GTD
 20161114-gtd helper-bash script.sh
 20170627-invoke user lock screen after pomo with windows scheduler-dos batch script.bat
 
+```
+
 **Support Files**
+
+```
 
 20160222-wish-bash script readme.md
 
+```
+
 ### folder helper
+
+```
 
 20141109-do folder-bash script.sh
 20150825-do folder test-bash script script.sh
@@ -254,15 +339,23 @@ GTD
 20161108-project folder-bash script.sh
 20170706-wallpaper folder-bash script.sh
 
+```
+
 **Support Files**
+
+```
 
 20150825-do folder test-bash script script readme.md
 20160806-open supporting file-dos batch script run.bat
 20141109-do folder-bash script readme.md
 20170706-wallpaper folder-bash script readme.md
 
+```
+
 Work
 ----
+
+```
 
 20130701-run end of day scripts-dos batch script.bat
 20130703-ticket management system-dos batch script.bat
@@ -271,20 +364,30 @@ Work
 20130927-send mail-powershell script.ps1
 20141025-start office day-bash script.sh
 
+```
+
 Mac
 ----
+
+```
 
 20140124-remove dead tracks from itunes-wsh script.js
 20140508-brewfile of mac installed programs-brew
 20140707-backup homebrew package forumulas-bash script.sh
 20140707-restore homebrew packages-bash script.sh
 
+```
+
 Web
 ---
+
+```
 
 20170615-facebook helper-bash script.sh
 20170507-download video of url in clipboard.bat
 20170720-fullcontact helper-bash script.sh
+
+```
 
 Inbox
 -----
