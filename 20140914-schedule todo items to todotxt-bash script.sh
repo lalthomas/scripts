@@ -1,7 +1,6 @@
 # Dump the today's scheduled task to todo.txt
 
 BASEDIR=$(dirname $0)
-longdate=$(date "+%Y-%m-%d")
 calendarfilepath="$BASEDIR/calendar.txt"
 todofilepath="$BASEDIR/todo.txt"
 
