@@ -85,7 +85,7 @@ _project_main_(){
 		
 		# add to inbox.txt
 		local projectfolderpath=$(cygpath -d "$PWD")		
-		echo $projectfolderpath>>"$(cygpath -u "D:\Dropbox\do\inbox.txt")"
+		echo "$longdate add \"$projectfolderpath\" to todo project file" >>$(cygpath -u "D:\Dropbox\do\inbox.txt")
 		start "" "D:\Dropbox\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\Dropbox\do\inbox.txt"  > /dev/null 2>&1	
 
 		
@@ -110,7 +110,8 @@ _project_main_(){
 		echo "create [name]"
 		echo "create"
 		echo 
-		echo "e.g. project create \"Python\" \".\" \"python workouts\""
+		echo "e.g. project create \"Python\" \"python workouts\""
+		echo "e.g. project create \"c\" \"c programs\""
 		echo 
 		
 	}
