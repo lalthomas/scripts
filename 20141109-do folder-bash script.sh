@@ -283,7 +283,7 @@ _do_main_(){
 		echo "update_contexts_file"
 		echo "update_inboxtxt_file"
 		echo "update_projects_file"		
-		echo "auto_commit"
+		echo "commit"
 		echo "usage"  		
 		
     }
