@@ -163,7 +163,7 @@ _bash_(){
 
 				if [ "$(dirname "${B_FILEPATH}")" == "." ]
 				then
-					export B_FILE_FULL_PATH='$PWD/$(basename "${B_FILEPATH}")'
+					export B_FILE_FULL_PATH="$PWD/$(basename "${B_FILEPATH}")"
 				fi
 				
 				# echo "file :${filepath}"
