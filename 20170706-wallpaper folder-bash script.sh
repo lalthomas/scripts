@@ -9,42 +9,22 @@
 alias wallpaper=_wallpaper_main_
 
 _wallpaper_main_(){
-	
-	usage(){
 		
-		echo 
-        echo "wallpaper OPTIONS"      
-		echo
-        echo " helper script to managing wallpaper folder"   
-        echo 
-        echo "OPTIONS are..."
-        echo 				
-		echo " usage"		
-		echo " view"		
-		echo " <drive> index keyword"
-		echo " <drive> collect keyword"
-		echo ""
-		echo 
-		echo "e.g. wallpaper usage"		
-		echo 
-		
-	}
 	
 	view(){
-	
-		filelistpath="$@"		
+		
+		# show a file list as slideshow
+		filelistpath="$1"		
 		irfanviewpath="C:\PortableApps.com\PortableApps\IrfanViewPortable\IrfanViewPortable.exe"
-		b path set $filelistpath
+		b file path init $filelistpath
 		cygstart --wait $irfanviewpath /slideshow=$(cygpath -w "$B_FILE_FULL_PATH") /closeslideshow
+		cygstart --wait $irfanviewpath /killmesoftly 
 		
 	}
 	
 	show(){
 		
-		# declare -i i=${1:-$(</dev/stdin)};
-		# declare hr=$(($i/3600)) min=$(($i/60%60)) sec=$(($i%60));
-		# printf "%02d:%02d:%02d\n" $hr $min $sec;
-		
+			
 		IFS=''
 		declare STDIN_INPUT=${@:-$(</dev/stdin)}
 		unset IFS
@@ -55,13 +35,15 @@ _wallpaper_main_(){
 			# echo "$PARM"
 		# done
 		
-		local tempfile=$RANDOM.tmp
+		local tempfile=$RANDOM.pic.tmp
 		printf "%s\n" "${STDIN_INPUT[@]}" >$tempfile
 		view $tempfile
-		
-		# TODO: delete or make use of the temporary file without affecting functionality
-		
-		# rm $tempfile
+			
+		# temporary file should not be deleted ASAP
+		# as program execution end time is unknown
+		# so safer approach is to delete temporary
+		# files older than 5 days		
+		find $PWD/*.pic.tmp -mindepth 1 -mtime +5 -delete
 		
 		
 	}
@@ -123,6 +105,27 @@ _wallpaper_main_(){
 		pushd "$scriptfolder\tools\exiftool" > /dev/null 2>&1
 		./exiftool.exe -r -q -q -ext .jpg -fast -p '$directory/$filename::$Keywords' -qq -r -m "$winpath" | grep -i "$KEYWORD" | sed -n -e 's/\(.*\)::\(.*\)/\1/p'
 		popd > /dev/null 2>&1	 					
+	}
+	
+	usage(){
+		
+		echo 
+        echo "wallpaper OPTIONS"      
+		echo
+        echo " helper script to managing wallpaper folder"   
+        echo 
+        echo "OPTIONS are..."
+        echo 				
+		echo " usage"		
+		echo " view <filelist>"
+		echo " show"
+		# echo " <drive> index keyword"
+		echo " <drive> collect keyword"
+		echo ""
+		echo 
+		echo "e.g. wallpaper usage"		
+		echo "e.g wallpaper d collect car | wallpaper show"
+		
 	}
 	
 	option=$1
