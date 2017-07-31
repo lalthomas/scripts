@@ -409,6 +409,13 @@ _reference_main_(){
 		shift
 		
 		create(){
+		
+			_commit_(){
+							
+				git add "$filename" > /dev/null 2>&1
+				git commit -m "create manual notes file for $topic" > /dev/null 2>&1						
+			}
+
 			
 			# TODO: manage already existing files
 			
@@ -416,15 +423,12 @@ _reference_main_(){
 			filename="$today-$topic manual notes.md"
 			
 			# add contend
-			echo "% $topic manual notes" >"$filename"
+			echo "% $topic Manual Notes" >"$filename"
 			echo "% Lal Thomas" >>"$filename"
 			echo "% $longdate" >>"$filename"
 			echo "">>"$filename"
 			echo "Date		Note" >>"$filename"
 			echo "----------	-----------">>"$filename"
-			
-			
-			add_to_inbox "$PWD/$filepath"
 			
 			# start inbox.txt
 			start "" "D:\Dropbox\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\Dropbox\do\inbox.txt"  > /dev/null 2>&1	
@@ -432,7 +436,16 @@ _reference_main_(){
 			# start $filename file
 			start "" "$PWD/$filename" > /dev/null 2>&1 || cygstart "$PWD/$filename"  > /dev/null 2>&1	
 			
-			
+			#TODO: add commit functionality
+			# commit changes
+			echo
+			read -p "Do you want to commit changes (y|n) ? " opt;
+			if [ $opt == "y" ]; then  
+				_commit_
+				add_to_inbox "$PWD/$filename"
+				echo
+				echo "\"$filename\" is created ..."
+			fi			
 		}
 				
 		case $OPTION in
