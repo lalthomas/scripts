@@ -16,8 +16,8 @@ _bash_(){
 		shift
 		
 		if [[ -z "$option" ]]; then
-		   echo "error : few arguments"			   
-		else			  	
+		   echo "error : few arguments"
+		else
 		   case "$option" in
 				save)
 					case "$OSTYPE" in
@@ -62,7 +62,7 @@ _bash_(){
 	
 	}
 
-	# find the text in folders		
+	# find the text in folders
 	search(){
 
 		# thank you 
@@ -92,14 +92,14 @@ _bash_(){
 		unset IFS
 						
 		for i in ${userinputs[@]}
-		do 								
-			resultCount=$i				
+		do
+			resultCount=$i
 			cygstart "$(grep --exclude-dir=".git*" -Rnwl $PWD -e "${B_SEARCH_TERM}" | sed -n "${resultCount}p")"
 		done
 		
 	}
 
-	# search through all text files in current folder and move the matched lines to the filename	
+	# search through all text files in current folder and move the matched lines to the filename
 	replace_lines_in_txt_files_having_term(){
 				
 		term=$1
@@ -183,8 +183,8 @@ _bash_(){
 	
 		total_number_of_lines(){
 		
-			lines=$(wc -l "$B_FILE_FULL_PATH")					
-			lines=${lines% ${B_FILE_FULL_PATH}}			
+			lines=$(wc -l "$B_FILE_FULL_PATH")
+			lines=${lines% ${B_FILE_FULL_PATH}}
 			echo $lines
 		}
 								
@@ -215,14 +215,14 @@ _bash_(){
 						
 				for i in ${userinputs[@]}
 				do 								
-					resultCount=$i				
+					resultCount=$i			
 					echo "$(grep --exclude-dir=".git*" -i "$B_FILE_FULL_PATH" -e "${B_FILE_SEARCH_TERM}" | sed -n "${resultCount}p")"
 				done
 				
 			else	
 			
 				export B_FILE_PICK_LIST=""
-				B_FILE_PICK_LIST="$@"				
+				B_FILE_PICK_LIST="$@"
 				
 			fi
 			
@@ -230,23 +230,23 @@ _bash_(){
 		
 		prompt(){
 			
-			# B_PICK_RESULT contains the user picked items					
-			message="$@"			
+			# B_PICK_RESULT contains the user picked items
+			message="$@"
 			# initialize with invalid choice
-			choice="$"			
-			until [[ $choice =~ ^[0-9|,]+$ ]] ; do				
+			choice="$"
+			until [[ $choice =~ ^[0-9|,]+$ ]] ; do
 				read -p "$message" input
 				echo				
 				_search_ "$input"
 				echo				
-				read -p "enter comma separated value(s) [0 to end] : " choice								
+				read -p "enter comma separated value(s) [0 to end] : " choice
 				# echo $CHOICE
 				if [[ $choice =~ "0" ]]; then
 					return
-				fi				
-			done			
+				fi
+			done
 			if [[ $choice =~ ^[0-9|,]+$ ]]; then
-				result "$choice"				
+				result "$choice"
 			fi
 			
 		}
@@ -255,30 +255,30 @@ _bash_(){
 				
 			# initialize with invalid choice
 			choice="$"		
-			until [[ $choice =~ ^[0-9|,]+$ ]] ; do								
+			until [[ $choice =~ ^[0-9|,]+$ ]] ; do
 				echo
-				_search_ "$"								
-				echo				
-				read -p "enter comma separated value(s) [0 to end] : " choice								
+				_search_ "$"
+				echo
+				read -p "enter comma separated value(s) [0 to end] : " choice
 				# echo $CHOICE
 				if [[ $choice =~ "0" ]]; then
 					return
 				fi				
 			done			
 			if [[ $choice =~ ^[0-9|,]+$ ]]; then
-				result "$choice"				
+				result "$choice"
 			fi
 			
 		}
 		
 		OPTION=$1
-		shift							 
+		shift
 		
-		case $OPTION in				
+		case $OPTION in
 			path ) path "$@";;
-			prompt) prompt "$@";;						
+			prompt) prompt "$@";;
 			result) result;;
-			choose) choose;;		
+			choose) choose;;
 		esac
 		
     }
@@ -294,10 +294,10 @@ _bash_(){
 		echo "hist frequent	"
 		echo "search text <term>"
 		echo "search file <term>"
-		echo "open <search result count>"		
+		echo "open <search result count>"
 		echo "file path init <path>"
 		echo "file search <query>"
-		echo "file prompt <prompt message>"		
+		echo "file prompt <prompt message>"
 		echo "file result"
 		echo "file choose"
 
@@ -310,7 +310,7 @@ _bash_(){
 
 	case $action in
 	help|usage)usage;;
-	hist) hist $@;;       				
+	hist) hist $@;;
 	search) search $@;;
 	open) open $@;;
 	path) path $@;;
