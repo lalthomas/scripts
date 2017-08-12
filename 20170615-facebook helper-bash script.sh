@@ -99,7 +99,7 @@ _facebook_main_(){
 			local KEY=$1
 			local DATAFILE=$2
 			
-			local name="$(facebook get $facebookID name)"
+			local name="$(facebook get name $facebookID)"
 			# thanks : https://unix.stackexchange.com/a/53315/106566
 			firstname="$( cut -d ' ' -f 1 <<< "$name" )";
 					
@@ -176,7 +176,7 @@ _facebook_main_(){
 		echo "get gender <id|url>"
 		echo "get profile-pic <id|url>"
 		echo "get profile-pic-big <id|url>"
-		echo "get cleanup"
+		echo "get cleanup <id|url>"
 		echo "usage"
 		
 	}

@@ -269,12 +269,12 @@ _reference_main_(){
 			
 			 if [[ "$args" =~ $facebookurlregex ]]; then
 			 
-				id="$(facebook get id $args)"
+				id=$(facebook get id $args)
 				pull_data_from_facebook $id
 				create_file_from_template
 				add_image_from_facebook
 				# clean up of temporary files
-				facebook get cleanup
+				facebook get cleanup $id
 			
 			elif [[ "$args" =~ ^[0-9]+ ]]; then
 				
@@ -285,7 +285,7 @@ _reference_main_(){
 				create_file_from_template
 				add_image_from_facebook
 				# clean up of temporary files
-				facebook get cleanup
+				facebook get cleanup $id
 
 			elif [[ "$args" =~ ^[a-z]+ ]]; then
 				
