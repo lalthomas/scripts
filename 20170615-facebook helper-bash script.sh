@@ -25,7 +25,7 @@ _facebook_main_(){
 	
 	# Token generation https://developers.facebook.com/tools/explorer/
 	local token="292485384124303|cUw30J5iOcJFrs9bAJ8Jgq6a-H4"
-	
+	local facebookID=""
 	get(){
 		
 		IDfromURL(){
@@ -140,10 +140,9 @@ _facebook_main_(){
 		
 		local facebookurlregex='(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]'
 		if [[ $OPTION_2 =~ ^[0-9]+$ ]]; then
-			facebookID=$OPTION_1
+			facebookID=$OPTION_2
 		elif [[ $OPTION_2 =~ $facebookurlregex ]]; then
-			facebookurl=$OPTION_2
-			# echo $facebookurl
+			facebookurl=$OPTION_2			
 			facebookID=$(IDfromURL $facebookurl)
 			# echo $facebookID
 		fi
