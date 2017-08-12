@@ -53,7 +53,7 @@ string_convert_to_lower(){
 open_file(){
 	
 	local filepath=$(cygpath -d "$1")	
-	cygstart "C:/Program Files (x86)/Notepad++/notepad++.exe" "$filepath"				
+	cygstart "C:/Program Files (x86)/Notepad++/notepad++.exe" "$filepath"
 }
 
 add_to_inbox(){
@@ -92,7 +92,7 @@ _reference_main_(){
 			_commit_(){
 							
 				git add "$contactfile" > /dev/null 2>&1
-				git commit -m "create contact file for $name" > /dev/null 2>&1						
+				git commit -m "create contact file for $name" > /dev/null 2>&1
 			}
 			
 			verify_existing_records(){
@@ -107,12 +107,12 @@ _reference_main_(){
 				else
 					echo
 					echo "Records found with $search_query term"
-					echo															
-					b search file $search_query													
+					echo
+					b search file $search_query
 					echo
 					read -p "Do you want to create contact record (y|n) ? " opt;
 					[[ $opt == "n" ]] && { return 1; } || { return 0; }
-				fi								
+				fi
 				
 			}
 			
@@ -130,15 +130,13 @@ _reference_main_(){
 			
 			
 				# it is a facebook ID
-				facebookId=$1			
-				# fetch data from facebook				
-				id=$(facebook get $facebookId id)
-				name=$(facebook get $facebookId name)
-				gender=$(facebook get $facebookId gender)
-				link=$(facebook get $facebookId link)								
-				pic=$(facebook get $facebookId profile-pic)
-				pic_big=$(facebook get $facebookId profile-pic-big)
-				
+				facebookId=$1
+				# fetch data from facebook
+				name=$(facebook get name $facebookId )
+				gender=$(facebook get gender $facebookId )
+				link=$(facebook get link $facebookId )
+				pic=$(facebook get profile-pic $facebookId )
+				pic_big=$(facebook get profile-pic-big $facebookId )
 				
 			}
 			
@@ -146,13 +144,13 @@ _reference_main_(){
 				
 				
 				# add small image			
-				# echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic}"))" >"$pic.tmp"						
+				# echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic}"))" >"$pic.tmp"
 				# printf '%s\n' "/<!-- %IMAGE% -->/-1r $pic.tmp" w | ed "$PWD/$contactfile"	> /dev/null 2>&1
 				# # clean up
 				# rm "$pic.tmp"
 				
 				# add big image 
-				echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic_big}"))" >"$pic_big.tmp"						
+				echo "![${longdate}](data:image/jpeg;base64,$(base64 -w 0 "${pic_big}"))" >"$pic_big.tmp"
 				printf '%s\n' "/<!-- %IMAGE% -->/-1r $pic_big.tmp" w | ed "$PWD/$contactfile"	> /dev/null 2>&1
 				# clean up 
 				rm "$pic_big.tmp"
@@ -163,28 +161,28 @@ _reference_main_(){
 			get_data_from_user(){
 			
 				# add name
-				name="$@"				
+				name="$@"
 				
 			}
 			
 			create_file_from_template(){
 			
 				# convert the name to lower
-				local lowername=$(string_convert_to_lower "$name")			
+				local lowername=$(string_convert_to_lower "$name")
 				# copy template to new file
-				local contacttemplatefile="D:\Dropbox\do\support\20140618-home support template-contact card.md"			
-				contactfile="$today-$lowername contact file.md"			  
+				local contacttemplatefile="D:\Dropbox\do\support\20140618-home support template-contact card.md"
+				contactfile="$today-$lowername contact file.md"
 				cat "$contacttemplatefile" >"$contactfile"
 				
 			}
 		
 			fill_template(){
-								
+			
 				# replace place holders
 				replacetextinfile "%NAME%" "$name" "$contactfile"
-				replacetextinfile "%LONGDATE%" "$longdate" "$contactfile"	
+				replacetextinfile "%LONGDATE%" "$longdate" "$contactfile"
 
-				# add circle info				
+				# add circle info
 				b file path init "D:\Dropbox\do\reference\20150721-contact circles.txt"
 				echo 
 				b file prompt "enter keyword for circle : "
@@ -192,27 +190,27 @@ _reference_main_(){
 				replacetextinfile "%CIRCLE%" "${circle}" "$contactfile"
 				
 				# add gender info
-				if [ -z ${gender} ];then												
-					read -p "enter gender (M/F) : " gender;			
-					if [[ $gender =~ [mf] ]]; then 				
-						if [ $gender == "m" ]; then 
+				if [ -z ${gender} ];then
+					read -p "enter gender (M/F) : " gender;
+					if [[ $gender =~ [mf] ]]; then
+						if [ $gender == "m" ]; then
 							gender="Male" 
 						else
 							gender="Female"
-						fi											
+						fi
 					else
-						echo "unknown choice"			 
-					fi				
+						echo "unknown choice"
+					fi
 				fi
 				replacetextinfile "%GENDER%" "${gender}" "$contactfile"	
 								
-				# add birthday info			
+				# add birthday info
 				if [ -z ${birthday} ]; then
 					echo
 					read -p "enter birthday : " birthday;
-					local isobirthday=$(date -d"$birthday" +%Y-%m-%d)	
+					local isobirthday=$(date -d"$birthday" +%Y-%m-%d)
 				fi
-				replacetextinfile "%BIRTHDAY%" "${isobirthday}" "$contactfile"	
+				replacetextinfile "%BIRTHDAY%" "${isobirthday}" "$contactfile"
 
 				# add religion info
 				if [ -z ${religion} ]; then
@@ -233,20 +231,20 @@ _reference_main_(){
 				homeaddress="$(b file result)"
 				replacetextinfile "%HOMEADDRESS%" "${homeaddress}" "$contactfile"
 
-				# work						
+				# work
 				echo 
 				b file prompt "enter keyword for work address : "
 				workaddress="$(b file result)"
 				replacetextinfile "%WORKADDRESS%" "${workaddress}" "$contactfile"
 				
-				# add email info			
+				# add email info
 				if [ -z ${email} ]; then
 					echo
-					read -p "enter email : " email;			
+					read -p "enter email : " email;
 				fi
-				replacetextinfile "%EMAIL%" "${email}" "$contactfile"				
+				replacetextinfile "%EMAIL%" "${email}" "$contactfile"
 				
-				# add facebook ID details				
+				# add facebook ID details
 				if [ -z ${id} ]; then
 					echo
 					read -p "enter facebook ID : " id;	
@@ -256,20 +254,29 @@ _reference_main_(){
 				
 			}
 			
-			
 			args=$@	
 			# echo "$args"	
 			# check for records and decide to create contact file
-			verify_existing_records $args						
+			verify_existing_records $args
 			if [ $? -eq 1 ]; then
 				return
 			fi
 			
 			# set -x
 			# parse the argument
-			# args : <name> or <facebook ID>			
+			# args : <name> or <facebook ID>
+			local facebookurlregex='(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]'
 			
-			if [[ "$args" =~ ^[0-9]+ ]]; then								
+			 if [[ "$args" =~ $facebookurlregex ]]; then
+			 
+				id="$(facebook get id $args)"
+				pull_data_from_facebook $id
+				create_file_from_template
+				add_image_from_facebook
+				# clean up of temporary files
+				facebook get cleanup
+			
+			elif [[ "$args" =~ ^[0-9]+ ]]; then
 				
 				echo
 				echo "fetching data from facebook.com..."
@@ -278,18 +285,18 @@ _reference_main_(){
 				create_file_from_template
 				add_image_from_facebook
 				# clean up of temporary files
-				facebook get $facebookId cleanup
-				
-			elif [[ "$args" =~ ^[a-z]+ ]]; then								
+				facebook get cleanup
+
+			elif [[ "$args" =~ ^[a-z]+ ]]; then
 				
 				# it is name
-				echo				
+				echo
 				echo "fill data manually..."
 				echo
-				get_data_from_user $args				
-				create_file_from_template			
+				get_data_from_user $args
+				create_file_from_template
 				
-			fi			
+			fi
 			
 			fill_template
 			open_file "$contactfile"
@@ -413,7 +420,7 @@ _reference_main_(){
 			_commit_(){
 							
 				git add "$filename" > /dev/null 2>&1
-				git commit -m "create manual notes file for $topic" > /dev/null 2>&1						
+				git commit -m "create manual notes file for $topic" > /dev/null 2>&1
 			}
 
 			
