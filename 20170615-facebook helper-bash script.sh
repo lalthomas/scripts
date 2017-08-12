@@ -14,7 +14,7 @@ jsonvalue(){
 
 	local KEY=$1
 	local DATAFILE=$2
-	cat "$DATAFILE" |  python -c "import json,sys;obj=json.load(sys.stdin);print obj['$KEY'];"	
+	cat "$DATAFILE" |  python -c "import json,sys;obj=json.load(sys.stdin);print obj['$KEY'];"
 	
 }
 
@@ -25,24 +25,41 @@ _facebook_main_(){
 	
 	# Token generation https://developers.facebook.com/tools/explorer/
 	local token="292485384124303|cUw30J5iOcJFrs9bAJ8Jgq6a-H4"
-
 	
 	get(){
-				
-		local OPTION=$1
-		local facebookdata="$facebookID-data.json"
-		local picfile="$facebookID-pic.json"
-		local genderdata="$facebookID-gender.json"
-		shift
-	
-		graphData(){
+		
+		IDfromURL(){
 			
+			local id
+			local fburl=$@
+					
+			fbpath=$(echo $fburl  | sed -n -r 's/.*(https?:\/\/)?(www\.)?facebook.com\/(.*)/\3/p')
+			
+			[[ $fbpath =~ ^[0-9]+$ ]] && { id=$fbpath; echo $id ; return;  }
+			[[ $fbpath =~ ^profile.php ]] && { id=$(echo $fbpath| sed -n -r 's/profile.php\?id=(.*)/\1/p'); echo $id ; return; }
+			
+			# you need to install nodejs,npm and facebook-id-of package to get this
+			[[ $fbpath =~ ^[a-z]* ]] && { 
+			
+				username=$fbpath;				
+				if [ ! -f "$PWD/$username.fbb" ]; then
+					# echo "file not found"
+					facebook-id-of $username >$username.fbb;
+				fi;				
+				read id <<< "$(cat $username.fbb | grep "Facebook ID of" | sed 's/^.*is //')";
+				echo $id ; 
+				return; 
+			}
+						
+		}
+		
+		graphData(){
 			
 			local KEY=$1
 			local DATAFILE=$2
 			shift
 			
-			if [ ! -f "$PWD/$DATAFILE" ]; then				
+			if [ ! -f "$PWD/$DATAFILE" ]; then
 				# echo "data file not found"
 				curl --silent -X GET  "https://graph.facebook.com/v2.9/$facebookID?fields=id%2Cname%2Clink%2Cpicture&access_token=$token" >"$facebookdata"
 			fi
@@ -62,9 +79,9 @@ _facebook_main_(){
 					
 			curl --silent -X GET "https://graph.facebook.com/$facebookID/picture?type=large&redirect=false" >"$picfile"
 			# http://www.compciv.org/recipes/cli/jq-for-parsing-json/
-			URL=$(cat "$picfile" | "$currentScriptFolder/tools/jq/jq.exe" -r '.data.url')	
+			URL=$(cat "$picfile" | "$currentScriptFolder/tools/jq/jq.exe" -r '.data.url')
 			# thanks https://stackoverflow.com/a/35019553/2182047
-			URL=${URL%$'\r'}			
+			URL=${URL%$'\r'}
 			curl --silent -X GET $URL >"$facebookID-small.jpg"
 			echo "$facebookID-small.jpg"
 			
@@ -82,12 +99,12 @@ _facebook_main_(){
 			local KEY=$1
 			local DATAFILE=$2
 			
-			local name="$(facebook get $facebookID name)"							
+			local name="$(facebook get $facebookID name)"
 			# thanks : https://unix.stackexchange.com/a/53315/106566
 			firstname="$( cut -d ' ' -f 1 <<< "$name" )";
 					
 			# download data from genderize.io
-			if [ ! -f "$PWD/$DATAFILE" ]; then				
+			if [ ! -f "$PWD/$DATAFILE" ]; then
 				# echo "data file not found"
 				curl --silent -X GET  "https://api.genderize.io/?name=$firstname" >"$DATAFILE"
 			fi
@@ -106,23 +123,42 @@ _facebook_main_(){
 		
 		cleanup(){
 			
-			rm "$facebookdata"
-			rm "$genderdata"
-			rm "$picfile"
-			rm "$facebookID-small.jpg"
-			rm "$facebookID-big.jpg"
-			
+			rm "$facebookdata" > /dev/null 2>&1
+			rm "$genderdata" > /dev/null 2>&1
+			rm "$picfile" > /dev/null 2>&1
+			rm "$facebookID-small.jpg" > /dev/null 2>&1
+			rm "$facebookID-big.jpg" > /dev/null 2>&1
+			rm *.fbb > /dev/null 2>&1
 		}
 		
 		
-		case "$OPTION" in
-			id|name|link) graphData $OPTION $facebookdata ;;
+		local OPTION_1=$1
+		shift
+		
+		local OPTION_2=$@
+		shift
+		
+		local facebookurlregex='(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]'
+		if [[ $OPTION_2 =~ ^[0-9]+$ ]]; then
+			facebookID=$OPTION_1
+		elif [[ $OPTION_2 =~ $facebookurlregex ]]; then
+			facebookurl=$OPTION_2
+			# echo $facebookurl
+			facebookID=$(IDfromURL $facebookurl)
+			# echo $facebookID
+		fi
+		
+		local facebookdata="$facebookID-data.json"
+		local picfile="$facebookID-pic.json"
+		local genderdata="$facebookID-gender.json"
+		
+		case "$OPTION_1" in
+			id|name|link) graphData $OPTION_1 $facebookdata ;;
 			gender) genderData "gender" $genderdata ;;
 			profile-pic) profilepic;;
 			profile-pic-big) profilebigpic;;
 			cleanup) cleanup;;
 		esac
-		
 		
 	}
 	
@@ -131,17 +167,17 @@ _facebook_main_(){
 		
 		echo 
         echo "facebook OPTIONS"      
-        echo " helper script to managing facebook.com"   
+        echo " helper script to managing facebook.com"
         echo 
         echo "OPTIONS are..."
         echo 		
-		echo "get <id> id "
-		echo "get <id> name"
-		echo "get <id> link"
-		echo "get <id> gender"
-		echo "get <id> profile-pic"
-		echo "get <id> profile-pic-big"
-		echo "clean <id>"
+		echo "get id <id|url>"
+		echo "get name <id|url>"
+		echo "get link <id|url>"
+		echo "get gender <id|url>"
+		echo "get profile-pic <id|url>"
+		echo "get profile-pic-big <id|url>"
+		echo "get cleanup"
 		echo "usage"
 		
 	}
@@ -152,15 +188,13 @@ _facebook_main_(){
 
 	# test the script
 	# echo $filename $ACTION
-	case "$ACTION" in		
-		help|usage)		
+	case "$ACTION" in
+		help|usage)
 			usage 
 		;;
-		get) 			
-			facebookID=$1
-			shift
-			[[ $facebookID =~ ^[0-9]+$ ]] && get $@
-		;;	
+		get) 
+			get $@
+		;;
 	esac
 
 
