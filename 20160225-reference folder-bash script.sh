@@ -245,11 +245,11 @@ _reference_main_(){
 				replacetextinfile "%EMAIL%" "${email}" "$contactfile"
 				
 				# add facebook ID details
-				if [ -z ${id} ]; then
+				if [ -z ${facebookId} ]; then
 					echo
 					read -p "enter facebook ID : " id;	
 				fi
-				replacetextinfile "%FB_ID%" "${id}" "$contactfile"
+				replacetextinfile "%FB_ID%" "${facebookId}" "$contactfile"
 				
 				
 			}
@@ -281,7 +281,8 @@ _reference_main_(){
 				echo
 				echo "fetching data from facebook.com..."
 				echo
-				pull_data_from_facebook $args
+				id=$args
+				pull_data_from_facebook $id
 				create_file_from_template
 				add_image_from_facebook
 				# clean up of temporary files
