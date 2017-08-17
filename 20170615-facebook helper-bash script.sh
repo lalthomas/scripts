@@ -24,9 +24,31 @@ _facebook_main_(){
 	# www.facebook.com/zuck : 4			
 	
 	# Token generation https://developers.facebook.com/tools/explorer/
-	local token="292485384124303|cUw30J5iOcJFrs9bAJ8Jgq6a-H4"
-	local facebookID=""
+	local token="292485384124303|cUw30J5iOcJFrs9bAJ8Jgq6a-H4"	
 	get(){
+		
+		local facebookID=""
+		
+		local OPTION_1=$1
+		shift
+		
+		local OPTION_2=$@
+		shift
+		
+		local facebookurlregex='(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]'
+		if [[ $OPTION_2 =~ ^[0-9]+$ ]]; then
+			facebookID=$OPTION_2
+		elif [[ $OPTION_2 =~ $facebookurlregex ]]; then
+			facebookurl=$OPTION_2			
+			facebookID=$(IDfromURL $facebookurl)
+			# echo $facebookID
+		fi
+		
+		local facebookdata="$facebookID-data.json"
+		local picfile="$facebookID-pic.json"
+		local genderdata="$facebookID-gender.json"
+		local profile_pic_small="$facebookID-small.jpg"
+		local profile_pic_big="$facebookID-big.jpg"
 		
 		IDfromURL(){
 			
@@ -82,15 +104,15 @@ _facebook_main_(){
 			URL=$(cat "$picfile" | "$currentScriptFolder/tools/jq/jq.exe" -r '.data.url')
 			# thanks https://stackoverflow.com/a/35019553/2182047
 			URL=${URL%$'\r'}
-			curl --silent -X GET $URL >"$facebookID-small.jpg"
-			echo "$facebookID-small.jpg"
+			curl --silent -X GET $URL >$profile_pic_small
+			echo "${profile_pic_small}"
 			
 		}
 
 		profilebigpic(){
 				
-			curl --silent -L -X GET "https://graph.facebook.com/$facebookID/picture?type=large&width=500&height=500"  >"$facebookID-big.jpg"
-			echo "$facebookID-big.jpg"
+			curl --silent -L -X GET "https://graph.facebook.com/$facebookID/picture?type=large&width=500&height=500"  >"${profile_pic_big}"
+			echo "${profile_pic_big}"
 		
 		}
 		
@@ -122,34 +144,16 @@ _facebook_main_(){
 		}
 		
 		cleanup(){
+								
+			set +x
+			rm "${PWD}/${facebookdata}" > /dev/null 2>&1
+			rm "${PWD}/${genderdata}" > /dev/null 2>&1
+			rm "${PWD}/${picfile}" > /dev/null 2>&1
+			rm "${PWD}/${profile_pic_small}" > /dev/null 2>&1
+			rm "${PWD}/${profile_pic_big}" > /dev/null 2>&1
+			rm $PWD/*.fbb > /dev/null 2>&1
 			
-			rm "$facebookdata" > /dev/null 2>&1
-			rm "$genderdata" > /dev/null 2>&1
-			rm "$picfile" > /dev/null 2>&1
-			rm "$facebookID-small.jpg" > /dev/null 2>&1
-			rm "$facebookID-big.jpg" > /dev/null 2>&1
-			rm *.fbb > /dev/null 2>&1
 		}
-		
-		
-		local OPTION_1=$1
-		shift
-		
-		local OPTION_2=$@
-		shift
-		
-		local facebookurlregex='(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]'
-		if [[ $OPTION_2 =~ ^[0-9]+$ ]]; then
-			facebookID=$OPTION_2
-		elif [[ $OPTION_2 =~ $facebookurlregex ]]; then
-			facebookurl=$OPTION_2			
-			facebookID=$(IDfromURL $facebookurl)
-			# echo $facebookID
-		fi
-		
-		local facebookdata="$facebookID-data.json"
-		local picfile="$facebookID-pic.json"
-		local genderdata="$facebookID-gender.json"
 		
 		case "$OPTION_1" in
 			id|name|link) graphData $OPTION_1 $facebookdata ;;
