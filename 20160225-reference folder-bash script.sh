@@ -191,13 +191,11 @@ _reference_main_(){
 				
 				# add gender info
 				if [ -z ${gender} ];then
-					read -p "enter gender (M/F) : " gender;
-					if [[ $gender =~ [mf] ]]; then
-						if [ $gender == "m" ]; then
-							gender="Male" 
-						else
-							gender="Female"
-						fi
+					read -p "enter gender (m/f) : " opt;
+					if [ $opt =~ "m|M" ]; then
+						gender="Male" 
+					elif [ $opt =~ "f|F" ]; then
+						gender="Female"					
 					else
 						echo "unknown choice"
 					fi
