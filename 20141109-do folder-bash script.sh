@@ -244,7 +244,6 @@ _do_main_(){
         
     }
 	
-	
 	view_project_todos(){
 	
 		get_all_projects_names | sort -u | while read PRJ; do		
