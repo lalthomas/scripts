@@ -9,6 +9,17 @@ alias b=_bash_ # bash helper function
 
 _bash_(){
 
+	terminal(){
+			
+		command=$*			
+		if [[ -z "${command// }" ]]; then
+			cygstart mintty /bin/bash -il
+		else
+			/usr/bin/mintty.exe -i /Cygwin-Terminal.ico  /usr/bin/bash.exe -l -c "${command} && read -n1 -r -p \"Press any key to continue ...\" key;"
+		fi
+		
+	}
+	
 	hist(){
 		
 		# Get option
@@ -314,6 +325,7 @@ _bash_(){
 	search) search $@;;
 	open) open $@;;
 	path) path $@;;
+	terminal) terminal $@;;
 	replace_lines_in_txt_files_having_term) replace_lines_in_txt_files_having_term $@;;
 	aggregate_lines_with_term) aggregate_lines_with_term $@;;
 	file) _file_ $@;;

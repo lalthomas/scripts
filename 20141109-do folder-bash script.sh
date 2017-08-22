@@ -247,15 +247,8 @@ _do_main_(){
 	view_project_todos(){
 	
 		get_all_projects_names | sort -u | while read PRJ; do		
-			
-			echo
-			echo $PRJ			
-			echo 
-			/usr/bin/mintty.exe -i /Cygwin-Terminal.ico  /usr/bin/bash.exe -l -c "sh \"d:/Dropbox/do/todo.sh\" -a -N -f -+ list $PRJ$ && read -n1 -r -p \"Press any key to continue ...\" key;"			
-			read -n1 -r -p "Press any key to continue ..." key </dev/tty	
-			echo
-			clear
-			
+			b terminal "echo $PRJ; echo ; sh \"d:/Dropbox/do/todo.sh\" -a -N -f -+ list $PRJ$"
+			read -n1 -r -p "$PRJ" key </dev/tty		
 		done
 		
 	}
