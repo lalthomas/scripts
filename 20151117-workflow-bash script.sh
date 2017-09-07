@@ -107,10 +107,17 @@ startDay(){
 	
 	read -p "do you want to wish your friends (y|n) ? : " opted
 	if [ $opted == "y" ]; then
-		cygstart "$thunderbird"		
-		wish list && wish email && t log add "wish friends happy birthday"			
+		cygstart "$thunderbird"
+		echo
+		wish list
+		echo
+		read -n1 -r -p "press any key to compose birthday emails..." key </dev/tty
+		wish email && t log add "wish friends happy birthday"			
 	fi	
 
+	echo
+	read -n1 -r -p "press any key to create journal" key </dev/tty
+	echo
 	# create journal
 	t journal create
 	
