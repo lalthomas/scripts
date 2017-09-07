@@ -127,8 +127,58 @@ _gtd_main_(){
 	}
 	
 	review(){
+			
+		pritorize(){
+		
+			# TODO: 
+			echo
+		
+		}
+		
+		reports(){
+		
+			# TODO :ensure that each that each project have atleast kick start action
+			
+			todoshactiononterminal(){
+								
+				info=$1
+				operation=$2				
+				b terminal "echo $info; echo ; sh \"d:/Dropbox/do/todo.sh\" -a -N -f -+ $operation"
+				
+			}
+			
+			type=$1
+			
+			case  $type in
+			
+				todotxtreport) 
+					t report; 
+					openFile "$doRootPath/report.txt"					
+				;;
+			
+				birdseye)
+					
+					pushd $docRootPath
+					t birdseye > $docRootPath/$today"-todo birdseye report for week"-$weekCount.md
+					openFile $docRootPath/$today"-todo birdseye report for week"-$weekCount.md      
+					popd	
+				;;					
+				
+				donecount)       todoshactiononterminal "Graph of Tasks Done in Previous Week" "graph";;			
+				contextview)     todoshactiononterminal "Context View" "contextview" ;;
+				goals)           todoshactiononterminal "Goals View" "goals" ;;
+				pastview)        todoshactiononterminal "Tasks done on past week" "xp 7" ;;
+				projectview)     todoshactiononterminal "Todo Items Group by Project" "view project" ;;
+				contextview2)    todoshactiononterminal "Show todo items group by context" "view context" ;;
+				todowithoutdate) todoshactiononterminal "Show Todo Items With No Date" "view nodate" ;;
+				dateview)		 todoshactiononterminal "Show Todo Items group by date" "view date" ;;	
+				pastweek)		 todoshactiononterminal "Show Todo items from past week" "view -1weeks" ;;
+				treeview)		 todoshactiononterminal "Design Tree Of Tasks" "tree"
+			
+			esac	
+		}
 	
-		echo 
+		
 	}
 	
 	reference(){
@@ -231,110 +281,7 @@ _gtd_main_(){
 	}
 	
 	# TODO: [] organize the functions
-	
-	analyse_todo_projects(){
 		
-		# TODO :ensure that each that each project have atleast kick start action
-		
-		echo
-		
-		# generate a report of tasks
-		echo "archive todo.txt & add report" 			
-		echo "-----------------------------"
-		read -n1 -r -p "Press any key to continue ..." key
-		t report			
-		# pause			
-		clear
-					
-					
-		# generate a graph of tasks done
-		echo "generate a graph of tasks done"
-		echo "-----------------------------"			
-		t graph
-		# pause		
-		read -n1 -r -p "Press any key to continue ..." key
-		clear
-					
-		
-		# view todo by context
-		t contextview
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear
-		
-		# view the goals file
-		t goals
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear
-					
-		# tasks done on past week
-		t xp 7
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear
-				
-		# Show todo items group by project
-		t view project
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear
-					
-		# Show todo items group by context
-		t view context
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear
-		
-		# show todo items with no date
-		t view nodate
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear			
-		
-		# Show todo items group by date
-		t view date
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear			
-		  
-		# Show todo items group by date without date
-		t view nodate
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear
-		
-		
-		# show todo items from past week
-		todo.sh view -1weeks
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear
-		
-		
-		# design tree of tasks
-		t tree
-		# pause
-		read -n1 -r -p "Press any key to continue ..." key
-		clear
-					
-		
-	}	
-		
-	pritorize_todo_projects(){
-		
-		# TODO: 
-		echo
-		
-	}
-	
-	generate_and_view_reports(){
-		
-		df add_todo_report
-		df add_birdseye_report
-		
-	}
-	
 	reward_yourself(){
 		
 		# TODO: 
@@ -367,10 +314,9 @@ _gtd_main_(){
 	if [[ "$action"=~$re ]]; then
 		case $action in
 		action) action $options;;
-		# review) review $options;;
+		review) review $options;;
 		analyse_todo_projects) analyse_todo_projects;;		
-		generate_and_view_reports) generate_and_view_reports;;
-		pritorize_todo_projects) pritorize_todo_projects;;
+		generate_and_view_reports) generate_and_view_reports;;		
 		reward_yourself) reward_yourself;;		
 		open_active_projects) open_active_projects;;				
 		usage) usage;;

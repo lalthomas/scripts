@@ -61,13 +61,6 @@ _do_main_(){
         
     }
 
-    add_todo_report(){
-        
-        #  add todo done count to report.txt
-        t report
-        openFile "$doRootPath/report.txt"
-    }
-    
     update_inboxtxt_file(){
 
 		update_projects_file
@@ -91,14 +84,6 @@ _do_main_(){
 		echo "context.md file updated"
 	}
 	
-    add_birdseye_report(){
-    
-        # add birdseye report to $docRootPath folder        
-        cd $docRootPath
-        t birdseye > $docRootPath/$today"-todo birdseye report for week"-$weekCount.md
-        openFile $docRootPath/$today"-todo birdseye report for week"-$weekCount.md      
-    }
-
     mail_priority_todo() {  
     
         # mail all todo with priority A     
@@ -288,9 +273,7 @@ _do_main_(){
 
 	pushd "D:\Dropbox\do" > /dev/null 2>&1
 		
-	case "$ACTION" in		
-		add_birdseye_report) add_birdseye_report ;;
-		add_todo_report) add_todo_report ;;
+	case "$ACTION" in						
 		move_project_matches_to_file) move_project_matches_to_file $1 $2 ;;		
 		clean_todo_files) clean_todo_files ;;
 		create_tickler_files) create_tickler_files ;;
