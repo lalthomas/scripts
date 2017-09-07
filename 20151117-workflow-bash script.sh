@@ -394,7 +394,8 @@ endWeek(){
 		echo " [] copy todo item numbers of all done and invalid items"
 		echo " [] create and save a note of review points"
 		echo 
-		df view_project_todos	
+		b terminal
+		df view_project_todos
 		echo
 		echo "# todo.txt project"	
 		echo		
@@ -427,9 +428,10 @@ endWeek(){
 	echo
 	read -p "do you want to generate and view reports [y|n] ? : " opted
 	if [ $opted == "y" ]; then
-		gtd generate_and_view_reports
+		# gtd generate_and_view_reports
+		:
 	fi
-				
+
 	echo
 	read -p "do you want to reward yourself [y|n] ? : " opted
 	if [ $opted == "y" ]; then
