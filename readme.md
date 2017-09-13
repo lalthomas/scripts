@@ -402,3 +402,4 @@ Work
 
 Inbox
 -----
+20140222-copy files from filelist to a destination folder-bash script run.bat 
