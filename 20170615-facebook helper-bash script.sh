@@ -14,7 +14,7 @@ jsonvalue(){
 
 	local KEY=$1
 	local DATAFILE=$2
-	cat "$DATAFILE" |  python -c "import json,sys;obj=json.load(sys.stdin);print obj['$KEY'];"
+	cat "$DATAFILE" |  python -c "import json,sys;obj=json.load(sys.stdin);print(obj['$KEY']);"
 	
 }
 
@@ -83,7 +83,7 @@ _facebook_main_(){
 			
 			if [ ! -f "$PWD/$DATAFILE" ]; then
 				# echo "data file not found"
-				curl --silent -X GET  "https://graph.facebook.com/v2.9/$facebookID?fields=id%2Cname%2Clink%2Cpicture&access_token=$token" >"$facebookdata"
+				curl --silent -X GET  "https://graph.facebook.com/v2.10/$facebookID?fields=id%2Cname%2Clink%2Cpicture&access_token=$token" >"$facebookdata"
 			fi
 			
 			if [ -e "$DATAFILE" ]
