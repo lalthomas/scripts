@@ -247,6 +247,7 @@ _reference_main_(){
 					echo
 					read -p "enter facebook ID : " id;	
 				fi
+				sleep 10
 				replacetextinfile "%FB_ID%" "${facebookId}" "$contactfile"
 				
 				
