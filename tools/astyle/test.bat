@@ -1,1 +1,1 @@
-call astyle --style=gnu "D:\Dropbox\project\20131027-scripts project\tools\astyle\test.c"
+call astyle --style=gnu "D:\project\20131027-scripts project\tools\astyle\test.c"

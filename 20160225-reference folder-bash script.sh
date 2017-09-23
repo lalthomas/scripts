@@ -60,7 +60,7 @@ add_to_inbox(){
 		
 	# add to inbox.txt	
 	local filepath=$(cygpath -d "$1")
-	echo "$longdate add \"$filepath\" to project file" >>"$(cygpath -u "D:\Dropbox\do\inbox.txt")"
+	echo "$longdate add \"$filepath\" to project file" >>"$(cygpath -u "D:\do\inbox.txt")"
 }
 
 _reference_main_(){
@@ -170,7 +170,7 @@ _reference_main_(){
 				# convert the name to lower
 				local lowername=$(string_convert_to_lower "$name")
 				# copy template to new file
-				local contacttemplatefile="D:\Dropbox\do\support\20140618-home support template-contact card.md"
+				local contacttemplatefile="D:\do\support\20140618-home support template-contact card.md"
 				contactfile="$today-$lowername contact file.md"
 				cat "$contacttemplatefile" >"$contactfile"
 				
@@ -183,7 +183,7 @@ _reference_main_(){
 				replacetextinfile "%LONGDATE%" "$longdate" "$contactfile"
 
 				# add circle info
-				b file path init "D:\Dropbox\do\reference\20150721-contact circles.txt"
+				b file path init "D:\do\reference\20150721-contact circles.txt"
 				echo 
 				b file prompt "enter keyword for circle : "
 				circle="$(b file result)"
@@ -212,7 +212,7 @@ _reference_main_(){
 
 				# add religion info
 				if [ -z ${religion} ]; then
-					b file path init "D:\Dropbox\do\reference\20170718-contact religions.txt"
+					b file path init "D:\do\reference\20170718-contact religions.txt"
 					echo 
 					echo "choose any one of the following religion : "
 					b file choose
@@ -221,7 +221,7 @@ _reference_main_(){
 				replacetextinfile "%RELIGION%" "${religion}" "$contactfile"
 				
 				# add address info	
-				b file path init "D:\Dropbox\do\reference\20161218-contact places.txt"
+				b file path init "D:\do\reference\20161218-contact places.txt"
 				
 				# home				
 				echo 
@@ -438,7 +438,7 @@ _reference_main_(){
 			echo "----------	-----------">>"$filename"
 			
 			# start inbox.txt
-			start "" "D:\Dropbox\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\Dropbox\do\inbox.txt"  > /dev/null 2>&1	
+			start "" "D:\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\do\inbox.txt"  > /dev/null 2>&1	
 			
 			# start $filename file
 			start "" "$PWD/$filename" > /dev/null 2>&1 || cygstart "$PWD/$filename"  > /dev/null 2>&1	
@@ -472,7 +472,7 @@ _reference_main_(){
 	OPTION=$1
 	shift
 	
-	pushd "D:\Dropbox\do\reference" > /dev/null 2>&1
+	pushd "D:\do\reference" > /dev/null 2>&1
 	
 	case $OPTION in 	
 		contact) contact $@;;

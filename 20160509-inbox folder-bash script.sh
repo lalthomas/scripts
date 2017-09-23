@@ -3,7 +3,7 @@
 # Filename : 20160509-inbox folder-bash script.sh
 # Author : Lal Thomas 
 # Date : 2016-05-09
-# © Lal Thomas (lal.thomas.mail@gmail.com)
+# ï¿½ Lal Thomas (lal.thomas.mail@gmail.com)
 
 alias inbox=_inbox_
 
@@ -264,7 +264,7 @@ _inbox_(){
 				# mv "files.txt" "../${playlistname%/}.m3u"
 				
 				# move the filelist to reference
-				refpath=$(cygpath -u "D:\Dropbox\do\reference")
+				refpath=$(cygpath -u "D:\do\reference")
 				mv "files.txt" "$refpath/${playlistname%/}.m3u"
 				echo "${playlistname%/}.m3u" >> "$refpath/readme.md"
 				
@@ -612,23 +612,23 @@ _inbox_(){
 			case $1 in
 				d|D)
 					pushd "D:\Inbox\film" > /dev/null 2>&1
-					playlist="D:\Dropbox\do\reference\20150319-d-film.m3u"
+					playlist="D:\do\reference\20150319-d-film.m3u"
 				;;
 				w|W)
 					pushd "W:\Inbox\film" > /dev/null 2>&1
-					playlist="D:\Dropbox\do\reference\20160422-w-film.m3u"
+					playlist="D:\do\reference\20160422-w-film.m3u"
 					;;		
 				x|X) 
 					pushd "X:\Inbox\film" > /dev/null 2>&1
-					playlist="D:\Dropbox\do\reference\20160601-x-film.m3u"
+					playlist="D:\do\reference\20160601-x-film.m3u"
 					;;		
 				y|Y) 
 					pushd "Y:\Inbox\film" > /dev/null 2>&1
-					playlist="D:\Dropbox\do\reference\20150319-y-film.m3u"
+					playlist="D:\do\reference\20150319-y-film.m3u"
 					;;
 				z|Z)
 					pushd "Z:\Inbox\film" > /dev/null 2>&1
-					playlist="D:\Dropbox\do\reference\20170120-z-film.m3u"
+					playlist="D:\do\reference\20170120-z-film.m3u"
 					;;
 				*) 
 					echo "unknown drive"; 
@@ -1147,7 +1147,7 @@ _inbox_(){
 							extension="${newname##*.}"					
 							# skip the subtitle file					
 							# echo $extension
-							toolindexfile="D:\Dropbox\do\reference\20160126-software tools-dev index.csv"
+							toolindexfile="D:\do\reference\20160126-software tools-dev index.csv"
 							[[ ! $extension =~ srt|sub|idx|jpg ]]  &&  echo "\"${folder}\",\"${winp}\"" >>"${toolindexfile}"
 							
 							# write to log
@@ -1186,49 +1186,49 @@ _inbox_(){
 			case $1 in
 				d|D)
 					pushd "D:\Inbox\video" > /dev/null 2>&1
-					savedplaylist="D:\Dropbox\do\reference\20150319-d-videos-saved.m3u"
-					camerarollplaylist="D:\Dropbox\do\reference\20170425-d-videos-cameraroll.m3u"
-					developerplaylist="D:\Dropbox\do\reference\20170425-d-videos-developer.m3u"
-					songplaylist="D:\Dropbox\do\reference\20170425-d-videos-song.m3u"					
-					tvplaylist="D:\Dropbox\do\reference\20150411-d-video-tv.m3u"
-					likedplaylist="D:\Dropbox\do\reference\20150411-d-video-liked.m3u"
+					savedplaylist="D:\do\reference\20150319-d-videos-saved.m3u"
+					camerarollplaylist="D:\do\reference\20170425-d-videos-cameraroll.m3u"
+					developerplaylist="D:\do\reference\20170425-d-videos-developer.m3u"
+					songplaylist="D:\do\reference\20170425-d-videos-song.m3u"					
+					tvplaylist="D:\do\reference\20150411-d-video-tv.m3u"
+					likedplaylist="D:\do\reference\20150411-d-video-liked.m3u"
 					;;
 				w|W)
 					pushd "W:\Inbox\video" > /dev/null 2>&1
-					savedplaylist="D:\Dropbox\do\reference\20160503-w-videos-saved.m3u"
-					camerarollplaylist="D:\Dropbox\do\reference\20170425-w-videos-cameraroll.m3u"
-					developerplaylist="D:\Dropbox\do\reference\20170425-w-videos-developer.m3u"
-					songplaylist="D:\Dropbox\do\reference\20170425-w-videos-song.m3u"
-					tvplaylist="D:\Dropbox\do\reference\20150411-w-video-tv.m3u"
-					likedplaylist="D:\Dropbox\do\reference\20150411-w-video-liked.m3u"
+					savedplaylist="D:\do\reference\20160503-w-videos-saved.m3u"
+					camerarollplaylist="D:\do\reference\20170425-w-videos-cameraroll.m3u"
+					developerplaylist="D:\do\reference\20170425-w-videos-developer.m3u"
+					songplaylist="D:\do\reference\20170425-w-videos-song.m3u"
+					tvplaylist="D:\do\reference\20150411-w-video-tv.m3u"
+					likedplaylist="D:\do\reference\20150411-w-video-liked.m3u"
 					;;		
 				x|X) 
 					pushd "X:\Inbox\video" > /dev/null 2>&1
-					savedplaylist="D:\Dropbox\do\reference\20150319-x-video-saved videos.m3u"
-					camerarollplaylist="D:\Dropbox\do\reference\20170425-x-videos-cameraroll.m3u"
-					developerplaylist="D:\Dropbox\do\reference\20150411-x-video-developer.m3u"
-					songplaylist="D:\Dropbox\do\reference\20150319-x-video-songs.m3u"
-					tvplaylist="D:\Dropbox\do\reference\20150411-x-video-tv.m3u"
-					likedplaylist="D:\Dropbox\do\reference\20150411-x-video-liked.m3u"
+					savedplaylist="D:\do\reference\20150319-x-video-saved videos.m3u"
+					camerarollplaylist="D:\do\reference\20170425-x-videos-cameraroll.m3u"
+					developerplaylist="D:\do\reference\20150411-x-video-developer.m3u"
+					songplaylist="D:\do\reference\20150319-x-video-songs.m3u"
+					tvplaylist="D:\do\reference\20150411-x-video-tv.m3u"
+					likedplaylist="D:\do\reference\20150411-x-video-liked.m3u"
 					;;		
 				y|Y) 
 					pushd "Y:\Inbox\video" > /dev/null 2>&1					
-					savedplaylist="D:\Dropbox\do\reference\20150319-y-video-saved.m3u"
-					camerarollplaylist="D:\Dropbox\do\reference\20170425-y-videos-cameraroll.m3u"
-					developerplaylist="D:\Dropbox\do\reference\20170425-y-video-developer.m3u"
-					songplaylist="D:\Dropbox\do\reference\20150319-y-video-songs.m3u"
-					tvplaylist="D:\Dropbox\do\reference\20150319-y-video-tv.m3u"
-					likedplaylist="D:\Dropbox\do\reference\20150411-y-video-liked.m3u"
+					savedplaylist="D:\do\reference\20150319-y-video-saved.m3u"
+					camerarollplaylist="D:\do\reference\20170425-y-videos-cameraroll.m3u"
+					developerplaylist="D:\do\reference\20170425-y-video-developer.m3u"
+					songplaylist="D:\do\reference\20150319-y-video-songs.m3u"
+					tvplaylist="D:\do\reference\20150319-y-video-tv.m3u"
+					likedplaylist="D:\do\reference\20150411-y-video-liked.m3u"
 
 					;;
 				z|Z)
 					pushd "Z:\Inbox\video" > /dev/null 2>&1	
-					savedplaylist="D:\Dropbox\do\reference\20150319-z-video-saved.m3u"
-					camerarollplaylist="D:\Dropbox\do\reference\20170425-z-videos-cameraroll.m3u"
-					developerplaylist="D:\Dropbox\do\reference\20170425-z-video-developer.m3u"
-					songplaylist="D:\Dropbox\do\reference\20150319-z-video-songs.m3u"
-					tvplaylist="D:\Dropbox\do\reference\20150319-z-video-tv.m3u"
-					likedplaylist="D:\Dropbox\do\reference\20150411-z-video-liked.m3u"
+					savedplaylist="D:\do\reference\20150319-z-video-saved.m3u"
+					camerarollplaylist="D:\do\reference\20170425-z-videos-cameraroll.m3u"
+					developerplaylist="D:\do\reference\20170425-z-video-developer.m3u"
+					songplaylist="D:\do\reference\20150319-z-video-songs.m3u"
+					tvplaylist="D:\do\reference\20150319-z-video-tv.m3u"
+					likedplaylist="D:\do\reference\20150411-z-video-liked.m3u"
 					;;
 				*) 
 					echo "unknown drive"; 

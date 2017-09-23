@@ -6,7 +6,7 @@
 # read config file
 # configfile=$1
 
-# D:\Dropbox\do\reference\20161120-gtd script config file.cfg
+# D:\do\reference\20161120-gtd script config file.cfg
 configfile=$(cygpath -u "$1")
 CFG_FILE="$configfile"
 [ -r "$CFG_FILE" ] || echo "$1" "fatal error: cannot read configuration file $CFG_FILE"
@@ -143,7 +143,7 @@ _gtd_main_(){
 								
 				info=$1
 				operation=$2				
-				b terminal "echo $info; echo ; sh \"d:/Dropbox/do/todo.sh\" -a -N -f -+ $operation"
+				b terminal "echo $info; echo ; sh \"d://do/todo.sh\" -a -N -f -+ $operation"
 				
 			}
 			
@@ -232,19 +232,19 @@ _gtd_main_(){
 		'start')        								                  
 			case "$occasion" in
 				day)						
-					# D:\Dropbox\do\reference\20161120-life gtd day start action support file.csv
+					# D:\do\reference\20161120-life gtd day start action support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_START_FILE"
 				;;
 				week)
-					# D:\Dropbox\do\reference\20161130-life gtd week action support file.csv
+					# D:\do\reference\20161130-life gtd week action support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_START_FILE"
 				;;                  
 				month)
-					# D:\Dropbox\do\reference\20170101-life gtd month action support file.csv
+					# D:\do\reference\20170101-life gtd month action support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_START_FILE"	
 				;;
 				year)
-					# D:\Dropbox\do\reference\20170101-life gtd year action support file.csv
+					# D:\do\reference\20170101-life gtd year action support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_START_FILE"
 
 				;;
@@ -253,21 +253,21 @@ _gtd_main_(){
 		'end')
 			case "$occasion" in
 				day)
-					# D:\Dropbox\do\reference\20161120-life gtd day end action support file.csv
+					# D:\do\reference\20161120-life gtd day end action support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_END_FILE"
 					;;
 				week)
-					# D:\Dropbox\do\reference\20161114-life gtd week review support file.csv
+					# D:\do\reference\20161114-life gtd week review support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_END_FILE"
 
 					;;                  
 				month)
-					# D:\Dropbox\do\reference\20170101-life gtd month review support file.csv
+					# D:\do\reference\20170101-life gtd month review support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_END_FILE"
 
 					;;
 				year)						
-					# D:\Dropbox\do\reference\20170101-life gtd year review support file.csv
+					# D:\do\reference\20170101-life gtd year review support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_END_FILE"
 					;;
 			esac

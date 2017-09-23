@@ -45,7 +45,7 @@ startDay(){
 	git_commit(){
 	
 		# push path
-		pushd "D:\Dropbox\do" > /dev/null 2>&1
+		pushd "D:\do" > /dev/null 2>&1
 		
 		# git commit log file
 		echo
@@ -151,7 +151,7 @@ startDay(){
 		
 	# start actions for the week
 	echo
-	echo "# computer/dropbox/lab"	
+	echo "# computer"	
 	echo
 	echo " [x] open active projects for action"
 	echo 
@@ -173,7 +173,7 @@ endDay(){
 	
 	git_commit(){
 	
-		pushd "D:\Dropbox\do" > /dev/null 2>&1
+		pushd "D:\do" > /dev/null 2>&1
 	
 		# commit the changes
 		echo
@@ -343,7 +343,7 @@ startWeek(){
 		echo
 		echo "commiting changes"
 		echo	
-		pushd "D:\Dropbox\do" > /dev/null 2>&1
+		pushd "D:\do" > /dev/null 2>&1
 		git add todo.txt
 		git commit -m"add weekly todos to todo.txt" 
 		popd > /dev/null 2>&1				

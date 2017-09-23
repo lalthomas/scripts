@@ -232,7 +232,7 @@ _do_main_(){
 	view_project_todos(){
 	
 		get_all_projects_names | sort -u | while read PRJ; do		
-			b terminal "echo $PRJ; echo ; sh \"d:/Dropbox/do/todo.sh\" -a -N -f -+ list $PRJ$"
+			b terminal "echo $PRJ; echo ; sh \"d://do/todo.sh\" -a -N -f -+ list $PRJ$"
 			read -n1 -r -p "$PRJ" key </dev/tty		
 		done
 		
@@ -271,7 +271,7 @@ _do_main_(){
 	# test the script
 	# echo $filename $ACTION
 
-	pushd "D:\Dropbox\do" > /dev/null 2>&1
+	pushd "D:\do" > /dev/null 2>&1
 		
 	case "$ACTION" in						
 		move_project_matches_to_file) move_project_matches_to_file $1 $2 ;;		

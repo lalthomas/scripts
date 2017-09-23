@@ -19,7 +19,7 @@ set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
-set copyfilename="D:\Dropbox\do\support\20140618-home support template-contact card.md"
+set copyfilename="D:\do\support\20140618-home support template-contact card.md"
 set /p name="enter contact name : "
 set /p namelower="enter contact name in lowercase : "
 set /p circle="enter the circle : "
@@ -72,11 +72,11 @@ IF %ERRORLEVEL% EQU 0 (
 :end
 
 REM add inbox
-echo %longdatestamp% %fullfilepath% >>"D:\Dropbox\do\inbox.txt"
+echo %longdatestamp% %fullfilepath% >>"D:\do\inbox.txt"
 
 REM add to contact list
 REM "Filename","Circle","Relation","Inbox","Home Town","Work Town","Mobile","Email"
-echo %fullfilepath%,"%circle%","","","","">>"D:\Dropbox\do\reference\20161217-lalthomas contact list.csv"
+echo %fullfilepath%,"%circle%","","","","">>"D:\do\reference\20161217-lalthomas contact list.csv"
 
 exit /b 0
 endlocal

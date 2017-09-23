@@ -3,15 +3,15 @@
 case "$OSTYPE" in
 	darwin*) 
 	# OSX
-	export rootPath="/Users/rapid/Dropbox" 		
+	export rootPath="/Users/" 		
 	;; 
 	msys*) 
 	# Windows
-	export rootPath="/d/Dropbox"  	
+	export rootPath="/d/"  	
 	;;		
 	cygwin*) 
 	# Windows
-	export rootPath="d:/Dropbox"  	
+	export rootPath="d:/"  	
 	;;		
 	*) echo "unknown: $OSTYPE" ;;
 esac

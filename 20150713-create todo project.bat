@@ -46,7 +46,7 @@ REM change folder based on project type
 call :PROJECTTYPE
 
 REM generate file from the template 
-set todoprojecttemplate="D:\Dropbox\do\support\20150619-home support template-todo project doc.md"
+set todoprojecttemplate="D:\do\support\20150619-home support template-todo project doc.md"
 type %todoprojecttemplate% >> %filename%
 
 REM replace template values
@@ -91,7 +91,7 @@ REM -------- END ----------
 
 REM Routine Start
 :addtolist
-echo %CD%\%~1 >> "D:\Dropbox\do\reference\20161001-gtd project list.txt"
+echo %CD%\%~1 >> "D:\do\reference\20161001-gtd project list.txt"
 exit /b 0
 REM -------- END ----------
 

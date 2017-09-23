@@ -23,7 +23,7 @@ _project_main_(){
 		
 		getProjectType(){
 		
-			filetypereadme="d:\Dropbox\project\20131027-scripts project\20150715-git-bash script readme.md"			
+			filetypereadme="D:\project\20131027-scripts project\20150715-git-bash script readme.md"			
 			echo find the project repo type from opened file
 			start "" "$filetypereadme" > /dev/null 2>&1 || cygstart "$filetypereadme" > /dev/null 2>&1			
 			read -p "enter project repo type and press [enter]: " projecttype			
@@ -85,8 +85,8 @@ _project_main_(){
 		
 		# add to inbox.txt
 		local projectfolderpath=$(cygpath -d "$PWD")		
-		echo "$longdate add \"$projectfolderpath\" to todo project file" >>$(cygpath -u "D:\Dropbox\do\inbox.txt")
-		start "" "D:\Dropbox\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\Dropbox\do\inbox.txt"  > /dev/null 2>&1	
+		echo "$longdate add \"$projectfolderpath\" to todo project file" >>$(cygpath -u "D:\do\inbox.txt")
+		start "" "D:\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\do\inbox.txt"  > /dev/null 2>&1	
 
 		
 		# get out of repo
@@ -122,7 +122,7 @@ _project_main_(){
 	# test the script
 	# echo $filename $option
 
-	pushd "D:\Dropbox\project" > /dev/null 2>&1
+	pushd "D:\project" > /dev/null 2>&1
 	case "$option" in		
 		create) create "$@";;
 		help|usage)	usage ;;
