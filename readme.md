@@ -293,7 +293,8 @@ Web
 20170615-facebook helper-bash script.sh
 20170507-download video of url in clipboard.bat
 20170720-fullcontact helper-bash script.sh
-20170923-generate facebook name url listing from file.sh
+20170923-generate csv data of facebook name and id from url listing file.sh
+20170923-create facebook friend url list.sh
 
 ```
 
