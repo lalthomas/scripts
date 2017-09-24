@@ -14,7 +14,7 @@ jsonvalue(){
 
 	local KEY=$1
 	local DATAFILE=$2
-	cat "$DATAFILE" |  python -c "import json,sys;obj=json.load(sys.stdin);print(obj['$KEY']);"
+	cat "$DATAFILE" |  python -c "import json,sys;obj=json.load(sys.stdin);print(obj['$KEY'],end='');"
 	
 }
 
