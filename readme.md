@@ -344,6 +344,8 @@ Windows Explorer
 20170722-move n lines of a file and append to another file-powershell script.ps1
 20170722-refill pendrive with media-dos batch script.bat
 20170924-backup data-bash script.sh
+20170928-open all files on folders in editor-dos batch script.bat
+
 ```
 
 **Support Files**
