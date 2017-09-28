@@ -21,7 +21,7 @@ esac
 export doRootPath="$rootPath/do"
 export referenceRootPath="$rootPath/do/reference"
 export supportRootPath="$rootPath/do/support"
-export toolsRootPath="$rootPath/tool"
+export toolsRootPath="$rootPath/scripts"
 export docRootPath="$rootPath/doc"	
 export doPlannerFile="$doRootPath/planner.md"
 export doInvalidFile="$doRootPath/invalid.txt"
