@@ -143,6 +143,35 @@ _facebook_main_(){
 			
 		}
 		
+		friendlist(){
+							
+			firefox="C:\Program Files\Mozilla Firefox\firefox.exe"
+			cygstart "$firefox" "http://www.facebook.com/$facebookID/friends_all"
+			name=$(graphData name $facebookdata)
+			currentpath=$PWD
+			read -n1 -r -p "copy the inner html and press any key..." key </dev/tty			
+			getclip >clipboard.html
+			winfilepath="$(cygpath -w "$PWD\clipboard.html")"
+			configpath="$(cygpath -w  "$scriptfolder/tools/tidy/setting-just-indent.ini")"
+			pushd "$scriptfolder\tools\tidy" > /dev/null 2>&1
+			# output=$(./tidy.exe  -config "$configpath" "$winfilepath")
+			./tidy.exe  -config "$configpath" "$winfilepath" >"$currentpath/tidy.html" 2>&1
+			popd > /dev/null 2>&1
+
+			docpath=$(cygpath -u "$docRootPath/$name friend list.csv")
+			# thanks : https://stackoverflow.com/a/16502803/2182047
+			egrep -o 'https?://www.facebook.com/[^ ]+' "tidy.html" | sort | uniq >"$docpath"
+
+			# to preserve old profile ids and strip characters after ? and &
+			findtext="profile.php?id="
+			replacetext=""
+			sed -i'' "s|$findtext|$replacetext|g; s/[\?\&\"].*//g" "$docpath"
+
+			rm clipboard.html
+			rm tidy.html
+
+		}
+		
 		cleanup(){
 								
 			set +x
@@ -160,12 +189,12 @@ _facebook_main_(){
 			gender) genderData "gender" $genderdata ;;
 			profile-pic) profilepic;;
 			profile-pic-big) profilebigpic;;
+			friendlist) friendlist;;
 			cleanup) cleanup;;
 		esac
 		
 	}
-	
-	
+		
 	usage(){
 		
 		echo 
