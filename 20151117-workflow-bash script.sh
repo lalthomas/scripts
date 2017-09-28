@@ -291,6 +291,14 @@ endDay(){
 	wish list tomorrow
 	echo
 	
+	
+	opted="n"
+	echo	
+	read -p "do you want to backup data [y|n] ? : " opted
+	if [ $opted == "y" ]; then		
+		backup
+	fi
+	
 	# add checkout log entry to log
 	t log add "check-out from personal computer"
 	
