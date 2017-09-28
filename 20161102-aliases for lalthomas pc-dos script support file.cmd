@@ -13,6 +13,7 @@ doskey #log-workout="D:\project\20131027-scripts project\20160401-add log entry 
 doskey #make-email-summary="D:\project\20131027-scripts project\20161031-copy email summary line to clipboard from mail csv index file-bash script.sh"
 doskey #move-filelist="D:\project\20131027-scripts project\20161124-move files from a list of files-dos batch script.bat" $*
 doskey #open-reg-key="D:\project\20131027-scripts project\20170628-open regedit key directly-dos batch script.bat" $*
+doskey #open-files-notepad++="D:\project\20131027-scripts project\20170928-open all files on folders in editor-dos batch script.bat" $*
 doskey #recyclebin-clean="D:\project\20131027-scripts project\20161020-empty recyclebin-dos batch script.bat"
 doskey #tablet-copy="D:\project\20131027-scripts project\20140222-copy files from a list of files-dos batch script.bat" "D:\do\reference\20160115-tablet-video-sync-list.m3u" "D:\temp"
 doskey #pendrive-copy="D:\project\20131027-scripts project\20170722-refill pendrive with media-dos batch script.bat" "D:\do\reference\20170722-pendrive.m3u" "D:\do\reference\20150319-watched.txt" "B:\" "courses"
@@ -52,10 +53,11 @@ echo  #log-workout
 echo  #make-email-summary
 echo  #move-filelist
 echo  #open-reg-key
+echo  #open-files-notepad++
+echo  #pendrive-copy
 echo  #recyclebin-clean
 echo  #tablet-copy
 echo  #wallpaper-default
-echo  #pendrive-copy
 echo  +contact
 echo  +file
 echo  +inbox
