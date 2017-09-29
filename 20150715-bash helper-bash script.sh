@@ -223,12 +223,11 @@ _bash_(){
 		
 	}
 
-	
 	_file_(){
-				
-		path(){
 		
-			init(){
+		_linepicker_(){
+			
+			_init_(){
 
 				export B_FILE_FULL_PATH=""
 				
@@ -246,14 +245,109 @@ _bash_(){
 				# echo "file :${B_FILE_FULL_PATH}"
 				
 			}
-						
+			
+			_search_(){
+			
+				# find the text in files
+				# thank you 
+				# https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux
+				# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
+				# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
+					
+				# set -x
+				export B_FILE_SEARCH_TERM=""
+				B_FILE_SEARCH_TERM="$@"			
+				grep --exclude-dir=".git*" -i "$B_FILE_FULL_PATH" -e "${B_FILE_SEARCH_TERM}" |  awk '{printf "%d\t%s\n",++i,$0}'
+				
+			}
+			
+			_result_(){
+					
+				if [ $# -eq 0 ]
+					then
+					
+					IFS=","
+					userinputs=($B_FILE_PICK_LIST)
+					unset IFS
+							
+					for i in ${userinputs[@]}
+					do 								
+						resultCount=$i			
+						echo "$(grep --exclude-dir=".git*" -i "$B_FILE_FULL_PATH" -e "${B_FILE_SEARCH_TERM}" | sed -n "${resultCount}p")"
+					done
+					
+				else	
+				
+					export B_FILE_PICK_LIST=""
+					B_FILE_PICK_LIST="$@"
+					
+				fi
+				
+			}
+			
+			_prompt_(){
+			
+				# B_PICK_RESULT contains the user picked items
+				message="$@"
+				# initialize with invalid choice
+				choice="$"
+				until [[ $choice =~ ^[0-9|,]+$ ]] ; do
+					read -p "$message" input
+					echo				
+					_search_ "$input"
+					echo				
+					read -p "enter comma separated value(s) [0 to end] : " choice
+					# echo $CHOICE
+					if [[ $choice =~ "0" ]]; then
+						return
+					fi
+				done
+				if [[ $choice =~ ^[0-9|,]+$ ]]; then
+					result "$choice"
+				fi
+				
+			}
+			
+			_choose_(){
+				
+				# initialize with invalid choice
+				choice="$"		
+				until [[ $choice =~ ^[0-9|,]+$ ]] ; do
+					echo
+					_search_ "$"
+					echo
+					read -p "enter comma separated value(s) [0 to end] : " choice
+					# echo $CHOICE
+					if [[ $choice =~ "0" ]]; then
+						return
+					fi				
+				done			
+				if [[ $choice =~ ^[0-9|,]+$ ]]; then
+					result "$choice"
+				fi
+				
+			}
+			
 			OPTION=$1
 			shift
 			
+			case $OPTION in
+				init) _init_ "$@";;
+				prompt) _prompt_ "$@";;
+				result) _result_;;
+				choose) _choose_;;
+			esac
+			
+		}
+		
+		path(){
+					
+			OPTION=$1
+			shift			
 			case $OPTION in				
 				init) init "$@";;
 			esac
-					
+				
 		}
 	
 		total_number_of_lines(){
@@ -262,98 +356,12 @@ _bash_(){
 			lines=${lines% ${B_FILE_FULL_PATH}}
 			echo $lines
 		}
-								
-		_search_(){
-			
-			# find the text in files
-			# thank you 
-			# https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux
-			# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
-			# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
-				
-			# set -x
-			export B_FILE_SEARCH_TERM=""
-			B_FILE_SEARCH_TERM="$@"			
-			grep --exclude-dir=".git*" -i "$B_FILE_FULL_PATH" -e "${B_FILE_SEARCH_TERM}" |  awk '{printf "%d\t%s\n",++i,$0}'
-			
-			
-		}
-		
-		result(){
-					
-			if [ $# -eq 0 ]
-				then
-				
-				IFS=","
-				userinputs=($B_FILE_PICK_LIST)
-				unset IFS
-						
-				for i in ${userinputs[@]}
-				do 								
-					resultCount=$i			
-					echo "$(grep --exclude-dir=".git*" -i "$B_FILE_FULL_PATH" -e "${B_FILE_SEARCH_TERM}" | sed -n "${resultCount}p")"
-				done
-				
-			else	
-			
-				export B_FILE_PICK_LIST=""
-				B_FILE_PICK_LIST="$@"
-				
-			fi
-			
-		}
-		
-		prompt(){
-			
-			# B_PICK_RESULT contains the user picked items
-			message="$@"
-			# initialize with invalid choice
-			choice="$"
-			until [[ $choice =~ ^[0-9|,]+$ ]] ; do
-				read -p "$message" input
-				echo				
-				_search_ "$input"
-				echo				
-				read -p "enter comma separated value(s) [0 to end] : " choice
-				# echo $CHOICE
-				if [[ $choice =~ "0" ]]; then
-					return
-				fi
-			done
-			if [[ $choice =~ ^[0-9|,]+$ ]]; then
-				result "$choice"
-			fi
-			
-		}
-		
-		choose(){
-				
-			# initialize with invalid choice
-			choice="$"		
-			until [[ $choice =~ ^[0-9|,]+$ ]] ; do
-				echo
-				_search_ "$"
-				echo
-				read -p "enter comma separated value(s) [0 to end] : " choice
-				# echo $CHOICE
-				if [[ $choice =~ "0" ]]; then
-					return
-				fi				
-			done			
-			if [[ $choice =~ ^[0-9|,]+$ ]]; then
-				result "$choice"
-			fi
-			
-		}
-		
+
 		OPTION=$1
 		shift
 		
 		case $OPTION in
-			path ) path "$@";;
-			prompt) prompt "$@";;
-			result) result;;
-			choose) choose;;
+			linepicker) _linepicker_ "$@";;
 		esac
 		
     }

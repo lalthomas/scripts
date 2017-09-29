@@ -183,10 +183,10 @@ _reference_main_(){
 				replacetextinfile "%LONGDATE%" "$longdate" "$contactfile"
 
 				# add circle info
-				b file path init "D:\do\reference\20150721-contact circles.txt"
+				b file linepicker init "D:\do\reference\20150721-contact circles.txt"
 				echo 
-				b file prompt "enter keyword for circle : "
-				circle="$(b file result)"
+				b file linepicker prompt "enter keyword for circle : "
+				circle="$(b file linepicker result)"
 				replacetextinfile "%CIRCLE%" "${circle}" "$contactfile"
 				
 				# add gender info
@@ -212,27 +212,27 @@ _reference_main_(){
 
 				# add religion info
 				if [ -z ${religion} ]; then
-					b file path init "D:\do\reference\20170718-contact religions.txt"
+					b file linepicker init "D:\do\reference\20170718-contact religions.txt"
 					echo 
 					echo "choose any one of the following religion : "
-					b file choose
-					religion="$(b file result)"
+					b file linepicker choose
+					religion="$(b file linepicker result)"
 				fi
 				replacetextinfile "%RELIGION%" "${religion}" "$contactfile"
 				
 				# add address info	
-				b file path init "D:\do\reference\20161218-contact places.txt"
+				b file linepicker init "D:\do\reference\20161218-contact places.txt"
 				
 				# home				
 				echo 
-				b file prompt "enter keyword for home address : "
-				homeaddress="$(b file result)"
+				b file linepicker prompt "enter keyword for home address : "
+				homeaddress="$(b file linepicker result)"
 				replacetextinfile "%HOMEADDRESS%" "${homeaddress}" "$contactfile"
 
 				# work
 				echo 
-				b file prompt "enter keyword for work address : "
-				workaddress="$(b file result)"
+				b file linepicker prompt "enter keyword for work address : "
+				workaddress="$(b file linepicker result)"
 				replacetextinfile "%WORKADDRESS%" "${workaddress}" "$contactfile"
 				
 				# add email info
