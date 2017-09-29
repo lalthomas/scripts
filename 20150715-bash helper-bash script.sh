@@ -9,6 +9,35 @@ alias b=_bash_ # bash helper function
 
 _bash_(){
 
+	_array_(){
+		
+		_contains_(){
+			
+			# thanks: http://stackoverflow.com/a/14367368/2182047
+			# array name
+			local array="$1[@]"
+			# seeking string
+			local seeking=$2
+			local in=1
+			for element in "${!array}"; do
+				if [[ $element == $seeking ]]; then
+					in=0
+				break
+				fi
+			done
+			return $in
+			
+		}
+		
+		OPTION=$1
+		shift
+		
+		case $OPTION in
+			contains) _contains_ "$@";;
+		esac
+		
+	}
+
 	_string_(){
 		
 		# Get option
@@ -340,12 +369,32 @@ _bash_(){
 			
 		}
 		
-		path(){
-					
+		_properties_(){
+			
+			_filename_(){
+				
+				filename=$(basename "$@")
+				printf "${filename%.*}"
+			}
+			
+			_extension_(){
+				
+				filename=$(basename "$@")
+				printf "${filename##*.}"
+			}
+			
+			_created_date_(){
+				
+				date_created=$(stat --format "%W" "$@")
+				printf $(date --date="@$date_created" +%Y%m%d-%H%M)
+			}
+			
 			OPTION=$1
 			shift			
 			case $OPTION in				
-				init) init "$@";;
+				filename) _filename_ "$@";;
+				extension) _extension_ "$@";;
+				created_date)_created_date "$@";;
 			esac
 				
 		}
@@ -362,6 +411,7 @@ _bash_(){
 		
 		case $OPTION in
 			linepicker) _linepicker_ "$@";;
+			properties) _properties_ "$@";;
 		esac
 		
     }
@@ -392,6 +442,7 @@ _bash_(){
 	shift
 
 	case $action in
+	array)_array_ $@;;
 	help|usage)usage;;
 	hist) hist $@;;
 	search) search $@;;

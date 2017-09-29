@@ -11,51 +11,6 @@ _inbox_(){
 
 	# generic routines
 	
-	sirenpath="D:\Portable App\siren\siren.exe"
-	
-	array_contains() { 
-		# thanks: http://stackoverflow.com/a/14367368/2182047
-		# array name
-		local array="$1[@]"
-		# seeking string
-		local seeking=$2
-		local in=1
-		for element in "${!array}"; do
-			if [[ $element == $seeking ]]; then
-				in=0
-				break
-			fi
-		done
-		return $in
-	}		
-	
-	string_get_file_name(){
-	
-		filename=$(basename "$1")
-		echo "${filename%.*}"
-		
-	}
-	
-	string_get_file_extension(){
-	
-		filename=$(basename "$1")
-		echo "${filename##*.}"
-	}
-		
-	file_get_created_datetime(){
-	
-		date_created=$(stat --format "%W" "$1")
-		echo $(date --date="@$date_created" +%Y%m%d-%H%M)
-		
-	}
-
-	file_get_created_date(){
-	
-		date_created=$(stat --format "%W" "$1")
-		echo $(date --date="@$date_created" +%Y%m%d)
-		
-	}
-
 	folder_no_of_files(){
 	
 		# count the number of files
@@ -135,9 +90,9 @@ _inbox_(){
 					if [[ $f == *.ini ]]; then continue; fi 
 
 											
-					filename=$(string_get_file_name "$f")
-					extension=$(string_get_file_extension "$f")	
-					createdate=$(file_get_created_date "$f")
+					filename=$(b file properties filename "$f")
+					extension=$(b file properties extension "$f")	
+					createdate=$(b file properties created_date "$f")
 					
 					# remove folder name
 					folder=${d%/}				
@@ -180,7 +135,7 @@ _inbox_(){
 				# --------------------
 											
 				# get the date of the directory
-				folderdate=$(file_get_created_date "$d")
+				folderdate=$(b file properties created_date "$d")
 				# path simplied	
 				newfolder="$(echo $folderdate-$d)"													
 				mv -i "$d" "../../courses/$newfolder"		
@@ -516,7 +471,7 @@ _inbox_(){
 				
 				docs_list=("import folder reference" "import folder support" "import folder doc")			
 				
-				array_contains docs_list "${d%/}" && { 
+				b array contains docs_list "${d%/}" && { 
 					clean_import_folder_docs
 				}				
 				
@@ -618,7 +573,7 @@ _inbox_(){
 					# skip ini files
 					if [[ $f == *.ini ]]; then continue; fi 
 
-					# createdate=$(file_get_created_date "$f")					
+					# createdate=$(b file properties created_date "$f")					
 					
 					# strip relevant details after year
 					newname="$(echo $f | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\2/g')"
@@ -635,8 +590,8 @@ _inbox_(){
 					# add the brackets back to year
 					newname="$(echo $newname | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)\3/g')"
 					
-					filename=$(string_get_file_name "$newname")
-					extension=$(string_get_file_extension "$f")
+					filename=$(b file properties filename "$newname")
+					extension=$(b file properties extension "$f")
 					folder=${d%/}				
 																					
 					newfilename=$(b string trim whitespace "$filename")
@@ -833,7 +788,7 @@ _inbox_(){
 			
 			camera_roll_list=("lenovo camera roll" "lumia camera roll" "mipad camera roll" "sony cybershot camera roll")
 			
-			array_contains camera_roll_list "${d%/}" && {			
+			b array contains camera_roll_list "${d%/}" && {			
 															
 				# open siren commandline and rename files							
 				# rename with image with format <date taken>-<timetaken> <model name> camera roll image.<extension>
@@ -858,7 +813,7 @@ _inbox_(){
 			
 			saved_pictures_list=("computer saved pictures" "lumia saved pictures" "mipad saved pictures")
 			
-			array_contains saved_pictures_list "${d%/}" && {
+			b array contains saved_pictures_list "${d%/}" && {
 			
 				# open siren commandline and rename files
 				
@@ -879,7 +834,7 @@ _inbox_(){
 			
 			saved_photos_list=("computer saved photos" "mipad saved photos")
 			
-			array_contains saved_photos_list "${d%/}" && {
+			b array contains saved_photos_list "${d%/}" && {
 			
 				# open siren commandline and rename files
 				
@@ -900,7 +855,7 @@ _inbox_(){
 						
 			scanned_images_list=("hp scanner images" "lumia camera roll scans" "mipad camera roll scans")
 			
-			array_contains scanned_images_list "${d%/}" && {
+			b array contains scanned_images_list "${d%/}" && {
 			
 				# add filename as caption for hp scanner images
 				if [  "${d%/}" == "hp scanner images" ]; then				
@@ -1056,11 +1011,11 @@ _inbox_(){
 							# skip ini files
 							if [[ $f == *.ini ]]; then continue; fi 
 
-							createdate=$(file_get_created_date "$f")				
+							createdate=$(b file properties created_date "$f")				
 						
 							# strip relevant details after year
-							filename=$(string_get_file_name "$f")
-							extension=$(string_get_file_extension "$f")
+							filename=$(b file properties filename "$f")
+							extension=$(b file properties extension "$f")
 						
 							
 							newname=${filename#${folder}}
@@ -1195,11 +1150,11 @@ _inbox_(){
 				# skip log files
 				if [[ $f == log.txt ]]; then continue; fi 
 				
-				createdate=$(file_get_created_date "$f")				
+				createdate=$(b file properties created_date "$f")				
 				
 				# strip relevant details after year
-				filename=$(string_get_file_name "$f")
-				extension=$(string_get_file_extension "$f")
+				filename=$(b file properties filename "$f")
+				extension=$(b file properties extension "$f")
 				
 				# remove folder name
 				folder=${folder%/}				
@@ -1220,7 +1175,7 @@ _inbox_(){
 				
 				# add exceptions
 				no_folder_append_list=("saved video" "liked video" "ohm" )			
-				array_contains no_folder_append_list "${folder}" && {																	
+				b array contains no_folder_append_list "${folder}" && {																	
 					newname="$(echo $createdate-$newfilename.$newextension)"									
 				}
 
@@ -1275,13 +1230,13 @@ _inbox_(){
 			fi
 			
 			liked_list=("short film" "audio video" "english documentary" "malayalam documentary")
-			array_contains liked_list "${d%/}" && {		
+			b array contains liked_list "${d%/}" && {		
 				dirpath='../../../Videos/liked'												
 				playlist=$tvplaylist										
 			}
 			
 			song_list=("english song" "hindi song" "tamil song" "malayalam song" "film trailer" )			
-			array_contains song_list "${d%/}" && {																	
+			b array contains song_list "${d%/}" && {																	
 				dirpath='../../../Videos/song'									
 				playlist=$songplaylist									
 			}
