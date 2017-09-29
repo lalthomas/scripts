@@ -27,56 +27,8 @@ _inbox_(){
 			fi
 		done
 		return $in
-	}	
+	}		
 	
-	string_replace_underscore_with_space(){
-	
-		echo $1 | sed 's/_/ /g'
-		
-	}
-	
-	string_replace_brackets_with_space(){
-		
-		echo $1 | sed 's/[({})]/ /g' | sed -r 's/(\[|\])/ /g'		
-		
-	}
-	
-	string_replace_dash_with_space(){
-	
-		echo $1 | sed 's/-/ /g'
-		
-	}
-	
-	string_replace_dot_with_space(){
-	
-		echo $1 | sed 's/\./ /g'
-		
-	}
-	
-	string_unify_multiple_spaces(){
-	
-		echo $1 | sed 's/ +/ /g'
-		
-	}
-	
-	string_unify_multiple_dash(){
-	
-		echo $1 | sed 's/--/-/g'
-		
-	}
-	
-	string_replace_url(){
-			
-		echo $1 | sed 's/www.[^ ]*//g'
-		
-	}
-	
-	string_convert_to_lower(){
-	
-		# convert to lowercase
-		echo $1 | tr "[:upper:]" "[:lower:]"
-		
-	}
 			
 	string_get_file_name(){
 	
@@ -91,17 +43,6 @@ _inbox_(){
 		echo "${filename##*.}"
 	}
 		
-	string_trim_whitespace(){
-	
-		name=$1
-		shopt -s extglob 	 # turn it on
-		name="${name##*( )}" # Trim leading whitespaces
-		name="${name%%*( )}" # trim trailing whitespaces		
-		shopt -u extglob  	 # turn it off
-		echo $name
-		
-	}
-
 	file_get_created_datetime(){
 	
 		date_created=$(stat --format "%W" "$1")
@@ -204,18 +145,18 @@ _inbox_(){
 					newname=${filename#${folder}}
 					# end of remove folder name
 					
-					newname=$(string_replace_underscore_with_space "$newname")				
-					newname=$(string_replace_dash_with_space "$newname")				
-					newname=$(string_replace_dot_with_space "$newname")
-					newname=$(string_unify_multiple_spaces "$newname")
-					newname=$(string_unify_multiple_dash "$newname")																																	
-					newname=$(string_convert_to_lower "$newname")
+					newname=$(b string replace underscore_with_space "$newname")				
+					newname=$(b string replace dash_with_space "$newname")				
+					newname=$(b string replace dot_with_space "$newname")
+					newname=$(b string merge spaces "$newname")
+					newname=$(b string merge dashes "$newname")																																	
+					newname=$(b string convert lower "$newname")
 					
-					newfilename=$(string_trim_whitespace "$newname")
-					newextension=$(string_trim_whitespace "$extension")
+					newfilename=$(b string trim whitespace "$newname")
+					newextension=$(b string trim whitespace "$extension")
 								
 					newname="$(echo $folder - $newfilename.$newextension)"
-					newname=$(string_convert_to_lower "$newname")
+					newname=$(b string convert lower "$newname")
 					
 					echo "	$f : $newname"
 					# add a log file
@@ -400,13 +341,13 @@ _inbox_(){
 			clean_title(){
 			
 				local title="$@"				
-				title=$(string_replace_underscore_with_space "$title")				
-				title=$(string_replace_dash_with_space "$title")				
-				title=$(string_replace_dot_with_space "$title")
-				title=$(string_unify_multiple_spaces "$title")
-				title=$(string_unify_multiple_dash "$title")																																	
-				title=$(string_convert_to_lower "$title")
-				title=$(string_trim_whitespace "$title")
+				title=$(b string replace underscore_with_space "$title")				
+				title=$(b string replace dash_with_space "$title")				
+				title=$(b string replace dot_with_space "$title")
+				title=$(b string merge spaces "$title")
+				title=$(b string merge dashes "$title")																																	
+				title=$(b string convert lower "$title")
+				title=$(b string trim whitespace "$title")
 				echo -e "$title"
 				
 			}
@@ -683,14 +624,14 @@ _inbox_(){
 					# strip relevant details after year
 					newname="$(echo $f | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\2/g')"
 									
-					# newname=$(string_convert_to_lower "$newname")
-					newname=$(string_replace_underscore_with_space "$newname")
-					newname=$(string_replace_brackets_with_space "$newname")									
-					newname=$(string_replace_url "$newname")
-					newname=$(string_replace_dash_with_space "$newname")
-					newname=$(string_replace_dot_with_space "$newname")
-					newname=$(string_unify_multiple_spaces "$newname")
-					newname=$(string_unify_multiple_dash "$newname")
+					# newname=$(b string convert lower "$newname")
+					newname=$(b string replace underscore_with_space "$newname")
+					newname=$(b string replace brackets_with_space "$newname")									
+					newname=$(b string remove url "$newname")
+					newname=$(b string replace dash_with_space "$newname")
+					newname=$(b string replace dot_with_space "$newname")
+					newname=$(b string merge spaces "$newname")
+					newname=$(b string merge dashes "$newname")
 					
 					# add the brackets back to year
 					newname="$(echo $newname | sed 's/\(.*\)\([0-9]\{4\}\)\(.*\)/\1\(\2\)\3/g')"
@@ -699,8 +640,8 @@ _inbox_(){
 					extension=$(string_get_file_extension "$f")
 					folder=${d%/}				
 																					
-					newfilename=$(string_trim_whitespace "$filename")
-					newextension=$(string_trim_whitespace "$extension")
+					newfilename=$(b string trim whitespace "$filename")
+					newextension=$(b string trim whitespace "$extension")
 								
 					newname="$(echo $newfilename $folder.$newextension)"
 															
@@ -1126,15 +1067,15 @@ _inbox_(){
 							newname=${filename#${folder}}
 							# end of remove folder name
 						
-							newname=$(string_replace_underscore_with_space "$newname")
-							newname=$(string_replace_brackets_with_space "$newname")									
-							newname=$(string_replace_url "$newname")
-							newname=$(string_replace_dash_with_space "$newname")					
-							newname=$(string_unify_multiple_spaces "$newname")
-							newname=$(string_unify_multiple_dash "$newname")
-							newname=$(string_convert_to_lower "$newname")
-							newfilename=$(string_trim_whitespace "$newname")
-							newextension=$(string_trim_whitespace "$extension")					
+							newname=$(b string replace underscore_with_space "$newname")
+							newname=$(b string replace brackets_with_space "$newname")									
+							newname=$(b string remove url "$newname")
+							newname=$(b string replace dash_with_space "$newname")					
+							newname=$(b string merge spaces "$newname")
+							newname=$(b string merge dashes "$newname")
+							newname=$(b string convert lower "$newname")
+							newfilename=$(b string trim whitespace "$newname")
+							newextension=$(b string trim whitespace "$extension")					
 							newname="$(echo $createdate-$newfilename.$newextension)"											
 						
 																	
@@ -1266,15 +1207,15 @@ _inbox_(){
 				newname=${filename#${folder}}
 				# end of remove folder name
 				
-				newname=$(string_replace_underscore_with_space "$newname")
-				newname=$(string_replace_brackets_with_space "$newname")									
-				newname=$(string_replace_url "$newname")
-				newname=$(string_replace_dash_with_space "$newname")
-				newname=$(string_replace_dot_with_space "$newname")
-				newname=$(string_unify_multiple_spaces "$newname")
-				newname=$(string_unify_multiple_dash "$newname")
-				newfilename=$(string_trim_whitespace "$newname")
-				newextension=$(string_trim_whitespace "$extension")
+				newname=$(b string replace underscore_with_space "$newname")
+				newname=$(b string replace brackets_with_space "$newname")									
+				newname=$(b string remove url "$newname")
+				newname=$(b string replace dash_with_space "$newname")
+				newname=$(b string replace dot_with_space "$newname")
+				newname=$(b string merge spaces "$newname")
+				newname=$(b string merge dashes "$newname")
+				newfilename=$(b string trim whitespace "$newname")
+				newextension=$(b string trim whitespace "$extension")
 				
 				newname="$(echo $createdate-$newfilename $folder.$newextension)"											
 				
@@ -1284,7 +1225,7 @@ _inbox_(){
 					newname="$(echo $createdate-$newfilename.$newextension)"									
 				}
 
-				newname=$(string_convert_to_lower "$newname")
+				newname=$(b string convert lower "$newname")
 				extension="${newname##*.}"
 				
 				# rename, move and index				

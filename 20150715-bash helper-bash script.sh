@@ -9,6 +9,70 @@ alias b=_bash_ # bash helper function
 
 _bash_(){
 
+	string(){
+		
+		# Get option
+		option=$1;	
+		shift
+		
+		if [[ -z "$option" ]]; then
+		   echo "error : few arguments"
+		else
+		   case "$option" in
+				replace) 
+					command=$1
+					shift					
+					case "$command" in
+						underscore_with_space) printf "$@" | sed 's/_/ /g' ;;
+						brackets_with_space) printf "$@" | sed 's/[({})]/ /g' | sed -r 's/(\[|\])/ /g' ;;
+						dash_with_space) printf "$@" | sed 's/-/ /g' ;;
+						dot_with_space) printf "$@" | sed 's/\./ /g' ;;						
+					esac	
+				;;	
+				merge)
+					command=$1
+					shift
+					case "$command" in
+						spaces) printf "$@" | sed 's/ +/ /g' ;;
+						dashes) printf "$@" | sed 's/--/-/g' ;;
+					esac
+				;;
+				remove) 
+					command=$1
+					shift
+					case "$command" in
+						url) printf "$@" | sed 's/www.[^ ]*//g' ;;
+					esac
+				;;
+				convert)
+					command=$1
+					shift
+					case "$command" in
+						lower) printf "$@" | tr "[:upper:]" "[:lower:]" ;;
+					esac
+				;;
+				
+				trim)
+					command=$1
+					shift
+					case "$command" in
+						whitespace) 
+							str="$@"
+							shopt -s extglob 	 # turn it on
+							str="${str##*( )}" # Trim leading whitespaces
+							str="${str%%*( )}" # trim trailing whitespaces		
+							shopt -u extglob  	 # turn it off
+							printf $str
+						;;
+					esac
+				;;
+				
+			esac
+		fi		
+		
+		
+	}
+
 	terminal(){
 			
 		command=$*			
@@ -61,7 +125,7 @@ _bash_(){
 	
 	# start markdown server
 	start_markdown_server_one(){
-		python "$rootpath/scripts/project/20150106-brainerd markdown server/brainerd.py"
+		python "$rootpath/scripts/20150106-brainerd markdown server/brainerd.py"
 	}
 
 	# start markdown server
@@ -69,7 +133,7 @@ _bash_(){
 
 		local serverRootPath=$2
 		cd "$serverRootPath"    
-		python "$rootpath/scripts/source/20140607-start simple http server with markdown support-python script.py"  
+		python "$rootpath/project/20131027-scripts project/20140607-start simple http server with markdown support-python script.py"  
 	
 	}
 
@@ -326,6 +390,7 @@ _bash_(){
 	open) open $@;;
 	path) path $@;;
 	terminal) terminal $@;;
+	string) string $@;;
 	replace_lines_in_txt_files_having_term) replace_lines_in_txt_files_having_term $@;;
 	aggregate_lines_with_term) aggregate_lines_with_term $@;;
 	file) _file_ $@;;
