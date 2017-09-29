@@ -9,7 +9,7 @@ alias b=_bash_ # bash helper function
 
 _bash_(){
 
-	string(){
+	_string_(){
 		
 		# Get option
 		option=$1;	
@@ -390,7 +390,7 @@ _bash_(){
 	open) open $@;;
 	path) path $@;;
 	terminal) terminal $@;;
-	string) string $@;;
+	string) _string_ $@;;
 	replace_lines_in_txt_files_having_term) replace_lines_in_txt_files_having_term $@;;
 	aggregate_lines_with_term) aggregate_lines_with_term $@;;
 	file) _file_ $@;;
