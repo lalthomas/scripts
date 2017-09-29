@@ -10,16 +10,7 @@ alias inbox=_inbox_
 _inbox_(){	
 
 	# generic routines
-	
-	folder_no_of_files(){
-	
-		# count the number of files
-		shopt -s nullglob
-		numfiles=(*)
-		numfiles=${#numfiles[@]}
-		shopt -u nullglob			
-		echo $numfiles
-	}
+		
 	
 	folder_move_files_to_year_month_folder(){
 		
@@ -454,7 +445,7 @@ _inbox_(){
 				echo "  $d"							
 			
 				# escape the empty folders
-				if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi					
+				if [[ $(b folder file_count) -eq 0 ]]; then cd ..; continue; fi					
 				
 				if [  "${d%/}" == "import folder calibre" ]; then				
 					clean_import_folder_calibre
@@ -562,7 +553,7 @@ _inbox_(){
 				rm log.txt > /dev/null 2>&1
 				
 				# escape the empty folders
-				if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi
+				if [[ $(b folder file_count) -eq 0 ]]; then cd ..; continue; fi
 				
 				
 				# loop through files
@@ -722,7 +713,7 @@ _inbox_(){
 						echo "   $w"					
 						
 						# escape the empty folders
-						if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi	
+						if [[ $(b folder file_count) -eq 0 ]]; then cd ..; continue; fi	
 						
 						# # remove all metadata
 						# local pgmpath="20160919-remove all metadata for image-dos batch script.bat"
@@ -783,7 +774,7 @@ _inbox_(){
 			
 			# except for wallpaper all other folder need to be processed only if there are more than one files
 						
-			if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi
+			if [[ $(b folder file_count) -eq 0 ]]; then cd ..; continue; fi
 
 			
 			camera_roll_list=("lenovo camera roll" "lumia camera roll" "mipad camera roll" "sony cybershot camera roll")
@@ -1207,7 +1198,7 @@ _inbox_(){
 			# loop through files
 			
 			# escape the empty folders
-			if [[ $(folder_no_of_files) -eq 0 ]]; then cd ..; continue; fi	
+			if [[ $(b folder file_count) -eq 0 ]]; then cd ..; continue; fi	
 			
 			if [  "${d%/}" == "saved video" ]; then												
 				dirpath='../../../Videos/saved'					

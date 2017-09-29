@@ -254,6 +254,12 @@ _bash_(){
 
 	_file_(){
 		
+		_open_with_npp_(){
+		
+			local filepath=$(cygpath -d "$@")	
+			cygstart "C:/Program Files (x86)/Notepad++/notepad++.exe" "$filepath"
+		}
+		
 		_linepicker_(){
 			
 			_init_(){
@@ -406,16 +412,60 @@ _bash_(){
 			echo $lines
 		}
 
+		_replace_(){
+		
+			option=$1
+			shift
+			
+			findtext=$1
+			replacetext=$2
+			file=$3			
+			
+			case "$option" in
+				regex)
+					sed -i'' "s/$(echo $findtext | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$replacetext/" "$file"
+				;;
+				
+				text) 					
+					sed -i'' "s|$findtext|$replacetext|g" "$file"					
+				;;				
+			esac
+			
+		}
+		
 		OPTION=$1
 		shift
 		
 		case $OPTION in
 			linepicker) _linepicker_ "$@";;
 			properties) _properties_ "$@";;
+			open_with_npp) _open_with_npp_ "$@";;
+			replace) _replace_ "$@";;
 		esac
 		
     }
+	
+	_folder_(){
 		
+		OPTION=$1
+		shift
+		
+		_file_count_(){
+		
+			# count the number of files
+			shopt -s nullglob
+			numfiles=(*)
+			numfiles=${#numfiles[@]}
+			shopt -u nullglob			
+			printf $numfiles
+			
+		}
+		
+		case $OPTION in			
+			file_count) _file_count_ "$@";;
+		esac
+		
+	}
 	usage(){
 	 
 		echo "b <options>		"
@@ -437,6 +487,7 @@ _bash_(){
 	}
 	
 	
+	
 	# Get action
 	action=$1
 	shift
@@ -452,6 +503,7 @@ _bash_(){
 	string) _string_ $@;;
 	replace_lines_in_txt_files_having_term) replace_lines_in_txt_files_having_term $@;;
 	aggregate_lines_with_term) aggregate_lines_with_term $@;;
+	folder)_folder_ $@;;
 	file) _file_ $@;;
 	esac
 		

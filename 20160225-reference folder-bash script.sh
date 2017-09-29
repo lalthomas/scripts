@@ -25,36 +25,6 @@ alias rf=_reference_main_
 #	contact files
 #	list
 
-replacetextinfile(){
-
-	findtext=$1
-	replacetext=$2
-	file=$3
-	
-	# echo $findtext
-	# echo $replacetext
-	# echo $file
-	
-	# regular expression search
-	# sed -i'' "s/$(echo $findtext | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$replacetext/" "$file"
-	
-	# non regular expression search
-	sed -i'' "s|$findtext|$replacetext|g" "$file"
-	
-}
-
-string_convert_to_lower(){
-	
-	# convert to lowercase
-	echo $1 | tr "[:upper:]" "[:lower:]"
-
-}
-
-open_file(){
-	
-	local filepath=$(cygpath -d "$1")	
-	cygstart "C:/Program Files (x86)/Notepad++/notepad++.exe" "$filepath"
-}
 
 add_to_inbox(){
 		
@@ -168,7 +138,7 @@ _reference_main_(){
 			create_file_from_template(){
 			
 				# convert the name to lower
-				local lowername=$(string_convert_to_lower "$name")
+				local lowername=$(b string convert lower "$name")
 				# copy template to new file
 				local contacttemplatefile="D:\do\support\20140618-home support template-contact card.md"
 				contactfile="$today-$lowername contact file.md"
@@ -179,15 +149,15 @@ _reference_main_(){
 			fill_template(){
 			
 				# replace place holders
-				replacetextinfile "%NAME%" "$name" "$contactfile"
-				replacetextinfile "%LONGDATE%" "$longdate" "$contactfile"
+				b file replace text  "%NAME%" "$name" "$contactfile"
+				b file replace text  "%LONGDATE%" "$longdate" "$contactfile"
 
 				# add circle info
 				b file linepicker init "D:\do\reference\20150721-contact circles.txt"
 				echo 
 				b file linepicker prompt "enter keyword for circle : "
 				circle="$(b file linepicker result)"
-				replacetextinfile "%CIRCLE%" "${circle}" "$contactfile"
+				b file replace text  "%CIRCLE%" "${circle}" "$contactfile"
 				
 				# add gender info
 				if [ -z ${gender} ];then
@@ -200,7 +170,7 @@ _reference_main_(){
 						echo "unknown choice"
 					fi
 				fi
-				replacetextinfile "%GENDER%" "${gender}" "$contactfile"	
+				b file replace text  "%GENDER%" "${gender}" "$contactfile"	
 								
 				# add birthday info
 				if [ -z ${birthday} ]; then
@@ -208,7 +178,7 @@ _reference_main_(){
 					read -p "enter birthday : " birthday;
 					local isobirthday=$(date -d"$birthday" +%Y-%m-%d)
 				fi
-				replacetextinfile "%BIRTHDAY%" "${isobirthday}" "$contactfile"
+				b file replace text  "%BIRTHDAY%" "${isobirthday}" "$contactfile"
 
 				# add religion info
 				if [ -z ${religion} ]; then
@@ -218,7 +188,7 @@ _reference_main_(){
 					b file linepicker choose
 					religion="$(b file linepicker result)"
 				fi
-				replacetextinfile "%RELIGION%" "${religion}" "$contactfile"
+				b file replace text  "%RELIGION%" "${religion}" "$contactfile"
 				
 				# add address info	
 				b file linepicker init "D:\do\reference\20161218-contact places.txt"
@@ -227,20 +197,20 @@ _reference_main_(){
 				echo 
 				b file linepicker prompt "enter keyword for home address : "
 				homeaddress="$(b file linepicker result)"
-				replacetextinfile "%HOMEADDRESS%" "${homeaddress}" "$contactfile"
+				b file replace text  "%HOMEADDRESS%" "${homeaddress}" "$contactfile"
 
 				# work
 				echo 
 				b file linepicker prompt "enter keyword for work address : "
 				workaddress="$(b file linepicker result)"
-				replacetextinfile "%WORKADDRESS%" "${workaddress}" "$contactfile"
+				b file replace text  "%WORKADDRESS%" "${workaddress}" "$contactfile"
 				
 				# add email info
 				if [ -z ${email} ]; then
 					echo
 					read -p "enter email : " email;
 				fi
-				replacetextinfile "%EMAIL%" "${email}" "$contactfile"
+				b file replace text  "%EMAIL%" "${email}" "$contactfile"
 				
 				# add facebook ID details
 				if [ -z ${facebookId} ]; then
@@ -248,7 +218,7 @@ _reference_main_(){
 					read -p "enter facebook ID : " id;	
 				fi
 				sleep 10
-				replacetextinfile "%FB_ID%" "${facebookId}" "$contactfile"
+				b file replace text  "%FB_ID%" "${facebookId}" "$contactfile"
 				
 				
 			}
@@ -299,7 +269,7 @@ _reference_main_(){
 			fi
 			
 			fill_template
-			open_file "$contactfile"
+			b file open_with_npp "$contactfile"
 			
 			# commit changes
 			echo
