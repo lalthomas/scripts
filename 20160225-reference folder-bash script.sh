@@ -26,13 +26,6 @@ alias rf=_reference_main_
 #	list
 
 
-add_to_inbox(){
-		
-	# add to inbox.txt	
-	local filepath=$(cygpath -d "$1")
-	echo "$longdate add \"$filepath\" to project file" >>"$(cygpath -u "D:\do\inbox.txt")"
-}
-
 _reference_main_(){
 	
 	contact(){
@@ -276,7 +269,7 @@ _reference_main_(){
 			read -p "Do you want to commit changes (y|n) ? " opt;
 			if [ $opt == "y" ]; then  
 				_commit_
-				add_to_inbox "$contactfile"
+				gtd inbox add "$contactfile"
 			fi
 			
 			echo
@@ -419,7 +412,7 @@ _reference_main_(){
 			read -p "Do you want to commit changes (y|n) ? " opt;
 			if [ $opt == "y" ]; then  
 				_commit_
-				add_to_inbox "$PWD/$filename"
+				gtd inbox add "$PWD/$filename"
 				echo
 				echo "\"$filename\" is created ..."
 			fi			

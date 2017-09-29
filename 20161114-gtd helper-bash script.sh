@@ -86,43 +86,38 @@ run_actions_from_csv_file(){
 _gtd_main_(){
 	
 	# generic routine	
-	
-	usage(){
-	
-		echo
-		echo "GTD Helper"
-		echo "========"		
-		echo "		  "
-		echo 
-        echo "OPTIONS are..."
-        echo 
-		echo "action (start|end) (day|week|month|year)"		
-		echo "analyse_todo_projects"		
-		echo "generate_and_view_reports"
-		echo "pritorize_todo_projects"
-		echo "reward_yourself"
-		echo "process_inbox_folders"		
+			
+	_inbox_(){
 		
-	}
-		
-	gtd_inbox(){
-		
-		clean(){
-			:			
+		_clean_(){
+			:	
+			# cygwin","[] run inbox cleanup script for course"
+			# cygwin","[] run inbox cleanup script for doc"
+			# cygwin","[] run inbox cleanup script for film"
+			# cygwin","[] run inbox cleanup script for lab"
+			# cygwin","[] run inbox cleanup script for music"
+			# cygwin","[] run inbox cleanup script for picture"
+			# cygwin","[] run inbox cleanup script for resource"
+			# cygwin","[] run inbox cleanup script for tool"
+			# cygwin","[] run inbox cleanup script for torrent"
+			# cygwin","[] run inbox cleanup script for video"			
 		}
 		
-		: 
+		_add_(){
+			
+			# add to inbox.txt	
+			local filepath=$(cygpath -d "$@")
+			echo "$longdate add \"$filepath\" to project file" >>"$(cygpath -u "D:\do\inbox.txt")"
+
+		} 
+			
+		OPTION=$1
+		shift
 		
-		# cygwin","[] run inbox cleanup script for course"
-		# cygwin","[] run inbox cleanup script for doc"
-		# cygwin","[] run inbox cleanup script for film"
-		# cygwin","[] run inbox cleanup script for lab"
-		# cygwin","[] run inbox cleanup script for music"
-		# cygwin","[] run inbox cleanup script for picture"
-		# cygwin","[] run inbox cleanup script for resource"
-		# cygwin","[] run inbox cleanup script for tool"
-		# cygwin","[] run inbox cleanup script for torrent"
-		# cygwin","[] run inbox cleanup script for video"
+		case $OPTION in
+			clean) _clean_ "$@";;
+			add) _add_ "$@";;
+		esac
 		
 	}
 	
@@ -297,6 +292,23 @@ _gtd_main_(){
 		
 	}
 		
+	usage(){
+	
+		echo
+		echo "GTD Helper"
+		echo "========"		
+		echo "		  "
+		echo 
+        echo "OPTIONS are..."
+        echo 
+		echo "action (start|end) (day|week|month|year)"		
+		echo "analyse_todo_projects"		
+		echo "generate_and_view_reports"
+		echo "pritorize_todo_projects"
+		echo "reward_yourself"
+		echo "process_inbox_folders"		
+		
+	}
 	
 	# Get action
 	action=$1
@@ -312,8 +324,9 @@ _gtd_main_(){
 	# Validate the input options
 	re="^(help|review|action)$"
 	if [[ "$action"=~$re ]]; then
-		case $action in
+		case $action in		
 		action) action $options;;
+		inbox) _inbox_ $@;;
 		review) review $options;;
 		analyse_todo_projects) analyse_todo_projects;;		
 		generate_and_view_reports) generate_and_view_reports;;		
