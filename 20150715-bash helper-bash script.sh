@@ -73,7 +73,7 @@ _bash_(){
 		
 	}
 
-	terminal(){
+	_terminal_(){
 			
 		command=$*			
 		if [[ -z "${command// }" ]]; then
@@ -389,7 +389,7 @@ _bash_(){
 	search) search $@;;
 	open) open $@;;
 	path) path $@;;
-	terminal) terminal $@;;
+	terminal) _terminal_ $@;;
 	string) _string_ $@;;
 	replace_lines_in_txt_files_having_term) replace_lines_in_txt_files_having_term $@;;
 	aggregate_lines_with_term) aggregate_lines_with_term $@;;
