@@ -29,7 +29,6 @@ _inbox_(){
 		return $in
 	}		
 	
-			
 	string_get_file_name(){
 	
 		filename=$(basename "$1")
