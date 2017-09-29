@@ -466,6 +466,7 @@ _bash_(){
 		esac
 		
 	}
+	
 	usage(){
 	 
 		echo "b <options>		"
