@@ -501,18 +501,18 @@ _bash_(){
 	shift
 
 	case $action in
-	array)_array_ $@;;
-	help|usage)usage;;
-	hist) hist $@;;
-	search) search $@;;
-	open) open $@;;
-	path) path $@;;
-	terminal) _terminal_ $@;;
-	string) _string_ $@;;
-	replace_lines_in_txt_files_having_term) replace_lines_in_txt_files_having_term $@;;
-	aggregate_lines_with_term) aggregate_lines_with_term $@;;
-	folder)_folder_ $@;;
-	file) _file_ $@;;
+	array)_array_ "$@";;
+	help|usage) usage;;
+	hist) hist "$@";;
+	search) search "$@";;
+	open) open "$@";;
+	path) path "$@";;
+	terminal) _terminal_ "$@";;
+	string) _string_ "$@";;
+	replace_lines_in_txt_files_having_term) replace_lines_in_txt_files_having_term "$@";;
+	aggregate_lines_with_term) aggregate_lines_with_term "$@";;
+	folder)_folder_ "$@";;
+	file) _file_ "$@";;
 	esac
 		
 
