@@ -85,8 +85,8 @@ run_actions_from_csv_file(){
 
 _gtd_main_(){
 	
-	# generic routine	
-			
+	# generic routine
+	
 	_inbox_(){
 		
 		_clean_(){
@@ -104,11 +104,11 @@ _gtd_main_(){
 		}
 		
 		_add_(){
-			
-			# add to inbox.txt	
-			local filepath=$(cygpath -d "$@")
-			echo "$longdate add \"$filepath\" to project file" >>"$(cygpath -u "D:\do\inbox.txt")"
 
+			text="$@"
+			# add to inbox.txt				
+			printf "$longdate $text">>"$(cygpath -u "D:\do\inbox.txt")"
+			
 		} 
 			
 		OPTION=$1
@@ -121,7 +121,7 @@ _gtd_main_(){
 		
 	}
 	
-	review(){
+	_review_(){
 			
 		pritorize(){
 		
@@ -176,18 +176,18 @@ _gtd_main_(){
 		
 	}
 	
-	reference(){
+	_reference_(){
 	
 		echo
 	}
 	
-	support(){
+	_support_(){
 	
 		echo
 		
 	}
 	
-	action(){
+	_action_(){
 	
 		echo $@
 		
@@ -270,28 +270,28 @@ _gtd_main_(){
 		esac				
 	}
 	
-	project(){
+	_project_(){
 	
-		echo
+		:
+		
+		open_active_projects(){
+		
+			# open active project files
+			pgmpath="20150823-open folders from file list-dos script batch script.bat"		
+			cygstart "$scriptfolder/$(cygpath -u "${pgmpath}")" $GTD_PROJECT_LIST_ACTIVE
+		
+		}
 	}
 	
 	# TODO: [] organize the functions
 		
-	reward_yourself(){
+	_reward_(){
 		
 		# TODO: 
 		echo
 		
 	}	
-					
-	open_active_projects(){
-		
-		# open active project files
-		pgmpath="20150823-open folders from file list-dos script batch script.bat"		
-		cygstart "$scriptfolder/$(cygpath -u "${pgmpath}")" $GTD_PROJECT_LIST_ACTIVE
-		
-	}
-		
+
 	usage(){
 	
 		echo
@@ -318,23 +318,20 @@ _gtd_main_(){
 	options="$@";  
 	shift
 
-
 	# echo action: $action option: $option term: $term
 
 	# Validate the input options
-	re="^(help|review|action)$"
+	re="^(help|review|action|inbox|reward|project)$"
 	if [[ "$action"=~$re ]]; then
 		case $action in		
-		action) action $options;;
-		inbox) _inbox_ $@;;
-		review) review $options;;
-		analyse_todo_projects) analyse_todo_projects;;		
-		generate_and_view_reports) generate_and_view_reports;;		
-		reward_yourself) reward_yourself;;		
-		open_active_projects) open_active_projects;;				
-		usage) usage;;
-		*)
-		echo "invalid option"
+			action) _action_ $options ;;
+			inbox) _inbox_ $options ;;
+			review) _review_ $options ;;
+			project) _project_ "$@" ;;
+			reward) _reward_ ;;				
+			usage) _usage_ ;;
+			*)
+			echo "invalid option"
 		;;						    
 		esac
 	else
