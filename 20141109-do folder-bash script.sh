@@ -41,7 +41,7 @@ alias df=_do_main_
 _do_main_(){   
 
 	auto_commit(){
-		
+				
 		git add *.m3u > /dev/null 2>&1
 		git commit -m "update playlist files" > /dev/null 2>&1
 		
