@@ -377,6 +377,12 @@ _bash_(){
 		
 		_properties_(){
 			
+			_winpath_(){
+				
+				local filepath=$(cygpath -d "$@")
+				printf "${filepath}"
+			}
+			
 			_filename_(){
 				
 				filename=$(basename "$@")
@@ -401,6 +407,7 @@ _bash_(){
 				filename) _filename_ "$@";;
 				extension) _extension_ "$@";;
 				created_date)_created_date "$@";;
+				winpath) _winpath_ "$@";;
 			esac
 				
 		}
