@@ -147,7 +147,8 @@ _facebook_main_(){
 							
 			firefox="C:\Program Files\Mozilla Firefox\firefox.exe"
 			cygstart "$firefox" "http://www.facebook.com/$facebookID/friends_all"
-			name=$(graphData name $facebookdata)
+			name="$(graphData name $facebookdata)"
+			name="$(b string convert lower "$name")"
 			currentpath=$PWD
 			read -n1 -r -p "copy the inner html and press any key..." key </dev/tty			
 			getclip >clipboard.html
@@ -158,7 +159,7 @@ _facebook_main_(){
 			./tidy.exe  -config "$configpath" "$winfilepath" >"$currentpath/tidy.html" 2>&1
 			popd > /dev/null 2>&1
 
-			docpath=$(cygpath -u "$docRootPath/$name friend list.csv")
+			docpath="$(cygpath -u "$docRootPath/$today-$name friend list.txt")"
 			# thanks : https://stackoverflow.com/a/16502803/2182047
 			egrep -o 'https?://www.facebook.com/[^ ]+' "tidy.html" | sort | uniq >"$docpath"
 
@@ -169,6 +170,11 @@ _facebook_main_(){
 
 			rm clipboard.html
 			rm tidy.html
+			cleanup
+
+			b file open_with_npp "$docpath"
+			gtd inbox add "$(b file properties winpath "$docpath")"
+			echo "$(basename "$docpath")" > /dev/clipboard
 
 		}
 		
@@ -203,13 +209,14 @@ _facebook_main_(){
         echo 
         echo "OPTIONS are..."
         echo 		
-		echo "get id <id|url>"
-		echo "get name <id|url>"
-		echo "get link <id|url>"
+		echo "get cleanup <id|url>"
+		echo "get friendlist <id|url>"
 		echo "get gender <id|url>"
+		echo "get id <id|url>"
+		echo "get link <id|url>"
+		echo "get name <id|url>"
 		echo "get profile-pic <id|url>"
 		echo "get profile-pic-big <id|url>"
-		echo "get cleanup <id|url>"
 		echo "usage"
 		
 	}
