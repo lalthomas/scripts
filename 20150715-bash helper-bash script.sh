@@ -338,7 +338,7 @@ _bash_(){
 					fi
 				done
 				if [[ $choice =~ ^[0-9|,]+$ ]]; then
-					result "$choice"
+					_result_ "$choice"
 				fi
 				
 			}
@@ -358,7 +358,7 @@ _bash_(){
 					fi				
 				done			
 				if [[ $choice =~ ^[0-9|,]+$ ]]; then
-					result "$choice"
+					_result_ "$choice"
 				fi
 				
 			}
