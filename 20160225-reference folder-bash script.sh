@@ -160,6 +160,7 @@ _reference_main_(){
 				
 				# add gender info
 				if [ -z ${gender} ];then
+					echo
 					read -p "enter gender (m/f) : " opt;
 					if [[ $opt =~ m|M ]]; then
 						gender="Male" 
