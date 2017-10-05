@@ -274,7 +274,7 @@ _do_main_(){
 	# test the script
 	# echo $filename $ACTION
 
-	pushd "D:\do" > /dev/null 2>&1
+	pushd "D:/do" > /dev/null 2>&1
 		
 	case "$ACTION" in						
 		move_project_matches_to_file) move_project_matches_to_file $1 $2 ;;		
