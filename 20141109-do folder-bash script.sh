@@ -51,6 +51,9 @@ _do_main_(){
 		git add *contact\ file* > /dev/null 2>&1
 		git commit -m "update contact files" > /dev/null 2>&1
 		
+		git add log.txt > /dev/null 2>&1
+		git commit -m "update log file" > /dev/null 2>&1
+		
 	}
 
     clean_todo_files(){
