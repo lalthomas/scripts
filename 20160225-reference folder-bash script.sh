@@ -51,7 +51,11 @@ _reference_main_(){
 			local homeaddress=""
 			local workaddress=""
 			
-			
+			_add_to_inbox(){
+				
+				:
+				
+			}
 			_commit_(){
 							
 				git add "$contactfile" > /dev/null 2>&1
