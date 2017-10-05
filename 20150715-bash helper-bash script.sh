@@ -256,7 +256,7 @@ _bash_(){
 		
 		_open_with_npp_(){
 		
-			local filepath=$(cygpath -d "$@")	
+			local filepath="$(cygpath -d "$@")"	
 			cygstart "C:/Program Files (x86)/Notepad++/notepad++.exe" "$filepath"
 		}
 		
