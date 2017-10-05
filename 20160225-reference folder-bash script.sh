@@ -418,8 +418,11 @@ _reference_main_(){
 			echo
 			read -p "Do you want to commit changes (y|n) ? " opt;
 			if [ $opt == "y" ]; then  
-				_commit_
-				gtd inbox add "$PWD/$filename"
+				
+				_commit_		
+				local winfilepath=$(b file properties winpath "$PWD/$filename")				
+				gtd inbox add "add \"$winfilepath\" to project file"
+				
 				echo
 				echo "\"$filename\" is created ..."
 			fi			
