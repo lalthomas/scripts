@@ -68,7 +68,7 @@ _reference_main_(){
 				search_query=$@
 				echo
 				echo "searching existing records ..."
-				if [ -z "$(b search file $search_query)" ]; then
+				if [ -z "$(b folder search $search_query)" ]; then
 					echo
 					echo "no records found."
 					return 0
@@ -76,7 +76,7 @@ _reference_main_(){
 					echo
 					echo "Records found with $search_query term"
 					echo
-					b search file $search_query
+					b folder search $search_query
 					echo
 					read -p "Do you want to create contact record (y|n) ? " opt;
 					[[ $opt == "n" ]] && { return 1; } || { return 0; }

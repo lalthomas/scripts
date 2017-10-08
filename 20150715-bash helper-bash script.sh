@@ -165,44 +165,7 @@ _bash_(){
 		python "$rootpath/project/20131027-scripts project/20140607-start simple http server with markdown support-python script.py"  
 	
 	}
-
-	# find the text in folders
-	search(){
-
-		# thank you 
-		# https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux
-		# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
-		# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
-			
-		OPTION=$1
-		shift
-				
-		export B_SEARCH_TERM=""
-		B_SEARCH_TERM="$@"
-		
-		# search all file recursively and find the matches and display it
-		case "$OPTION" in
-			text) grep --exclude-dir=".git*" -Rnw $PWD -e "${B_SEARCH_TERM}" |  awk '{printf "%s\t%s\n",++i,$0}' ;;		
-			file) grep --exclude-dir=".git*" -Rnwl $PWD -e "${B_SEARCH_TERM}" |  awk '{printf "%s\t%s\n",++i,$0}' ;;
-		esac
-			
-	}
 	
-	# open file from search result
-	open(){
-	
-		IFS=","
-		userinputs=($1)			
-		unset IFS
-						
-		for i in ${userinputs[@]}
-		do
-			resultCount=$i
-			cygstart "$(grep --exclude-dir=".git*" -Rnwl $PWD -e "${B_SEARCH_TERM}" | sed -n "${resultCount}p")"
-		done
-		
-	}
-
 	# search through all text files in current folder and move the matched lines to the filename
 	replace_lines_in_txt_files_having_term(){
 				
@@ -457,6 +420,52 @@ _bash_(){
 		OPTION=$1
 		shift
 		
+		# find the text in folders
+		_search_(){
+		
+			# thank you 
+			# https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux
+			# https://stackoverflow.com/questions/26947813/append-string-on-grep-multiple-results-with-variable-in-a-single-command
+			# https://stackoverflow.com/questions/6022384/bash-tool-to-get-nth-line-from-a-file
+				
+			OPTION=$1
+			shift
+		
+			# open file from search result
+			_open_(){
+			
+				IFS=","
+				userinputs=($1)			
+				unset IFS
+				
+				for i in ${userinputs[@]}
+				do
+					resultCount=$i
+					cygstart "$(grep --exclude-dir=".git*" -Rnwl $PWD -e "${B_SEARCH_TERM}" | sed -n "${resultCount}p")"
+				done
+				
+			}
+		
+			
+			# search all file recursively and find the matches and display it
+			case "$OPTION" in
+				open)  
+					_open_ "$@"
+				;;
+				text)
+					export B_SEARCH_TERM=""
+					B_SEARCH_TERM="$@"
+					grep --exclude-dir=".git*" -Rnw $PWD -e "${B_SEARCH_TERM}" |  awk '{printf "%s\t%s\n",++i,$0}' 
+				;;		
+				file) 
+					export B_SEARCH_TERM=""
+					B_SEARCH_TERM="$@"
+					grep --exclude-dir=".git*" -Rnwl $PWD -e "${B_SEARCH_TERM}" |  awk '{printf "%s\t%s\n",++i,$0}'
+				;;
+			esac
+				
+		}
+		
 		_file_count_(){
 		
 			# count the number of files
@@ -468,8 +477,9 @@ _bash_(){
 			
 		}
 		
-		case $OPTION in			
+		case $OPTION in
 			file_count) _file_count_ "$@";;
+			search) _search_ "$@";;			
 		esac
 		
 	}
@@ -493,8 +503,7 @@ _bash_(){
 		echo "file choose"
 
 	}
-	
-	
+		
 	
 	# Get action
 	action=$1
@@ -503,9 +512,7 @@ _bash_(){
 	case $action in
 	array)_array_ "$@";;
 	help|usage) usage;;
-	hist) hist "$@";;
-	search) search "$@";;
-	open) open "$@";;
+	hist) hist "$@";;		
 	path) path "$@";;
 	terminal) _terminal_ "$@";;
 	string) _string_ "$@";;
