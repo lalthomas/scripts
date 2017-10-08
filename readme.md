@@ -125,6 +125,7 @@ Files
 20140501-insert date stamp-autohotkey script.ahk
 20150715-iso datetime-bash script.sh
 20160616-parse any date format to iso format-autohotkey script.ahk
+20171008-add string to file based on key -bash script.sh
 
 ```
 
