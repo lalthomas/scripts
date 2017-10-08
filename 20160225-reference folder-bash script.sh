@@ -57,9 +57,10 @@ _reference_main_(){
 				
 			}
 			_commit_(){
-							
+			
 				git add "$contactfile" > /dev/null 2>&1
 				git commit -m "create contact file for $name" > /dev/null 2>&1
+				
 			}
 			
 			verify_existing_records(){
@@ -99,8 +100,7 @@ _reference_main_(){
 				# it is a facebook ID
 				facebookId=$1
 				# fetch data from facebook
-				name=$(facebook get name $facebookId )
-				echo
+				name=$(facebook get name $facebookId )				
 				echo "creating '$name' contact"
 				# gender=$(facebook get gender $facebookId )
 				link=$(facebook get link $facebookId )
