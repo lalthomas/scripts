@@ -345,6 +345,7 @@ Windows Explorer
 20170722-refill pendrive with media-dos batch script.bat
 20170924-backup data-bash script.sh
 20170928-open all files on folders in editor-dos batch script.bat
+20171011-commit changes when a file is saved on notepad plus plus-autohotkey script.ahk
 
 ```
 
