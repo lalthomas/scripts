@@ -56,6 +56,7 @@ _reference_main_(){
 				:
 				
 			}
+			
 			_commit_(){
 			
 				git add "$contactfile" > /dev/null 2>&1
