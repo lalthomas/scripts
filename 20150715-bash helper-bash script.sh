@@ -342,20 +342,22 @@ _bash_(){
 			
 			_winpath_(){
 				
-				local filepath=$(cygpath -d "$@")
-				printf "${filepath}"
+				# echo "${@}"
+				local filepath="$(cygpath -w "${@}")"
+				echo ${filepath} | tr -d '\r'
+				
 			}
 			
 			_filename_(){
 				
-				filename=$(basename "$@")
-				printf "${filename%.*}"
+				filename="$(basename "$@")"
+				echo ${filename%.*} | tr -d '\r'
 			}
 			
 			_extension_(){
 				
-				filename=$(basename "$@")
-				printf "${filename##*.}"
+				filename="$(basename "$@")"
+				echo ${filename##*.} | tr -d '\r'
 			}
 			
 			_created_date_(){
