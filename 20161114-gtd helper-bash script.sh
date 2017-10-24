@@ -105,9 +105,22 @@ _gtd_main_(){
 		
 		_add_(){
 
-			text="$@"
+			local OPTION=$1
+			shift
+						
+			case $OPTION in
+				filepath)					
+					local winfilepath="$(b file properties winpath "$@")"
+					# echo $winfilepath
+					echo ${longdate} add \"${winfilepath}\" to project file | tr -d '\r' >>"$(cygpath -u "D:\do\inbox.txt")"
+					echo ${winfilepath} | tr -d '\r'  > /dev/clipboard
+					;;
+				text) 
+					text="$@"
+					printf "\n$longdate $text">>"$(cygpath -u "D:\do\inbox.txt")"
+					;;
+			esac
 			# add to inbox.txt				
-			printf "$longdate $text">>"$(cygpath -u "D:\do\inbox.txt")"
 			
 		} 
 			

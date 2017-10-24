@@ -173,8 +173,9 @@ _facebook_main_(){
 			cleanup
 
 			b file open_with_npp "$docpath"
-			gtd inbox add "$(b file properties winpath "$docpath")"
+			gtd inbox add filepath "$docpath"
 			echo "$(basename "$docpath")" > /dev/clipboard
+			echo "filename copied to clipboard..."
 
 		}
 		

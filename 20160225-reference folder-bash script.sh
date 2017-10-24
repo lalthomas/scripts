@@ -400,6 +400,7 @@ _reference_main_(){
 			
 			topic=$@	
 			filename="$today-$topic manual notes.md"
+			local path="$PWD/$filename"
 			
 			# add contend
 			echo "% $topic Manual Notes" >"$filename"
@@ -413,21 +414,15 @@ _reference_main_(){
 			start "" "D:\do\inbox.txt" > /dev/null 2>&1 || cygstart "D:\do\inbox.txt"  > /dev/null 2>&1	
 			
 			# start $filename file
-			start "" "$PWD/$filename" > /dev/null 2>&1 || cygstart "$PWD/$filename"  > /dev/null 2>&1	
-			
-			#TODO: add commit functionality
-			# commit changes
-			echo
+			start "" "${path}" > /dev/null 2>&1 || cygstart "${path}"  > /dev/null 2>&1	
+								
+			# commit changes			
 			read -p "Do you want to commit changes (y|n) ? " opt;
 			if [ $opt == "y" ]; then  
-				
-				_commit_		
-				local winfilepath=$(b file properties winpath "$PWD/$filename")				
-				gtd inbox add "add \"$winfilepath\" to project file"
-				
-				echo
+				_commit_				
+				gtd inbox add filepath "${path}"
 				echo "\"$filename\" is created ..."
-			fi			
+			fi		
 		}
 				
 		case $OPTION in
