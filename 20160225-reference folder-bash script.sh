@@ -390,7 +390,7 @@ _reference_main_(){
 		
 			_commit_(){
 							
-				git add "$filename" > /dev/null 2>&1				
+				git add "$filename" > /dev/null 2>&1
 				(nohup git commit -m "create manual notes file for $topic" >/dev/null &>/dev/null 2>&1 &)
 				
 			}
