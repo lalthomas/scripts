@@ -23,7 +23,7 @@ _git_main_(){
 	 
 	}
 	
-	commitRepoChanges(){
+	_commit_(){
 	
 		if [ $# -eq 1 ]; 
 		then	
@@ -37,10 +37,10 @@ _git_main_(){
 		
 	}
 	
-	createRepo(){ 
+	_create_(){ 
 	
 		 git init
-		 commitRepoChanges 'init repo' 
+		 _commit_ 'init repo' 
 		 
 	}
 	
@@ -86,7 +86,7 @@ _git_main_(){
 		case $action in
 		'help')
 			usage
-			;;
+			;;		
 		'detect')
 			detect
 			;;
@@ -96,11 +96,11 @@ _git_main_(){
 			else			  	
 			   case "$option" in
 					create)
-						createRepo						
+						_create_						
 						;;										
 					commit)							
 						message=$1
-						commitRepoChanges $message						
+						_commit_ $message						
 						;;
 					add)
 						if [[ -z $2 ]]; then 
