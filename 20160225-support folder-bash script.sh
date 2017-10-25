@@ -10,6 +10,6 @@ alias sf=_support_main_
 
 _support_main_(){
 	
-	
+	:
 	
 }
