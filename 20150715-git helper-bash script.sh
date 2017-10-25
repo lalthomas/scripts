@@ -6,57 +6,69 @@
 
 ### git 
 
-alias g=_git_main_ # git helper functions
+alias gh=_git_main_ # git helper functions
 
 _git_main_(){
     
-	usage(){
+	
+	_stage_(){
 		
-		echo "help"
-		echo "===="
-		echo 
-		echo "g help"
-		echo "g repo create <path>"
-		echo "g repo commit <path> <message>"
-		echo "g repo add gitignore"
-		echo "g detect"
-	 
+		OPTION=$1
+		shift
+
+		case $OPTION in
+			file) git add "$@" > /dev/null 2>&1 ;;
+			all) git add -A > /dev/null 2>&1 ;;
+		esac
+		
 	}
 	
 	_commit_(){
-	
-		if [ $# -eq 1 ]; 
+		
+		if [ $# -gt 0 ]; 
 		then	
-			commitMessage=$1
+			commitMessage=$@
 		else		
 			commitMessage="commit changes"
 		fi
-				
-		git add -A 
-		git commit -m "$commitMessage"		
+		
+		# committing background
+		(nohup git commit -m "$commitMessage" >/dev/null &>/dev/null 2>&1 &)
 		
 	}
 	
 	_create_(){ 
 	
-		 git init
-		 _commit_ 'init repo' 
+		 git init > /dev/null 2>&1
+		 _stage_ all
+		 _commit_ 'init repo'
 		 
 	}
 	
 	gitignore() { 
+			
+		if [ $# -eq 1 ]; 
+		then				
+			language=$@
+		else	
+
+			# pick the language
+			b file linepicker init "D:\do\reference\20171025-programming language list script support.txt"
+			echo 
+			b file linepicker prompt "enter keyword for language : "
+			language="$(b file linepicker result)"			
+
+		fi
 		
 		# thanks https://www.gitignore.io/docs		
-		
-		echo
-		echo creating gitignore for $1 type...		
-		echo 
-		
+		echo creating gitignore for $language type...		
 		# 2017-01-29 not working now
 		# curl -L -s "https://www.gitignore.io/api/$@" >>".gitignore"
-
 		# refer readme file for the script to get the full listing
-		curl -o .gitignore https://raw.githubusercontent.com/github/gitignore/master/$1.gitignore >/dev/null
+		curl --silent -o .gitignore https://raw.githubusercontent.com/github/gitignore/master/$language.gitignore >/dev/null
+		
+		_stage_ file .gitignore
+		_commit_ "add gitignore"
 		
 	}
 	
@@ -64,14 +76,33 @@ _git_main_(){
 	
 		# thanks : https://stackoverflow.com/a/25149786/2182047
 				
-		if [[ `git status --porcelain` ]]; then			
-			echo "changes present"			
+		if [[ `git status --porcelain` ]]; then
+			echo "changes present"
 		else			
 			echo "no change"
 		fi
 		
 	}
 
+	usage(){
+		
+		echo 
+		echo "Usage"
+		echo "====="
+		echo 
+		echo "gh OPTIONS"
+		echo 
+		echo "where OPTIONS are"
+		echo " - help"
+		echo " - repo create"
+		echo " - repo stage all"
+		echo " - repo stage file <path>"
+		echo " - repo commit <message>"	
+		echo " - repo add gitignore <type>"
+		echo " - detect"
+	 
+	}
+	
 	# Get action
 	action=$1
 	shift
@@ -80,7 +111,7 @@ _git_main_(){
 	option=$1
 	shift
 	
-	re="^(help|repo)$"
+	re="^(help|detect|repo)$"
 	
 	if [[ "$action"=~$re ]]; then
 		case $action in
@@ -92,35 +123,34 @@ _git_main_(){
 			;;
 		'repo')        
 			if [[ -z "$option" ]]; then
-			   echo "g error : few arguments"			   
+			   echo "g error : few arguments"
 			else			  	
 			   case "$option" in
 					create)
-						_create_						
-						;;										
-					commit)							
-						message=$1
-						_commit_ $message						
+						_create_
+						;;
+					commit)
+						_commit_ $@
+						;;
+					stage)
+						_stage_ $@
 						;;
 					add)
-						if [[ -z $2 ]]; then 
-							"g error : few arguments"
-						else
-							option2=$1
-							shift
-							case "$option2" in
-								gitignore)
+						option2=$1
+						shift
+						case "$option2" in
+							gitignore)
 								type=$1
 								gitignore $type
-							esac													
-						fi
-						;;						
+							;;
+						esac						
+						;;
 				esac
-			fi				
+			fi
 			;;
 		esac
 	else
-		echo "g error: unrecognised option \"$option\"."
+		echo "gh error: unrecognised option \"$option\"."
 		echo "try \" view help\" to get more information."
 	fi
 	
