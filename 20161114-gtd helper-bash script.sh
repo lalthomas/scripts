@@ -107,7 +107,7 @@ _gtd_main_(){
 
 			local OPTION=$1
 			shift
-						
+
 			case $OPTION in
 				filepath)					
 					local winfilepath="$(b file properties winpath "$@")"
@@ -120,7 +120,12 @@ _gtd_main_(){
 					printf "\n$longdate $text">>"$(cygpath -u "D:\do\inbox.txt")"
 					;;
 			esac
-			# add to inbox.txt				
+			
+			# commit the changes
+			pushd "$doRootPath" > /dev/null 2>&1
+			gh repo stage file inbox.txt
+			gh repo commit "update inbox.txt"
+			popd > /dev/null 2>&1
 			
 		} 
 			
