@@ -11,10 +11,5 @@ alias sf=_support_main_
 _support_main_(){
 	
 	
-	commit(){
-
-		g repo commit '$supportRootPath' "update files"
-	
-	}
 	
 }
