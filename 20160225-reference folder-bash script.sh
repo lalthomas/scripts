@@ -103,7 +103,7 @@ _reference_main_(){
 				# fetch data from facebook
 				name=$(facebook get name $facebookId )				
 				echo "creating '$name' contact"
-				# gender=$(facebook get gender $facebookId )
+				gender=$(facebook get gender $facebookId )
 				link=$(facebook get link $facebookId )
 				pic=$(facebook get profile-pic $facebookId )
 				pic_big=$(facebook get profile-pic-big $facebookId )
