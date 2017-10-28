@@ -103,7 +103,7 @@ exit /b 0
 
 REM commit changes to playlist repo
 :commit
-set commitmessage="pendrive refill"
+set commitmessage="media files refilled to external device"
 pushd %playlistfolder%
 call git add %playlistfile% >nul 2>nul
 call git add %watchedplaylistfile% >nul 2>nul
