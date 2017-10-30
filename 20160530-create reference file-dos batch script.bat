@@ -82,7 +82,7 @@ start "notepad-pp" %1
 exit /b 0
 
 :readme
-echo %filename% >> "readme.md"
+echo %~filename% >> "readme.md"
 exit /b 0
 
 :gitcommit
