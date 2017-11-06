@@ -9,11 +9,9 @@ set watchedfilepath="%~2"
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 Setlocal EnableDelayedExpansion
-
-type %filename% | findstr "# [0-9]*" %sourcefilepath% >> %watchedfilepath%
+findstr /c:"# " %sourcefilepath% | findstr /r /c:"[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" >> %watchedfilepath%
 REM add newline
 echo.>> %watchedfilepath%
-call "%scriptFolderPath%\tools\fart\fart.exe" %fullfilepath% "$NAME$" "%name%" >nul 2>nul
 set path="%scriptFolderPath%\tools\rxfind"
-rxfind %sourcefilepath% /B:2 /P:\n\#\s[0-9]*\s(.*)\r /R:
-
+call rxfind %sourcefilepath% /B:2 /P:\n\#\s[0-9]*\s(.*)\r /R:
+endlocal
