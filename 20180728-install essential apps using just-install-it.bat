@@ -1,0 +1,22 @@
+msiexec.exe /i https://stable.just-install.it
+just-install 7zip
+just-install anaconda
+just-install autohotkey
+just-install ccleaner
+just-install brackets
+just-install cdburnerxp
+just-install cygwin
+just-install flux
+just-install git
+just-install gitextensions
+just-install greenshot
+just-install kodi
+just-install mp3tag
+just-install notepad++
+just-install octave
+just-install python2
+just-install python3
+just-install recuva
+just-install visual-studio-community 	
+just-install vlc
+just-install youtube-dl
