@@ -9,7 +9,7 @@ set watchedfilepath="%~2"
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 Setlocal EnableDelayedExpansion
-findstr /c:"# " %sourcefilepath% | findstr /r /c:"[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" >> %watchedfilepath%
+findstr /c:^# %sourcefilepath% | findstr /r /c:"[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" >> %watchedfilepath%
 REM add newline
 echo.>> %watchedfilepath%
 set path="%scriptFolderPath%\tools\rxfind"
