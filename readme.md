@@ -379,7 +379,7 @@ Windows OS
 20170628-open regedit key directly-dos batch script.bat
 20120718-make an image as thumb image-dos batch script.bat
 20170920-fix windows 8 wifi issues-dos batch script.bat
-
+20180730-powershell script to add shortcuts of portableapps to windows start menu.ps1
 
 ```
 
