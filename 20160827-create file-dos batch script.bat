@@ -38,7 +38,7 @@ set commitmessage="add file %commitmessage%"
 REM existing file check
 if exist %filepath% ( 
 	
-	"C:\Program Files (x86)\Notepad++\notepad++.exe" %filepath%
+	"%PROGRAMFILES%\Notepad++\notepad++.exe" %filepath%
 	popd
 	goto :end
 )
@@ -53,7 +53,7 @@ IF /I "%_Opt%" == "y" (
 	
 	REM create file
 	copy nul %filepath% >nul 2>nul
-	"C:\Program Files (x86)\Notepad++\notepad++.exe" %filepath%	
+	"%PROGRAMFILES%\Notepad++\notepad++.exe" %filepath%	
 	REM	if no argument then add to readme
 	if [%1]==[] ( call :readmelog %filepath% )	
 	REM add to revision control
