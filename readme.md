@@ -382,6 +382,8 @@ Windows OS
 20180730-powershell script to add shortcuts of portableapps to windows start menu.ps1
 20180728-install essential apps using just-install-it.bat
 20180806-create shortcut to startup menu for favourite apps-powershell script.ps1
+20180806-create shortcut to startup for any application-powershell script.ps1
+
 ```
 
 **Support Files**
