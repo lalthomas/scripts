@@ -42,11 +42,13 @@ exit /b 0
 :NEWFILE
 Setlocal EnableDelayedExpansion
 set "SUBJECT=%~1"
-set "runTemplateFilePath=\templates\20170331-run support file.txt"	
+set "runTemplateFilePath=\templates\20170331-run support file.txt"
+set "installTemplateFilePath=\templates\20180809-install support file.txt"
 
 @echo OFF
 
 if /I "%supportfiletype%" == "readme.md" (				
+	
 	echo %% %SUBJECT% >>%filename% ^
 	&& echo %% %longdatestamp% >>%filename% ^
 	&& echo %% Lal Thomas >>%filename% ^
@@ -63,6 +65,18 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& echo ^REM Original File : %originalfilename% >>%filename% ^
 	&& echo.>>%filename%	
 	type "%scriptFolderPath%%runTemplateFilePath%" >>%filename%
+	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "\"%originalpath%\"" >nul 2>nul
+	"%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath%	
+	
+) else if /I "%supportfiletype%" == "install.bat" (
+	
+	echo ^@echo OFF >>%filename% ^
+	&& echo ^REM File : %SUBJECT% >>%filename% ^
+	&& echo ^REM Creation Date : %longdatestamp% >>%filename% ^
+	&& echo ^REM Author : Lal Thomas >>%filename% ^
+	&& echo ^REM Original File : %originalfilename% >>%filename% ^
+	&& echo.>>%filename%	
+	type "%scriptFolderPath%%installTemplateFilePath%" >>%filename%
 	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "\"%originalpath%\"" >nul 2>nul
 	"%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath%	
 )
