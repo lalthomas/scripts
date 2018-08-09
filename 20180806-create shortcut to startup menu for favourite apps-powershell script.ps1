@@ -3,7 +3,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 
 # create link on start up folder
 # thanks https://www.anoopcnair.com/windows-10-add-applications-startup-msconfig/
-$StartUp="$Env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+$StartUp = [System.Environment]::GetFolderPath('Startup')
 
 # lauchy
 New-Item -ItemType SymbolicLink -Path "$StartUp" -Name "launchy.lnk" -Value "D:\Portable\launchy\Launchy.exe"

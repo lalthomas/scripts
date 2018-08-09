@@ -23,8 +23,7 @@ else {
 }
 
 # create link on start up folder
-# thanks https://www.anoopcnair.com/windows-10-add-applications-startup-msconfig/
-$StartUp="$Env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+$StartUp = [System.Environment]::GetFolderPath('Startup')
 # New-Item -ItemType SymbolicLink -Path "$StartUp" -Name "Calculator.lnk" -Value "c:\windows\system32\calc.exe"
 New-Item -ItemType SymbolicLink -Path "$StartUp" -Name $filename -Value $filepath
 # Pause
