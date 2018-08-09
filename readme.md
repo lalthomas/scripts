@@ -386,6 +386,7 @@ Windows OS
 20180728-install essential apps using just-install-it.bat
 20180806-create shortcut to startup menu for favourite apps-powershell script.ps1
 20180806-create shortcut to startup for any application-powershell script.ps1
+20180809-create shortcut on user desktop-powershell script.ps1
 
 ```
 
