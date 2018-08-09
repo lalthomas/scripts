@@ -16,5 +16,5 @@ endlocal
 
 :openfile
 IF %count%==10 ( pause && set /a count=0 )
-"C:\Program Files (x86)\Notepad++\notepad++.exe" "%~1"
+"%PROGRAMFILES%\Notepad++\notepad++.exe" "%~1"
 exit /b 0

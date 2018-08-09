@@ -56,7 +56,7 @@ IF %ERRORLEVEL% EQU 0 (
 	
 	IF %ERRORLEVEL% EQU 0 ( 		
 		echo SUCCESS : %filename% successfully updated and commited	
-		"C:\Program Files (x86)\Notepad++\notepad++.exe" %fullfilepath%		
+		"%PROGRAMFILES%\Notepad++\notepad++.exe" %fullfilepath%		
 	) ELSE ( 		
 		echo ERROR : %filename%  is either not updated or commited 		
 	)

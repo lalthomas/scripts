@@ -28,7 +28,7 @@ set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
-if exist %filename% ( "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath% ) else ( CALL :CONFIRM )
+if exist %filename% ( "%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath% ) else ( CALL :CONFIRM )
 exit /b 0
 endlocal
 
@@ -52,7 +52,7 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& echo %% Lal Thomas >>%filename% ^
 	&& echo %% %originalfilename% >>%filename% ^
 	&& echo.>>%filename% ^
-	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%	
+	&& "%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath%	
 	
 ) else if /I "%supportfiletype%" == "run.bat" (
 	
@@ -64,7 +64,7 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& echo.>>%filename%	
 	type "%scriptFolderPath%%runTemplateFilePath%" >>%filename%
 	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "\"%originalpath%\"" >nul 2>nul
-	"C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%	
+	"%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath%	
 )
 
 

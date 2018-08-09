@@ -144,8 +144,8 @@ startDay(){
 	echo
 	read -p "do you want open todo.txt gui app: " opted
 		if [ $opted == "y" ]; then
-			todoapp="C:\Program Files (x86)\Hughesoft\todotxt.net\todotxt.exe"
-			# todoapp="C:\Program Files (x86)\QTodoTxt\qtodotxt.exe"
+			todoapp="%PROGRAMFILES%\Hughesoft\todotxt.net\todotxt.exe"
+			# todoapp="%PROGRAMFILES%\QTodoTxt\qtodotxt.exe"
 			cygstart "$todoapp"
 	fi	
 		
