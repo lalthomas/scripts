@@ -229,6 +229,8 @@ Folder Helpers
 20160806-open supporting file-dos batch script run.bat
 20141109-do folder-bash script readme.md
 20170706-wallpaper folder-bash script readme.md
+templates\20170331-run support file.txt
+templates\20180809-install support file.txt
 
 ```
 
