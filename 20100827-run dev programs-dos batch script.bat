@@ -168,8 +168,7 @@ REM powershell -MTA -executionpolicy bypass -File ".\%~nx1"
 
 REM Single Threaded
 powershell -STA -executionpolicy bypass -File ".\%~nx1"
-
-pause
+REM pause
 exit
 
 
