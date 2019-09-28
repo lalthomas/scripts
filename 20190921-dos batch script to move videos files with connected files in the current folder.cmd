@@ -1,76 +1,26 @@
-﻿
+@echo OFF
 REM move film files and associated files to OK folder
 
+REM all video files
+for %%f in (*.flv,*.avi,*.divx,*.m4v,*.mkv,*.mp4,*.mpg,*.vob) do ( call :MOVEFILES "%%~dpnxf" )
+exit /b 0 
 
-for %%f in (*.flv)  do ( 
+:MOVEFILES
 
-	move "%%~dpnf.*" OK 
-	move "%%~dpnf-fanart.*" OK
-	move "%%~dpnf-poster.*" OK
- )
+REM obtain the year of creation of the video file
 
+REM get the creation date dir /tc
+REM get the	modified date dir /tw
+REM get the last access date dir /ta
 
+for /f "tokens=3 delims=-" %%a in ('dir /tc %1') do set "yearpart=%%a"
+set "year=%yearpart:~0,4%"
 
-for %%f in (*.avi)  do ( 
+if not exist %year% ( md %year% )
 
-	move "%%~dpnf.*" OK 
-	move "%%~dpnf-fanart.*" OK
-	move "%%~dpnf-poster.*" OK
- )
+move "%~dpn1.*" %year%
+move "%~dpn1-fanart.*" %year%
+move "%~dpn1-poster.*" %year%
 
+exit /b 0 
 
-for %%f in (*.divx) do ( 
-
-	move "%%~dpnf.*" OK 
-	move "%%~dpnf-fanart.*" OK
-	move "%%~dpnf-poster.*" OK
-
-)
-
-for %%f in (*.m4v)  do ( 
-
-	move "%%~dpnf.*" OK 
-	move "%%~dpnf-fanart.*" OK
-	move "%%~dpnf-poster.*" OK
-
-)
-
-for %%f in (*.mkv)  do ( 
-
-	move "%%~dpnf.*" OK 
-	move "%%~dpnf-fanart.*" OK
-	move "%%~dpnf-poster.*" OK
-
-)
-
-for %%f in (*.mp4)  do ( 
-
-	move "%%~dpnf.*" OK 
-	move "%%~dpnf-fanart.*" OK
-	move "%%~dpnf-poster.*" OK
-
-)
-
-for %%f in (*.mpg)  do ( 
-
-	move "%%~dpnf.*" OK 
-	move "%%~dpnf-fanart.*" OK
-	move "%%~dpnf-poster.*" OK
-
-)
-
-for %%f in (*.vob)  do ( 
-
-	move "%%~dpnf.*" OK 
-	move "%%~dpnf-fanart.*" OK
-	move "%%~dpnf-poster.*" OK
-
-)
-
-for %%f in (*.rmvb)  do ( 
-
-	move "%%~dpnf.*" OK 
-	move "%%~dpnf-fanart.*" OK
-	move "%%~dpnf-poster.*" OK
-
-)
