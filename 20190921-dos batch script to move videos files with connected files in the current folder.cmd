@@ -2,7 +2,7 @@
 REM move film files and associated files to OK folder
 
 REM all video files
-for %%f in (*.mov,*.3gp,*.wmv,*.m2ts,*.mpeg,*.webm,*.nsv,*.asf,*.flv,*.avi,*.divx,*.m4v,*.mkv,*.mp4,*.mpg,*.vob) do ( call :MOVEFILES "%%~dpnxf" )
+for %%f in (*.mov,*.rmvb,*.3gp,*.wmv,*.m2ts,*.mpeg,*.webm,*.nsv,*.asf,*.flv,*.avi,*.divx,*.m4v,*.mkv,*.mp4,*.mpg,*.vob) do ( call :MOVEFILES "%%~dpnxf" )
 exit /b 0 
 
 :MOVEFILES
