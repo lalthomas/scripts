@@ -13,14 +13,17 @@ exit /b 0
 
 :MOVEFILES
 
-REM obtain the year of creation of the file
-
-REM get the creation date dir /tc
-REM get the	modified date dir /tw
-REM get the last access date dir /ta
-
+REM get the	modified date ( dir /tw )
 for /f "tokens=3 delims=-" %%a in ('dir /tw %1') do set "yearpart=%%a"
 set "myear=%yearpart:~0,4%"
+
+REM get the creation date ( dir /tc )
+for /f "tokens=3 delims=-" %%a in ('dir /tw %1') do set "yearpart=%%a"
+set "cyear=%yearpart:~0,4%"
+
+REM obtain the year of the file
+if /a %myear% 
+
 
 if not exist %year% ( md %year% )
 
