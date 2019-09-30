@@ -1,4 +1,4 @@
-@echo ON
+@echo OFF
 REM move film files and associated files to OK folder
 
 REM accept folder path as argument
