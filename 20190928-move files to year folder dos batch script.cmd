@@ -3,13 +3,12 @@ REM move film files and associated files to OK folder
 
 REM accept folder path as argument
 pushd %1
-
 REM all files
 for %%f in (*.*) do ( call :MOVEFILES "%%~dpnxf" )
-
 popd
+REM pause
+exit /b 0
 
-exit /b 0 
 
 :MOVEFILES
 
@@ -28,10 +27,22 @@ if %cyear% LEQ %myear% (
 	set year=%myear%
 )
 
+REM if current folder is same as year set then skip moving
+set ParentDir=
+call :GETPARENT %1
+if %year% EQU %ParentDir% ( exit /b 0 )
 
-REM ------------------------------
+REM create folder
+if not exist %year% ( md %year% )
+
+REM move file with its associated files 
+move "%~dpn1.*" %year%
+
+exit /b 0
+
+
+:GETPARENT
 REM take the parent folder path
-setlocal
 set ParentDir=%~p1
 set ParentDir=%ParentDir: =:%
 set ParentDir=%ParentDir:\= %
@@ -45,16 +56,5 @@ shift
 goto :getparentdir
 :MADE_FOLDER
 set ParentDir=%ParentDir::= %
-REM ------------------------------
-
-REM if current folder is same as year set then skip moving
-if %year% EQU %ParentDir% ( exit /b 0 )
-
-REM create folder
-if not exist %year% ( md %year% )
-
-REM move file with its associated files 
-move "%~dpn1.*" %year%
-
-exit /b 0 
+exit /b 0
 
