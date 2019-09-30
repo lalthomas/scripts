@@ -22,9 +22,6 @@ for /f "tokens=3 delims=-" %%a in ('dir /tw %1') do set "yearpart=%%a"
 set "cyear=%yearpart:~0,4%"
 
 REM obtain the year of the file
-if /a %myear% 
-
-
 if not exist %year% ( md %year% )
 
 REM move file with its associated files 
