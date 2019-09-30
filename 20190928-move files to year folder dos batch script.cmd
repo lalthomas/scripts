@@ -18,7 +18,7 @@ for /f "tokens=3 delims=-" %%a in ('dir /tw %1') do set "yearpart=%%a"
 set "myear=%yearpart:~0,4%"
 
 REM get the creation date ( dir /tc )
-for /f "tokens=3 delims=-" %%a in ('dir /tw %1') do set "yearpart=%%a"
+for /f "tokens=3 delims=-" %%a in ('dir /tc %1') do set "yearpart=%%a"
 set "cyear=%yearpart:~0,4%"
 
 REM obtain the year of the file
