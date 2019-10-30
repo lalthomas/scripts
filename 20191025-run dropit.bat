@@ -27,10 +27,19 @@ exit /b 0
 
 :RUNDROPIT
 pushd %dropitdir%
-DropIt.exe -bin "F:\bin\*"
-DropIt.exe -bin "%USERPROFILE%\*"
+
+REM D Drive and USERPROFILE
+DropIt.exe -dbin "D:\bin\*"
+DropIt.exe -dbin "%USERPROFILE%\Pictures"
+
+REM F Drive and USERPROFILE
+DropIt.exe -fbin "F:\bin\*"
+DropIt.exe -fbin "%USERPROFILE%\*"
+
+REM 
 DropIt.exe -backup "%USERPROFILE%\*"
 DropIt.exe -backup "C:\cygwin64\home\*"
+
 popd
 
 REM log the run
