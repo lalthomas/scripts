@@ -1,4 +1,4 @@
-@echo OFF
+@echo ON
 REM DropIt
 set dropitdir="E:\Portable App\dropit v8.2 portable"
 set "cdate=%date%"
@@ -13,34 +13,34 @@ pushd %APPDATA%\DropIt
 
 REM initial run
 if not exist log ( call :RUNDROPIT )
-
 set lastrundate=%tdate%
 for /f "tokens=1 delims=." %%a in ('dir /o-N /b .\log') do set "lastrundate=%%a"
-
 popd
 
 REM call the dropit only if it has been 7 days
 set /a change=%tdate%-%lastrundate%
 if /i %change% GTR 7 ( call :RUNDROPIT ) 
-
 exit /b 0
 
 :RUNDROPIT
-pushd %dropitdir%
 
-REM D Drive and USERPROFILE
-DropIt.exe -dbin "D:\bin\*"
-DropIt.exe -dbin "%USERPROFILE%\Pictures"
-
-REM F Drive and USERPROFILE
-DropIt.exe -fbin "F:\bin\*"
-DropIt.exe -fbin "%USERPROFILE%\*"
-
-REM 
-DropIt.exe -backup "%USERPROFILE%\*"
-DropIt.exe -backup "C:\cygwin64\home\*"
-
+REM run on dbin
+pushd "D:\bin"
+for /f "tokens=*" %%E in ('dir /a:D /b') do (
+	cd %%E
+	
+	REM if %%E EQU nokia_1 ( call "%~dp0\profiles\nokia_1.bat" "%%~dpnxE" )
+	if %%E EQU mi_pad ( call "%~dp0\profiles\mi_pad.bat" "%%~dpnxE" )
+	
+	cd ..
+)
 popd
+
+REM TODO run on fbin
+REM 
+
+REM run on acer aspire 3
+REM call "%~dp0\profiles\acer_aspire3.bat"
 
 REM log the run
 pushd %APPDATA%\DropIt
