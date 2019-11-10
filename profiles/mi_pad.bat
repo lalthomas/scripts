@@ -12,11 +12,10 @@ for /f "tokens=*" %%f in ('dir /a:D /b') do (
 		for /f "tokens=*" %%D in ('dir /b /s /a:D') do (
 			
 			REM this I am doing because I couldn't find string comparison operators
-			set dir=%%D
+			set folder=%%D	
 			REM 11 is the length of "DCIM\Camera" string
-			set camdir=%dir:~-11%
-			if /i "DCIM\Camera" == "%camdir%"  ( call :dcim "%%~dpnxD" )
-
+			set camdir=%folder:~-11%
+			if /i "%camdir%"=="DCIM\Camera" ( call :dcim "%%~dpnxD" )
 			
 		)
 		popd
@@ -26,7 +25,6 @@ exit /b 0
 
 :dcim
 pushd %dropitdir%
-DropIt.exe -year_date_taken "%1\*.jpg"
+DropIt.exe -file_year_date_taken "%1\*.jpg"
 popd
-
 exit /b 0
