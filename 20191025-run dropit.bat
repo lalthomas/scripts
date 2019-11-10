@@ -38,7 +38,7 @@ for /f "tokens=*" %%E in ('dir /a:D /b') do (
 	
 	REM if %%E EQU nokia_1 ( call "%~dp0\profiles\nokia_1.bat" "%%~dpnxE" )
 	if %%E EQU mi_pad ( call "%~dp0\profiles\mi_pad.bat" "%%~dpnxE" )
-	REM if %%E EQU vivo_y21l ( call "%~dp0\profiles\vivo_y21l.bat" "%%~dpnxE" )
+	if %%E EQU vivo_y21l ( call "%~dp0\profiles\vivo_y21l.bat" "%%~dpnxE" )
 	
 	cd ..
 )
