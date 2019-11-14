@@ -1,8 +1,16 @@
 @echo OFF
+setlocal
 REM move film files and associated files to OK folder
 
+%~d1
+pushd %1
+
 REM all video files
-for %%f in (*.mov,*.rmvb,*.3gp,*.wmv,*.m2ts,*.mpeg,*.webm,*.nsv,*.asf,*.flv,*.avi,*.divx,*.m4v,*.mkv,*.mp4,*.mpg,*.vob) do ( call :MOVEFILES "%%~dpnxf" )
+for %%f in (*.mov,*.rmvb,*.3gp,*.wmv,*.m2ts,*.mpeg,*.webm,*.nsv,*.asf,*.flv,*.avi,*.divx,*.m4v,*.mkv,*.mp4,*.mpg,*.vob,*.m4v) do ( call :MOVEFILES "%%~dpnxf" )
+popd
+
+endlocal
+
 exit /b 0 
 
 :MOVEFILES
