@@ -1,5 +1,5 @@
-setlocal
 @echo OFF
+setlocal
 REM DropIt
 set dropitdir="E:\Portable App\dropit v8.2 portable"
 set "cdate=%date%"
