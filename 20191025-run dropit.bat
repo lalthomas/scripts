@@ -9,10 +9,10 @@ set "cyear=%date:~6,4%"
 set tdate=%cyear%%cmonth%%cday%
 
 REM comment after testing
-call :RUNDROPIT
-pause
-endlocal
-exit /b 0
+REM call :RUNDROPIT
+REM pause
+REM endlocal
+REM exit /b 0
 
 REM find last run date
 pushd %APPDATA%\DropIt
