@@ -53,7 +53,7 @@ REM call "%~dp0\profiles\acer_aspire3.bat"
 REM log the run
 pushd %APPDATA%\DropIt
 if not exist log ( md log )
-echo >log\%cyear%%cmonth%%cday%.log
+echo.>log\%cyear%%cmonth%%cday%.log
 popd
 
 exit /b 0
