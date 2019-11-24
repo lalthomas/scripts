@@ -1,7 +1,7 @@
 % 20131027-dev-beautify source code-dos batch script readme.md 	
 % 2016-10-29 	
 % Lal Thomas 	
-% D:\project\20131027-scripts project\20131027-dev-beautify source code-dos batch script.bat 	
+% D:\lab\20131027-scripts project\20131027-dev-beautify source code-dos batch script.bat 	
 	
 A batch script to incorporate different pretty print tools
 

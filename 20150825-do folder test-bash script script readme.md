@@ -1,7 +1,7 @@
 % 20150825-do-bash script-testing script readme.md 	
 % 2016-10-29 	
 % Lal Thomas 	
-% D:\project\20131027-scripts project\20150825-do-bash script-testing script.sh 	
+% D:\lab\20131027-scripts project\20150825-do-bash script-testing script.sh 	
 	
 Testing Checklist
 -----------------

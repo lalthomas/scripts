@@ -72,7 +72,7 @@ _project_main_(){
 	# test the script
 	# echo $filename $option
 
-	pushd "D:\project" > /dev/null 2>&1
+	pushd "D:\lab" > /dev/null 2>&1
 	case "$option" in		
 		create) create "$@";;
 		help|usage)	usage ;;
