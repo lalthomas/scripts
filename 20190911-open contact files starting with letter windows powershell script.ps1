@@ -1,7 +1,7 @@
 # script to filter contact files
 
-$filespath = "E:\17\do\reference"
-$firstletter = "M"
+$filespath = "D:\do\reference"
+$firstletter = "A"
 
 cd $filespath
 
