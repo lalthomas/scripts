@@ -23,5 +23,6 @@ GOTO :EXECUTE
 
 REM Section
 :EXECUTE
+schtasks /create /XML %file%
 
 exit
