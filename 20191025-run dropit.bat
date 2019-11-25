@@ -48,7 +48,7 @@ REM TODO run on fbin
 REM 
 
 REM run on acer aspire 3
-REM call "%~dp0\profiles\acer_aspire3.bat"
+call "%~dp0\profiles\acer_aspire3.bat"
 
 REM log the run
 pushd %APPDATA%\DropIt
