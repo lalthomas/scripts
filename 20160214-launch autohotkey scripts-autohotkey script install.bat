@@ -18,10 +18,11 @@ set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-set file="D:\lab\20131027-scripts project\20160214-launch autohotkey scripts-autohotkey script.ahk"
+set file="D:\lab\20131027-scripts project\20191125-launch autohotkey scripts.xml"
 GOTO :EXECUTE
 
 REM Section
 :EXECUTE
+schtasks /create /XML %file%
 
 exit
