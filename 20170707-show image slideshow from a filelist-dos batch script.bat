@@ -6,7 +6,7 @@ REM Date : 2017-07-07
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 
-set path=%PATH%;C:\PortableApps.com\PortableApps\IrfanViewPortable\
+set path=%PATH%;E:\PortableApps.com\PortableApps\IrfanViewPortable\
 IrfanViewPortable.exe /slideshow=%1 /closeslideshow"
 
 endlocal
