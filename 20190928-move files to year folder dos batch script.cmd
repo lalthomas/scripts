@@ -1,12 +1,15 @@
 @echo OFF
-REM move film files and associated files to OK folder
+setlocal
+REM move files with associated files (same name) to OK folder
 
 REM accept folder path as argument
+%~d1
 pushd %1
 REM all files
 for %%f in (*.*) do ( call :MOVEFILES "%%~dpnxf" )
 popd
 REM pause
+endlocal
 exit /b 0
 
 
@@ -29,13 +32,20 @@ if %cyear% LEQ %myear% (
 
 REM if current folder is same as year set then skip moving
 set ParentDir=
-call :GETPARENT %1
+REM call :GETPARENT %1
 if %year% EQU %ParentDir% ( exit /b 0 )
 
 REM create folder
 if not exist %year% ( md %year% )
 
 REM move file with its associated files 
+
+REM CAUTION 
+REM -------
+REM dos move command will modify 'date creation' attribute 
+REM to current time if the drive is different, but Windows 10 explorer move
+REM will not change 'date creation' attribute
+REM but robocopy with /mov option will work
 move "%~dpn1.*" %year%
 
 exit /b 0
