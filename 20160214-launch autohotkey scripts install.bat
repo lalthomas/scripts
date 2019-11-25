@@ -1,4 +1,4 @@
-@echo OFF 	
+@echo ON
 REM File : 20160214-launch autohotkey scripts-autohotkey script install.bat 	
 REM Creation Date : 2019-11-25 	
 REM Author : Lal Thomas 	
@@ -18,11 +18,11 @@ set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-set file="D:\lab\20131027-scripts project\20191125-launch autohotkey scripts.xml"
+set FILE="%~dp0\20191125-launch autohotkey scripts windows task scheduler task.xml"
 GOTO :EXECUTE
 
 REM Section
 :EXECUTE
-schtasks /create /XML %file%
-
+schtasks /create /TN "%datestamp%-launch autohotkey scripts" /F /XML %FILE% 
+pause
 exit
