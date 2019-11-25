@@ -1,7 +1,7 @@
 @echo OFF
 pushd %1
 set runfile="FILEPATH"
-for /f "tokens=*" %%f in ('dir /a:D /b') do  call :gitcommitlog "%%f" "%CD%"
+for /f "tokens=*" %%f in ('dir /a:D /b /O:N') do  call :gitcommitlog "%%f" "%CD%"
 popd
 exit /b 0
 pause
