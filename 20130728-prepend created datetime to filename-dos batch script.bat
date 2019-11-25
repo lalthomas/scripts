@@ -17,9 +17,9 @@ goto :END
 	%~d1
 	cd %~p1
 	REM Script to get the attributes of file
-	for /f "skip=5 tokens=1-8 delims=/: " %%a in ('dir /tC %1') do (
-		 set mon=%%a      
-		 set day=%%b
+	for /f "skip=5 tokens=1-8 delims=-/: " %%a in ('dir /tC %1') do (
+		 set day=%%a
+		 set mon=%%b
 		 set yyyy=%%c
 		 set hh=%%d
 		 set min=%%e
