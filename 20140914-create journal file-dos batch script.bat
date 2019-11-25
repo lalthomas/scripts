@@ -4,7 +4,7 @@ REM Author Lal Thomas
 REM Date 2014-07-02
 Setlocal EnableDelayedExpansion
 set localdatetime
-set COPYDIR="D:\Dropbox\docs"
+set COPYDIR="D:\docs"
 
 REM Thanks http://stackoverflow.com/a/19706067/2182047
 REM Orginal modified for need

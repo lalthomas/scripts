@@ -26,6 +26,8 @@ case "$OSTYPE" in
 	msys*) 
 	# Windows	
 	export yesterday=$(date --date='yesterday' +'%Y%m%d')
+	export tomorrow=$(date --date='tomorrow' +'%Y%m%d')
+	export longtomorrow=$(date --date='tomorrow' +'%Y-%m-%d')
 	export longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
 	export dayofWeekYesterday=$(date --date='yesterday' +%A)
 	;;	
@@ -33,6 +35,8 @@ case "$OSTYPE" in
 	cygwin*) 
 	# Windows	
 	export yesterday=$(date --date='yesterday' +'%Y%m%d')
+	export tomorrow=$(date --date='tomorrow' +'%Y%m%d')
+	export longtomorrow=$(date --date='tomorrow' +'%Y-%m-%d')
 	export longyesterday=$(date --date='yesterday' +'%Y-%m-%d')
 	export dayofWeekYesterday=$(date --date='yesterday' +%A)
 	;;	

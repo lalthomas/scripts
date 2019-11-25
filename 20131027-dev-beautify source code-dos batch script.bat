@@ -36,7 +36,7 @@ REM C,C++,C#,Java
 set path=%PATH%;"%scriptFolderPath%\tools\astyle\"
 REM The following two line are Npp Hack for not changing the current path
 call astyle --style=gnu %1
-IF %ERRORLEVEL% EQU 0 ( del %1.orig ) ELSE ( pause echo lexical error in program %~nx1 )
+IF %ERRORLEVEL% EQU 0 ( del %1.orig ) ELSE ( echo lexical error in program %~nx1 )
 EXIT /b 0
 
 REM Section

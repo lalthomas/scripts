@@ -1,14 +1,14 @@
 % 20150825-do-bash script-testing script readme.md 	
 % 2016-10-29 	
 % Lal Thomas 	
-% D:\Dropbox\action\20131027-scripts project\20150825-do-bash script-testing script.sh 	
+% D:\lab\20131027-scripts project\20150825-do-bash script-testing script.sh 	
 	
 Testing Checklist
 -----------------
 
-* is `currentScriptFolder` variable is echoing the correct current folder like `/cygdrive/d/Dropbox/action/20131027-scripts project` 
-* is `rootPath` variable getting right OS and path like `d:/Dropbox`
-* is `doRootPath` variable getting the right path to the do folder like `d:/Dropbox/action/20140310-do`
+* is `currentScriptFolder` variable is echoing the correct current folder like `/cygdrive/d/project/20131027-scripts project` 
+* is `rootPath` variable getting right OS and path like `d:/`
+* is `doRootPath` variable getting the right path to the do folder like `d://action/20140310-do`
 * is typing `t` produces the following similar output as follows 
 
 	Usage: todo.sh [-fhpantvV] [-d todo_config] action [task_number] [task_descripti                                                                                      on]
@@ -20,11 +20,11 @@ Testing Checklist
 
 * is typing `todoarchive` produces output similar to the following
 
-	TODO:  d:/Dropbox/action/20140310-do/todo.txt archived.
+	TODO:  d://action/20140310-do/todo.txt archived.
 
 * is typing `addreport` produces output similar to the following
 
-	TODO:  d:/Dropbox/action/20140310-do/todo.txt archived.
+	TODO:  d://action/20140310-do/todo.txt archived.
 	2015-08-25T23:19:26 1890 7043
 	TODO: Report file updated.
 

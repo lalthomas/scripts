@@ -1,7 +1,7 @@
 % 20141109-do folder-bash script readme.md 	
 % 2016-10-29 	
 % Lal Thomas 	
-% D:\Dropbox\action\20131027-scripts project\20141109-do folder-bash script.sh 	
+% D:\lab\20131027-scripts project\20141109-do folder-bash script.sh 	
 	
 Procedures
 ----------
@@ -11,8 +11,6 @@ Procedures
 * open bash prompt
 
 For Mac
-
-* run the following command - `source "/Users/rapid/Dropbox/lab dev/20131027-scripts project/20141109-do-bash script.sh"`
 
 ### Run the script on production
 

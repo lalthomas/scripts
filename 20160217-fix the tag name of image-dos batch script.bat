@@ -17,8 +17,8 @@ for %%f in (%*) do (
  )
 )
 REM done with a bell
-echo Done  !!!
-pause
+REM echo Done  !!!
+REM pause
 EXIT /b 0
 
 :MAP
@@ -46,8 +46,7 @@ REM reads all metadata and write to file
 REM call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -a -u -g1 %location%>%tempFileName%
 
 REM get the keywords and write to file
-call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -quiet -iptc:Keywords %location%>%tempFileName%
-call "%scriptFolderPath%\tools\fart\fart.exe" -q %tempFileName% "Keywords                        : " "#"
+call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -s -s -s -quiet -iptc:Keywords %location%>%tempFileName%
 set /p data=<%tempFileName%
 REM echo data is %data%
 set data=%data:.=%
@@ -63,20 +62,19 @@ REM ----------------------------
 for %%a in ( %data% ) do (	
 	set elem[%%a]=X
 )
-set "noDupData=#"
+set "noDupData= "
 
 
 for /F "tokens=2 delims=[]" %%a in ( 'set elem[' ) do (
  call :concat %%a 
 )
+
 set data=%noDupData%
 REM echo unique data : %data%
+
 set data=%data:--=-%
-REM replace place holder value
-set data=%data:#;-=%
 set data=%data: =%
 set data=%data:;-=;%
-set data=%data:-= %
 
 REM convert to data to lowercase
 REM ----------------------------
@@ -87,6 +85,9 @@ for /l %%a in (0,1,25) do (
  call set "_TO=%%_LCASE:~%%a,1%%
  call set "data=%%data:!_FROM!=!_TO!%%
 )
+
+REM echo %data% 
+
 REM end of case conversion
 echo processing : %location%
 call "%scriptFolderPath%\tools\exiftool\exiftool.exe" -quiet -overwrite_original_in_place -preserve -sep ";" -Keywords="%data%" %location%

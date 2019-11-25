@@ -3,45 +3,29 @@
 case "$OSTYPE" in
 	darwin*) 
 	# OSX
-	export rootPath="/Users/rapid/Dropbox" 		
+	export rootPath="/Users/" 		
 	;; 
 	msys*) 
 	# Windows
-	export rootPath="/d/Dropbox"  	
+	export rootPath="/d/"  	
 	;;		
 	cygwin*) 
 	# Windows
-	export rootPath="d:/Dropbox"  	
+	export rootPath="d:/"  	
 	;;		
 	*) echo "unknown: $OSTYPE" ;;
 esac
 
 ### todo file paths
 
-export doRootPath="$rootPath/action/20140310-do"
+export doRootPath="$rootPath/do"
+export referenceRootPath="$rootPath/do/reference"
+export supportRootPath="$rootPath/do/support"
+export toolsRootPath="$rootPath/scripts"
+export docRootPath="$rootPath/doc"	
 export doPlannerFile="$doRootPath/planner.md"
-export doTodoFile="$doRootPath/todo.txt"
 export doInvalidFile="$doRootPath/invalid.txt"
-export doJournalPath="$doRootPath/journal.md"
+export doTodoFile="$doRootPath/todo.txt"
 export doLogPath="$doRootPath/log.txt"
-
-### tools
-
-export toolsRootPath="$rootPath/tools"
-
-### reference
-
-export referenceRootPath="$rootPath/reference"
-
-### support
-
-export supportRootPath="$rootPath/support"
-
-### docs
-
-export docRootPath="$rootPath/docs"	
-export docJournalFile="$docRootPath/$today-journal.md"
-export docYesterdayJournalFile="$docRootPath/$yesterday-journal.md"
-
-
-
+export doLessonPath="$doRootPath/lessons.txt"
+export scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

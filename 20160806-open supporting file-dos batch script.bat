@@ -1,5 +1,10 @@
 @echo OFF
 setlocal
+
+REM find script folder 
+set scriptFolderPathFull=%~dp0%
+set scriptFolderPath=%scriptFolderPathFull:~0,-1%
+
 REM The following two line are Npp Hack for not changing the current path
 %~d1
 cd %~p1
@@ -7,6 +12,7 @@ cd %~p1
 Setlocal EnableDelayedExpansion
 set "supportfiletype=%~2"
 set originalpath=%~1
+set originalfilename=%~nx1
 set filename=%~n1 %supportfiletype%
 set fullpath=%~dp1%filename%
 REM add quotes
@@ -22,7 +28,7 @@ set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
-if exist %filename% ( "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath% ) else ( CALL :CONFIRM )
+if exist %filename% ( "%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath% ) else ( CALL :CONFIRM )
 exit /b 0
 endlocal
 
@@ -34,25 +40,47 @@ endlocal
 exit /b 0
 
 :NEWFILE
-setlocal
+Setlocal EnableDelayedExpansion
 set "SUBJECT=%~1"
+set "runTemplateFilePath=\templates\20170331-run support file.txt"
+set "installTemplateFilePath=\templates\20180809-install support file.txt"
+
+@echo OFF
+
 if /I "%supportfiletype%" == "readme.md" (				
+	
 	echo %% %SUBJECT% >>%filename% ^
 	&& echo %% %longdatestamp% >>%filename% ^
 	&& echo %% Lal Thomas >>%filename% ^
-	&& echo %% %originalpath% >>%filename% ^
+	&& echo %% %originalfilename% >>%filename% ^
 	&& echo.>>%filename% ^
-	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%	
+	&& "%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath%	
 	
 ) else if /I "%supportfiletype%" == "run.bat" (
+	
 	echo ^@echo OFF >>%filename% ^
 	&& echo ^REM File : %SUBJECT% >>%filename% ^
 	&& echo ^REM Creation Date : %longdatestamp% >>%filename% ^
 	&& echo ^REM Author : Lal Thomas >>%filename% ^
-	&& echo ^REM Original File : %originalpath% >>%filename% ^
-	&& echo.>>%filename% ^
-	&& "C:\Program Files (x86)\Notepad++\notepad++.exe" %fullpath%		
+	&& echo ^REM Original File : %originalfilename% >>%filename% ^
+	&& echo.>>%filename%	
+	type "%scriptFolderPath%%runTemplateFilePath%" >>%filename%
+	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "\"%originalpath%\"" >nul 2>nul
+	"%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath%	
+	
+) else if /I "%supportfiletype%" == "install.bat" (
+	
+	echo ^@echo OFF >>%filename% ^
+	&& echo ^REM File : %SUBJECT% >>%filename% ^
+	&& echo ^REM Creation Date : %longdatestamp% >>%filename% ^
+	&& echo ^REM Author : Lal Thomas >>%filename% ^
+	&& echo ^REM Original File : %originalfilename% >>%filename% ^
+	&& echo.>>%filename%	
+	type "%scriptFolderPath%%installTemplateFilePath%" >>%filename%
+	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "\"%originalpath%\"" >nul 2>nul
+	"%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath%	
 )
+
 
 REM add to readme file without quotes
 echo %filename:"=% >>readme.md

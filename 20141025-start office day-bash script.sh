@@ -8,7 +8,6 @@ open -a "thunderbird"
 # open -a "qtodotxt"
 
 # GTD
-cd "Dropbox/Do"
 open "birthdays.md"
 open "work/todo.txt"
 open "work/done.txt"

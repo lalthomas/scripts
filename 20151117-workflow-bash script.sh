@@ -7,10 +7,21 @@
 alias gsd='sh "$toolsRootPath/20161026-get-shit-done/get-shit-done.sh"'
 alias workflow=_workflow_main_
 
-scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-# read config file
-configfile=$(cygpath -u "$1")
+case "$OSTYPE" in
+
+	msys*)
+		configfile=$(echo "/$1" | sed -e 's/\\/\//g' -e 's/://')
+		;;
+		
+	cygwin*)
+		# read config file
+		configfile=$(cygpath -u "$1")
+		;;    		
+		
+esac
+
 CFG_FILE="$configfile"
+
 [ -r "$CFG_FILE" ] || echo "$1" "fatal error: cannot read configuration file $CFG_FILE"
 . "$CFG_FILE"
 # end of read config file
@@ -18,15 +29,48 @@ CFG_FILE="$configfile"
 usage() {   
 	
 	echo
-	echo "workflow"
-	echo "========"
-    echo "    routines actions"
-    echo "    start day|week|month|year"
-    echo "    end day|week|month|year"      
+	echo "workflow									"
+	echo "========									"
+	echo "											"
+    echo "  help to manage routine actions			"
+	echo "											"
+	echo " usage									"
+	echo "											"
+    echo "    start day|week|month|year				"
+    echo "    end day|week|month|year				"      
 }
 
 startDay(){     
     
+	git_commit(){
+	
+		# push path
+		pushd "D:\do" > /dev/null 2>&1
+		
+		# git commit log file
+		echo
+		echo "# log file"
+		echo		
+		git add log.txt > /dev/null 2>&1
+		git	commit -m"add log entry" > /dev/null 2>&1		
+		echo "  [x] changes to $doLogPath commited"							
+		
+		# git commit project list file
+		echo
+		echo "# project list file"
+		echo	
+		projectlist="20161001-gtd project list.txt"
+		git add "reference/$projectlist" > /dev/null 2>&1
+		git	commit -m"update project list" > /dev/null 2>&1		
+		echo "  [x] changes to $projectlist commited"
+						
+		# pop path
+		popd > /dev/null 2>&1
+		
+	}
+	
+	
+	
 	echo 
     echo "welcome to start day program"
     echo 
@@ -34,9 +78,7 @@ startDay(){
 	echo 
 	echo "  - add computer checkin entry to $doLogPath"
 	echo "  - daily action list with context invocation"
-	echo "  - create a daily journal file with scheduled tasks"
-	echo "  - show a list to people having a special day on their life"
-	echo "  - prompt for wishing people"
+	echo "  - create a daily journal file with scheduled tasks"	
 	echo "  - prompt for blocking distracting websites"
 	echo "  - prompt for opening mail"
 	echo "  - prompt for opening todo.txt gui app"	
@@ -57,42 +99,44 @@ startDay(){
 	echo "  [x] log entry added"
 	echo
 	
-	# run action from csv file
-	gtd run_actions_from_csv_file "$ACTION_FOR_DAY_FILE"	
+	# gtd action
+	gtd action start day
+	
+	opted="n"
+	echo
+	
+	read -p "do you want to wish your friends (y|n) ? : " opted
+	if [ $opted == "y" ]; then
+		cygstart "$thunderbird"
+		echo
+		wish list
+		echo
+		read -n1 -r -p "press any key to compose birthday emails..." key </dev/tty
+		wish email && t log add "wish friends happy birthday"			
+	fi	
 
+	echo
+	read -n1 -r -p "press any key to create journal" key </dev/tty
+	echo
 	# create journal
-	t journal create "$docJournalFile"
+	t journal create
+	
 	echo
 	echo "# journal file"
 	echo
 	echo "  [x] journal file created and opened"	
-	echo
-		
-	echo 
-	echo "List of People to wish"	
-	echo =========================
-	echo 
-	wish list
-	echo
-
-	opted="n"	
-	read -p "enter y to wish now : " opted
-	if [ $opted == "y" ]; then
-		wish email
-		t log add "wish friends happy birthday"	
-	fi
-	
+	echo		
 	
 	echo
 	read -p "do you want start work by blocking distractions : " opted
 	if [ $opted == "y" ]; then
 		# block time wasting websites
-		gsd work
+		echo
+		gsd work		
 	else
 		echo
 		read -p "do you want check mail : " opted
-		if [ $opted == "y" ]; then
-			thunderbird="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
+		if [ $opted == "y" ]; then			
 			cygstart "$thunderbird"
 		fi			
 	fi
@@ -100,20 +144,24 @@ startDay(){
 	echo
 	read -p "do you want open todo.txt gui app: " opted
 		if [ $opted == "y" ]; then
-			todoapp="C:\Program Files (x86)\QTodoTxt\qtodotxt.exe"
+			todoapp="%PROGRAMFILES%\Hughesoft\todotxt.net\todotxt.exe"
+			# todoapp="%PROGRAMFILES%\QTodoTxt\qtodotxt.exe"
 			cygstart "$todoapp"
 	fi	
-	
-	echo
-	echo "# log file"
-	echo
-	# commit the changes
-	pushd "D:\Dropbox\action\20140310-do" > /dev/null 2>&1
-    git add log.txt > /dev/null 2>&1
-	git	commit -m"add log entry" > /dev/null 2>&1
-	popd > /dev/null 2>&1
-		echo "  [x] changes to $doLogPath commited"	
 		
+	# start actions for the week
+	echo
+	echo "# computer"	
+	echo
+	echo " [x] open active projects for action"
+	echo 
+	
+	# commit the changes
+	git_commit
+	
+	# open active projects
+	gtd open_active_projects	
+	
 	echo
 	echo "--------------------"
 	echo "Have a great day ..."
@@ -123,27 +171,54 @@ startDay(){
 
 endDay(){
 	
+	git_commit(){
+	
+		pushd "D:\do" > /dev/null 2>&1
+	
+		# commit the changes
+		echo
+		echo "commiting changes"
+		echo	
+
+		# TODO: commit the calendar.txt file
+		# TODO: commit the todo.txt file
+		
+		# git commit log file		
+		echo
+		echo "# log file"
+		echo
+		git add log.txt > /dev/null 2>&1
+		git commit -m"add log entry" > /dev/null 2>&1
+		popd > /dev/null 2>&1	
+		
+		
+		# git commit lesson file
+		echo
+		echo "# lesson file"
+		echo		
+		git add lessons.txt > /dev/null 2>&1
+		git	commit -m"add lesson entry" > /dev/null 2>&1		
+		echo "  [x] changes to lessons file commited"
+		
+	}
+	
 	echo
 	echo "  workflow end day"
     echo 
-    echo "   - add check out time to $doLogPath file"
-    echo "   - add done items from done.txt to journal file"
-	echo "   - TODO: daily backup"	
-    echo 
+    echo "  - add check out time to $doLogPath file"
+    echo "  - add done items from done.txt to journal file"
+	echo "  - show a list to people having a special day on their life"
+	echo "  - prompt for wishing people"
+	echo "  - TODO: daily backup"	
+    echo 	
 	
-	echo  
-	echo "List of People having birthday tomorrow"	
-	echo ========================================
-	echo 
-	wish list tomorrow
-	echo
 	
 	# unblock sites
 	echo
 	echo "Unblocking Sites"
 	echo 
 	gsd play
-		
+			
 	# show a standup report
 	echo
 	echo "Done Report"
@@ -155,31 +230,80 @@ endDay(){
 	read -p "do you want to add gratitude for the day [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		echo
+		t journal add gratitude
 	fi
 
 	# add lessons
 	echo
 	read -p "do you want to add lessons of the day [y|n] ? : " opted
 	if [ $opted == "y" ]; then
-		echo
+		t lesson 		
 	fi
+	
 	
 	# review
 	echo
 	echo "Day Review"
 	echo
-	gtd run_actions_from_csv_file "$REVIEW_DAY_FILE"
 	
+	# log items to journal
+	t journal add add_todo_done_items
+	
+	# open journal
+	t journal open
+	
+	# gtd action
+	gtd action end day
+	
+	# add day plan
+	opted="n"
+	echo	
+	read -p "do you want to add day plan for tomorrow to todo.txt [y|n] ? : " opted
+	if [ $opted == "y" ]; then
+		t plan pick tomorrow
+	fi
+	
+	
+	opted="n"
+	echo
+	read -p "have you wished your friends ? : " opted
+	if [ $opted == "n" ]; then	
+		echo 
+		echo "List of People to wish"	
+		echo =========================
+		echo 
+		wish list
+		echo		
+		opted="n"	
+		read -p "enter y to wish now : " opted
+		if [ $opted == "y" ]; then
+			wish email
+			t log add "wish friends happy birthday"	
+		fi	
+	else		
+		t log add "wish friends happy birthday"			
+	fi
+		
+	echo  
+	echo "List of People having birthday tomorrow"	
+	echo ========================================
+	echo 
+	wish list tomorrow
+	echo
+	
+	
+	opted="n"
+	echo	
+	read -p "do you want to backup data [y|n] ? : " opted
+	if [ $opted == "y" ]; then		
+		backup
+	fi
+	
+	# add checkout log entry to log
 	t log add "check-out from personal computer"
 	
-	# commit the changes
-	echo
-	echo "commiting changes"
-	echo	
-	pushd "D:\Dropbox\action\20140310-do" > /dev/null 2>&1
-	git add log.txt
-	git commit -m"add log entry" 
-	popd > /dev/null 2>&1	
+	# commit changes
+	git_commit	
 		
 	echo
 	echo "---------------------------"
@@ -187,10 +311,22 @@ endDay(){
 	echo "---------------------------"
 	echo
 		
+	
 }
 
 startWeek(){
     
+	# [ ] check the weather prediction for building prior knowledge
+	# [ ] check the 3 days newspaper
+	# [ ] read through dont.txt todo items
+	# [ ] read through dream.txt todo items
+	# [ ] add next actions for todo items in outline.txt
+	# [ ] move todo from waiting.txt if ok 
+	# [ ] schedule todo from open projects to todo.txt
+	# [ ] add tasks for the week to todo.txt from calendar.txt
+	# [ ] take sticky todo from gtd file and add to plan paper
+	# [ ] prioritize important tasks
+	
 	echo 
     echo "  workflow start week"
     echo 
@@ -215,23 +351,17 @@ startWeek(){
 		echo
 		echo "commiting changes"
 		echo	
-		pushd "D:\Dropbox\action\20140310-do" > /dev/null 2>&1
+		pushd "D:\do" > /dev/null 2>&1
 		git add todo.txt
 		git commit -m"add weekly todos to todo.txt" 
 		popd > /dev/null 2>&1				
 	fi	    
 	
-	# weekly actions
+	# gtd action
 	echo
 	echo "weekly actions"
 	echo
-	gtd run_actions_from_csv_file "$ACTION_FOR_WEEK_FILE"
-	
-	# start actions for the week	
-	echo
-	echo "open active projects for action"
-	echo 
-	gtd open_active_projects
+	gtd action start week
 			
 	echo 
 	echo "--------------------------"
@@ -247,7 +377,7 @@ endWeek(){
 	echo "GTD Weekly Review Walk Through"
 	echo						
 	echo "- analyse todo projects"
-	echo "- pritorize todo projects"				
+	echo "- prioritize todo projects"				
 	echo "- generate and view reports"
 	echo "- commit changes"
 	echo "- add lessons"
@@ -255,18 +385,40 @@ endWeek(){
 	echo "- reward yourself"
 	echo
 
-	read -p "do you want to weekly review [y|n] ? : " opted
+	# gtd action
+	read -p "do you want start weekly actions [y|n] ? : " opted
 	if [ $opted == "y" ]; then
-		# review file is read from config file
-		gtd run_actions_from_csv_file "$REVIEW_WEEK_FILE"
+		gtd action end week
 	fi
-			
+	
+	
+	echo
+	read -p "do you want to review every todo project [y|n] ? : " opted
+	if [ $opted == "y" ]; then	
+		# TODO: create doc with pre populated list of todo projects for adding review notes
+		echo
+		echo "# todo.txt project"	
+		echo
+		echo " [] copy todo item numbers of all done and invalid items"
+		echo " [] create and save a note of review points"
+		echo 
+		b terminal
+		df view_project_todos
+		echo
+		echo "# todo.txt project"	
+		echo		
+		echo " [] mark the done and invalid todos"
+		echo		
+	fi
+	
+	
+	
 	echo
 	read -p "do you want to update todo files [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		# update do files
-		dofolder clean_todo_files
-		dofolder update_inbox_file
+		df clean_todo_files
+		df update_inboxtxt_file
 	fi
 	
 	echo
@@ -276,7 +428,7 @@ endWeek(){
 	fi
 		
 	echo
-	read -p "do you want to pritorize todo projects [y|n] ? : " opted
+	read -p "do you want to prioritize todo projects [y|n] ? : " opted
 	if [ $opted == "y" ]; then
 		gtd pritorize_todo_projects
 	fi
@@ -284,9 +436,10 @@ endWeek(){
 	echo
 	read -p "do you want to generate and view reports [y|n] ? : " opted
 	if [ $opted == "y" ]; then
-		gtd generate_and_view_reports
+		# gtd generate_and_view_reports
+		:
 	fi
-				
+
 	echo
 	read -p "do you want to reward yourself [y|n] ? : " opted
 	if [ $opted == "y" ]; then
@@ -318,6 +471,28 @@ startMonth(){
     echo "   - commit do"       
     echo 
 	
+	# [ ] check todos that can be scheduled 
+	# [ ] prepare the list of recurring tasks for the month to calendar.txt
+	
+	# add recurring todos to calendar.txt	
+	
+	opted="n"
+	echo	
+	read -p "do you want to add todos for the month [y|n] ? : " opted
+	if [ $opted == "y" ]; then
+		t plan day month
+	fi
+	
+	
+	# [ ] move todo related to current month from tickler.txt to todo.txt 
+	# [ ] brainstorm for open todo projects
+	# [ ] prepare next actions for unclear tasks 
+	# [ ] review projects
+	# [ ] review waiting
+	# [ ] clean todo.txt
+	# [ ] update contexts.md
+	# [ ] update projects.md
+	
 	t file open "$doRootPath/inbox.md"
 	t file open "$doRootPath/outline.md"
 	t file open "$doRootPath/calendar.txt"
@@ -327,6 +502,9 @@ startMonth(){
     # t plan month invalidate && \
     # t plan month && 
     # commitdo
+	
+	# gtd action
+	gtd action start month
 	
 	echo
 	echo "----------------------"
@@ -344,10 +522,23 @@ endMonth(){
 	echo "- process inbox folders"
 	echo		 
 	echo
+	
+	# gtd action
+	gtd action end month
+	
+	# [ ] move done.txt todo items to project files
+	# [ ] move invalid.txt todo items to project files
+	# [ ] update the status of main projects
+	# [ ] commit changes to do folder
+	# [ ] add birdseye report for todo items
+	# [ ] go through journal notes of the month
+	
+	# [ ] add inbox script features
 	read -p "do you want to process inbox folders [y|n] ? : " opted
 	if [ $opted == "y" ]; then
-		gtd run_actions_from_csv_file "$INBOX_FOLDER_LIST"
+		echo 
 	fi
+	
 	
 	echo 
 	echo "---------------------------"
@@ -366,7 +557,11 @@ startYear(){
     echo "   - schedule todo yearly tasks"  
     echo "   - commit do"
     echo        
-    #doarchive
+
+	# gtd actions
+	gtd action start year
+	
+	#doarchive
     t plan year invalidate && \
     t plan year && \
     commitdo
@@ -380,6 +575,9 @@ startYear(){
 
 endYear(){
 	
+	# gtd actions
+	gtd action end year 
+	
 	echo 
 	echo "---------------------------"
 	echo "See you again, take care..."
@@ -389,6 +587,9 @@ endYear(){
 }
 
 _workflow_main_(){
+
+	# common variables
+	thunderbird="C:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"
 
     # Get action
     action=$1
@@ -454,7 +655,7 @@ _workflow_main_(){
             ;;
         esac
     else
-        echo "workflow error: unrecognized option \"$option\"."
+        echo "workflow error: unrecognised option \"$option\"."
         echo "try \" view help\" to get more information."
     fi
 }

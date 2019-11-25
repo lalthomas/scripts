@@ -2,8 +2,8 @@
 setlocal
 
 REM Program variables
-set CCompilerPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\gcc.exe"
-set CppCompilterPath="C:\Program Files (x86)\Dev-Cpp\MinGW64\bin\g++.exe"
+set CCompilerPath="%PROGRAMFILES%\Dev-Cpp\MinGW64\bin\gcc.exe"
+set CppCompilterPath="%PROGRAMFILES%\Dev-Cpp\MinGW64\bin\g++.exe"
 set JavaCompilerPath="C:\Program Files\Java\jdk1.7.0_51\bin\javac.exe"
 
 REM get the script folder path
@@ -147,7 +147,7 @@ IF %ERRORLEVEL% EQU 0 (goto LatexSuccess ) ELSE (goto LatexFailure)
 pause
 EXIT /b 0
 :LatexSuccess
-start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
+start "SumatraPDF" "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 
 
@@ -158,13 +158,13 @@ set path=%path%;
 IF NOT EXIST "%~dp1\build" mkdir build
 REM small margin
 REM call pandoc %1 -V geometry:margin=0.5in -o "%~n1.pdf"
-call pandoc %1 --latex-engine="C:\Program Files (x86)\MiKTeX 2.9\miktex\bin\pdflatex.exe" -V geometry:margin=0.5in -s -o "%~n1.pdf"
+call pandoc %1 --latex-engine="%PROGRAMFILES%\MiKTeX 2.9\miktex\bin\pdflatex.exe" -V geometry:margin=0.5in -s -o "%~n1.pdf"
 REM default
 REM call pandoc %1 -o "%~n1.pdf"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownPDFSuccess ) ELSE (goto MarkdownPDFFailure)
 EXIT /b 0
 :MarkdownPDFSuccess
-move "%~pd1\%~n1.pdf" "%~pd1\build" && start "SumatraPDF" "D:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
+move "%~pd1\%~n1.pdf" "%~pd1\build" && start "SumatraPDF" "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 :MarkdownPDFFailure
 echo. 
@@ -188,7 +188,8 @@ call pandoc %1 -s -o "%~n1.html"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownHTMLSuccess ) ELSE (goto MarkdownHTMLFailure)
 EXIT /b 0
 :MarkdownHTMLSuccess
-move "%~pd1\%~n1.html" "%~pd1\build" &&  START "" "%~pd1\build\%~n1.html"
+set FIREFOX="%ProgramW6432%\Mozilla Firefox\firefox.exe"
+move "%~pd1\%~n1.html" "%~pd1\build" &&  call %FIREFOX% "%~pd1\build\%~n1.html"
 EXIT /b 0
 :MarkdownHTMLFailure
 echo. 

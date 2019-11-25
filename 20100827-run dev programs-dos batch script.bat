@@ -35,8 +35,17 @@ if /i %~x1 == .sql ( goto SQL )
 if /i %~x1 == .py ( goto PYTHON )
 if /i %~x1 == .sh ( goto BASH )
 if /i %~x1 == .r ( goto R )
+if /i %~x1 == .ps1 ( goto POWERSHELL )
+if /i %~x1 == .c ( goto C)
+if /i %~x1 == .cpp ( goto C)
+
+goto END
 
 
+:C
+set path=%PATH%;%CD%
+start cmd /k "%~n1.exe"
+REM pause
 goto END
 
 REM HTML
@@ -148,6 +157,20 @@ REM R Language
 call "C:\Program Files\R\R-3.3.0\bin\Rscript.exe" %1
 pause
 exit
+
+:POWERSHELL
+@echo OFF
+set path=%PATH%;%CD%
+REM For running options see [.net - Could you explain STA and MTA? - Stack Overflow](http://stackoverflow.com/questions/127188/could-you-explain-sta-and-mta)
+
+REM Mutlithreaded
+REM powershell -MTA -executionpolicy bypass -File ".\%~nx1"
+
+REM Single Threaded
+powershell -STA -executionpolicy bypass -File ".\%~nx1"
+REM pause
+exit
+
 
 :getParentFolderName
 REM thanks : http://stackoverflow.com/questions/2396003/get-parent-directory-name-for-a-particular-file-using-dos-batch-scripting

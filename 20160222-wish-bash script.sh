@@ -1,18 +1,18 @@
 # Author : Lal Thomas 
 # Date : 2016-02-22
-# © Lal Thomas (lal.thomas.mail@gmail.com)
+# ï¿½ Lal Thomas (lal.thomas.mail@gmail.com)
 
 # get the file to process
-filename=$1
+wishfile=$1
 shift
 
 alias wish=_wish_main_
 
 _wish_main_(){  
 	
-	today_match_pattern="^\"[0-9]\{4\}-$monthCount-$dayCount\""
-	yesterday_match_pattern="^\"[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')\""
-	tomorrow_match_pattern="^\"[0-9]\{4\}-$(date --date='tomorrow' +'%m-%d')\""
+	local today_match_pattern="^\"[0-9]\{4\}-$monthCount-$dayCount\""
+	local yesterday_match_pattern="^\"[0-9]\{4\}-$(date --date='yesterday' +'%m-%d')\""
+	local tomorrow_match_pattern="^\"[0-9]\{4\}-$(date --date='tomorrow' +'%m-%d')\""
 	
     dieWithHelp(){
         case "$1" in
@@ -39,7 +39,7 @@ _wish_main_(){
         read -p "enter comment : " comment
         read -p "enter date of occasion YYYY-MM-DD : " occasionDate 
         # echo the lowercase
-        echo "$occasionDate | $name <$address> | $occasion | $comment" | awk '{print tolower($0)}' >>"$filename"    
+        echo "$occasionDate | $name <$address> | $occasion | $comment" | awk '{print tolower($0)}' >>"$wishfile"    
         echo "entry : \"$occasionDate | $name <$address> | $occasion | $comment\" added successfully..."
     
     }
@@ -48,34 +48,38 @@ _wish_main_(){
 			
 			pattern="$1"
 			email="$2"
-			emailClient="D:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"				
+			emailClient="C:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"				
 
 			
 			if [ -z "$email" ]; then
-				echo "No | Occasion             | Name(s)                                | Comment             "
-				echo "---| -------------------- | -------------------------------------- | --------------------"
+				printf "%-7s %-45s %-60s %-30s\n" "No" "Occasion" "Name(s)" "Comment"
+				printf "%-7s %-45s %-60s %-30s\n" "---" "----------------------------------------" "-------------------------------------------------------" "--------------------"
 			fi
 			
-			counter=1
-			formatstyle="\n %s %s %50s %10s\n"
-			grep -e $pattern "$filename" | while read -r  line ;
+			counter=1			
+			grep -e $pattern "$wishfile" | while read -r  line ;
 			do      				
 				name=$(echo $line | awk -F, '{print $2}'| tr -d '"')
 				occasion=$(echo $line | awk -F, '{print $3}' | tr -d '"')
 				comment=$(echo $line | awk -F, '{print $4}' | tr -d '"')
-				if [ -z "$email" ]; then
-					echo $counter " | " $occasion " | " $name  " | " $comment
+				if [ -z "$email" ]; then					
+					# OUTPUT="$OUTPUT\n $counter $occasion $name $comment\n"
+					printf "%-7s %-45s %-60s %-30s\n" "$counter" "$occasion" "$name" "$comment"
 				elif [ "$email" = "yes" ]; then									
 					cygstart $emailClient -compose "to='"$name"',subject="$occasion										
 				fi						
 				counter=$((counter + 1))  
-			done									
+			done				
 		}	
 			
-	# cat --number "$filename"			
+	# cat --number "$wishfile"			
 	
 	email(){		
-		OPTION=$1		
+		OPTION=$1	
+		
+		pgmpath="20161125-remove readonly attriubute from thunderbird portable folder-dos batch script.bat"		
+		"$scriptfolder/$(cygpath -u "${pgmpath}")"		
+				
 		case "$OPTION" in					
 			yesterday)
 				itemsMatchPattern $yesterday_match_pattern "yes"
@@ -113,7 +117,7 @@ _wish_main_(){
 	}
 	   
     openfile(){      
-      cygstart "$filename"
+      cygstart "$wishfile"
     }
 
     usage(){
@@ -197,3 +201,10 @@ case "$ACTION" in
 		;;	
 esac    
 }
+
+
+if [ $# -gt 0 ]
+  then  	
+   _wish_main_ ${@}
+fi
+

@@ -1,0 +1,1 @@
+call astyle --style=gnu "D:\lab\20131027-scripts project\tools\astyle\test.c"
