@@ -1,19 +1,26 @@
-@echo ON
+@echo OFF
 
 setlocal
 
-for /f "tokens=*" %%f in ('dir /a:D /s /b') do  (
+for /f "tokens=*" %%f in ('dir /a:D /b *') do  (
 
 	set gs= 
-	call :gitstatus %%f
-	echo "%%f",%gs% >"git status.csv"
+	echo "%%~dpnxf"
+	call :gitstatus %%~dpnxf
+	REM echo "%%f","%gs%" >>"git status.csv"
 )
 
 endlocal
+pause
+
+exit /b 0
+
 
 :gitstatus
-pushd %%f
-for /f "tokens=*" %%g in ('git status') do ( set gs=%gs% %g% )
+pushd %*
+( git status )
+REM for /f %%g in ('git status') do ( set gs=%gs% %g% )
+REM echo %gs%
 popd
 exit /b 0
 
