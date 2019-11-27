@@ -18,11 +18,11 @@ set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-REM set file="D:\lab\20131027-scripts project\20160225-reference folder-bash script.sh"
 set file="%~dp020160225-reference folder-bash script.sh"
 GOTO :EXECUTE
 
 REM Section
 :EXECUTE
-
+echo source %file%>>"C:\cygwin64\home\%USERNAME%\.bashrc"
+echo source %file%>>"%USERPROFILE%\.bashrc"
 exit

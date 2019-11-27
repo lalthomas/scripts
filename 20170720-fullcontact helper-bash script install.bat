@@ -18,10 +18,12 @@ set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-set file="D:\lab\20131027-scripts project\20170720-fullcontact helper-bash script.sh"
+set file="%~dp020170720-fullcontact helper-bash script.sh"
 GOTO :EXECUTE
+exit /b 0
 
 REM Section
 :EXECUTE
-
+echo source %file%>>"C:\cygwin64\home\%USERNAME%\.bashrc"
+echo source %file%>>"%USERPROFILE%\.bashrc"
 exit
