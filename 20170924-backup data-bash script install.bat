@@ -19,7 +19,7 @@ GOTO :EXECUTE
 
 :SETFILE
 REM set file="D:\lab\20131027-scripts project\20170924-backup data-bash script.sh"
-set file=%~dp020170924-backup data-bash script.sh
+set file="%~dp020170924-backup data-bash script.sh"
 GOTO :EXECUTE
 
 REM Section
