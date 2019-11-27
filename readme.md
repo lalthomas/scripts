@@ -429,3 +429,4 @@ Inbox
 20141109-do folder-bash script install.bat 
 20150715-bash helper-bash script install.bat 
 20150715-bookmark-bash script install.bat 
+20150715-git helper-bash script install.bat 
