@@ -431,3 +431,4 @@ Inbox
 20150715-bookmark-bash script install.bat 
 20150715-git helper-bash script install.bat 
 20150715-iso datetime-bash script install.bat 
+20150826-filepaths-bash script install.bat 
