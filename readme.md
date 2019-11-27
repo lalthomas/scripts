@@ -467,3 +467,4 @@ Inbox
 20130216-append foldername to filename-dos batch script install.bat 
 20130728-prepend created datetime to filename-dos batch script install.bat 
 20130819-convert file to markdown using pandoc-dos batch script install.bat 
+20131027-dev-beautify source code-dos batch script install.bat 
