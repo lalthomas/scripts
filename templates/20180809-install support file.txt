@@ -12,7 +12,8 @@ set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-set file=$FULLPATH$
+REM set file="$FULLPATH$"
+set file="%~dp0$FILENAME$"
 GOTO :EXECUTE
 
 REM Section
