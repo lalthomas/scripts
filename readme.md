@@ -473,3 +473,4 @@ Inbox
 20160217-fix the tag name of image-dos batch script install.bat 
 20160218-move files to random directory-dos batch program install.bat 
 20160307-delete file and associated files-dos batch script install.bat 
+20160513-print filenames in zip file-dos batch script install.bat 
