@@ -23,6 +23,10 @@ GOTO :EXECUTE
 
 REM Section
 :EXECUTE
-echo source %file%>>"C:\cygwin64\home\%USERNAME%\.bashrc"
-echo source %file%>>"%USERPROFILE%\.bashrc"
-exit
+REM cygwin only
+echo source "$(cygpath %file%)" "D:\do\reference\20161130-workflow script config file.cfg">>"C:\cygwin64\home\%USERNAME%\.bash_profile"
+REM convert the line ending to unix
+call "C:\Program Files\Git\usr\bin\dos2unix.exe" "C:\cygwin64\home\%USERNAME%\.bash_profile"
+
+REM echo source %file%>>"%USERPROFILE%\.bashrc"
+exit /b 0

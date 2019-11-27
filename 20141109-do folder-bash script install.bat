@@ -1,9 +1,11 @@
-@echo OFF 	
+@echo OFF
 REM File : 20141109-do folder-bash script install.bat 	
 REM Creation Date : 2019-11-27 	
 REM Author : Lal Thomas 	
 REM Original File : 20141109-do folder-bash script.sh 	
-	
+
+set scriptFolderPathFull=%~dp0%
+set scriptFolderPath=%scriptFolderPathFull:~0,-1%
 REM Thanks http://stackoverflow.com/a/19706067/2182047
 REM Original modified for need
 for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
@@ -23,6 +25,13 @@ GOTO :EXECUTE
 
 REM Section
 :EXECUTE
-echo source %file%>>"C:\cygwin64\home\%USERNAME%\.bashrc"
+call "%scriptFolderPath%\20191127-obtain cygwin drive path-dos batch script.bat" %file%
+for /f "tokens=* usebackq" %%f in (`"%scriptFolderPath%\tools\paste\paste.exe"`) do (
+	set cpb=%%f
+)
+echo source "%cpb%">>"C:\cygwin64\home\%USERNAME%\.bash_profile"
+echo.>>"C:\cygwin64\home\%USERNAME%\.bash_profile"
 echo source %file%>>"%USERPROFILE%\.bashrc"
-exit
+REM convert the line ending to unix
+call "C:\Program Files\Git\usr\bin\dos2unix.exe" "C:\cygwin64\home\%USERNAME%\.bash_profile"
+exit /b 0

@@ -24,5 +24,14 @@ GOTO :EXECUTE
 
 REM Section
 :EXECUTE
+call :createShortCut "%CD%\20120713-copy a file to all sub folders-dos batch script.bat" "# explorer - copy file to all sub folders.lnk"
+exit /b 0
 
-exit
+:createShortCut
+set scriptfile=".\20170102-create shortcut in sendto folder-powershell script.ps1"
+IF [%3] == [] (
+	powershell -STA -executionpolicy bypass -File %scriptfile% -filename %1 -linkname %2 
+) ELSE (
+	powershell -STA -executionpolicy bypass -File %scriptfile% -filename %1 -linkname %2 -switch %3
+)
+exit /b 0

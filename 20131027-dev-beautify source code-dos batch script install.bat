@@ -24,5 +24,14 @@ GOTO :EXECUTE
 
 REM Section
 :EXECUTE
+call :createShortCut "%CD%\20131027-dev-beautify source code-dos batch script.bat" "# dev - beautify.lnk"
+exit /b 0
 
-exit
+:createShortCut
+set scriptfile=".\20170102-create shortcut in sendto folder-powershell script.ps1"
+IF [%3] == [] (
+	powershell -STA -executionpolicy bypass -File %scriptfile% -filename %1 -linkname %2 
+) ELSE (
+	powershell -STA -executionpolicy bypass -File %scriptfile% -filename %1 -linkname %2 -switch %3
+)
+exit /b 0

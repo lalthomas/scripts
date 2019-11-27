@@ -23,6 +23,9 @@ GOTO :EXECUTE
 
 REM Section
 :EXECUTE
-echo source %file%>>"C:\cygwin64\home\%USERNAME%\.bashrc"
+echo source "$(cygpath %file%)">>"C:\cygwin64\home\%USERNAME%\.bash_profile"
+REM convert the line ending to unix
+call "C:\Program Files\Git\usr\bin\dos2unix.exe" "C:\cygwin64\home\%USERNAME%\.bash_profile"
+
 echo source %file%>>"%USERPROFILE%\.bashrc"
-exit
+exit /b 0

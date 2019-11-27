@@ -24,5 +24,14 @@ GOTO :EXECUTE
 
 REM Section
 :EXECUTE
-
+call :createShortCut "%CD%\20160217-fix the tag name of image-dos batch script.bat" "# image - fix the tag name of image.lnk"
 exit
+
+:createShortCut
+set scriptfile=".\20170102-create shortcut in sendto folder-powershell script.ps1"
+IF [%3] == [] (
+	powershell -STA -executionpolicy bypass -File %scriptfile% -filename %1 -linkname %2 
+) ELSE (
+	powershell -STA -executionpolicy bypass -File %scriptfile% -filename %1 -linkname %2 -switch %3
+)
+exit /b 0

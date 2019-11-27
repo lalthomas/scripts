@@ -23,6 +23,10 @@ GOTO :EXECUTE
 
 REM Section
 :EXECUTE
-echo source %file%>>"C:\cygwin64\home\%USERNAME%\.bashrc"
-echo source %file%>>"%USERPROFILE%\.bashrc"
-exit
+echo source "$(cygpath %file%)" "D:\do\reference\20161120-gtd script config file.cfg" >>"C:\cygwin64\home\%USERNAME%\.bash_profile"
+REM convert the line ending to unix
+call "C:\Program Files\Git\usr\bin\dos2unix.exe" "C:\cygwin64\home\%USERNAME%\.bash_profile"
+
+REM This script is not ported for Migwin Bash. Only Cygwin Supported
+REM echo source %file%>>"%USERPROFILE%\.bashrc"
+exit /b 0
