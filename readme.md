@@ -459,3 +459,4 @@ Inbox
 20100606-make index of image files-dos batch program install.bat 
 20100827-run dev programs-dos batch script install.bat 
 20111220-compile programs-dos batch script install.bat 
+20120713-copy a file to all sub folders-dos batch script install.bat 
