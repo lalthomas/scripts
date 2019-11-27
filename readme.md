@@ -441,3 +441,4 @@ Inbox
 20160509-inbox folder-bash script install.bat 
 20161108-project folder-bash script install.bat 
 20161114-gtd helper-bash script install.bat 
+20170706-wallpaper folder-bash script install.bat 
