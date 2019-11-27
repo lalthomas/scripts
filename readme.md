@@ -477,3 +477,4 @@ Inbox
 20160526-add caption for image-dos batch script install.bat 
 20160723-blog it install.bat 
 20160919-remove all metadata for image-dos batch script install.bat 
+20170426-append filename to list-dos batch file install.bat 
