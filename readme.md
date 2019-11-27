@@ -475,3 +475,4 @@ Inbox
 20160307-delete file and associated files-dos batch script install.bat 
 20160513-print filenames in zip file-dos batch script install.bat 
 20160526-add caption for image-dos batch script install.bat 
+20160723-blog it install.bat 
