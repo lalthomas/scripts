@@ -471,3 +471,4 @@ Inbox
 20151226-git commit changes install.bat 
 20160216-set folder name as tag for image-dos batch script install.bat 
 20160217-fix the tag name of image-dos batch script install.bat 
+20160218-move files to random directory-dos batch program install.bat 
