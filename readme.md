@@ -466,3 +466,4 @@ Inbox
 20120909-make snapshots from videos-dos batch script install.bat 
 20130216-append foldername to filename-dos batch script install.bat 
 20130728-prepend created datetime to filename-dos batch script install.bat 
+20130819-convert file to markdown using pandoc-dos batch script install.bat 
