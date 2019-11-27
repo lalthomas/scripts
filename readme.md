@@ -470,3 +470,4 @@ Inbox
 20131027-dev-beautify source code-dos batch script install.bat 
 20151226-git commit changes install.bat 
 20160216-set folder name as tag for image-dos batch script install.bat 
+20160217-fix the tag name of image-dos batch script install.bat 
