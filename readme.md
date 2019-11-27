@@ -478,3 +478,4 @@ Inbox
 20160723-blog it install.bat 
 20160919-remove all metadata for image-dos batch script install.bat 
 20170426-append filename to list-dos batch file install.bat 
+20170707-show image slideshow from a filelist-dos batch script install.bat 
