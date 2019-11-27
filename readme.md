@@ -460,3 +460,4 @@ Inbox
 20100827-run dev programs-dos batch script install.bat 
 20111220-compile programs-dos batch script install.bat 
 20120713-copy a file to all sub folders-dos batch script install.bat 
+20120727-change file extension dos batch script install.bat 
