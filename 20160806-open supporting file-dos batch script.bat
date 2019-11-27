@@ -65,7 +65,8 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& echo ^REM Original File : %originalfilename% >>%filename% ^
 	&& echo.>>%filename%	
 	type "%scriptFolderPath%%runTemplateFilePath%" >>%filename%
-	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "\"%originalpath%\"" >nul 2>nul
+	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "%originalpath%" >nul 2>nul
+	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FILENAME$" "%originalfilename%" >nul 2>nul
 	"%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath%	
 	
 ) else if /I "%supportfiletype%" == "install.bat" (
@@ -77,7 +78,8 @@ if /I "%supportfiletype%" == "readme.md" (
 	&& echo ^REM Original File : %originalfilename% >>%filename% ^
 	&& echo.>>%filename%	
 	type "%scriptFolderPath%%installTemplateFilePath%" >>%filename%
-	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "\"%originalpath%\"" >nul 2>nul
+	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FULLPATH$" "%originalpath%" >nul 2>nul
+	call "%scriptFolderPath%\tools\fart\fart.exe" %fullpath% "$FILENAME$" "%originalfilename%" >nul 2>nul
 	"%PROGRAMFILES%\Notepad++\notepad++.exe" %fullpath%	
 )
 
