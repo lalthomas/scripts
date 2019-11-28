@@ -23,8 +23,8 @@ GOTO :EXECUTE
 
 REM Section
 :EXECUTE
-echo source "$(cygpath %file%)">>"C:\cygwin64\home\%USERNAME%\.bash_profile"
-echo source %file%>>"%USERPROFILE%\.bashrc"
+echo source "$(cygpath %file%)" "$(cygpath "D:\do\%YYYY%\reference\greetings doc.csv")" >>"C:\cygwin64\home\%USERNAME%\.bash_profile" 
+echo source %file% "D:\do\%YYYY%\reference\greetings doc.csv" >>"%USERPROFILE%\.bashrc"
 REM convert the line ending to unix
 call "C:\Program Files\Git\usr\bin\dos2unix.exe" "C:\cygwin64\home\%USERNAME%\.bash_profile"
 exit /b 0
