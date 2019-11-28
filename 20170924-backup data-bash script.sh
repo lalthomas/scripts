@@ -47,7 +47,7 @@ _backup_(){
 	shift
 
 	case $action in
-	help|usage) usage;;
+	help|usage) _usage;;
 	all) _warm && _all "$@";;		
 	fav) _warm && _fav "$@";;
 	esac
