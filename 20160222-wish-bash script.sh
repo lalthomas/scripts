@@ -48,7 +48,7 @@ _wish_main_(){
 			
 			pattern="$1"
 			email="$2"
-			emailClient="C:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"				
+			emailClient="E:\PortableApps.com\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe"				
 
 			
 			if [ -z "$email" ]; then
