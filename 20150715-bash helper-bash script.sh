@@ -107,8 +107,8 @@ _bash_(){
         command=$*          
         if [[ -z "${command// }" ]]; then
             cygstart mintty /bin/bash -il
-        else
-            /usr/bin/mintty.exe -i /Cygwin-Terminal.ico  /usr/bin/bash.exe -l -c "${command} && read -n1 -r -p \"Press any key to continue ...\" key;"
+        else			
+			/usr/bin/mintty.exe -i /Cygwin-Terminal.ico -h always -e /usr/bin/bash.exe -l -i -c "${command}"            
         fi
         
     }
