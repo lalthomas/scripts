@@ -13,16 +13,12 @@ GOTO :EXECUTE
 
 :SETFILE
 REM set file="$FULLPATH$"
-set file=%~dp0$FILENAME$
-GOTO :EXECUTE
-
-REM Section
+set file="%~dp0$FILENAME$"
 :EXECUTE
 call :COMPILE %file%
-call :OUTPUT %file%
-exit
+exit /b 0
 
-REM Sub Routine
+REM COMPILE
 :COMPILE
 REM remove the original date string and add the current
 set "filename=%~n1"
@@ -30,10 +26,10 @@ set "filename=%filename:~9%"
 set "filename=%datestamp%-%filename%"
 REM invoke the compiler
 REM pandoc "%~1" -o ".\build\%filename%.pdf"
-
+REM call :OUTPUT ".\build\%filename%.pdf"
 exit /b 0
 
 :OUTPUT
 REM invoke the build file
-REM explorer "build\%filename%.pdf"
+REM explorer %1
 exit /b 0
