@@ -36,7 +36,7 @@ IF [%RPath%] == [] (
 )
 
 call :GCLONE %REPODIR% %RPath%
-REM pause
+pause
 endlocal
 exit /b 0
 
@@ -79,5 +79,5 @@ echo.
 git gc
 popd
 explorer "%~dpnx1\%~n2.git"
-gitex.cmd browse "%~dpnx1\%~n2.git"
+call "C:\Program Files (x86)\GitExtensions\gitex.cmd" browse "%~dpnx1\%~n2.git"
 exit /b 0
