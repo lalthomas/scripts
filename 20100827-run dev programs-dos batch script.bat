@@ -138,7 +138,7 @@ REM Python 3
 REM set path=%PATH%;%PYTHON3%
 REM call %PYTHON3%\python %1
 
-call python %1
+call %PYTHON% %1
 pause
 goto END
 
