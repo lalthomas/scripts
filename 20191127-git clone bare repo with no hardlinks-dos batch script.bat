@@ -36,7 +36,7 @@ IF [%RPath%] == [] (
 )
 
 call :GCLONE %REPODIR% %RPath%
-pause
+REM pause
 endlocal
 exit /b 0
 
@@ -78,6 +78,6 @@ git remote remove origin
 echo.
 git gc
 popd
-explorer "%~dpnx1\%~n2.git"
+REM explorer "%~dpnx1\%~n2.git"
 call "C:\Program Files (x86)\GitExtensions\gitex.cmd" browse "%~dpnx1\%~n2.git"
 exit /b 0
