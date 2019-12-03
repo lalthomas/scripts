@@ -18,7 +18,6 @@ set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-REM set file="D:\lab\20131027-scripts project\20170426-append filename to list-dos batch file.bat"
 set file="%~dp020170426-append filename to list-dos batch file.bat"
 GOTO :EXECUTE
 

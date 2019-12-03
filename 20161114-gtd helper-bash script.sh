@@ -6,7 +6,9 @@
 # read config file
 # configfile=$1
 
-# D:\do\reference\20161120-gtd script config file.cfg
+# Sample Config File
+# .\templates\20161120-gtd script config file.cfg
+# <WINPAATH TO CONFIG FILE>
 configfile=$(cygpath -u "$1")
 CFG_FILE="$configfile"
 [ -r "$CFG_FILE" ] || echo "$1" "fatal error: cannot read configuration file $CFG_FILE"
@@ -251,20 +253,16 @@ _gtd_main_(){
 		case $action in
 		'start')        								                  
 			case "$occasion" in
-				day)						
-					# D:\do\reference\20161120-day start action gtd script support file.csv
+				day)											
 					run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_START_FILE"
 				;;
-				week)
-					# D:\do\reference\20161130-week start gtd script support file.csv
+				week)					
 					run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_START_FILE"
 				;;                  
-				month)
-					# D:\do\reference\20170101-month start gtd script support file.csv
+				month)					
 					run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_START_FILE"	
 				;;
-				year)
-					# D:\do\reference\20170101-year start gtd script support file.csv
+				year)					
 					run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_START_FILE"
 
 				;;
@@ -273,21 +271,17 @@ _gtd_main_(){
 		'end')
 			case "$occasion" in
 				day)
-					# D:\do\reference\20161120-day end action gtd script support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_END_FILE"
 					;;
 				week)
-					# D:\do\reference\20161114-week end gtd script support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_END_FILE"
 
 					;;                  
 				month)
-					# D:\do\reference\20170101-month end gtd script support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_END_FILE"
 
 					;;
 				year)						
-					# D:\do\reference\20170101-year end gtd script support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_END_FILE"
 					;;
 			esac

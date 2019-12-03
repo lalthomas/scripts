@@ -6,7 +6,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 $StartUp = [System.Environment]::GetFolderPath('Startup')
 
 # lauchy
-New-Item -ItemType SymbolicLink -Path "$StartUp" -Name "launchy.lnk" -Value "D:\Portable\launchy\Launchy.exe"
+New-Item -ItemType SymbolicLink -Path "$StartUp" -Name "launchy.lnk" -Value "E:\Portable App\launchy\Launchy.exe"
 
 # Pause
 # Read-Host -Prompt "Press Enter to continue"

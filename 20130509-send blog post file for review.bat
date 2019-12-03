@@ -2,7 +2,7 @@
 setlocal 
 REM Before using this batch please download PanDoc from https://pandoc.googlecode.com/files/pandoc-1.11b.msi
 set HOME=D:\lalthomas\Dev\20130307-Mail (lalthomas)
-set THUNDERBIRD_HOME=C:\Program Files\Mozilla Thunderbird\
+set THUNDERBIRD_HOME=%ProgramFiles%\Mozilla Thunderbird\
 set /p DOC=Enter today's doc name (without md extension): 
 
 REM Get the current date

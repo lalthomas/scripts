@@ -18,7 +18,6 @@ set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-REM set file="D:\lab\20131027-scripts project\20160919-remove all metadata for image-dos batch script.bat"
 set file="%~dp020160919-remove all metadata for image-dos batch script.bat"
 GOTO :EXECUTE
 

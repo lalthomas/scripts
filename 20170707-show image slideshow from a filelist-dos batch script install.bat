@@ -18,7 +18,6 @@ set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-REM set file="D:\lab\20131027-scripts project\20170707-show image slideshow from a filelist-dos batch script.bat"
 set file="%~dp020170707-show image slideshow from a filelist-dos batch script.bat"
 GOTO :EXECUTE
 

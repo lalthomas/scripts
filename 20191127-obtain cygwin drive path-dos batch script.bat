@@ -3,7 +3,7 @@ REM Date : 2019-11-27
 @echo OFF
 %~d0
 cd %~dp0
-REM set fpath="D:\project\folder-bash script.sh"
+REM fpath value will be like "D:\project\folder-bash script.sh"
 set fpath=%*
 set scriptFolderPathFull=%~dp0%
 set scriptFolderPath=%scriptFolderPathFull:~0,-1%

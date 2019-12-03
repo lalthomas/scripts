@@ -17,7 +17,7 @@ exit
 set temppath=d:\temp
 set filepath="%temppath%\%random%.jpg"
 pushd %temppath%
-set path=%PATH%;C:\PortableApps.com\PortableApps\IrfanViewPortable\
+set path=%PATH%;E:\PortableApps.com\PortableApps\IrfanViewPortable
 IrfanViewPortable.exe %1 /clippaste /convert=%filepath%
 IrfanViewPortable.exe /killmesoftly
 call :ENCODER %filepath%

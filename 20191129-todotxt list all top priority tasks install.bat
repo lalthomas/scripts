@@ -18,7 +18,6 @@ set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-REM set file="D:\temp\20191129-list all top priotity todotxt tasks.sh"
 set file="%~dp020191129-list all top priotity todotxt tasks run.bat"
 GOTO :EXECUTE
 

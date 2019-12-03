@@ -13,13 +13,15 @@ set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
+set scriptFolderPathFull=%~dp0%
+set scriptFolderPath=%scriptFolderPathFull:~0,-1%
+
 IF [%1] == [] GOTO :SETFILE
 set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-REM set file="D:\lab\20131027-scripts project\20151226-git commit changes.bat"
-set file="%~dp020151226-git commit changes.bat"
+set file="%scriptFolderPath%\20151226-git commit changes.bat"
 GOTO :EXECUTE
 
 REM Section
