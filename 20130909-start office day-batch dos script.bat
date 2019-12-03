@@ -15,8 +15,8 @@ start "SOD-Record-Time" "%CD%\tools\record-time.bat" start-of-day-arrival-time.t
 REM End of Start of Day Checklist
 
 REM Start Common Apps
-start "Firefox" "C:\Program Files\Mozilla Firefox\firefox.exe"
-start "Thunderbird" "C:\Program Files\Mozilla Thunderbird\thunderbird.exe"
+start "Firefox" "%ProgramFiles%\Mozilla Firefox\firefox.exe"
+start "Thunderbird" "%ProgramFiles%\Mozilla Thunderbird\thunderbird.exe"
 REM End of Start Common Apps
 
 REM Start of Day Checklist
