@@ -137,7 +137,8 @@ del build\*.out
 :: Run pdflatex -> bibtex -> pdflatex -> pdflatex
 pdflatex -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
 type "%~dp1\build\%~n1.log" | findstr Warning:
-bibtex.exe --include-directory="D:\Data\Mendeley" "%~dp1\build\%~n1.aux"
+REM bibtex.exe --include-directory="D:\Data\Mendeley" "%~dp1\build\%~n1.aux"
+bibtex.exe "%~dp1\build\%~n1.aux"
 :: If you are using multibib the following will run bibtex on all aux files
 :: FOR /R . %%G IN (*.aux) DO bibtex %%G
 pdflatex.exe -draftmode -interaction=batchmode -aux-directory="%~pd1\build" -output-directory="%~pd1\build" %1
@@ -147,7 +148,7 @@ IF %ERRORLEVEL% EQU 0 (goto LatexSuccess ) ELSE (goto LatexFailure)
 pause
 EXIT /b 0
 :LatexSuccess
-start "SumatraPDF" "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
+start "SumatraPDF" "E:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 
 
@@ -158,13 +159,15 @@ set path=%path%;
 IF NOT EXIST "%~dp1\build" mkdir build
 REM small margin
 REM call pandoc %1 -V geometry:margin=0.5in -o "%~n1.pdf"
+call pandoc %1 --latex-engine="%ProgramFiles(x86)%\MiKTeX 2.9\miktex\bin\pdflatex.exe" -V geometry:margin=0.5in -s -o "%~n1.pdf"
 call pandoc %1 --latex-engine="%PROGRAMFILES%\MiKTeX 2.9\miktex\bin\pdflatex.exe" -V geometry:margin=0.5in -s -o "%~n1.pdf"
+
 REM default
 REM call pandoc %1 -o "%~n1.pdf"
 IF %ERRORLEVEL% EQU 0 (goto MarkdownPDFSuccess ) ELSE (goto MarkdownPDFFailure)
 EXIT /b 0
 :MarkdownPDFSuccess
-move "%~pd1\%~n1.pdf" "%~pd1\build" && start "SumatraPDF" "C:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
+move "%~pd1\%~n1.pdf" "%~pd1\build" && start "SumatraPDF" "E:\PortableApps.com\PortableApps\SumatraPDFPortable\SumatraPDFPortable.exe" "%~dp1\build\%~n1.pdf"
 EXIT /b 0
 :MarkdownPDFFailure
 echo. 
