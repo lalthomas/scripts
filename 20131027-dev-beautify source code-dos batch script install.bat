@@ -13,18 +13,31 @@ set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
+set scriptFolderPathFull=%~dp0%
+set scriptFolderPath=%scriptFolderPathFull:~0,-1%
+
 IF [%1] == [] GOTO :SETFILE
 set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-REM set file="D:\lab\20131027-scripts project\20131027-dev-beautify source code-dos batch script.bat"
-set file="%~dp020131027-dev-beautify source code-dos batch script.bat"
+set file="%scriptFolderPath%\20131027-dev-beautify source code-dos batch script.bat"
 GOTO :EXECUTE
 
 REM Section
 :EXECUTE
 call :createShortCut "%CD%\20131027-dev-beautify source code-dos batch script.bat" "# dev - beautify.lnk"
+
+REM create context menu entry on windows explorer
+set regentry=%file%
+set regentry=%regentry:\=\\%
+set regentry=%regentry:"=%
+REM add to explorer context menu
+REM Need to run this as administrator
+REG ADD "HKCR\*\Shell\Beautify\Command" /D "\"%regentry%\" \"%%%11\"" /T REG_SZ /F 
+:: Make the changes effective immediately
+%SystemRoot%\System32\RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters
+
 exit /b 0
 
 :createShortCut
