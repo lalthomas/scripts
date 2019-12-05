@@ -10,7 +10,7 @@ pause
 pushd %1
 set OUTFILE="%~2\git status log.txt"
 echo.>>%OUTFILE%
-echo %~1 >>%OUTFILE%
+echo %~dp1 >>%OUTFILE%
 echo ------- >>%OUTFILE%
 git status --short >>%OUTFILE%
 popd
