@@ -486,3 +486,4 @@ Inbox
 20191025-save screenshot with irfanview windows task sceduler install.bat
 20191127-obtain cygwin drive path-dos batch script.bat
 [] 20191009-find all files in a folder modified in a specific year dos batch script
+[] 20191119-move all contact files to respective year reference folder dos batch script
