@@ -20,7 +20,7 @@ pushd %APPDATA%\DropIt
 REM initial run
 if not exist log ( call :RUNDROPIT )
 set lastrundate=%tdate%
-for /f "tokens=1 delims=." %%a in ('dir /o-N /b .\log') do set "lastrundate=%%a"
+for /f "tokens=1 delims=." %%a in ('dir /oN /b .\log') do set "lastrundate=%%a"
 popd
 
 REM call the dropit only if it has been 7 days
