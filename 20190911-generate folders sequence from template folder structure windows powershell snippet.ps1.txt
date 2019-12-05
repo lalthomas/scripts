@@ -1,0 +1,1 @@
+foreach ( $i in 1990..2018) { Copy-Item -Recurse 2019 $i}
