@@ -69,6 +69,15 @@ exit /b 0
 set path=%PATH%;%~dp1;
 pushd "%~1"
 echo.
+IF EXIST "%~dpnx1\%~n2.git" ( 
+	
+	echo Repo possibly already cloned
+	echo Opening "%~dpnx1\%~n2.git" ...
+	pause
+	start /wait explorer "%~dpnx1\%~n2.git"	
+	exit /b 0	
+	
+)
 git clone --bare --no-hardlinks "file://%~2"
 cd %~dpnx1\%~n2.git
 echo.
@@ -78,6 +87,5 @@ git remote remove origin
 echo.
 git gc
 popd
-REM explorer "%~dpnx1\%~n2.git"
 call "C:\Program Files (x86)\GitExtensions\gitex.cmd" browse "%~dpnx1\%~n2.git"
 exit /b 0
