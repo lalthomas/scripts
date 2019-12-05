@@ -5,7 +5,7 @@
 
 currentScriptFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-pushd "D:\Inbox\doc\thunderbird"
+pushd "D:\Temp"
 
 echo -e "$(
 IFS=","

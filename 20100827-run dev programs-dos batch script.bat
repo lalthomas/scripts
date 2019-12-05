@@ -62,7 +62,7 @@ setlocal
 set path=%PATH%;%JAVAPATH%
 REM check whether the file is an applet
 REM thank you : http://stackoverflow/a/21072632
-echo."%~n1" | findstr /c:"Applet">nul && (
+echo."%~n1" | findstr /c:"applet">nul && (
 REM "Assuming this is an applet since applet name found"
 set appletFile=%~n1-applet.html
 echo ^<html^>^<head^>AppletViewer^<^/head^>^<body^>^<applet code^="%~n1" width^=500 height^=500^>^<^/applet^>^<^/body^>^<^/html^> >%~n1-applet.html
@@ -138,7 +138,7 @@ REM Python 3
 REM set path=%PATH%;%PYTHON3%
 REM call %PYTHON3%\python %1
 
-call python %1
+call %PYTHON% %1
 pause
 goto END
 

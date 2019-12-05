@@ -6,7 +6,9 @@
 # read config file
 # configfile=$1
 
-# D:\do\reference\20161120-gtd script config file.cfg
+# Sample Config File
+# .\templates\20161120-gtd script config file.cfg
+# <WINPAATH TO CONFIG FILE>
 configfile=$(cygpath -u "$1")
 CFG_FILE="$configfile"
 [ -r "$CFG_FILE" ] || echo "$1" "fatal error: cannot read configuration file $CFG_FILE"
@@ -141,14 +143,14 @@ _gtd_main_(){
 	
 	_review_(){
 			
-		pritorize(){
+		_pritorize_(){
 		
 			# TODO: 
 			echo
 		
 		}
 		
-		reports(){
+		_reports_(){
 		
 			# TODO :ensure that each that each project have atleast kick start action
 			
@@ -190,7 +192,14 @@ _gtd_main_(){
 			
 			esac	
 		}
-	
+		
+		OPTION=$1
+		shift
+		
+		case $OPTION in
+			pritorize) _pritorize_ "$@";;
+			report) _reports_ "$@";;
+		esac
 		
 	}
 	
@@ -244,20 +253,16 @@ _gtd_main_(){
 		case $action in
 		'start')        								                  
 			case "$occasion" in
-				day)						
-					# D:\do\reference\20161120-life gtd day start action support file.csv
+				day)											
 					run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_START_FILE"
 				;;
-				week)
-					# D:\do\reference\20161130-life gtd week action support file.csv
+				week)					
 					run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_START_FILE"
 				;;                  
-				month)
-					# D:\do\reference\20170101-life gtd month action support file.csv
+				month)					
 					run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_START_FILE"	
 				;;
-				year)
-					# D:\do\reference\20170101-life gtd year action support file.csv
+				year)					
 					run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_START_FILE"
 
 				;;
@@ -266,21 +271,17 @@ _gtd_main_(){
 		'end')
 			case "$occasion" in
 				day)
-					# D:\do\reference\20161120-life gtd day end action support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_DAY_END_FILE"
 					;;
 				week)
-					# D:\do\reference\20161114-life gtd week review support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_WEEK_END_FILE"
 
 					;;                  
 				month)
-					# D:\do\reference\20170101-life gtd month review support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_MONTH_END_FILE"
 
 					;;
 				year)						
-					# D:\do\reference\20170101-life gtd year review support file.csv
 					run_actions_from_csv_file "$GTD_ACTION_FOR_YEAR_END_FILE"
 					;;
 			esac
@@ -290,15 +291,18 @@ _gtd_main_(){
 	
 	_project_(){
 	
-		:
-		
-		open_active_projects(){
+		_open_active_projects_(){
 		
 			# open active project files
 			pgmpath="20150823-open folders from file list-dos script batch script.bat"		
 			cygstart "$scriptfolder/$(cygpath -u "${pgmpath}")" $GTD_PROJECT_LIST_ACTIVE
 		
 		}
+		
+		case $OPTION in
+			open_active_projects) _open_active_projects_ "$@";;
+		esac
+		
 	}
 	
 	# TODO: [] organize the functions
@@ -310,21 +314,24 @@ _gtd_main_(){
 		
 	}	
 
-	usage(){
+	_usage_(){
 	
 		echo
-		echo "GTD Helper"
+		echo "gtd OPTIONS"
 		echo "========"		
 		echo "		  "
-		echo 
         echo "OPTIONS are..."
-        echo 
+        echo 	
+		echo "inbox (clean|add)"	
 		echo "action (start|end) (day|week|month|year)"		
-		echo "analyse_todo_projects"		
-		echo "generate_and_view_reports"
-		echo "pritorize_todo_projects"
-		echo "reward_yourself"
-		echo "process_inbox_folders"		
+		echo "reference"
+		echo "support"		
+		echo "review pritorize () "
+		echo "review report (todotxtreport|birdseye|donecount|contextview|goals|pastview|projectview|contextview2|todowithoutdate|dateview|pastweek|treeview) "
+		echo "project open_active_projects"
+		echo "reward"
+		echo "help"
+		echo "usage"		
 		
 	}
 	
@@ -339,15 +346,17 @@ _gtd_main_(){
 	# echo action: $action option: $option term: $term
 
 	# Validate the input options
-	re="^(help|review|action|inbox|reward|project)$"
+	re="^(help|usage|review|action|inbox|reward|project)$"
 	if [[ "$action"=~$re ]]; then
 		case $action in		
 			action) _action_ $options ;;
 			inbox) _inbox_ $options ;;
 			review) _review_ $options ;;
+			reference) _reference_ $options ;;
+			support) _support_ $options ;;
 			project) _project_ "$@" ;;
 			reward) _reward_ ;;				
-			usage) _usage_ ;;
+			help|usage) _usage_ ;;
 			*)
 			echo "invalid option"
 		;;						    

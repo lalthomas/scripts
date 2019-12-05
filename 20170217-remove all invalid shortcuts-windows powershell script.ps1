@@ -1,7 +1,8 @@
 Function Remove-InvalidStartMenuItem {
     $WshShell = New-Object -comObject WScript.Shell
-    # $Files = Get-ChildItem -Path "C:\Users\$env:USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs" -Filter *.lnk
-    $Files = Get-ChildItem -Path "D:\OneDrive\Data\Windows-Appdata-Roaming\Microsoft\Windows\Start Menu\Programs" -Filter *.lnk
+	# $StartMenu = [System.Environment]::GetFolderPath('StartMenu')
+    # $Files = Get-ChildItem -Path "$StartMenu" -Filter *.lnk
+    $Files = Get-ChildItem -Path "C:\Users\lo\AppData\Roaming\Microsoft\Windows\Start Menu\Programs" -Filter *.lnk
     foreach ($File in $Files) {
         $FilePath = $File.FullName
         $Shortcut = $WshShell.CreateShortcut($FilePath)

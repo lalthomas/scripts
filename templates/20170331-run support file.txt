@@ -7,21 +7,21 @@ set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "longdatestamp=%YYYY%-%MM%-%DD%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
+set scriptFolderPathFull=%~dp0%
+set scriptFolderPath=%scriptFolderPathFull:~0,-1%
+
 IF [%1] == [] GOTO :SETFILE
 set file=%1
 GOTO :EXECUTE
 
 :SETFILE
-set file=$FULLPATH$
-GOTO :EXECUTE
-
-REM Section
+REM set file="$FULLPATH$"
+set file="%scriptFolderPath%\$FILENAME$"
 :EXECUTE
 call :COMPILE %file%
-call :OUTPUT %file%
-exit
+exit /b 0
 
-REM Sub Routine
+REM COMPILE
 :COMPILE
 REM remove the original date string and add the current
 set "filename=%~n1"
@@ -29,10 +29,10 @@ set "filename=%filename:~9%"
 set "filename=%datestamp%-%filename%"
 REM invoke the compiler
 REM pandoc "%~1" -o ".\build\%filename%.pdf"
-
+REM call :OUTPUT ".\build\%filename%.pdf"
 exit /b 0
 
 :OUTPUT
 REM invoke the build file
-REM explorer "build\%filename%.pdf"
+REM explorer %1
 exit /b 0

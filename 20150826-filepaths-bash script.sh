@@ -1,31 +1,43 @@
 # find the OS type for rootPath
 
+export scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 case "$OSTYPE" in
+	
 	darwin*) 
 	# OSX
-	export rootPath="/Users/" 		
+	export rootPath="/Users/"
 	;; 
+	
 	msys*) 
 	# Windows
-	export rootPath="/d/"  	
-	;;		
+	export rootPath="/d/"
+	export eRootPath="/e/"
+	;;
+	
 	cygwin*) 
 	# Windows
-	export rootPath="d:/"  	
-	;;		
-	*) echo "unknown: $OSTYPE" ;;
+	export rootPath="d:/"
+	export eRootPath="e:/"
+	;;
+	
+	*) 
+	echo "unknown: $OSTYPE"
+	;;
+	
 esac
 
-### todo file paths
-
+### do file paths
 export doRootPath="$rootPath/do"
-export referenceRootPath="$rootPath/do/reference"
-export supportRootPath="$rootPath/do/support"
-export toolsRootPath="$rootPath/scripts"
-export docRootPath="$rootPath/doc"	
 export doPlannerFile="$doRootPath/planner.md"
 export doInvalidFile="$doRootPath/invalid.txt"
 export doTodoFile="$doRootPath/todo.txt"
 export doLogPath="$doRootPath/log.txt"
 export doLessonPath="$doRootPath/lessons.txt"
-export scriptfolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export referenceRootPath="$doRootPath/reference"
+export supportRootPath="$doRootPath/support"
+
+## other files
+export toolsRootPath="$eRootPath/scripts"
+export docRootPath="$rootPath/doc"	
+

@@ -53,7 +53,7 @@ _project_main_(){
 		
 		echo 
         echo "project OPTIONS"
-        echo " helper script to managing do folder"
+        echo " helper script to managing project folder"
         echo 
         echo "OPTIONS are..."
         echo 	

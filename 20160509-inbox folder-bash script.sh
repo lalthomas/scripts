@@ -1252,7 +1252,7 @@ _inbox_(){
 	popd > /dev/null 2>&1	
 }
 		
-	usage(){
+	_usage_(){
 
         echo 
         echo "inbox [OPTIONS]"     
@@ -1272,7 +1272,7 @@ _inbox_(){
 	
 	case "$arg" in						
 		usage|help) 
-			usage
+			_usage_
 			return 0;
 		;;
 	esac 
@@ -1315,7 +1315,7 @@ _inbox_(){
             ;;       
         esac
     else
-        echo "workflow error: unrecognised option \"$option\"."
+        echo "inbox error: unrecognised option \"$option\"."
         echo "try \" view help\" to get more information."
     fi
 	

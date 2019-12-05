@@ -4,6 +4,7 @@
 # run this script on Cygwin Terminal
 # list file should have unix line endings
 # source "D:\lab\20131027-scripts project\20170923-generate csv data of facebook name and id from url listing file.sh" "<url-file-list-name>" >facebook-name-list.csv
+# TODO [] add run file
 
 # URL Listing file
 # https://www.facebook.com/zuck

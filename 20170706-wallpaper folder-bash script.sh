@@ -15,7 +15,7 @@ _wallpaper_main_(){
 		
 		# show a file list as slideshow
 		filelistpath="$1"		
-		irfanviewpath="C:\PortableApps.com\PortableApps\IrfanViewPortable\IrfanViewPortable.exe"
+		irfanviewpath="E:\PortableApps.com\PortableApps\IrfanViewPortable\IrfanViewPortable.exe"
 		b file linepicker init $filelistpath
 		cygstart --wait $irfanviewpath /slideshow=$(cygpath -w "$B_FILE_FULL_PATH") /closeslideshow
 		cygstart --wait $irfanviewpath /killmesoftly 
