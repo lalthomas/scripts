@@ -9,10 +9,10 @@ echo organize
 explorer "%USERPROFILE%\Pictures"
 pause
 
-DropIt.exe -file_year_date_taken "%USERPROFILE%\Pictures"
+DropIt.exe -file_year_date_taken "%USERPROFILE%\Pictures\Camera Roll"
 
 REM run remaining files with USERPROFILE
-DropIt.exe -file_year_date_taken "%USERPROFILE%\*"
+DropIt.exe -file_year_created "%USERPROFILE%\*"
 
 REM Backup
 DropIt.exe -backup "%USERPROFILE%\*"
