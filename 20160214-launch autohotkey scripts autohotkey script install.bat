@@ -1,5 +1,5 @@
 @echo ON
-REM File : 20160214-launch autohotkey scripts-autohotkey script install.bat 	
+REM File : 20160214-launch autohotkey scripts autohotkey script install.bat
 REM Creation Date : 2019-11-25 	
 REM Author : Lal Thomas 	
 REM Original File : 20160214-launch autohotkey scripts-autohotkey script.ahk 	
