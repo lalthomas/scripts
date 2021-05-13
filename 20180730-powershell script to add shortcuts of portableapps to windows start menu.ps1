@@ -15,7 +15,7 @@
 ### cover everything.
 ### 
 
-$folder = "E:\PortableApps.com\PortableApps\*Portable.exe" 
+$folder = "C:\PortableApps.com\PortableApps\*Portable.exe" 
 
 ###
 ############################################################## 
