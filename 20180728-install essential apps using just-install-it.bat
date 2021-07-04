@@ -17,6 +17,6 @@ just-install octave
 just-install python2
 just-install python3
 just-install recuva
-just-install visual-studio-community 	
+just-install visual-studio-code 	
 just-install vlc
 just-install youtube-dl
