@@ -4,9 +4,9 @@ setlocal
 
 %~d0
 cd %~dp0
-REM call :A
-REM call :B
-REM call :C
+call :A
+call :B
+call :C
 call :D
 echo Install Completed.
 pause
