@@ -11,6 +11,7 @@ for /f "tokens=* usebackq" %%f in (`"%scriptFolderPath%\tools\paste\paste.exe"`)
 set url=%%f
 )
 echo %url%
-start cmd /k %PYTHON2% C:\Python27\Scripts\youtube-dl.exe  %url%
+REM start cmd /k %PYTHON2% 
+%scriptFolderPath%\tools\youtube-dl\youtube-dl.exe %url%
 popd
 
